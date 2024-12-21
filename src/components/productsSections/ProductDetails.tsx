@@ -14,21 +14,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   currency,
   displayPrice,
   rating,
-  isDarkMode,
 }) => (
   <div className="flex-grow">
-    <h2
-      className={`text-lg font-bold ${
-        isDarkMode ? "text-white" : "text-gray-900"
-      }`}
-    >
+    <h2 className="text-lg font-bold dark:text-white text-gray-900">
       {productName}
     </h2>
-    <p
-      className={`text-gray-600 ${
-        isDarkMode ? "text-gray-400" : "text-gray-700"
-      }`}
-    >
+    <p className="dark:text-gray-400 text-gray-700">
       {currency === "INR" ? "₹" : "$"}
       {displayPrice(currency)}
     </p>

@@ -1,6 +1,14 @@
 // next.config.mjs
 const nextConfig = {
-  // your config options here
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "m.media-amazon.com",
+        pathname: "/images/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

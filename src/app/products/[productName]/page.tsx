@@ -3,7 +3,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ProductPageClient from "./ProductPageClient";
-import productsData from "@/public/products.json";
+import { productsData } from "@/src/data/productsData"; // Import the products data
 import { notFound } from "next/navigation";
 import { selectCurrency } from "@/src/features/cart/cartSlice"; // Import the Redux selector
 

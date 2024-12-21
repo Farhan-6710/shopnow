@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ProductCard from "@/src/components/sections/cardsSection/ProductCard";
+import ProductCard from "@/src/components/productsSections/ProductCard";
 import { useSelector, useDispatch } from "react-redux"; // Import Redux hooks
 import { RootState } from "@/src/store"; // Import RootState
 import {

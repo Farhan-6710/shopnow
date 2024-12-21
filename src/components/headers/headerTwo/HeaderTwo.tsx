@@ -4,7 +4,7 @@ import React from "react";
 import Logo from "./Logo";
 import SearchBarWithDropdown from "./SearchBarWithDropdown";
 import CartButton from "./CartButton";
-import productsData from "@/public/products.json";
+import { productsData } from "@/src/data/productsData"; // Import the products data
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/store"; // Import RootState
 

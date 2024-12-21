@@ -20,6 +20,7 @@ interface ProductCardProps {
   isInCart?: boolean;
   isHighlighted?: boolean;
   currency: "USD" | "INR"; // Currency prop to determine which price to display
+  fetchImageWithTimeout: (url: string) => Promise<any>;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -30,8 +31,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   addToCart,
   removeFromCart,
   isInCart = false,
-  isHighlighted = false,
   currency,
+  fetchImageWithTimeout,
 }) => {
   const theme = useSelector((state: RootState) => state.theme.theme); // Get the current theme from Redux
   const [isInCartState, setIsInCartState] = useState(isInCart);
@@ -69,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className={`p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col h-full pb-4`}
+      className="p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col h-full pb-4"
     >
       <div
         className={`product-card transition-all duration-200 ${
@@ -79,11 +80,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         }`}
       >
         <div
-          className={`border flex flex-col justify-center items-center text-center h-full pt-4 pb-8 ${
+          className={`border flex flex-col justify-center items-center text-center h-full pt-4 pb-8 overflow-hidden ${
             isDarkMode ? "border-gray-700" : "border-gray-200"
           }`}
         >
-          <ProductImage imgSource={imgSource} alt={productName} />
+          <ProductImage
+            imgSource={imgSource}
+            alt={productName}
+            fetchImageWithTimeout={fetchImageWithTimeout}
+          />
           <ProductDetails
             productName={productName}
             currency={currency}

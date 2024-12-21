@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NotificationPopup from "../../extras/NotificationPopup";
+import NotificationPopup from "../extras/NotificationPopup";
 import CartItemList from "./CartItemList";
 import { CartItem } from "@/types/cartItems";
 
