@@ -8,22 +8,7 @@ import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice"; // Im
 import ProductCard from "./ProductCard";
 import FilterProducts from "./FilterProducts"; // Import the new filter component
 import { Product } from "@/types/product";
-
-// Custom fetch function with timeout
-const fetchImageWithTimeout = async (url: string) => {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10-second timeout
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error("Image fetch failed");
-    return await response.blob();
-  } catch (error) {
-    console.error("Image fetch error:", error);
-    return null; // Fallback or null image
-  } finally {
-    clearTimeout(timeoutId);
-  }
-};
+import {fetchImageWithTimeout} from "@/src/utils/fetchUtils"; // Import the fetchImageWithTimeout function
 
 // Define the FilterState type for your filters (e.g., category)
 interface FilterState {

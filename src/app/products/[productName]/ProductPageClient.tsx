@@ -10,6 +10,7 @@ import {
   selectCartItems,
 } from "@/src/features/cart/cartSlice";
 import { Product } from "@/types/product"; // Import Product type
+import {fetchImageWithTimeout} from "@/src/utils/fetchUtils"; // Import the fetchImageWithTimeout function
 
 interface ProductPageClientProps {
   id: number;
@@ -68,6 +69,7 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
 
   return (
     <ProductCard
+      key={product.id}
       productName={product.productName}
       imgSource={product.imgSource}
       prices={product.prices}
@@ -76,6 +78,7 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
       removeFromCart={handleRemoveFromCart}
       isInCart={isInCart}
       currency={currency}
+      fetchImageWithTimeout={fetchImageWithTimeout} // Pass fetch function for custom image fetching
     />
   );
 };
