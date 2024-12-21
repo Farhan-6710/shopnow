@@ -2,7 +2,7 @@
 "use client"; // Ensure this is a client component
 
 import React, { useState } from "react";
-import Login from "@/app/login/Login"; // Adjust the path if necessary
+import Login from "@/src/app/login/Login"; // Adjust the path if necessary
 
 const Page: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
