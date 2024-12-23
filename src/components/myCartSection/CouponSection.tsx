@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import React from "react";
 
 interface CouponSectionProps {
@@ -10,7 +11,6 @@ interface CouponSectionProps {
   handleInputClick: () => void;
   handleCouponApply: () => void;
   inputClass: string;
-  theme: string;
   total: number; // Add total prop
   formatCurrency: (amount: number) => string; // Add formatCurrency function prop
 }
@@ -25,10 +25,10 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   handleInputClick,
   handleCouponApply,
   inputClass,
-  theme,
   total,
   formatCurrency,
 }) => {
+    const { theme } = useTheme();
   return (
     <>
       {!isCouponApplied && (
@@ -57,15 +57,11 @@ const CouponSection: React.FC<CouponSectionProps> = ({
           />
           {!isEmptyCart && !showCouponPlaceholder && !isInvalidCoupon && (
             <p
-              className={`text-lg font-medium mb-3 ${
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              }`}
+              className="text-lg font-medium mb-3 dark:text-gray-400 text-gray-500"
             >
               Enter Coupon code <br />
               <span
-                className={`text-primary font-extrabold ${
-                  theme === "dark" ? "dark:text-primaryLight" : ""
-                }`}
+                className="text-primary font-extrabold dark:text-primaryLight"
               >
                 &apos;SHOPNOW10&apos;
               </span>{" "}
@@ -78,16 +74,8 @@ const CouponSection: React.FC<CouponSectionProps> = ({
         onClick={handleCouponApply}
         className={`w-full py-2 rounded transition duration-300 ${
           isCouponApplied
-            ? `${
-                theme === "dark"
-                  ? "bg-secondary text-primary"
-                  : "bg-secondary text-primary"
-              } font-bold pointer-events-none`
-            : `${
-                theme === "dark"
-                  ? "bg-primaryDark hover:bg-primaryDarker"
-                  : "bg-primary hover:bg-slate-950"
-              } text-white`
+            ? `bg-secondary text-primary font-bold pointer-events-none`
+            : `dark:bg-primaryDark dark:hover:bg-primaryDark bg-primary hover:bg-slate-950 text-white`
         }`}
         disabled={isEmptyCart}
       >

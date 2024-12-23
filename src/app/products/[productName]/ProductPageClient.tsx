@@ -10,7 +10,7 @@ import {
   selectCartItems,
 } from "@/src/features/cart/cartSlice";
 import { Product } from "@/types/product"; // Import Product type
-import {fetchImageWithTimeout} from "@/src/utils/fetchUtils"; // Import the fetchImageWithTimeout function
+import { fetchImageWithTimeout } from "@/utils/fetchUtils"; // Import the fetchImageWithTimeout function
 
 interface ProductPageClientProps {
   id: number;

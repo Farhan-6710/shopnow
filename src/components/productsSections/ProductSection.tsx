@@ -2,44 +2,114 @@
 
 import { useState, useEffect } from "react";
 import { productsData } from "@/src/data/productsData";
-import { useSelector, useDispatch } from "react-redux"; // Import Redux hooks
-import { RootState } from "@/src/store"; // Import RootState
-import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice"; // Import actions
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/src/store";
+import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice";
 import ProductCard from "./ProductCard";
-import FilterProducts from "./FilterProducts"; // Import the new filter component
+import FilterProducts from "./FilterProducts";
+import ProductCardSkeleton from "./ProductCardSkeleton"; // Import the skeleton component
 import { Product } from "@/types/product";
-import {fetchImageWithTimeout} from "@/src/utils/fetchUtils"; // Import the fetchImageWithTimeout function
+import { fetchImageWithTimeout } from "@/utils/fetchUtils";
+import FilterNotification from "./FilterNotification";
 
-// Define the FilterState type for your filters (e.g., category)
 interface FilterState {
-  selectedCategory: string;
+  selectedCategory: string[];
+  selectedPriceRange: string[];
+  selectedColors: string[];
 }
 
 const ProductSection = () => {
-  const dispatch = useDispatch(); // Initialize the dispatch function
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems); // Get cart items from Redux state
-  const currency = useSelector((state: RootState) => state.cart.currency); // Get currency from Redux state
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const currency = useSelector((state: RootState) => state.cart.currency);
 
-  // State for products and filters
-  const [products, setProducts] = useState<Product[]>([]); // Store products
-  const [filters, setFilters] = useState<FilterState>({ selectedCategory: "" }); // Store filter state
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    selectedCategory: [],
+    selectedPriceRange: [],
+    selectedColors: [],
+  });
+  const [loading, setLoading] = useState<boolean>(true);
+  const [notificationMessage, setNotificationMessage] = useState<string | null>(
+    null
+  );
 
-  // Get unique categories from products data (assuming products have a 'category' field)
   const categories = Array.from(
     new Set(productsData.map((product) => product.category))
   );
 
-  // Update filtered products when selected category or productsData changes
-  useEffect(() => {
-    const filtered = filters.selectedCategory
-      ? productsData.filter(
-          (product) => product.category === filters.selectedCategory
-        )
-      : productsData;
-    setProducts(filtered);
-  }, [filters.selectedCategory]); // Trigger when selectedCategory changes
+  const priceRanges = {
+    cheap: { USD: 20, INR: 500 },
+    affordable: { USD: 39, INR: 2500 },
+    expensive: { USD: 39, INR: 2500 },
+  };
 
-  // Handle add to cart
+  // Utility function to check if any filter is applied
+  const areFiltersApplied = () => {
+    return (
+      filters.selectedCategory.length > 0 ||
+      filters.selectedPriceRange.length > 0 ||
+      filters.selectedColors.length > 0
+    );
+  };
+
+  // Update filtered products when selected category, price range, color, or productsData changes
+  useEffect(() => {
+    const filtered = productsData.filter((product) => {
+      const matchesCategory =
+        filters.selectedCategory.length === 0 ||
+        filters.selectedCategory.includes(product.category);
+
+      const productPrice = product.prices[currency] || product.prices.USD;
+
+      let matchesPrice = true;
+      if (filters.selectedPriceRange.length > 0) {
+        matchesPrice = filters.selectedPriceRange.some((range) => {
+          if (range === "cheap") {
+            return productPrice <= priceRanges.cheap[currency];
+          } else if (range === "affordable") {
+            return (
+              productPrice > priceRanges.cheap[currency] &&
+              productPrice <= priceRanges.affordable[currency]
+            );
+          } else if (range === "expensive") {
+            return productPrice > priceRanges.affordable[currency];
+          }
+          return false;
+        });
+      }
+
+      const matchesColor =
+        filters.selectedColors.length === 0 ||
+        filters.selectedColors.includes(product.color);
+
+      return matchesCategory && matchesPrice && matchesColor;
+    });
+
+    setLoading(true);
+    setTimeout(() => {
+      setProducts(filtered);
+      setLoading(false);
+    }, 700);
+  }, [
+    filters.selectedCategory,
+    filters.selectedPriceRange,
+    filters.selectedColors,
+    currency,
+  ]);
+
+  // Trigger notification once products are filtered and loaded, and filters are applied
+  useEffect(() => {
+    if (!loading && areFiltersApplied()) {
+      triggerNotification(`${products.length} items matched your filters.`);
+    }
+  }, [loading, products.length]);
+
+  // Function to handle filter changes and show notification
+  const triggerNotification = (message: string) => {
+    setNotificationMessage(message);
+  };
+
   const handleAddToCart = (productId: number) => {
     if (!cartItems.some((item) => item.id === productId)) {
       const product = productsData.find((product) => product.id === productId);
@@ -49,55 +119,98 @@ const ProductSection = () => {
     }
   };
 
-  // Handle remove from cart
   const handleRemoveFromCart = (productId: number) => {
     dispatch(removeFromCart(productId));
   };
 
-  // Handle category filter change
   const handleCategoryChange = (category: string) => {
-    setFilters({ selectedCategory: category }); // Update selected category in filter state
+    setFilters((prevFilters) => {
+      const updatedCategory = prevFilters.selectedCategory.includes(category)
+        ? prevFilters.selectedCategory.filter((c) => c !== category) // Remove category if already selected
+        : [...prevFilters.selectedCategory, category]; // Add category if not selected
+      return { ...prevFilters, selectedCategory: updatedCategory };
+    });
   };
 
-  // Reset filter when unchecking all categories
+  const handlePriceRangeChange = (priceRange: string) => {
+    setFilters((prevFilters) => {
+      const updatedPriceRange = prevFilters.selectedPriceRange.includes(
+        priceRange
+      )
+        ? prevFilters.selectedPriceRange.filter((r) => r !== priceRange) // Remove price range if already selected
+        : [...prevFilters.selectedPriceRange, priceRange]; // Add price range if not selected
+      return { ...prevFilters, selectedPriceRange: updatedPriceRange };
+    });
+  };
+
+  const handleColorChange = (color: string) => {
+    setFilters((prevFilters) => {
+      const updatedColors = prevFilters.selectedColors.includes(color)
+        ? prevFilters.selectedColors.filter((c) => c !== color) // Remove color if already selected
+        : [...prevFilters.selectedColors, color]; // Add color if not selected
+      return { ...prevFilters, selectedColors: updatedColors };
+    });
+  };
+
   const handleResetFilter = () => {
-    setFilters({ selectedCategory: "" }); // Reset the selected category to an empty string
+    setFilters({
+      selectedCategory: [],
+      selectedPriceRange: [],
+      selectedColors: [],
+    });
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-primaryDark transition-colors duration-200">
-      <div className="container mx-auto px-4 pt-6 pb-4">
-        {/* Pass props to FilterProducts component */}
-        <FilterProducts
-          categories={categories}
-          selectedCategory={filters.selectedCategory}
-          handleCategoryChange={handleCategoryChange}
-          handleResetFilter={handleResetFilter}
-          filteredProductCount={products.length} // Pass filtered count to FilterProducts
-        />
+    <div className="bg-gray-50 dark:bg-primaryDark transition-colors duration-200">
+      <div className="max-w-screen-3xl mx-auto pt-0">
+        <div className="grid md:grid-cols-[theme(spacing.72)_1fr] gap-4">
+          <div className="flex flex-col sticky-filter-sidebar border-r border-gray-300 dark:border-gray-700 p-6 2xl:pt-10">
+            <FilterProducts
+              categories={categories}
+              selectedCategory={filters.selectedCategory}
+              selectedPriceRange={filters.selectedPriceRange}
+              selectedColors={filters.selectedColors}
+              handleCategoryChange={handleCategoryChange}
+              handlePriceRangeChange={handlePriceRangeChange}
+              handleColorChange={handleColorChange}
+              handleResetFilter={handleResetFilter}
+              filteredProductCount={products.length}
+            />
+          </div>
 
-        {/* Products Grid */}
-        <div className="flex flex-wrap -mx-4 product-card-wrapper pb-10">
-          {products.length === 0 ? (
-            <p>No products found</p>
-          ) : (
-            products.map((product) => (
-              <ProductCard
-                key={product.id}
-                productName={product.productName}
-                imgSource={product.imgSource} // Pass image URL
-                prices={product.prices}
-                rating={product.rating}
-                addToCart={() => handleAddToCart(product.id)}
-                removeFromCart={() => handleRemoveFromCart(product.id)}
-                isInCart={cartItems.some((item) => item.id === product.id)}
-                currency={currency}
-                fetchImageWithTimeout={fetchImageWithTimeout} // Pass fetch function for custom image fetching
-              />
-            ))
-          )}
+          <div className="grid md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4 product-card-wrapper h-fit py-4">
+            {loading ? (
+              Array.from({ length: 8 }).map((_, index) => (
+                <ProductCardSkeleton key={index} />
+              ))
+            ) : products.length === 0 ? (
+              <p>No products found</p>
+            ) : (
+              products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  productName={product.productName}
+                  imgSource={product.imgSource}
+                  prices={product.prices}
+                  rating={product.rating}
+                  addToCart={() => handleAddToCart(product.id)}
+                  removeFromCart={() => handleRemoveFromCart(product.id)}
+                  isInCart={cartItems.some((item) => item.id === product.id)}
+                  currency={currency}
+                  fetchImageWithTimeout={fetchImageWithTimeout}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
+      {/* Notification Popup */}
+      {notificationMessage && (
+        <FilterNotification
+          message={notificationMessage}
+          onClose={() => setNotificationMessage(null)}
+        />
+      )}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { RootState } from "@/src/store";
 import OrderSummaryHeader from "./OrderSummaryHeader";
 import CouponSection from "./CouponSection";
 import PaymentMethods from "./PaymentMethods";
+import { useTheme } from "next-themes";
 
 interface OrderSummaryProps {
   isEmptyCart: boolean;
@@ -36,7 +37,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   handleInputClick,
   handleCouponApply,
 }) => {
-  const theme = useSelector((state: RootState) => state.theme.theme);
+  const { theme } = useTheme()
   const [inputClass, setInputClass] = useState("");
 
   useEffect(() => {
@@ -57,7 +58,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         } h-fit`}
       >
         <OrderSummaryHeader
-          theme={theme}
           subtotal={subtotal}
           deliveryCharge={deliveryCharge}
           isCouponApplied={isCouponApplied}
@@ -74,7 +74,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           handleInputClick={handleInputClick}
           handleCouponApply={handleCouponApply}
           inputClass={inputClass}
-          theme={theme}
           total={total}
           formatCurrency={formatCurrency}
         />

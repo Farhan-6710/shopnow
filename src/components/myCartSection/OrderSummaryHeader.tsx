@@ -1,7 +1,7 @@
+import { useTheme } from "next-themes";
 import React from "react";
 
 interface OrderSummaryHeaderProps {
-  theme: string;
   subtotal: number;
   deliveryCharge: number;
   isCouponApplied: boolean;
@@ -10,7 +10,6 @@ interface OrderSummaryHeaderProps {
 }
 
 const OrderSummaryHeader: React.FC<OrderSummaryHeaderProps> = ({
-  theme,
   subtotal,
   deliveryCharge,
   isCouponApplied,
@@ -23,20 +22,18 @@ const OrderSummaryHeader: React.FC<OrderSummaryHeaderProps> = ({
       : `₹${amount.toFixed(2)}`;
   };
 
+    const { theme } = useTheme();
+
   return (
     <>
       <h2
-        className={`text-lg font-bold mb-4 ${
-          theme === "dark" ? "text-gray-200" : "text-gray-800"
-        }`}
+        className="text-lg font-bold mb-4 dark:text-gray-200 text-gray-800"
       >
         Order Summary
       </h2>
       <div className="flex justify-between mb-2">
         <p
-          className={`font-medium ${
-            theme === "dark" ? "text-gray-300" : "text-gray-700"
-          }`}
+          className="font-medium dark:text-gray-300 text-gray-700"
         >
           Subtotal:
         </p>

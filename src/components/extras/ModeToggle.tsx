@@ -1,24 +1,27 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "@/src/store"; // Import types
-import { toggleTheme as toggleThemeAction } from "@/src/features/theme/themeSlice"; // Import the action
+import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 const ModeToggle = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const theme = useSelector((state: RootState) => state.theme.theme);
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  // Use `useEffect` to apply the dark class to the body element based on the current theme
+  // Ensure the component only renders on the client side
   useEffect(() => {
-    document.body.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+    setMounted(true);
+  }, []);
+
+  // Do not render anything until the theme is resolved
+  if (!mounted) return null;
 
   const handleToggle = () => {
-    dispatch(toggleThemeAction());
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   return (
     <div className="fixed-container">
-      <label className={`switch ${theme === "dark" ? "darkShadow" : ""}`}>
+      <label
+        className={`switch ${resolvedTheme === "dark" ? "darkShadow" : ""}`}
+      >
         <span className="sun">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g fill="#ffd43b">
@@ -36,7 +39,7 @@ const ModeToggle = () => {
           type="checkbox"
           className="input"
           id="dark-mode-toggle"
-          checked={theme === "dark"}
+          checked={resolvedTheme === "dark"}
           onChange={handleToggle}
         />
         <span className="slider"></span>

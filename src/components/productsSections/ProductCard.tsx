@@ -6,6 +6,7 @@ import { RootState } from "@/src/store"; // Import RootState type
 import ProductImage from "./ProductImage";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
+import { useTheme } from "next-themes";
 
 interface ProductCardProps {
   productName: string;
@@ -34,7 +35,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
   fetchImageWithTimeout,
 }) => {
-  const theme = useSelector((state: RootState) => state.theme.theme); // Get the current theme from Redux
   const [isInCartState, setIsInCartState] = useState(isInCart);
 
   // Synchronize component state with props
@@ -65,23 +65,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return price.toFixed(2); // Return price formatted to two decimal places
   };
 
-  // Determine if dark mode is active
-  const isDarkMode = theme === "dark";
+  const { theme } = useTheme();
 
   return (
-    <div
-      className="p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col h-full pb-4"
-    >
-      <div
-        className={`product-card transition-all duration-200 ${
-          isDarkMode
-            ? "bg-gray-900 shadow-for-dark border-for-dark"
-            : "bg-white shadow-for-light border-gray-200"
-        }`}
-      >
+    <div className="p-2 w-full flex flex-col h-full">
+      <div className="product-card transition-all duration-200 dark:bg-gray-900 shadow-for-dark border-for-darkbg-white shadow-for-light border-gray-200">
         <div
-          className={`border flex flex-col justify-center items-center text-center h-full pt-4 pb-8 overflow-hidden ${
-            isDarkMode ? "border-gray-700" : "border-gray-200"
+          className={`border flex flex-col justify-center items-center text-center h-full pt-4 pb-8 overflow-hidden transition-all duration-300 ${
+            theme === "dark"
+              ? "bg-gray-900 shadow-for-dark border-for-dark"
+              : "bg-white shadow-for-light border-gray-200"
           }`}
         >
           <ProductImage
@@ -94,7 +87,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             currency={currency}
             displayPrice={displayPrice}
             rating={rating}
-            isDarkMode={isDarkMode}
           />
           <ProductActions
             isInCartState={isInCartState}
@@ -102,7 +94,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             removeFromCart={removeFromCart}
             handleAddToCart={handleAddToCart}
             handleRemoveFromCart={handleRemoveFromCart}
-            isDarkMode={isDarkMode}
             productName={productName}
           />
         </div>

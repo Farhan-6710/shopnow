@@ -5,6 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/store"; // Adjust if necessary
+import { useTheme } from "next-themes";
 
 interface CartButtonProps {
   cartCount: number;
@@ -12,7 +13,7 @@ interface CartButtonProps {
 
 const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
   const router = useRouter();
-  const theme = useSelector((state: RootState) => state.theme.theme);
+  const { theme } = useTheme(); // Get the current theme (light or dark)
 
   const handleClick = () => {
     router.push("/cart");

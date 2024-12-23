@@ -32,8 +32,14 @@ const ProductImage: React.FC<ProductImageProps> = ({
   if (loading) {
     // Display loader until image is loaded
     return (
-      <div className="relative w-2/3 h-48 mb-4 flex items-center justify-center">
-        <Oval color="#1f2937" secondaryColor="gray" height={70} width={70} strokeWidth={6} />
+      <div className="relative w-2/3 h-44 xl:h-36 2xl:h-44 mb-4 flex items-center justify-center">
+        <Oval
+          color="#1f2937"
+          secondaryColor="gray"
+          height={70}
+          width={70}
+          strokeWidth={6}
+        />
       </div>
     );
   }
@@ -43,7 +49,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
   }
 
   return (
-    <div className="relative w-2/3 h-48 aspect-[1] mb-4">
+    <div className="relative w-2/3 h-44 xl:h-36 2xl:h-44 mb-4">
       <Image
         src={image}
         alt={alt}

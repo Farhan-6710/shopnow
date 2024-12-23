@@ -2,52 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme colors */
-:root {
-  --foreground: #000000; /* Black */
-  --background-start: #d6dbdc; /* Light Gray */
-  --background-end: #ffffff; /* White */
-  --transition-duration: 0.3s; /* Define a consistent transition duration */
-}
-
-/* Dark theme colors */
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground: #111020; /* White */
-    --background-start: #000000; /* Black */
-    --background-end: #000000; /* Black */
-    --transition-duration: 0.3s; /* Define a consistent transition duration */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  * {
+    @apply border-border;
   }
-
-  /* globals.css */
   body {
-    transition:
-      background-color 300ms ease,
-      color 300ms ease;
-    background-color: #ffffff; /* Light mode background */
-    color: #000000; /* Light mode text color */
+    @apply bg-background text-foreground;
   }
-
-  body.dark-mode {
-    background-color: #000000; /* Dark mode background */
-    color: #ffffff; /* Dark mode text color */
-  }
-}
-
-body {
-  transition: background-color var(--transition-duration);
-  transition: color var(--transition-duration);
-}
-
-body .dark {
-  transition: background-color var(--transition-duration);
-  transition: color var(--transition-duration);
 }
 
 /* globals.css */
@@ -66,9 +84,7 @@ body .dark {
   position: fixed;
   top: 0;
   width: 100%;
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease; /* Smooth transitions for transform and opacity */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transitions for transform and opacity */
   backdrop-filter: blur(10px); /* Adjust the blur radius as desired */
   -webkit-backdrop-filter: blur(10px); /* For Safari */
   background-color: rgba(
@@ -168,10 +184,7 @@ body.sidebar-open {
 
 /* Ensure that the button scales up on hover */
 .card .add-to-cart-button {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease; /* Smooth transition for button scaling */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Smooth transition for button scaling */
 }
 
 /* Define transition effect for scaling */
@@ -186,7 +199,6 @@ body.sidebar-open {
 .product-card:hover img {
   transform: scale(1.075); /* Scale up the image slightly on hover */
 }
-
 
 /* globals.css */
 
@@ -368,10 +380,7 @@ input[type="password"]:-webkit-autofill:focus {
   border-color: var(--border-focus-color) !important;
   -webkit-text-fill-color: var(--border-color-dark) !important;
   -webkit-box-shadow: 0 0 0px 1000px var(--text-color-dark) inset !important;
-  transition:
-    background-color 0s,
-    border-color 0s,
-    color 0s;
+  transition: background-color 0s, border-color 0s, color 0s;
 }
 
 input[type="text"]:focus,
@@ -379,10 +388,7 @@ input[type="email"]:focus,
 input[type="password"]:focus {
   background-color: var(--text-color-dark) !important;
   border-color: var(--border-focus-color) !important;
-  transition:
-    background-color 0s,
-    border-color 0s,
-    color 0s;
+  transition: background-color 0s, border-color 0s, color 0s;
 }
 
 input[type="text"],
@@ -433,9 +439,7 @@ input[type="password"] {
   z-index: 2;
   background-color: #e8e8e8;
   transition: 0.4s;
-  transition:
-    background-color 250ms,
-    border-color 250ms,
+  transition: background-color 250ms, border-color 250ms,
     transform 500ms cubic-bezier(0.26, 2, 0.46, 0.71);
 }
 
@@ -512,9 +516,7 @@ input[type="password"] {
 
 /* Smooth transition for theme changes */
 body {
-  transition:
-    background-color 300ms ease-in-out,
-    color 300ms ease-in-out;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
 
 /* Additional elements that need transitions */
@@ -618,7 +620,6 @@ body {
 
 /* globals.css */
 
-
 /* Keyframes for popup enter animation */
 @keyframes popup-enter {
   from {
@@ -653,18 +654,6 @@ body {
   animation: popup-exit 0.3s ease-in forwards;
 }
 
-.filter-sidebar {
-  /* Basic styling for the sidebar */
-  top: 0;
-  left: 0;
-  height: 100vh;
-  background: white; /* Light mode background */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Ensure it sits above other content */
-  overflow-y: auto;
-  /* You can add more styles here */
-}
-
 /* styles/globals.css or your CSS module */
 .body-scroll-lock {
   overflow: hidden;
@@ -691,4 +680,28 @@ body {
 .backdrop-active {
   opacity: 1;
   pointer-events: auto; /* Enable interactions when visible */
+}
+
+.filter-div input[type="checkbox"]:checked:after {
+  content: "\2713";
+  color: white;
+  position: absolute;
+  padding-left: 5px;
+}
+
+.dark .filter-div input[type="checkbox"]:checked:after {
+  content: "\2713";
+  color: black;
+  font-weight: bolder;
+  position: absolute;
+  padding-left: 5px;
+}
+
+@media (min-width: 768px) {
+  .sticky-filter-sidebar {
+    position: sticky;
+    top: 8.8rem; /* Keeps it at the top */
+    z-index: 0; /* Ensures it stays above the rest of the content */
+    height: fit-content; /* Ensures the filter occupies full height */
+  }
 }

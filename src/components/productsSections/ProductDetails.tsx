@@ -6,7 +6,6 @@ interface ProductDetailsProps {
   currency: "USD" | "INR";
   displayPrice: (currency: "USD" | "INR") => string;
   rating: number;
-  isDarkMode: boolean;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
@@ -15,8 +14,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   displayPrice,
   rating,
 }) => (
-  <div className="flex-grow">
-    <h2 className="text-lg font-bold dark:text-white text-gray-900">
+  <div className="flex flex-col justify-center items-center flex-grow">
+    <h2 className="text-md 2xl:text-lg font-bold dark:text-white text-gray-900">
       {productName}
     </h2>
     <p className="dark:text-gray-400 text-gray-700">
