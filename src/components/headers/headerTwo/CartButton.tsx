@@ -40,7 +40,7 @@ const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
               </span>
             )}
           </div>
-          <span className="ml-4 text-white dark:text-primary dark:font-extrabold">
+          <span className="ml-4 text-xl lg:text-2xl text-white dark:text-primary dark:font-extrabold">
             My Cart
           </span>
         </button>

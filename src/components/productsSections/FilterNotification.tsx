@@ -23,7 +23,7 @@ const FilterNotification: React.FC<FilterNotificationProps> = ({
 
   return (
     <div
-      className={`fixed bottom-8 inset-x-0 flex justify-center z-50 mx-2 ${
+      className={`fixed bottom-8 inset-x-0 flex justify-center mx-2 ${
         visible ? "popup-enter" : "popup-exit"
       }`}
       role="alert"

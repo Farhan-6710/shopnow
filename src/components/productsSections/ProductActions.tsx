@@ -31,7 +31,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
         handleRemoveFromCart();
       }
       setLoading(false);
-    }, 1000); // 1-second timeout
+    }, 300); // 300 millisecond timeout
   };
 
   return (

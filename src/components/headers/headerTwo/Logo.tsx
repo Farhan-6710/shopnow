@@ -43,9 +43,9 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
             src={logoSrc}
             alt="Logo"
             width={225}
-            height={64}
+            height={45} // Fixed height value
             priority
-            className="logo-image"
+            className="logo-image w-auto h-auto"
           />
         </div>
       </div>

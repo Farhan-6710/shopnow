@@ -5,7 +5,7 @@ import React from "react";
 
 const ProductCardSkeleton = () => {
   return (
-    <div className="p-2 w-full flex flex-col h-full">
+    <div className="px-4 md:px-2 p-2 w-full flex flex-col h-full">
       <div className="product-card skeleton-card bg-white shadow-for-light border-gray-200 dark:bg-gray-900 dark:border-slate-600">
         <div className="border flex flex-col justify-start items-center text-center h-full p-6 pb-8 overflow-hidden dark:border-slate-700">
           {/* Image Skeleton */}

@@ -1,10 +1,20 @@
+// src/types/product.ts
+
 export interface Product {
-  id: number; // Assuming id is a number
+  id: number;
   productName: string;
-  imgSource: string;
+  category?: string;
   prices: {
     USD: number;
     INR: number;
   };
+  color?: string;  // Add the color property
+  imgSource: string;
   rating?: number;
+}
+
+export interface FilterState {
+  selectedCategory: string[];
+  selectedPriceRange: string[];
+  selectedColors: string[];
 }

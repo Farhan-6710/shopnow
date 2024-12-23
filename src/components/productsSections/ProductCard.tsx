@@ -68,7 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { theme } = useTheme();
 
   return (
-    <div className="p-2 w-full flex flex-col h-full">
+    <div className="px-4 md:px-2 p-2 w-full flex flex-col h-full">
       <div className="product-card transition-all duration-200 dark:bg-gray-900 shadow-for-dark border-for-darkbg-white shadow-for-light border-gray-200">
         <div
           className={`border flex flex-col justify-center items-center text-center h-full pt-4 pb-8 overflow-hidden transition-all duration-300 ${

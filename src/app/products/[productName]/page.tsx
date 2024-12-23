@@ -1,30 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductPageClient from "./ProductPageClient";
 import { productsData } from "@/src/data/productsData"; // Import the products data
 import { notFound } from "next/navigation";
 import { selectCurrency } from "@/src/features/cart/cartSlice"; // Import the Redux selector
-
-interface Product {
-  id: number;
-  productName: string;
-  imgSource?: string;
-  prices: {
-    USD: number;
-    INR: number;
-  };
-  rating?: number;
-}
+import ProductCardSkeleton from "@/src/components/productsSections/ProductCardSkeleton";
 
 interface ProductPageProps {
-  params: { productName: string };
+  params: Promise<{ productName: string }>;
 }
 
 const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
-  const { productName } = params;
+  const [productName, setProductName] = useState<string | null>(null);
   const currency = useSelector(selectCurrency); // Fetch currency from Redux store
+
+  useEffect(() => {
+    const fetchParams = async () => {
+      // Unwrap the params Promise to get the productName
+      const unwrappedParams = await params;
+      setProductName(unwrappedParams.productName);
+    };
+
+    fetchParams();
+  }, [params]);
+
+  // Skeleton loading state (if productName is not yet set)
+  if (!productName) {
+    return (
+      <div className="dark:bg-gray-900">
+        <div className="container mx-auto py-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
+            <ProductCardSkeleton />
+          </div>
+        </div>
+      </div>
+    ); // Render skeleton while data is being fetched
+  }
 
   // Decode the product name from the URL
   const decodedProductName = decodeURIComponent(productName);
@@ -40,15 +53,17 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
 
   return (
     <div className="dark:bg-gray-900">
-      <div className="container mx-auto py-8">
-        <ProductPageClient
-          id={product.id} // Pass the product ID
-          productName={product.productName}
-          imgSource={product.imgSource || "/default-image.png"}
-          prices={product.prices}
-          rating={product.rating}
-          currency={currency} // Pass currency prop from Redux store
-        />
+      <div className="container mx-auto py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
+          <ProductPageClient
+            id={product.id} // Pass the product ID
+            productName={product.productName}
+            imgSource={product.imgSource || "/default-image.png"}
+            prices={product.prices}
+            rating={product.rating}
+            currency={currency} // Pass currency prop from Redux store
+          />
+        </div>
       </div>
     </div>
   );

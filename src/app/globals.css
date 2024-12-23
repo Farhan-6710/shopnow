@@ -586,7 +586,7 @@ body {
 
 @media (max-width: 768px) {
   .header-placeholder {
-    height: 160px;
+    height: 155px;
   }
   .fixed-container {
     position: fixed;
@@ -596,7 +596,7 @@ body {
 
 @media (max-width: 500px) {
   .header-placeholder {
-    height: 145px;
+    height: 148px;
   }
   .logo-image {
     width: 200px; /* Adjust the size as needed */
@@ -604,7 +604,7 @@ body {
   }
   .fixed-container {
     position: fixed;
-    top: 180px;
+    top: 176px;
   }
 }
 
@@ -698,6 +698,15 @@ body {
 }
 
 @media (min-width: 768px) {
+  .sticky-filter-sidebar {
+    position: sticky;
+    top: 7.6rem; /* Keeps it at the top */
+    z-index: 0; /* Ensures it stays above the rest of the content */
+    height: fit-content; /* Ensures the filter occupies full height */
+  }
+}
+
+@media (min-width: 1024px) {
   .sticky-filter-sidebar {
     position: sticky;
     top: 8.8rem; /* Keeps it at the top */

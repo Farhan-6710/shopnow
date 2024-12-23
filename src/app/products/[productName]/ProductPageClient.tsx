@@ -1,16 +1,11 @@
-"use client";
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "@/src/components/productsSections/ProductCard";
-import { useSelector, useDispatch } from "react-redux"; // Import Redux hooks
-import { RootState } from "@/src/store"; // Import RootState
-import {
-  addToCart,
-  removeFromCart,
-  selectCartItems,
-} from "@/src/features/cart/cartSlice";
-import { Product } from "@/types/product"; // Import Product type
-import { fetchImageWithTimeout } from "@/utils/fetchUtils"; // Import the fetchImageWithTimeout function
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/src/store";
+import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice";
+import { Product } from "@/types/product";
+import ProductCardSkeleton from "@/src/components/productsSections/ProductCardSkeleton";
+import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 
 interface ProductPageClientProps {
   id: number;
@@ -32,10 +27,10 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
   rating = 0,
   currency,
 }) => {
-  const dispatch = useDispatch(); // Initialize the dispatch function
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems); // Get cart items from Redux state
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
-  // Construct the product object with type Product
+  // Construct the product object with the updated type
   const product: Product = {
     id,
     productName,
@@ -44,42 +39,51 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
     rating,
   };
 
-  // Check if the product is in the cart based on the product ID
   const isInCart = cartItems.some((item) => item.id === product.id);
 
-  // Handle adding the product to the cart
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        id: product.id,
-        productName: product.productName,
-        imgSource: product.imgSource,
-        prices: product.prices,
-        rating: product.rating,
+        ...product,
         quantity: 1, // Default quantity
         currency,
       })
     );
   };
 
-  // Handle removing the product from the cart
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart(product.id));
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <ProductCard
-      key={product.id}
-      productName={product.productName}
-      imgSource={product.imgSource}
-      prices={product.prices}
-      rating={product.rating}
-      addToCart={handleAddToCart}
-      removeFromCart={handleRemoveFromCart}
-      isInCart={isInCart}
-      currency={currency}
-      fetchImageWithTimeout={fetchImageWithTimeout} // Pass fetch function for custom image fetching
-    />
+    <>
+      {isLoading ? (
+        <ProductCardSkeleton />
+      ) : (
+        <ProductCard
+          key={product.id}
+          productName={product.productName}
+          imgSource={product.imgSource}
+          prices={product.prices}
+          rating={product.rating}
+          addToCart={handleAddToCart}
+          removeFromCart={handleRemoveFromCart}
+          isInCart={isInCart}
+          currency={currency}
+          fetchImageWithTimeout={fetchImageWithTimeout} // Pass fetch function for custom image fetching
+        />
+      )}
+    </>
   );
 };
 
