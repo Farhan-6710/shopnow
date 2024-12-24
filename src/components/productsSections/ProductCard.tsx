@@ -1,8 +1,6 @@
 "use client"; // Ensures this component is rendered on the client side
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/store"; // Import RootState type
 import ProductImage from "./ProductImage";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";

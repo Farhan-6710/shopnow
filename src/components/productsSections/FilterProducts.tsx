@@ -21,7 +21,6 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
   handlePriceRangeChange,
   handleColorChange,
   handleResetFilter,
-  filteredProductCount,
 }) => {
   return (
     <div className="flex flex-col justify-between">

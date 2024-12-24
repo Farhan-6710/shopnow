@@ -227,7 +227,7 @@ export const productsData = [
     newPrice: "110",
     company: "Vans",
     color: "red",
-    category: "flats",
+    category: "Canvas",
   },
   {
     id: 17,
@@ -241,7 +241,7 @@ export const productsData = [
     newPrice: "120",
     company: "Vans",
     color: "white",
-    category: "sandals",
+    category: "Canvas",
   },
   {
     id: 18,
@@ -255,7 +255,7 @@ export const productsData = [
     newPrice: "130",
     company: "Vans",
     color: "blue",
-    category: "sandals",
+    category: "Canvas",
   },
   {
     id: 19,
@@ -269,7 +269,7 @@ export const productsData = [
     newPrice: "60",
     company: "Nike",
     color: "black",
-    category: "sandals",
+    category: "Canvas",
   },
   {
     id: 20,
@@ -316,7 +316,7 @@ export const productsData = [
   {
     id: 23,
     imgSource: "/images/img-23-removebg-preview.png",
-    productName: "Crystal Heels Sandals",
+    productName: "Crystal Heels Canvas",
     "prices": {
       "USD": 45.0,
       "INR": 3700.0
@@ -324,7 +324,7 @@ export const productsData = [
     "rating": 4.6,
     newPrice: "220",
     company: "Nike",
-    color: "red",
+    color: "white",
     category: "heels",
   },
 
@@ -373,7 +373,7 @@ export const productsData = [
   {
     id: 27,
     imgSource: "/images/img-27-removebg-preview.png",
-    productName: "Bridal Sandals Glitter",
+    productName: "Bridal Canvas Glitter",
     "prices": {
       "USD": 30.0,
       "INR": 2500.0
@@ -396,6 +396,6 @@ export const productsData = [
     newPrice: "90",
     company: "Adidas",
     color: "black",
-    category: "flats",
+    category: "heels",
   },
 ];
