@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ProductCard from "@/src/components/productsSections/ProductCard";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/src/store";
 import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice";
 import { Product } from "@/types/product";
-import ProductCardSkeleton from "@/src/components/productsSections/ProductCardSkeleton";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
+import ProductDetailsCard from "@/src/components/productsSections/ProductDetailsCard";
+import ProductDetailsCardSkeleton from "@/src/components/productsSections/ProductDetailsCardSkeleton";
 
 interface ProductPageClientProps {
   id: number;
@@ -16,6 +16,7 @@ interface ProductPageClientProps {
     INR: number;
   };
   rating?: number;
+  description: string; // Add description prop
   currency: "USD" | "INR";
 }
 
@@ -25,6 +26,7 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
   imgSource,
   prices,
   rating = 0,
+  description,
   currency,
 }) => {
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
     imgSource,
     prices,
     rating,
+    description, // Pass description to the product object
   };
 
   const isInCart = cartItems.some((item) => item.id === product.id);
@@ -68,9 +71,9 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
   return (
     <>
       {isLoading ? (
-        <ProductCardSkeleton />
+        <ProductDetailsCardSkeleton />
       ) : (
-        <ProductCard
+        <ProductDetailsCard 
           key={product.id}
           productName={product.productName}
           imgSource={product.imgSource}
@@ -80,11 +83,13 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
           removeFromCart={handleRemoveFromCart}
           isInCart={isInCart}
           currency={currency}
-          fetchImageWithTimeout={fetchImageWithTimeout} // Pass fetch function for custom image fetching
+          fetchImageWithTimeout={fetchImageWithTimeout}
+          description={product.description} // Pass description to ProductCard
         />
       )}
     </>
   );
 };
+
 
 export default ProductPageClient;

@@ -11,6 +11,7 @@ export interface Product {
   color?: string;  // Add the color property
   imgSource: string;
   rating?: number;
+  description: string; // Add the description property
 }
 
 export interface FilterState {

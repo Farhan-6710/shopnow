@@ -39,7 +39,7 @@ const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
           className="text-gray-300 mx-0.5"
         />
       ))}
-      <small className="ml-2 text-gray-600">({rating.toFixed(1)})</small>
+      <small className="ml-2 text-gray-300">({rating.toFixed(1)})</small>
     </div>
   );
 };

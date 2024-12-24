@@ -6,7 +6,7 @@ import ProductPageClient from "./ProductPageClient";
 import { productsData } from "@/src/data/productsData"; // Import the products data
 import { notFound } from "next/navigation";
 import { selectCurrency } from "@/src/features/cart/cartSlice"; // Import the Redux selector
-import ProductCardSkeleton from "@/src/components/productsSections/ProductCardSkeleton";
+import ProductDetailsCardSkeleton from "@/src/components/productsSections/ProductDetailsCardSkeleton";
 
 interface ProductPageProps {
   params: Promise<{ productName: string }>;
@@ -31,8 +31,8 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
     return (
       <div className="dark:bg-gray-900">
         <div className="container mx-auto py-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
-            <ProductCardSkeleton />
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
+            <ProductDetailsCardSkeleton />
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   return (
     <div className="dark:bg-gray-900">
       <div className="container mx-auto py-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
           <ProductPageClient
             id={product.id} // Pass the product ID
             productName={product.productName}
@@ -62,6 +62,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
             prices={product.prices}
             rating={product.rating}
             currency={currency} // Pass currency prop from Redux store
+            description={product.description} // Pass description to ProductPageClient
           />
         </div>
       </div>

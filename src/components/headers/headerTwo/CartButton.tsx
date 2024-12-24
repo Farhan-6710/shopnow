@@ -1,10 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/store"; // Adjust if necessary
 import { useTheme } from "next-themes";
 
 interface CartButtonProps {
@@ -15,11 +13,24 @@ const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
   const router = useRouter();
   const { theme } = useTheme(); // Get the current theme (light or dark)
 
+  // State to track if the component has mounted
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted to true after component mounts (client-side)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // If the component hasn't mounted, don't render the component yet
+  if (!mounted) {
+    return null;
+  }
+
+  const strokeWidth = theme === "dark" ? 3 : 2.5;
+
   const handleClick = () => {
     router.push("/cart");
   };
-
-  const strokeWidth = theme === "dark" ? 3 : 2.5;
 
   return (
     <div className="CartButton hidden md:flex flex-col justify-center items-center text-center md:text-right md:w-3/12">

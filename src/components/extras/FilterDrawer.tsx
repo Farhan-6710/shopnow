@@ -7,12 +7,13 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription, // Import the DrawerDescription component
+  DrawerDescription,
   DrawerTrigger,
+  DrawerClose, // Import DrawerClose
 } from "@/src/components/ui/drawer";
 import FilterProducts from "../productsSections/FilterProducts";
 import { FilterDrawerProps } from "@/types/filterDrawer";
-import { FilterIcon } from "lucide-react";
+import { FilterIcon, X } from "lucide-react"; // Import the X icon
 
 export function FilterDrawer({
   categories,
@@ -39,27 +40,37 @@ export function FilterDrawer({
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader className="pb-0 pt-8">
-            <DrawerTitle>
-              <div className="text-3xl">Filters</div>
-            </DrawerTitle>
-            {/* Provide description for the drawer content */}
-            <DrawerDescription>
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="p-6 px-8">
-            <FilterProducts
-              categories={categories}
-              selectedCategory={selectedCategory}
-              selectedPriceRange={selectedPriceRange}
-              selectedColors={selectedColors}
-              handleCategoryChange={handleCategoryChange}
-              handlePriceRangeChange={handlePriceRangeChange}
-              handleColorChange={handleColorChange}
-              handleResetFilter={handleResetFilter}
-              filteredProductCount={filteredProductCount}
-            />
+        <div className="relative">
+          {" "}
+          {/* Make this div relative for absolute positioning */}
+          <div className="absolute top-2 right-4 z-10">
+            <DrawerClose asChild>
+              <Button variant="ghost" size="icon">
+                <X className="h-5 w-5" />
+                <span className="sr-only">Close</span>
+              </Button>
+            </DrawerClose>
+          </div>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader className="pb-0 pt-8">
+              <DrawerTitle>
+                <div className="text-3xl">Filters</div>
+              </DrawerTitle>
+              <DrawerDescription></DrawerDescription>
+            </DrawerHeader>
+            <div className="p-6 px-8">
+              <FilterProducts
+                categories={categories}
+                selectedCategory={selectedCategory}
+                selectedPriceRange={selectedPriceRange}
+                selectedColors={selectedColors}
+                handleCategoryChange={handleCategoryChange}
+                handlePriceRangeChange={handlePriceRangeChange}
+                handleColorChange={handleColorChange}
+                handleResetFilter={handleResetFilter}
+                filteredProductCount={filteredProductCount}
+              />
+            </div>
           </div>
         </div>
       </DrawerContent>

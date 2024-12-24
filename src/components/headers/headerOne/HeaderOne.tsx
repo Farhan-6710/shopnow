@@ -13,11 +13,10 @@ const HeaderOne: React.FC = () => {
   const cartCount = useSelector(
     (state: RootState) => state.cart.cartItems.length
   );
-  const currency = useSelector((state: RootState) => state.cart.currency);
 
   return (
     <header className="bg-gray-100 dark:bg-primaryDark transition-colors duration-200">
-      <div className="container mx-auto flex justify-center md:justify-between items-center p-4 md:p-2 pr-0 pl-1 space-x-0 md:space-x-8">
+      <div className="container mx-auto flex justify-center md:justify-center lg:justify-between items-center p-4 md:p-2 pr-0 pl-1 space-x-0 md:space-x-8">
         <AddressSection />
         <Marquee />
         <Dropdowns /> {/* Dropdowns already uses currency from Redux */}
