@@ -105,6 +105,11 @@ export const useFilteredProducts = () => {
     setNotificationMessage(message);
   };
 
+  // Immediately close the notification
+  const closeNotificationImmediately = () => {
+    setNotificationMessage(null); // Immediately clear the notification message
+  };
+
   const handleAddToCart = (productId: number) => {
     if (!cartItems.some((item) => item.id === productId)) {
       const product = productsData.find((product) => product.id === productId);
@@ -148,6 +153,7 @@ export const useFilteredProducts = () => {
   };
 
   const handleResetFilter = () => {
+    closeNotificationImmediately(); // Close the notification immediately when reset is triggered
     setFilters({
       selectedCategory: [],
       selectedPriceRange: [],

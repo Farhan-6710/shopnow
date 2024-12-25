@@ -14,7 +14,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Provider } from "react-redux";
 import ModeToggle from "@/src/components/extras/ModeToggle";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { RootState, store } from "@/src/store";
+import { store } from "@/src/store";
 import Head from "next/head"; // Import Head from next/head
 import { Cinzel } from "next/font/google";
 import { ThemeProvider } from "../components/extras/ThemeProvider";

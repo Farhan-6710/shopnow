@@ -35,7 +35,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center space-x-2 mt-4">
+    <div className="flex items-center justify-center space-x-2">
       {/* Add to Cart Button */}
       {!isInCartState && addToCart && (
         <button

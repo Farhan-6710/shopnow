@@ -5,6 +5,8 @@ import ProductImage from "./ProductImage";
 import ProductActions from "./ProductActions";
 import { useTheme } from "next-themes";
 import Rating from "./Rating";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface ProductDetailsCardProps {
   productName: string;
@@ -70,9 +72,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
       <div className="product-card transition-all duration-200 dark:bg-gray-900 bg-white border-gray-200 w-full">
-        <div
-          className="border flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 dark:border-slate-700 border-gray-200"
-        >
+        <div className="border flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 dark:border-slate-700 border-gray-200">
           {/* Product Image on the Left */}
           <div className="w-full md:w-1/3 md:mb-4 flex justify-center">
             <ProductImage
@@ -87,7 +87,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
             <h2 className="text-lg 2xl:text-lg font-bold dark:text-white text-gray-900">
               {productName}
             </h2>
-            <p className="text-sm text-start text-gray-600 dark:text-gray-400 mt-4">
+            <p className="text-sm text-start text-gray-600 dark:text-gray-300 mt-4">
               {description}
             </p>
             <div className="flex flex-col justify-center items-start flex-grow mt-4">
@@ -97,14 +97,21 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
               </p>
               <Rating rating={rating} totalStars={5} />
             </div>
-            <ProductActions
-              isInCartState={isInCartState}
-              addToCart={addToCart}
-              removeFromCart={removeFromCart}
-              handleAddToCart={handleAddToCart}
-              handleRemoveFromCart={handleRemoveFromCart}
-              productName={productName}
-            />
+            <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2">
+              <ProductActions
+                isInCartState={isInCartState}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+                handleAddToCart={handleAddToCart}
+                handleRemoveFromCart={handleRemoveFromCart}
+                productName={productName}
+              />
+              <Link href="/">
+                <button className="bg-white dark:bg-gray-900 py-2 rounded-sm px-6 border border-gray-200 dark:border-slate-700">
+                  Back To Home
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

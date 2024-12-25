@@ -93,14 +93,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
               rating={rating}
             />
           </Link>
-          <ProductActions
-            isInCartState={isInCartState}
-            addToCart={addToCart}
-            removeFromCart={removeFromCart}
-            handleAddToCart={handleAddToCart}
-            handleRemoveFromCart={handleRemoveFromCart}
-            productName={productName}
-          />
+          <div className="mt-4">
+            <ProductActions
+              isInCartState={isInCartState}
+              addToCart={addToCart}
+              removeFromCart={removeFromCart}
+              handleAddToCart={handleAddToCart}
+              handleRemoveFromCart={handleRemoveFromCart}
+              productName={productName}
+            />
+          </div>
         </div>
       </div>
     </div>

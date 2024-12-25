@@ -8,7 +8,9 @@ import FilterProducts from "./FilterProducts";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import FilterNotification from "./FilterNotification";
 import { FilterDrawer } from "../extras/FilterDrawer";
-import { useFilteredProducts } from "@/utils/useFilteredProducts"; // Import the custom hook
+import { useProductFilters } from "@/utils/useProductFilters";
+import { useFilterNotification } from "@/utils/useFilterNotification"; // Import useFilterNotification
+import { useCartActions } from "@/utils/useCartActions"; // Import useCartActions
 
 const ProductSection = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
@@ -17,17 +19,27 @@ const ProductSection = () => {
   const {
     products,
     loading,
-    notificationMessage,
-    categories,
     filters,
-    handleAddToCart,
-    handleRemoveFromCart,
     handleCategoryChange,
     handlePriceRangeChange,
     handleColorChange,
     handleResetFilter,
-    setNotificationMessage,
-  } = useFilteredProducts(); // Use the custom hook
+    categories,
+  } = useProductFilters();
+
+  // Use the notification hook
+  const { notificationMessage, setNotificationMessage } = useFilterNotification(
+    {
+      loading,
+      productsLength: products.length,
+      filtersApplied:
+        filters.selectedCategory.length > 0 ||
+        filters.selectedPriceRange.length > 0 ||
+        filters.selectedColors.length > 0,
+    }
+  );
+
+  const { handleAddToCart, handleRemoveFromCart } = useCartActions();
 
   return (
     <div className="bg-gray-50 dark:bg-primaryDark transition-colors duration-200">

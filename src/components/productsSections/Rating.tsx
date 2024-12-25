@@ -33,13 +33,11 @@ const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
       )}
       {/* Render empty stars */}
       {[...Array(emptyStars)].map((_, i) => (
-        <FontAwesomeIcon
-          key={`empty-${i}`}
-          icon={faStar}
-          className="text-gray-300 mx-0.5"
-        />
+        <FontAwesomeIcon key={`empty-${i}`} icon={faStar} />
       ))}
-      <small className="ml-2 text-gray-300">({rating.toFixed(1)})</small>
+      <small className="ml-2 dark:text-gray-300 text-gray-500">
+        ({rating.toFixed(1)})
+      </small>
     </div>
   );
 };

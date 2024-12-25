@@ -714,3 +714,23 @@ body {
     height: fit-content; /* Ensures the filter occupies full height */
   }
 }
+
+.fixed-element .timer-bar {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  width: 100%;
+  animation: countdown 3s linear forwards;
+  border-top-left-radius: 10px;
+}
+
+@keyframes countdown {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}

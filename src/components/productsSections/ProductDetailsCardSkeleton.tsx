@@ -9,7 +9,7 @@ const ProductDetailsCardSkeleton: React.FC = () => {
       <div className="product-card transition-all duration-200 dark:bg-gray-900 w-full">
         <div className="p-4 border flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-slate-700">
           {/* Product Image Skeleton on the Left */}
-          <div className="w-full md:w-1/3 md:pl-4 md:mb-4 flex justify-center">
+          <div className="w-full pt-4 md:w-1/3 md:pl-4 md:mb-4 flex justify-center">
             <Skeleton className="w-full h-40 md:h-72 bg-gray-200" />
           </div>
 
@@ -25,7 +25,10 @@ const ProductDetailsCardSkeleton: React.FC = () => {
               {/* Price and Rating Skeleton */}
               <Skeleton className="w-2/4 md:w-1/4 h-10 bg-gray-200" />
               {/* Action Buttons Skeleton */}
-              <Skeleton className="w-2/4 md:w-1/4 h-10 bg-gray-200" />
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
+                <Skeleton className="w-2/4 md:w-1/4 h-10 bg-gray-200" />
+                <Skeleton className="w-2/4 md:w-1/4 h-10 bg-gray-200" />
+              </div>
             </div>
           </div>
         </div>
