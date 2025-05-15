@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/src/store"; // Import RootState
+import { RootState } from "@/src/redux/store"; // Import RootState
 import {
   updateQuantity,
   removeFromCart,
   selectCurrency,
   selectCartItems,
-} from "@/src/features/cart/cartSlice"; // Import actions and selectors
+} from "@/src/redux/cart/cartSlice"; // Import actions and selectors
 import OrderSummary from "./OrderSummary";
 import CartItemsContainer from "./CartItemsContainer";
 

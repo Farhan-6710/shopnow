@@ -8,8 +8,8 @@ import {
   IndianRupee,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/src/store"; // Import RootState type
-import { setCurrency } from "@/src/features/cart/cartSlice"; // Import the setCurrency action
+import { RootState } from "@/src/redux/store"; // Import RootState type
+import { setCurrency } from "@/src/redux/cart/cartSlice"; // Import the setCurrency action
 
 interface CurrencyDropdownProps {
   isOpen: boolean;
@@ -31,7 +31,9 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
   };
 
   return (
-    <div className="relative" ref={dropdownRef}> {/* Updated prop usage */}
+    <div className="relative" ref={dropdownRef}>
+      {" "}
+      {/* Updated prop usage */}
       <button
         className="flex items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-2 py-1 pr-0 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-sm transition-all duration-300 ease-in-out dark:text-gray-200"
         onClick={onToggle}

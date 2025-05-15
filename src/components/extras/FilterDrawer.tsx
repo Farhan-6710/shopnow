@@ -11,21 +11,19 @@ import {
   DrawerTrigger,
   DrawerClose, // Import DrawerClose
 } from "@/src/components/ui/drawer";
-import FilterProducts from "../productsSections/FilterProducts";
-import { FilterDrawerProps } from "@/types/filterDrawer";
+import FilterProducts from "../productsSection/filters/FilterProducts";
+import { FilterProductsProps } from "@/types/filterDrawer";
 import { FilterIcon, X } from "lucide-react"; // Import the X icon
 
-export function FilterDrawer({
+export const FilterDrawer: React.FC<FilterProductsProps> = ({
   categories,
-  selectedCategory,
-  selectedPriceRange,
-  selectedColors,
+  filters,
   handleCategoryChange,
   handlePriceRangeChange,
   handleColorChange,
   handleResetFilter,
-  filteredProductCount,
-}: FilterDrawerProps) {
+  handleSortWithPrice,
+}) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -61,14 +59,12 @@ export function FilterDrawer({
             <div className="p-6 px-8">
               <FilterProducts
                 categories={categories}
-                selectedCategory={selectedCategory}
-                selectedPriceRange={selectedPriceRange}
-                selectedColors={selectedColors}
+                filters={filters}
                 handleCategoryChange={handleCategoryChange}
                 handlePriceRangeChange={handlePriceRangeChange}
                 handleColorChange={handleColorChange}
                 handleResetFilter={handleResetFilter}
-                filteredProductCount={filteredProductCount}
+                handleSortWithPrice={handleSortWithPrice}
               />
             </div>
           </div>
@@ -76,4 +72,4 @@ export function FilterDrawer({
       </DrawerContent>
     </Drawer>
   );
-}
+};

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { productsData } from "@/src/data/productsData";
 import { Product } from "@/types/product";
-import { RootState } from "@/src/store";
+import { RootState } from "@/src/redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice";
+import { addToCart, removeFromCart } from "@/src/redux/cart/cartSlice";
 
 // Define the FilterState interface
 interface FilterState {

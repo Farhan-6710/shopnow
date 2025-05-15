@@ -6,7 +6,7 @@ import Marquee from "./Marquee";
 import Dropdowns from "./Dropdowns";
 import CartIcon from "./CartIcon";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/store"; // Import RootState
+import { RootState } from "@/src/redux/store"; // Import RootState
 
 const HeaderOne: React.FC = () => {
   // Get cart count and currency from Redux store

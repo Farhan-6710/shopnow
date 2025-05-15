@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/store";
+import { RootState } from "@/src/redux/store";
 import OrderSummaryHeader from "./OrderSummaryHeader";
 import CouponSection from "./CouponSection";
 import PaymentMethods from "./PaymentMethods";
@@ -37,7 +37,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   handleInputClick,
   handleCouponApply,
 }) => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const [inputClass, setInputClass] = useState("");
 
   useEffect(() => {

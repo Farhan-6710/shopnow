@@ -6,7 +6,7 @@ import SearchBarWithDropdown from "./SearchBarWithDropdown";
 import CartButton from "./CartButton";
 import { productsData } from "@/src/data/productsData"; // Import the products data
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/store"; // Import RootState
+import { RootState } from "@/src/redux/store"; // Import RootState
 
 interface HeaderTwoProps {
   onMenuClick: () => void;

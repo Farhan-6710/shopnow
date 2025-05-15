@@ -1,8 +1,10 @@
+"use client";
+
 import { useState, useEffect, useMemo } from "react";
 import { productsData } from "@/src/data/productsData";
 import { Product } from "@/types/product";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/store";
+import { RootState } from "@/src/redux/store";
 
 // Define the FilterState interface
 interface FilterState {
@@ -63,7 +65,12 @@ export const useProductFilters = () => {
       setProducts(filtered);
       setLoading(false);
     }, 700);
-  }, [filters.selectedCategory, filters.selectedPriceRange, filters.selectedColors, currency]);
+  }, [
+    filters.selectedCategory,
+    filters.selectedPriceRange,
+    filters.selectedColors,
+    currency,
+  ]);
 
   const handleCategoryChange = (category: string) => {
     setFilters((prevFilters) => ({
@@ -92,8 +99,22 @@ export const useProductFilters = () => {
     }));
   };
 
+  const handleSortWithPrice = (order: "asc" | "desc") => {
+    setProducts((prevProducts) =>
+      [...prevProducts].sort((a, b) => {
+        const priceA = a.prices[currency] || a.prices.USD;
+        const priceB = b.prices[currency] || b.prices.USD;
+        return order === "asc" ? priceA - priceB : priceB - priceA;
+      })
+    );
+  };
+
   const handleResetFilter = () => {
-    setFilters({ selectedCategory: [], selectedPriceRange: [], selectedColors: [] });
+    setFilters({
+      selectedCategory: [],
+      selectedPriceRange: [],
+      selectedColors: [],
+    });
   };
 
   const categories = useMemo(() => {
@@ -109,5 +130,6 @@ export const useProductFilters = () => {
     handleColorChange,
     handleResetFilter,
     categories,
+    handleSortWithPrice,
   };
 };

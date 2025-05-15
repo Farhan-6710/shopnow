@@ -1,63 +1,47 @@
 "use client"; // Ensures this component is rendered on the client side
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProductImage from "./ProductImage";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { Product } from "@/types/product";
+import { useCartActions } from "@/utils/useCartActions";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/redux/store";
 
 interface ProductCardProps {
-  productName: string;
-  imgSource: string;
-  prices: {
-    USD: number;
-    INR: number;
-  };
-  rating?: number;
-  addToCart?: () => void;
-  removeFromCart?: () => void;
-  isInCart?: boolean;
-  isHighlighted?: boolean;
-  currency: "USD" | "INR"; // Currency prop to determine which price to display
+  product: Product;
   fetchImageWithTimeout: (url: string) => Promise<any>;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  productName,
-  imgSource,
-  prices,
-  rating = 0,
-  addToCart,
-  removeFromCart,
-  isInCart = false,
-  currency,
+  product,
   fetchImageWithTimeout,
 }) => {
-  const [isInCartState, setIsInCartState] = useState(isInCart);
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const currency = useSelector((state: RootState) => state.cart.currency);
+  const isInCart = cartItems.some((item) => item.id === product.id); // Check if the product is in the cart
 
-  // Synchronize component state with props
-  useEffect(() => {
-    setIsInCartState(isInCart);
-  }, [isInCart]);
+  const { handleAddToCart: addToCart, handleRemoveFromCart: removeFromCart } =
+    useCartActions();
 
   const handleAddToCart = () => {
-    if (addToCart && !isInCartState) {
-      addToCart();
-      setIsInCartState(true); // Update local state
+    if (addToCart && !isInCart) {
+      addToCart(product.id); // Pass product ID to addToCart
     }
   };
 
   const handleRemoveFromCart = () => {
-    if (removeFromCart && isInCartState) {
-      removeFromCart();
-      setIsInCartState(false); // Update local state
+    if (removeFromCart && isInCart) {
+      removeFromCart(product.id); // Pass product ID to removeFromCart
     }
   };
 
   // Display price based on selected currency
   const displayPrice = (currency: "USD" | "INR") => {
-    const price = prices[currency];
+    const price = product.prices[currency];
     if (typeof price !== "number" || isNaN(price)) {
       return "0.00"; // Fallback value in case of invalid price
     }
@@ -77,30 +61,28 @@ const ProductCard: React.FC<ProductCardProps> = ({
           }`}
         >
           <Link
-            href={`/products/${productName}`} // Navigate to /products/[productName]
+            href={`/products/${product.productName}`} // Navigate to /products/[productName]
             passHref
             className="flex flex-col justify-center items-center "
           >
             <ProductImage
-              imgSource={imgSource}
-              alt={productName}
+              imgSource={product.imgSource}
+              alt={product.productName}
               fetchImageWithTimeout={fetchImageWithTimeout}
             />
             <ProductDetails
-              productName={productName}
+              productName={product.productName}
               currency={currency}
               displayPrice={displayPrice}
-              rating={rating}
+              rating={product.rating ?? 0} // Fallback to 0 if rating is undefined
             />
           </Link>
           <div className="mt-4">
             <ProductActions
-              isInCartState={isInCartState}
-              addToCart={addToCart}
-              removeFromCart={removeFromCart}
+              productName={product.productName}
               handleAddToCart={handleAddToCart}
               handleRemoveFromCart={handleRemoveFromCart}
-              productName={productName}
+              isInCart={isInCart}
             />
           </div>
         </div>

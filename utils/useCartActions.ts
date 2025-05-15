@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice";
-import { RootState } from "@/src/store";
+import { addToCart, removeFromCart } from "@/src/redux/cart/cartSlice";
+import { RootState } from "@/src/redux/store";
 import { productsData } from "@/src/data/productsData";
 
 export const useCartActions = () => {

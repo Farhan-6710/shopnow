@@ -3,21 +3,17 @@ import { X } from "lucide-react";
 import { Oval } from "react-loader-spinner"; // Import the Oval loader from react-loader-spinner
 
 interface ProductActionsProps {
-  isInCartState: boolean;
-  addToCart?: () => void;
-  removeFromCart?: () => void;
+  productName: string;
   handleAddToCart: () => void;
   handleRemoveFromCart: () => void;
-  productName: string;
+  isInCart: boolean; // Added isInCart prop to determine if the product is in the cart
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({
-  isInCartState,
-  addToCart,
-  removeFromCart,
   handleAddToCart,
   handleRemoveFromCart,
   productName,
+  isInCart, // Added isInCart prop to determine if the product is in the cart
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +33,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
   return (
     <div className="flex items-center justify-center space-x-2">
       {/* Add to Cart Button */}
-      {!isInCartState && addToCart && (
+      {!isInCart && (
         <button
           onClick={() => simulateAction("add")}
           aria-label={`Add ${productName} to cart`}
@@ -61,7 +57,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
       )}
 
       {/* Added to Cart Button with Remove */}
-      {isInCartState && removeFromCart && (
+      {isInCart && (
         <div className="flex items-center space-x-2">
           <span className="px-4 py-2 h-10 min-w-[160px] rounded bg-secondary text-primary font-bold transition-all duration-200 dark:text-primaryDark flex items-center justify-center">
             {loading ? (

@@ -1,12 +1,14 @@
 // Define the types for each prop
-export interface FilterDrawerProps {
+export interface FilterProductsProps {
   categories: string[]; // Assuming categories is an array of strings (you can adjust based on your actual data type)
-  selectedCategory: string[];
-  selectedPriceRange: string[]; // Adjust to the actual type
-  selectedColors: string[]; // Assuming it's an array of strings
+  filters: {
+    selectedCategory: string[];
+    selectedPriceRange: string[];
+    selectedColors: string[];
+  };
   handleCategoryChange: (category: string) => void;
   handlePriceRangeChange: (priceRange: string) => void;
   handleColorChange: (color: string) => void;
+  handleSortWithPrice: (order: "asc" | "desc") => void;
   handleResetFilter: () => void;
-  filteredProductCount: number;
 }

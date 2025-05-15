@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/src/store";
-import { addToCart, removeFromCart } from "@/src/features/cart/cartSlice";
+import { RootState } from "@/src/redux/store";
+import { addToCart, removeFromCart } from "@/src/redux/cart/cartSlice";
 import { Product } from "@/types/product";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
-import ProductDetailsCard from "@/src/components/productsSections/ProductDetailsCard";
-import ProductDetailsCardSkeleton from "@/src/components/productsSections/ProductDetailsCardSkeleton";
+import ProductDetailsCard from "@/src/components/productsSection/ProductDetailsCard";
+import ProductDetailsCardSkeleton from "@/src/components/productsSection/ProductDetailsCardSkeleton";
 
 interface ProductPageClientProps {
   id: number;
@@ -73,7 +73,7 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
       {isLoading ? (
         <ProductDetailsCardSkeleton />
       ) : (
-        <ProductDetailsCard 
+        <ProductDetailsCard
           key={product.id}
           productName={product.productName}
           imgSource={product.imgSource}
@@ -90,6 +90,5 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
     </>
   );
 };
-
 
 export default ProductPageClient;
