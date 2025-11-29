@@ -67,8 +67,6 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
     return price.toFixed(2); // Return price formatted to two decimal places
   };
 
-  const { theme } = useTheme();
-
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
       <div className="product-card transition-all duration-200 dark:bg-gray-900 bg-white border-gray-200 w-full">
@@ -99,9 +97,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
             </div>
             <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2">
               <ProductActions
-                isInCartState={isInCartState}
-                addToCart={addToCart}
-                removeFromCart={removeFromCart}
+                isInCart={isInCartState}
                 handleAddToCart={handleAddToCart}
                 handleRemoveFromCart={handleRemoveFromCart}
                 productName={productName}
