@@ -16,7 +16,7 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="auth-container bg-gray-100 dark:bg-gray-900 flex flex-col transition-all duration-500">
+    <div className="auth-container bg-gray-100 dark:bg-primaryDarkTwo flex flex-col transition-all duration-500">
       <div className="flex-grow flex justify-center items-center">
         <Login />
       </div>

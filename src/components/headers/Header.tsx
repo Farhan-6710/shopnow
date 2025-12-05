@@ -13,20 +13,10 @@ const Header: React.FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
     <>
       <header className="fixed z-50 w-full">
         <HeaderOne />
-        <HeaderTwo
-          onMenuClick={() => setSidebarOpen(true)}
-          onSearchSelect={() => {}}
-        />
+        <HeaderTwo onMenuClick={() => setSidebarOpen(true)} />
       </header>
       <div className="header-placeholder"></div>
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm transition-opacity duration-300 z-40 ${
-          isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setSidebarOpen(false)}
-        aria-hidden="true"
-      ></div>
     </>
   );
 };

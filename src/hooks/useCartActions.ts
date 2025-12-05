@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "@/src/redux/cart/cartSlice";
 import { RootState } from "@/src/redux/store";
-import { productsData } from "@/src/data/productsData";
+import { PRODUCTS_DATA } from "@/src/constants/products";
 
 export const useCartActions = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export const useCartActions = () => {
 
   const handleAddToCart = (productId: number) => {
     if (!cartItems.some((item) => item.id === productId)) {
-      const product = productsData.find((product) => product.id === productId);
+      const product = PRODUCTS_DATA.find((product) => product.id === productId);
       if (product) {
         dispatch(addToCart({ ...product, quantity: 1, currency }));
       }

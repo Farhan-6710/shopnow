@@ -6,8 +6,8 @@ import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { Product } from "@/types/product";
-import { useCartActions } from "@/utils/useCartActions";
+import { Product } from "@/src/types/product";
+import { useCartActions } from "@/src/hooks/useCartActions";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/store";
 
@@ -52,11 +52,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col h-full">
-      <div className="transition-all duration-200 dark:bg-gray-900 border-gray-200">
+      <div className="transition-all duration-200 dark:bg-primaryDarkTwo border-gray-200">
         <div
           className={`product-card border text-center h-full pt-4 pb-8 overflow-hidden transition-all duration-300 ${
             theme === "dark"
-              ? "bg-gray-900 shadow-for-dark border-for-dark"
+              ? "bg-primaryDarkTwo shadow-for-dark border-for-dark"
               : "bg-white shadow-for-light border-gray-200"
           }`}
         >

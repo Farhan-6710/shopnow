@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NotificationPopup from "../extras/NotificationPopup";
 import CartItemList from "./CartItemList";
-import { CartItem } from "@/types/cartItems";
+import { CartItem } from "@/src/types/cartItems";
 
 interface CartItemsContainerProps {
   cartItems: CartItem[];

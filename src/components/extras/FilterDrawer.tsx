@@ -11,19 +11,11 @@ import {
   DrawerTrigger,
   DrawerClose, // Import DrawerClose
 } from "@/src/components/ui/drawer";
-import FilterProducts from "../productsSection/filters/FilterProducts";
-import { FilterProductsProps } from "@/types/filterDrawer";
+import { FilterProductsProps } from "@/src/types/filterProduct";
 import { FilterIcon, X } from "lucide-react"; // Import the X icon
+import FiltersSidebarContent from "../productsSection/filters/FiltersSidebarContent";
 
-export const FilterDrawer: React.FC<FilterProductsProps> = ({
-  categories,
-  filters,
-  handleCategoryChange,
-  handlePriceRangeChange,
-  handleColorChange,
-  handleResetFilter,
-  handleSortWithPrice,
-}) => {
+export const FilterDrawer: React.FC<FilterProductsProps> = (props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -38,9 +30,8 @@ export const FilterDrawer: React.FC<FilterProductsProps> = ({
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="relative">
-          {" "}
-          {/* Make this div relative for absolute positioning */}
+        <div className="relative mx-auto w-full max-w-sm">
+          {/* Close Button */}
           <div className="absolute top-2 right-4 z-10">
             <DrawerClose asChild>
               <Button variant="ghost" size="icon">
@@ -49,24 +40,16 @@ export const FilterDrawer: React.FC<FilterProductsProps> = ({
               </Button>
             </DrawerClose>
           </div>
-          <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader className="pb-0 pt-8">
-              <DrawerTitle>
-                <div className="text-3xl">Filters</div>
-              </DrawerTitle>
-              <DrawerDescription></DrawerDescription>
-            </DrawerHeader>
-            <div className="p-6 px-8">
-              <FilterProducts
-                categories={categories}
-                filters={filters}
-                handleCategoryChange={handleCategoryChange}
-                handlePriceRangeChange={handlePriceRangeChange}
-                handleColorChange={handleColorChange}
-                handleResetFilter={handleResetFilter}
-                handleSortWithPrice={handleSortWithPrice}
-              />
-            </div>
+
+          <DrawerHeader className="pb-0 pt-8">
+            <DrawerTitle className="text-3xl">Filters</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              Filter products by category, price, color, and sort order
+            </DrawerDescription>
+          </DrawerHeader>
+
+          <div className="p-6 px-8">
+            <FiltersSidebarContent {...props} />
           </div>
         </div>
       </DrawerContent>

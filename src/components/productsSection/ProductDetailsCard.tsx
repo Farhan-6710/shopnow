@@ -69,7 +69,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
 
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
-      <div className="product-card transition-all duration-200 dark:bg-gray-900 bg-white border-gray-200 w-full">
+      <div className="product-card transition-all duration-200 dark:bg-primaryDarkTwo bg-white border-gray-200 w-full">
         <div className="border flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 dark:border-slate-700 border-gray-200">
           {/* Product Image on the Left */}
           <div className="w-full md:w-1/3 md:mb-4 flex justify-center">
@@ -82,7 +82,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
 
           {/* Product Info and Actions on the Right */}
           <div className="w-full md:w-2/3 flex flex-col justify-between items-start p-4 pt-0 md:pt-4 md:pr-10">
-            <h2 className="text-lg 2xl:text-lg font-bold dark:text-white text-gray-900">
+            <h2 className="text-lg 2xl:text-lg font-bold dark:text-white text-primaryDarkTwo">
               {productName}
             </h2>
             <p className="text-sm text-start text-gray-600 dark:text-gray-300 mt-4">
@@ -103,7 +103,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
                 productName={productName}
               />
               <Link href="/">
-                <button className="bg-white dark:bg-gray-900 py-2 rounded-sm px-6 border border-gray-200 dark:border-slate-700">
+                <button className="bg-white dark:bg-primaryDarkTwo py-2 rounded-sm px-6 border border-gray-200 dark:border-slate-700">
                   Back To Home
                 </button>
               </Link>

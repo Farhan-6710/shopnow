@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
 
 interface UseFilterNotificationProps {
-  loading: boolean;        // Track if the products are still being loaded
-  productsLength: number;  // Number of products after filtering
-  filtersApplied: boolean; // Whether any filters are applied
+  isLoading: boolean; // Track if the products are still being loaded
+  productsLength: number; // Number of products after filtering
+  isFilterApplied: boolean; // Whether any filters are applied
 }
 
 export const useFilterNotification = ({
-  loading,
+  isLoading,
   productsLength,
-  filtersApplied,
+  isFilterApplied,
 }: UseFilterNotificationProps) => {
-  const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
+  const [notificationMessage, setNotificationMessage] = useState<string | null>(
+    null
+  );
 
   // Trigger notification only when loading is finished, and filters are applied
   useEffect(() => {
-    if (!loading && filtersApplied) {
-      // Only trigger notification after loading is complete and filters are applied
+    if (!isLoading && isFilterApplied) {
+      // Only trigger notification after loadin is complete and filters are applied
       triggerNotification(`${productsLength} items matched your filters.`);
     } else {
       // Ensure notification is cleared if still loading or no filters applied
       setNotificationMessage(null);
     }
-  }, [loading, productsLength, filtersApplied]);
+  }, [isLoading, productsLength, isFilterApplied]);
 
   // Function to handle notification trigger
   const triggerNotification = (message: string) => {
@@ -38,5 +40,6 @@ export const useFilterNotification = ({
     notificationMessage,
     triggerNotification,
     setNotificationMessage, // Returning the close function for other use cases
+    closeNotificationImmediately,
   };
 };

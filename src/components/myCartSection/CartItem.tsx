@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
-import type { CartItem as CartItemType } from "@/types/cartItems"; // Type-only import
+import type { CartItem as CartItemType } from "@/src/types/cartItems"; // Type-only import
 
 interface CartItemProps {
   item: CartItemType;

@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -13,7 +13,7 @@ const config = {
   theme: {
     extend: {
       spacing: {
-        72: '17rem', // Define the custom spacing value (18rem)
+        72: "17rem", // Define the custom spacing value (18rem)
       },
       colors: {
         border: "hsl(var(--border))",
@@ -24,6 +24,7 @@ const config = {
         pink: "#f47779",
         primaryLight: "#f3f4f6",
         primaryDark: "#02081e", // Darker shade for dark mode
+        primaryDarkTwo: "#111827",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -53,12 +54,12 @@ const config = {
         xl: "1280px",
         "2xl": "1536px",
       },
-       boxShadow: {
+      boxShadow: {
         soft: "0 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow
         medium: "0 4px 6px rgba(0, 0, 0, 0.1)", // Medium shadow
         intense: "0 0px 13px rgba(0, 0, 0, 0.15)", // Intense shadow
       },
-       backdropBlur: {
+      backdropBlur: {
         sm: "4px",
         md: "8px",
         lg: "12px",
@@ -91,6 +92,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductPageClient from "./ProductPageClient";
-import { productsData } from "@/src/data/productsData"; // Import the products data
+import { PRODUCTS_DATA } from "@/src/constants/products"; // Import the products data
 import { notFound } from "next/navigation";
 import { selectCurrency } from "@/src/redux/cart/cartSlice"; // Import the Redux selector
 import ProductDetailsCardSkeleton from "@/src/components/productsSection/ProductDetailsCardSkeleton";
@@ -29,7 +29,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   // Skeleton loading state (if productName is not yet set)
   if (!productName) {
     return (
-      <div className="dark:bg-gray-900">
+      <div className="dark:bg-primaryDarkTwo">
         <div className="container mx-auto py-4">
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
             <ProductDetailsCardSkeleton />
@@ -43,7 +43,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const decodedProductName = decodeURIComponent(productName);
 
   // Find the product based on the decoded name
-  const product = productsData.find(
+  const product = PRODUCTS_DATA.find(
     (p) => p.productName.toLowerCase() === decodedProductName.toLowerCase()
   );
 
@@ -52,7 +52,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   }
 
   return (
-    <div className="dark:bg-gray-900">
+    <div className="dark:bg-primaryDarkTwo">
       <div className="container mx-auto py-4">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
           <ProductPageClient

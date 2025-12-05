@@ -15,7 +15,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   rating,
 }) => (
   <div className="flex flex-col justify-center items-center flex-grow">
-    <h2 className="text-md 2xl:text-lg font-bold dark:text-white text-gray-900">
+    <h2 className="text-md 2xl:text-lg font-bold dark:text-white text-primaryDarkTwo">
       {productName}
     </h2>
     <p className="dark:text-gray-300 text-gray-700">

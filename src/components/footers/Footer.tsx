@@ -11,8 +11,7 @@ import {
   FaPhone,
 } from "react-icons/fa";
 import Image from "next/image";
-import { useRouter , usePathname } from "next/navigation";
-
+import { useRouter, usePathname } from "next/navigation";
 
 const Footer: React.FC = () => {
   const router = useRouter();

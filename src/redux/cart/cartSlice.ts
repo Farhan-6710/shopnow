@@ -1,6 +1,6 @@
 // src/features/cart/cartSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartItem } from "@/types/cartItems";
+import { CartItem } from "@/src/types/cartItems";
 
 // Define the currency type
 type Currency = "USD" | "INR";

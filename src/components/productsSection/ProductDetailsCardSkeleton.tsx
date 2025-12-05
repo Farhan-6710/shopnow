@@ -6,8 +6,8 @@ import { Skeleton } from "@/src/components/ui/skeleton"; // Assuming you have Sh
 const ProductDetailsCardSkeleton: React.FC = () => {
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
-      <div className="product-card transition-all duration-200 dark:bg-gray-900 w-full">
-        <div className="p-4 border flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-slate-700">
+      <div className="product-card transition-all duration-200 dark:bg-primaryDarkTwo w-full">
+        <div className="p-4 border flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 bg-white dark:bg-primaryDarkTwo border-gray-200 dark:border-slate-700">
           {/* Product Image Skeleton on the Left */}
           <div className="w-full pt-4 md:w-1/3 md:pl-4 md:mb-4 flex justify-center">
             <Skeleton className="w-full h-40 md:h-72 bg-gray-200" />

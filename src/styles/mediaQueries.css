@@ -1,0 +1,69 @@
+/* Media Queries - Mobile First Approach */
+
+/* ===================================
+   BASE / MOBILE (default, no media query needed)
+   =================================== */
+.header-placeholder {
+  height: 148px; /* Mobile header height */
+}
+
+.logo-image {
+  width: 200px;
+  height: auto;
+}
+
+.fixed-container {
+  position: fixed;
+  top: 176px; /* 148px header + 28px offset */
+}
+
+/* ===================================
+   TABLET (min-width: 768px)
+   =================================== */
+@media (min-width: 768px) {
+  .header-placeholder {
+    height: 120px; /* Tablet/Laptop header height */
+  }
+
+  .fixed-container {
+    top: 220px;
+  }
+
+  .sticky-filter-sidebar {
+    position: sticky;
+    top: 120px; /* Match header height */
+    z-index: 0;
+    height: fit-content;
+  }
+}
+
+/* ===================================
+   DESKTOP (min-width: 1024px)
+   =================================== */
+@media (min-width: 1024px) {
+  .header-placeholder {
+    height: 133px; /* Desktop header height */
+  }
+
+  .sticky-filter-sidebar {
+    top: 133px; /* Match desktop header height */
+  }
+}
+
+/* ===================================
+   LARGE SCREENS (min-width: 1536px)
+   =================================== */
+@media (min-width: 1536px) {
+  .marquee {
+    animation: marquee-mobile 12s linear infinite;
+  }
+
+  @keyframes marquee-mobile {
+    0% {
+      transform: translateX(150%);
+    }
+    100% {
+      transform: translateX(-129%);
+    }
+  }
+}

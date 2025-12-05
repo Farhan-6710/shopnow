@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/src/redux/store";
 import { addToCart, removeFromCart } from "@/src/redux/cart/cartSlice";
-import { Product } from "@/types/product";
-import { fetchImageWithTimeout } from "@/utils/fetchUtils";
+import { Product } from "@/src/types/product";
+import { fetchImageWithTimeout } from "@/src/utils/fetchUtils";
 import ProductDetailsCard from "@/src/components/productsSection/ProductDetailsCard";
 import ProductDetailsCardSkeleton from "@/src/components/productsSection/ProductDetailsCardSkeleton";
 
