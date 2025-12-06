@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-primary dark:bg-primaryDark dark:border-t-2 dark:border-gray-800 text-white py-8 lg:py-14 transition-colors duration-200">
+    <footer className="bg-primary dark:bg-primaryDark dark:border-t dark:border-gray-800 text-white py-8 lg:py-14 transition-colors duration-200">
       <div className="container mx-auto flex flex-wrap">
         {/* First Column: Logo and Description */}
         <div className="w-full lg:w-4/12 flex flex-col justify-between md:justify-normal px-4 cursor-pointer">

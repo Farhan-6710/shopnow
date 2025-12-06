@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stripe-Inspired Spec — Fixed Scrolling & Modern Glass</title>
+
+  <!-- Inter + IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Design tokens (exact)
+       ========================= */
+    :root{
+      /* Colors */
+      --color-primary: #00A6A6;
+      --color-primary-dark: #007E7E;
+      --color-primary-light: #7AD8D6;
+
+      /* Gradient stops (exact) */
+      --g-stop-1: #FFFCF7; /* off-white center */
+      --g-stop-2: #F7F4E6; /* pale creamy */
+      --g-stop-3: #D8D48F; /* desaturated yellow */
+      --g-stop-4: #4FB9A9; /* teal transition */
+      --g-stop-5: #0EA5A2; /* teal green outer */
+
+      /* Neutrals */
+      --bg-surface: rgba(255,255,255,0.38); /* translucent sheet */
+      --muted-1: #F8FAFC;
+      --muted-2: #EEF2F6;
+      --border: rgba(208,215,218,0.9);
+      --text-strong: #0F172A;
+      --text-muted: #475569;
+
+      /* Spacing scale */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+
+      /* Type scale */
+      --text-xxl: 48px;
+      --text-xl: 32px;
+      --text-lg: 24px;
+      --text-md: 18px;
+      --text-base: 16px;
+      --text-sm: 14px;
+
+      /* Radii */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+
+      /* Shadows (lighter for a modern feel) */
+      --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-sm: 0 4px 12px rgba(10,20,25,0.05);
+      --shadow-md: 0 10px 30px rgba(10,20,25,0.06);
+
+      /* Motion */
+      --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur-fast: 120ms;
+      --dur-std: 200ms;
+      --dur-slow: 320ms;
+
+      /* Layout */
+      --container-max: 1280px;
+    }
+
+    /* =========================
+       Global reset & base
+       ========================= */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text-strong);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      background: var(--g-stop-1); /* fallback */
+      -webkit-overflow-scrolling:touch;
+      /* allow natural document flow & scrolling */
+      min-height:100vh;
+      padding: 48px 24px;
+    }
+
+    /* =========================
+       BACKGROUND: exact multi-step radial gradient with blurred edges
+       ========================= */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .bg::before{
+      content: "";
+      position: absolute;
+      left: -10%;
+      top: -10%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(
+        circle at center,
+        var(--g-stop-1) 0%,
+        var(--g-stop-2) 40%,
+        var(--g-stop-3) 70%,
+        var(--g-stop-4) 88%,
+        var(--g-stop-5) 100%
+      );
+      filter: blur(44px);
+      transform: scale(1.02);
+      opacity: 1;
+      will-change: transform, filter;
+    }
+    .bg::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0) 0%, rgba(14,165,162,0.04) 60%, rgba(10,165,162,0.09) 100%);
+      mix-blend-mode: multiply;
+      filter: blur(32px);
+      pointer-events: none;
+    }
+
+    /* =========================
+       Page container (modern translucent glass)
+       ========================= */
+    .page {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;                /* centered but not fixed — allows scroll */
+      background: var(--bg-surface); /* translucent to reveal gradient */
+      border-radius: 14px;
+      box-shadow: var(--shadow-md);
+      padding: var(--space-6);
+      backdrop-filter: blur(8px) saturate(110%);
+      border: 1px solid rgba(255,255,255,0.28);
+      overflow: visible;
+      position: relative;
+      z-index: 0; /* sits above background */
+    }
+
+    /* make page slightly wider on big screens for airy layout */
+    @media (min-width:1400px) {
+      .page { padding: 40px; }
+    }
+
+    /* =========================
+       Layout helpers
+       ========================= */
+    .row { display:flex; gap:var(--space-6); align-items:flex-start; }
+    .col { flex:1; min-width:0; }
+    .container { max-width:1200px; margin:0 auto; }
+
+    header.topbar {
+      height: 64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:var(--space-4);
+      padding: 0 var(--space-4);
+      background: transparent;
+    }
+    .logo { display:flex; align-items:center; gap:12px; }
+    .logo .mark{
+      width:36px;height:36px;border-radius:9px;
+      background: linear-gradient(135deg,var(--color-primary) 0%, var(--color-primary-light) 100%);
+      box-shadow: var(--shadow-xs);
+      display:inline-block;
+    }
+    .navlinks{ display:flex; gap:24px; align-items:center; color:var(--text-muted); font-weight:500; }
+    .navlinks a{ text-decoration:none; color:inherit; font-size:14px; padding:6px 8px; border-radius:8px; transition: background var(--dur-fast) var(--easing-default); }
+    .navlinks a:hover{ background: rgba(15,23,42,0.04) }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero {
+      display:flex;
+      align-items:flex-start;
+      gap:var(--space-6);
+      padding: var(--space-6);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0.32));
+      border: 1px solid rgba(14,165,162,0.04);
+      box-shadow: var(--shadow-sm);
+    }
+    .hero-left { flex:1; min-width:0; }
+    .hero-right { width:360px; flex:0 0 360px; }
+
+    .hero h1 {
+      font-size: var(--text-xxl);
+      margin:0 0 var(--space-3) 0;
+      font-weight:700;
+      letter-spacing:-0.02em;
+    }
+    .hero p { margin:0 0 var(--space-4); font-size: var(--text-md); color:var(--text-muted); }
+
+    /* CTA buttons */
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      height:44px;
+      padding: 0 var(--space-5);
+      border-radius: 10px;
+      font-size: 16px;
+      line-height:1;
+      font-weight:600;
+      cursor:pointer;
+      transition: transform var(--dur-fast) var(--easing-default), box-shadow var(--dur-fast) var(--easing-default), background var(--dur-fast) var(--easing-default);
+      border: none;
+    }
+
+    .btn-primary{
+      background: var(--color-primary);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(0,166,166,0.12);
+    }
+    .btn-primary:hover{ transform: translateY(-3px); background: var(--color-primary-dark); box-shadow: 0 12px 30px rgba(0,166,166,0.12); }
+    .btn-primary:active{ transform: translateY(0); background: var(--color-primary-dark); }
+
+    .btn-ghost{
+      background: transparent;
+      border: 1px solid rgba(15,23,42,0.06);
+      color: var(--text-strong);
+      font-weight:600;
+    }
+    .btn-ghost:hover{ background: rgba(15,23,42,0.03) }
+
+    /* =========================
+       Card component
+       ========================= */
+    .card {
+      background: rgba(255,255,255,0.82);
+      padding: var(--space-5);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(14,165,162,0.04);
+      box-shadow: var(--shadow-xs);
+    }
+    .card h3 { margin:0 0 var(--space-3); font-size: var(--text-lg); font-weight:600; }
+    .card .muted { color:var(--text-muted); font-size:14px }
+
+    /* =========================
+       Form controls
+       ========================= */
+    .input {
+      height:44px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 0 var(--space-4);
+      border-radius:10px;
+      border:1px solid rgba(15,23,42,0.06);
+      background: rgba(255,255,255,0.9);
+      transition: box-shadow var(--dur-fast), border-color var(--dur-fast);
+      font-size:16px;
+      color:var(--text-strong);
+    }
+    .input:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 8px rgba(0,166,166,0.06); outline: none; }
+
+    .label { display:block; font-size:13px; color:var(--text-muted); margin-bottom:8px; }
+
+    /* =========================
+       Table & list mini
+       ========================= */
+    .table {
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+      margin-top:var(--space-3);
+      background: transparent;
+    }
+    .table th, .table td{
+      text-align:left;
+      padding:12px 8px;
+      border-bottom:1px solid rgba(15,23,42,0.04);
+    }
+    .badge {
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:600;
+      background: linear-gradient(90deg, rgba(15,23,42,0.06), rgba(15,23,42,0.03));
+      color:var(--text-strong);
+    }
+
+    /* =========================
+       Misc utilities & responsive
+       ========================= */
+    .muted { color:var(--text-muted); }
+    .small { font-size:13px; color:var(--text-muted) }
+    .gap { height:var(--space-5) }
+
+    @media (max-width:920px){
+      .hero { flex-direction: column; }
+      .hero-right { width:100% }
+      .row { flex-direction:column; }
+    }
+
+    /* =========================
+       Tiny interactive demo JS styles
+       ========================= */
+    .chip { padding:8px 12px;border-radius:999px;border:1px solid rgba(15,23,42,0.04);background: rgba(255,255,255,0.6); display:inline-flex; gap:8px; align-items:center; font-weight:600; font-size:13px;}
+    code.kv { font-family: "IBM Plex Mono", monospace; font-size:13px; display:inline-block; background:rgba(241,245,249,0.8);padding:6px 8px;border-radius:6px;border:1px solid rgba(236,239,242,0.9); }
+
+    /* ensure content cannot be clipped on very small screens */
+    @media (max-width:420px){
+      body { padding: 20px 14px; }
+      .hero h1 { font-size:28px }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- exact background layer -->
+  <div class="bg" aria-hidden="true"></div>
+
+  <main class="page" id="root">
+    <header class="topbar">
+      <div class="logo">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <div style="font-weight:700; font-size:16px;">Stripe-ish UI</div>
+          <div style="font-size:12px;color:var(--text-muted); margin-top:4px;">Design spec — implementation tokens</div>
+        </div>
+      </div>
+
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#">Products</a>
+        <a href="#">Docs</a>
+        <a href="#">Pricing</a>
+        <a href="#">Company</a>
+      </nav>
+    </header>
+
+    <div class="gap"></div>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Intro">
+      <div class="hero-left">
+        <h1>Payment UI design system — Stripe vibe, exact specs</h1>
+        <p>Copy-paste the full spec: tokens, radial gradient background, component styles, motion and shadows — now scrollable and glassy.</p>
+
+        <div style="display:flex; gap:12px; align-items:center; margin-top:16px; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="flash('Primary action clicked')">Get started</button>
+          <button class="btn btn-ghost" onclick="flash('Secondary action clicked')">Learn more</button>
+        </div>
+
+        <div style="margin-top:18px;">
+          <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="opacity:0.9"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>  Exact tokens</span>
+          <span class="chip" style="margin-left:10px">Motion rules</span>
+          <span class="chip" style="margin-left:10px">Radial gradient background</span>
+        </div>
+
+      </div>
+
+      <aside class="hero-right card" aria-label="Preview tokens">
+        <h3>Quick tokens</h3>
+        <div class="small muted">Colors</div>
+        <div style="display:flex; gap:8px; margin:12px 0 18px 0;">
+          <div style="width:48px;height:48px;border-radius:8px;background:var(--color-primary)"></div>
+          <div style="width:48px;height:48px;border-radius:8px;background:var(--color-primary-light)"></div>
+          <div style="width:48px;height:48px;border-radius:8px;background:var(--g-stop-3)"></div>
+        </div>
+
+        <div class="small muted">Button</div>
+        <div style="margin:8px 0;">
+          <button class="btn btn-primary" style="width:100%;">Primary</button>
+        </div>
+
+        <div style="margin-top:14px;">
+          <div class="small muted">Input (focus demo)</div>
+          <div class="input" tabindex="0" style="margin-top:8px;">
+            <input aria-label="Email" placeholder="you@company.com" style="border:0; outline:0; width:100%; font-size:16px; font-family:inherit" />
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="gap"></div>
+
+    <!-- MAIN GRID -->
+    <div class="row" style="align-items:flex-start;">
+      <div class="col">
+        <section class="card">
+          <h3>Components</h3>
+          <div class="muted small">Exact sizes, spacing and behavior</div>
+
+          <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+            <div style="min-width:260px;">
+              <div class="label">Primary button (44px)</div>
+              <button class="btn btn-primary">Primary action</button>
+            </div>
+
+            <div style="min-width:260px;">
+              <div class="label">Secondary (ghost)</div>
+              <button class="btn btn-ghost">Secondary</button>
+            </div>
+
+            <div style="min-width:260px;">
+              <div class="label">Input</div>
+              <div class="input" style="margin-top:6px;">
+                <input placeholder="Card holder name" style="border:0; outline:0; width:100%; font-size:16px; font-family:inherit" />
+              </div>
+            </div>
+
+            <div style="min-width:260px;">
+              <div class="label">Card</div>
+              <div class="card" style="margin-top:6px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <div style="font-weight:700">Standard plan</div>
+                    <div class="muted small">For growing teams</div>
+                  </div>
+                  <div style="text-align:right">
+                    <div style="font-weight:800; font-size:18px">$29</div>
+                    <div class="small muted">per month</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr style="border:0;border-top:1px solid rgba(15,23,42,0.04);margin:18px 0" />
+
+          <div>
+            <div class="label">Data table</div>
+            <table class="table" aria-label="Data sample">
+              <thead>
+                <tr><th>Customer</th><th>Plan</th><th>Status</th><th>Amount</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Acme Inc</td>
+                  <td>Enterprise</td>
+                  <td><span class="badge" style="background:linear-gradient(90deg, rgba(14,165,162,0.12), rgba(14,165,162,0.06)); color:var(--color-primary-dark)">Active</span></td>
+                  <td>$12,000</td>
+                </tr>
+                <tr>
+                  <td>StartCo</td>
+                  <td>Standard</td>
+                  <td><span class="badge">Trial</span></td>
+                  <td>$0</td>
+                </tr>
+                <tr>
+                  <td>Shopmart</td>
+                  <td>Pro</td>
+                  <td><span class="badge" style="background:linear-gradient(90deg, rgba(59,130,246,0.06), rgba(59,130,246,0.02)); color:#1E3A8A">Paid</span></td>
+                  <td>$1,200</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <div class="gap"></div>
+
+        <section class="card">
+          <h3>Motion & Shadows</h3>
+          <div class="muted small">Easing: cubic-bezier(0.4,0,0.2,1)</div>
+          <ul style="margin-top:12px">
+            <li style="margin-bottom:8px"><code class="kv">hover pop</code> — transform: scale(1.015) ; duration 120–200ms</li>
+            <li style="margin-bottom:8px"><code class="kv">enter card fade</code> — opacity 0 → 1 over 300ms</li>
+            <li style="margin-bottom:8px"><code class="kv">focus ring</code> — 0 0 0 8px rgba(0,166,166,0.06)</li>
+          </ul>
+        </section>
+
+      </div>
+
+      <div class="col" style="max-width:420px;">
+        <section class="card">
+          <h3>Form sample</h3>
+
+          <label class="label">Card number</label>
+          <div class="input" style="margin-bottom:12px;">
+            <input placeholder="4242 4242 4242 4242" style="border:0; outline:0; width:100%" />
+          </div>
+
+          <label class="label">Expiration</label>
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <div style="flex:1">
+              <div class="input">
+                <input placeholder="MM / YY" style="border:0; outline:0; width:100%" />
+              </div>
+            </div>
+            <div style="flex:1">
+              <div class="input">
+                <input placeholder="CVC" style="border:0; outline:0; width:100%" />
+              </div>
+            </div>
+          </div>
+
+          <label class="label">Email</label>
+          <div class="input" style="margin-bottom:12px;">
+            <input placeholder="billing@company.com" style="border:0; outline:0; width:100%" />
+          </div>
+
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <button class="btn btn-primary" style="flex:1">Subscribe</button>
+            <button class="btn btn-ghost" style="flex:1">Cancel</button>
+          </div>
+        </section>
+
+        <div class="gap"></div>
+
+        <section class="card">
+          <h3>Glass overlay panel</h3>
+          <div class="small muted">Use for dialogs, modals, or billing summary</div>
+          <div style="margin-top:12px; padding:12px; background: rgba(255,255,255,0.65); border-radius:12px; border:1px solid rgba(255,255,255,0.28); backdrop-filter: blur(12px);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:700">Monthly total</div>
+                <div class="small muted">Billed every month</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-weight:800">$29</div>
+                <div class="small muted">USD</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="gap"></div>
+
+    <footer class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <div style="font-weight:700">Stripe-ish Spec</div>
+        <div class="small muted">Exact tokens, gradient background, components & motion</div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div class="small muted">Version</div>
+        <div style="font-weight:700">1.0</div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // tiny helper to demo interactions (not required)
+    function flash(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style, {
+        position: 'fixed', left: '50%', top: '16px', transform: 'translateX(-50%)',
+        background: 'rgba(15,23,42,0.9)', color:'#fff', padding:'10px 16px', borderRadius:'8px',
+        zIndex:9999, boxShadow:'0 6px 20px rgba(0,0,0,0.12)', fontWeight:700
+      });
+      document.body.appendChild(t);
+      setTimeout(()=> t.style.opacity = '0', 1200);
+      setTimeout(()=> t.remove(), 1600);
+    }
+  </script>
+</body>
+</html>
