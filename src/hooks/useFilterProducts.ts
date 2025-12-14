@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { PRODUCTS_DATA } from "@/src/constants/products";
 import {
   COLOR_OPTIONS,
@@ -16,60 +16,48 @@ import { RootState } from "@/src/redux/store";
 
 export const useFilterProducts = () => {
   const currency = useSelector((state: RootState) => state.cart.currency);
-  const [filteredProducts, setfilteredProducts] = useState<Product[]>([]);
   const [filterValues, setFilterValues] = useState<ProductFilterValues>({
     selectedCategories: [],
     selectedPriceRange: [],
     selectedColors: [],
     selectedSort: "",
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  // Calculate filtered & sorted products with useMemo
+  const filteredProducts = useMemo(() => {
     const filtered = PRODUCTS_DATA.filter((product) => {
-      // Category filter
       const categoryMatch =
-        filterValues.selectedCategories.length === 0 ||
+        !filterValues.selectedCategories.length ||
         filterValues.selectedCategories.includes(product.category || "");
 
-      // Price filter
       const priceMatch =
-        filterValues.selectedPriceRange.length === 0 ||
+        !filterValues.selectedPriceRange.length ||
         filterValues.selectedPriceRange.includes(product.priceRange || "");
 
-      // Color filter
       const colorMatch =
-        filterValues.selectedColors.length === 0 ||
+        !filterValues.selectedColors.length ||
         filterValues.selectedColors.includes(product.color || "");
 
       return categoryMatch && priceMatch && colorMatch;
     });
 
-    // Apply sorting if a sort option is selected
-    if (filterValues.selectedSort) {
-      filtered.sort((a, b) => {
-        const priceA = a.prices[currency] || a.prices.USD;
-        const priceB = b.prices[currency] || b.prices.USD;
-        return filterValues.selectedSort === "asc"
-          ? priceA - priceB
-          : priceB - priceA;
-      });
-    }
+    // Apply sorting
+    if (!filterValues.selectedSort) return filtered;
 
+    return [...filtered].sort((a, b) => {
+      const priceA = a.prices[currency] || a.prices.USD;
+      const priceB = b.prices[currency] || b.prices.USD;
+      return filterValues.selectedSort === "asc" ? priceA - priceB : priceB - priceA;
+    });
+  }, [filterValues, currency]);
+
+  // Fake loading timer
+  useEffect(() => {
     setIsLoading(true);
-    const timer = setTimeout(() => {
-      setfilteredProducts(filtered);
-      setIsLoading(false);
-    }, 700);
-
-    return () => clearTimeout(timer); // Cleanup
-  }, [
-    filterValues.selectedCategories,
-    filterValues.selectedPriceRange,
-    filterValues.selectedColors,
-    filterValues.selectedSort,
-    currency,
-  ]);
+    const timer = setTimeout(() => setIsLoading(false), 700);
+    return () => clearTimeout(timer);
+  }, [filteredProducts]);
 
   const onToggleCategory = (category: string) => {
     setFilterValues((prevFilters) => ({
@@ -101,7 +89,7 @@ export const useFilterProducts = () => {
   const onSortByPrice = useCallback((order: "asc" | "desc") => {
     setFilterValues((prev) => ({
       ...prev,
-      selectedSort: prev.selectedSort === order ? "" : order, // Toggle: unselect if clicking same option
+      selectedSort: prev.selectedSort === order ? "" : order,
     }));
   }, []);
 
