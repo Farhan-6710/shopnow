@@ -2,14 +2,14 @@ import React from "react";
 import { CHECKBOX_CLASSES } from "@/src/constants/filters";
 
 interface FilterByCategoryProps {
-  availableCategories: string[];
+  categoryOptions: string[];
   selectedCategories: string[];
   onToggleCategory: (category: string) => void;
   onResetFilters: () => void;
 }
 
 const FilterByCategory: React.FC<FilterByCategoryProps> = ({
-  availableCategories,
+  categoryOptions,
   selectedCategories,
   onToggleCategory,
   onResetFilters,
@@ -34,7 +34,7 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {availableCategories.map((category) => (
+        {categoryOptions.map((category) => (
           <label
             key={category}
             className="flex items-center gap-2.5 cursor-pointer"

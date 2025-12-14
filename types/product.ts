@@ -21,4 +21,5 @@ export interface Product {
   rating?: number;
   description: string;
   brand?: string;
+  priceRange?: PriceRangeType;
 }

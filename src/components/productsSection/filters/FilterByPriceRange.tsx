@@ -1,12 +1,14 @@
 import React from "react";
-import { PRICE_RANGE_OPTIONS, CHECKBOX_CLASSES } from "@/src/constants/filters";
+import { CHECKBOX_CLASSES } from "@/src/constants/filters";
 
 interface FilterByPriceRangeProps {
+  priceRangeOptions: string[];
   selectedPriceRanges: string[];
   onTogglePriceRange: (range: string) => void;
 }
 
 const FilterByPriceRange: React.FC<FilterByPriceRangeProps> = ({
+  priceRangeOptions,
   selectedPriceRanges,
   onTogglePriceRange,
 }) => {
@@ -16,7 +18,7 @@ const FilterByPriceRange: React.FC<FilterByPriceRangeProps> = ({
         Filter by Price Range
       </h3>
       <div className="space-y-2">
-        {PRICE_RANGE_OPTIONS.map((range) => (
+        {priceRangeOptions.map((range) => (
           <label
             key={range}
             className="flex items-center gap-2.5 cursor-pointer"

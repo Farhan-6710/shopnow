@@ -1,26 +1,19 @@
 // Filter constants
+import { PRODUCTS_DATA } from "@/src/constants/products";
 
-export const PRICE_RANGES = {
-  cheap: { USD: 20, INR: 500 },
-  affordable: { USD: 39, INR: 2500 },
-  expensive: { USD: 39, INR: 2500 },
-};
+export const PRICE_RANGE_OPTIONS: string[] = [
+  ...new Set(PRODUCTS_DATA.map((product) => product.priceRange || ""))
+].filter(Boolean);
 
-export const PRICE_RANGE_OPTIONS = [
-  "cheap",
-  "affordable",
-  "expensive",
-] as const;
+export const COLOR_OPTIONS: string[] = [
+  ...new Set(PRODUCTS_DATA.map((product) => product.color || ""))
+].filter(Boolean);
 
-export const COLOR_OPTIONS = [
-  "white",
-  "black",
-  "green",
-  "blue",
-  "red",
-] as const;
+export const CATEGORY_OPTIONS: string[] = [
+  ...new Set(PRODUCTS_DATA.map((product) => product.category || ""))
+].filter(Boolean);
 
-export const SORT_OPTIONS = [
+export const SORT_OPTIONS: { value: string; label: string }[] = [
   { value: "asc", label: "Price: Low to High" },
   { value: "desc", label: "Price: High to Low" },
 ] as const;

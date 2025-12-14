@@ -1,13 +1,29 @@
-import { FilterProductsProps } from "@/src/types/filterProduct";
+import { ProductFilterValues } from "@/src/types/filterProduct";
 import React from "react";
 import FilterByCategory from "./FilterByCategory";
 import FilterBySort from "./FilterBySort";
 import FilterByColor from "./FilterByColor";
 import FilterByPriceRange from "./FilterByPriceRange";
 
-const FiltersSidebarContent: React.FC<FilterProductsProps> = (props) => {
+interface FiltersSidebarContentProps {
+  categoryOptions: string[];
+  priceRangeOptions: string[];
+  colorOptions: string[];
+  sortOptions: { value: string; label: string }[];
+  filterValues: ProductFilterValues;
+  onToggleCategory: (category: string) => void;
+  onTogglePriceRange: (priceRange: string) => void;
+  onToggleColor: (color: string) => void;
+  onSortByPrice: (order: "asc" | "desc") => void;
+  onResetFilters: () => void;
+}
+
+const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
   const {
-    availableCategories,
+    categoryOptions,
+    priceRangeOptions,
+    colorOptions,
+    sortOptions,
     filterValues,
     onToggleCategory,
     onTogglePriceRange,
@@ -19,7 +35,7 @@ const FiltersSidebarContent: React.FC<FilterProductsProps> = (props) => {
     <div className="flex flex-col justify-between">
       {/* Filter by Category */}
       <FilterByCategory
-        availableCategories={availableCategories}
+        categoryOptions={categoryOptions}
         selectedCategories={filterValues.selectedCategories}
         onToggleCategory={onToggleCategory}
         onResetFilters={onResetFilters}
@@ -27,18 +43,21 @@ const FiltersSidebarContent: React.FC<FilterProductsProps> = (props) => {
 
       {/* Filter by Sort */}
       <FilterBySort
+        sortOptions={sortOptions}
         selectedSort={filterValues.selectedSort}
         onSortByPrice={onSortByPrice}
       />
 
       {/* Filter by Price Range */}
       <FilterByPriceRange
-        selectedPriceRanges={filterValues.selectedPriceRanges}
+        priceRangeOptions={priceRangeOptions}
+        selectedPriceRanges={filterValues.selectedPriceRange}
         onTogglePriceRange={onTogglePriceRange}
       />
 
       {/* Filter by Color */}
       <FilterByColor
+        colorOptions={colorOptions}
         selectedColors={filterValues.selectedColors}
         onToggleColor={onToggleColor}
       />

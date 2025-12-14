@@ -1,12 +1,14 @@
 import React from "react";
-import { COLOR_OPTIONS, CHECKBOX_CLASSES } from "@/src/constants/filters";
+import { CHECKBOX_CLASSES } from "@/src/constants/filters";
 
 interface FilterByColorProps {
+  colorOptions: string[];
   selectedColors: string[];
   onToggleColor: (color: string) => void;
 }
 
 const FilterByColor: React.FC<FilterByColorProps> = ({
+  colorOptions,
   selectedColors,
   onToggleColor,
 }) => {
@@ -16,7 +18,7 @@ const FilterByColor: React.FC<FilterByColorProps> = ({
         Filter by Color
       </h3>
       <div className="flex flex-wrap gap-3">
-        {COLOR_OPTIONS.map((color) => (
+        {colorOptions.map((color) => (
           <label key={color} className="flex items-center cursor-pointer">
             <div className="flex flex-col justify-center items-center gap-1.5">
               <input

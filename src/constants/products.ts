@@ -19,6 +19,7 @@ Known for its durability and classic design, these sneakers are perfect for ever
 The supportive cushioning ensures all-day comfort, whether you're running errands or hitting the gym. \
 Its versatile white colorway makes it a staple in any wardrobe. \
 Enjoy the reliable performance and timeless style of the Air Monarch IV.",
+    priceRange: "expensive",
   },
   {
     id: 2,
@@ -38,6 +39,7 @@ Featuring a bold red color and innovative Vapormax Air technology, these sneaker
 The unique design combines retro style with modern innovation, making a statement wherever you go. \
 Enjoy unparalleled comfort and head-turning aesthetics with this iconic silhouette. \
 Perfect for those who want to stand out from the crowd.",
+    priceRange: "expensive",
   },
 
   {
@@ -58,6 +60,7 @@ Inspired by the original 1970s design, these sneakers feature a distinctive waff
 The vibrant green color adds a touch of freshness to your look. \
 Experience lightweight comfort and timeless appeal with this iconic silhouette. \
 Ideal for casual wear and adding a retro vibe to your outfit.",
+    priceRange: "expensive",
   },
   {
     id: 4,
@@ -77,6 +80,7 @@ Engineered for optimal support and cushioning, these black sneakers will help yo
 The breathable design keeps your feet cool and comfortable during intense workouts. \
 Experience the perfect blend of technology and style for your running needs. \
 Dominate your runs with these reliable and high-performance running shoes.",
+    priceRange: "expensive",
   },
   {
     id: 5,
@@ -96,6 +100,7 @@ The easy slip-on design makes them perfect for quick errands or casual outings. 
 The refreshing green color adds a pop of color to your ensemble. \
 Experience all-day comfort and a relaxed vibe with these essential flats. \
 A perfect addition to your everyday wardrobe for easy and stylish wear.",
+    priceRange: "cheap",
   },
   {
     id: 6,
@@ -115,6 +120,7 @@ The breathable knit material ensures all-day comfort and a snug fit. \
 The classic black color makes them a versatile choice for various occasions. \
 Enjoy the simplicity and elegance of these minimalist flats. \
 Perfect for pairing with both casual and slightly more dressed-up outfits.",
+    priceRange: "cheap",
   },
 
   {
@@ -135,6 +141,7 @@ The clean white design offers a sophisticated and versatile look. \
 Enjoy the comfort of a flat shoe with the refined silhouette of a loafer. \
 Perfect for both casual and semi-formal occasions, adding a touch of elegance. \
 A versatile addition to your footwear collection for effortless style.",
+    priceRange: "cheap",
   },
 
   {
@@ -155,6 +162,7 @@ Designed for agility and responsiveness on the court, these green sneakers offer
 Experience exceptional cushioning and support with Nike Zoom technology. \
 Stand out with the bold design and vibrant colorway. \
 Perfect for basketball enthusiasts and those who appreciate high-performance footwear.",
+    priceRange: "expensive",
   },
 
   {
@@ -175,6 +183,7 @@ The cool blue color adds a touch of sophistication to your casual look. \
 Enjoy the comfortable fit and supportive design for all-day wear. \
 These versatile sneakers are perfect for running errands or meeting friends. \
 Experience the quality and style that Nike is known for.",
+    priceRange: "expensive",
   },
 
   {
@@ -195,6 +204,7 @@ The vibrant green accents add a pop of color to the classic black design. \
 Experience comfort and performance with Puma's renowned craftsmanship. \
 Perfect for everyday wear or light athletic activities. \
 Add a touch of sporty flair to your wardrobe with these stylish sneakers.",
+    priceRange: "affordable",
   },
   {
     id: 11,
@@ -214,6 +224,7 @@ The bold red color and streamlined design make a striking statement. \
 Enjoy a comfortable and supportive fit for all-day wear. \
 Perfect for those who want a blend of style and athletic performance. \
 Upgrade your sneaker game with these eye-catching Pacer Future sneakers.",
+    priceRange: "affordable",
   },
   {
     id: 12,
@@ -233,6 +244,7 @@ The classic black design offers versatility and can be paired with any outfit. \
 Enjoy a comfortable fit and durable construction for everyday wear. \
 These sneakers are a reliable choice for both men and women. \
 A wardrobe staple that combines comfort and classic athletic style.",
+    priceRange: "expensive",
   },
   {
     id: 13,
@@ -252,6 +264,7 @@ The clean white design offers a timeless and versatile look. \
 Enjoy the lightweight comfort and classic silhouette of this Puma favorite. \
 Perfect for casual outings and adding a touch of vintage style to your wardrobe. \
 A comfortable and stylish choice for everyday wear.",
+    priceRange: "expensive",
   },
   {
     id: 14,
@@ -271,6 +284,7 @@ The sleek black design and doubleknit upper offer a modern and comfortable fit. 
 Enjoy the supportive cushioning and versatile style for everyday activities. \
 Perfect for those who seek both performance and contemporary design. \
 Elevate your sneaker collection with these stylish and comfortable sneakers.",
+    priceRange: "expensive",
   },
 
   {
@@ -291,6 +305,7 @@ Designed for optimal performance and comfort during your swing. \
 The green color adds a touch of style to your golfing attire. \
 Experience superior grip and stability on the course. \
 A perfect blend of athletic performance and modern design for the avid golfer.",
+    priceRange: "affordable",
   },
   {
     id: 16,
@@ -310,6 +325,7 @@ Featuring the classic checkerboard pattern with a vibrant rainbow twist. \
 These canvas sneakers offer a comfortable and durable design for everyday wear. \
 Perfect for expressing your individuality and adding a pop of color to your look. \
 A staple for skaters and fashion enthusiasts alike.",
+    priceRange: "cheap",
   },
   {
     id: 17,
@@ -329,6 +345,7 @@ The clean white canvas design offers a timeless and adaptable look. \
 Enjoy the comfortable fit and durable construction for everyday adventures. \
 Perfect for pairing with any casual outfit, adding a touch of effortless cool. \
 A must-have for those who appreciate timeless skate shoe design.",
+    priceRange: "affordable",
   },
   {
     id: 18,
@@ -348,6 +365,7 @@ The cool blue color adds a refreshing touch to this classic design. \
 Enjoy the durable construction and comfortable fit for everyday wear. \
 Perfect for expressing your individual style and adding a laid-back vibe to your look. \
 A timeless choice for those who love classic skate-inspired footwear.",
+    priceRange: "affordable",
   },
   {
     id: 19,
@@ -367,6 +385,7 @@ The sleek black design offers a versatile and timeless appeal. \
 Enjoy the comfortable fit and durable construction for everyday wear. \
 Perfect for adding a touch of classic sneaker style to your casual outfits. \
 A reliable and stylish choice for those who appreciate iconic footwear.",
+    priceRange: "affordable",
   },
   {
     id: 20,
@@ -386,6 +405,7 @@ The black color offers a classic and versatile look. \
 Enjoy the added height and confident stride with the chunky heel design. \
 Perfect for adding a touch of edgy sophistication to your outfit. \
 A fashionable choice for evenings out or special occasions.",
+    priceRange: "affordable",
   },
   {
     id: 21,
@@ -405,6 +425,7 @@ The classic black design is perfect for formal events and special occasions. \
 Enjoy the sleek silhouette and confident feel of a stiletto heel. \
 A timeless addition to your wardrobe for adding a touch of glamour. \
 Make a lasting impression with these elegant and stylish heels.",
+    priceRange: "affordable",
   },
   {
     id: 22,
@@ -424,6 +445,7 @@ The bold red color makes a statement and adds a pop of vibrancy to your look. \
 Enjoy the comfortable fit and stylish design for evenings out or special events. \
 Perfect for those who want to add a touch of glamour and confidence to their stride. \
 Make your fashion dreams a reality with these stunning red heels.",
+    priceRange: "expensive",
   },
   {
     id: 23,
@@ -443,6 +465,7 @@ The white canvas is adorned with subtle crystal detailing for a touch of glamour
 Enjoy a comfortable fit and stylish design for special occasions. \
 Perfect for adding a touch of sophistication and sparkle to your evening attire. \
 Shine bright with these beautiful and unique crystal heels.",
+    priceRange: "expensive",
   },
 
   {
@@ -463,6 +486,7 @@ The classic black design offers versatility and sophistication. \
 Enjoy the added height and stability of the block heel for all-day wear. \
 Perfect for both professional settings and evening events. \
 A stylish and practical choice for the modern woman.",
+    priceRange: "expensive",
   },
   {
     id: 25,
@@ -482,6 +506,7 @@ The black color offers a versatile and chic look. \
 Enjoy the added height and confident stride with the chunky heel design. \
 Perfect for adding a touch of modern edge to your outfit. \
 A stylish choice for those who love to stand out from the crowd.",
+    priceRange: "affordable",
   },
   {
     id: 26,
@@ -501,6 +526,7 @@ The clean white design offers a sophisticated and classic look. \
 Enjoy the sleek silhouette and confident feel of a stiletto heel. \
 Perfect for weddings, formal events, or adding a touch of glamour to any occasion. \
 Make a memorable entrance with these beautiful and stylish stilettos.",
+    priceRange: "expensive",
   },
   {
     id: 27,
@@ -520,6 +546,7 @@ The black canvas is adorned with subtle glitter for a touch of magic. \
 Enjoy the comfortable fit and stylish design perfect for a bride or special occasion. \
 Ideal for adding a subtle shimmer and elegance to your wedding attire. \
 Walk down the aisle in style with these beautiful bridal heels.",
+    priceRange: "affordable",
   },
   {
     id: 28,
@@ -539,5 +566,6 @@ The classic black design offers timeless elegance for your special event. \
 Enjoy a comfortable fit and stylish design that complements bridal and prom attire. \
 Perfect for making a graceful and memorable entrance. \
 Step into your special occasion with confidence and style.",
+    priceRange: "affordable",
   },
 ];

@@ -1,25 +1,27 @@
 "use client";
 
 import { fetchImageWithTimeout } from "@/src/utils/fetchUtils";
-import { useFilterProducts } from "@/src/hooks/useFilterProducts";
 import { useFilterNotification } from "@/src/hooks/useFilterNotification";
 import FilterNotification from "../components/productsSection/filters/FilterNotification";
 import FilterProducts from "../components/productsSection/filters/FilterProducts";
-import { FilterDrawer } from "../components/extras/FilterDrawer";
 import ProductCardSkeleton from "../components/productsSection/ProductCardSkeleton";
 import ProductCard from "../components/productsSection/ProductCard";
+import { useFilterProducts } from "../hooks/useFilterProducts";
 
 const Index = () => {
   const {
     filteredProducts,
     isLoading,
     filterValues,
-    availableCategories,
+    categoryOptions,
+    priceRangeOptions,
+    colorOptions,
+    sortOptions,
     onToggleCategory,
     onTogglePriceRange,
     onToggleColor,
-    onResetFilters,
     onSortByPrice,
+    onResetFilters,
   } = useFilterProducts();
 
   // Use the notification hook
@@ -29,20 +31,23 @@ const Index = () => {
       productsLength: filteredProducts.length,
       isFilterApplied:
         filterValues.selectedCategories.length > 0 ||
-        filterValues.selectedPriceRanges.length > 0 ||
+        filterValues.selectedPriceRange.length > 0 ||
         filterValues.selectedColors.length > 0,
     }
   );
 
   const filterProps = {
-    availableCategories,
+    categoryOptions,
+    priceRangeOptions,
+    colorOptions,
+    sortOptions,
     filterValues,
     onToggleCategory,
     onTogglePriceRange,
     onToggleColor,
-    onResetFilters,
     onSortByPrice,
-  };
+    onResetFilters,
+  }
 
   return (
     <div className="bg-gray-50 dark:bg-primaryDark transition-colors duration-200">

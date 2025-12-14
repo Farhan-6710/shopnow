@@ -1,7 +1,7 @@
 // Product filter values interface
 export interface ProductFilterValues {
   selectedCategories: string[];
-  selectedPriceRanges: string[];
+  selectedPriceRange: string[];
   selectedColors: string[];
   selectedSort: "asc" | "desc" | "";
 }

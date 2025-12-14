@@ -12,4 +12,5 @@ export interface Product {
   imgSource: string;
   rating?: number;
   description: string;
+  priceRange?: string;
 }

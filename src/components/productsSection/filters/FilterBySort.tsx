@@ -1,12 +1,14 @@
 import React from "react";
-import { SORT_OPTIONS, CHECKBOX_CLASSES } from "@/src/constants/filters";
+import { CHECKBOX_CLASSES } from "@/src/constants/filters";
 
 interface FilterBySortProps {
+  sortOptions: { value: string; label: string }[];
   selectedSort: "asc" | "desc" | "";
   onSortByPrice: (sort: "asc" | "desc") => void;
 }
 
 const FilterBySort: React.FC<FilterBySortProps> = ({
+  sortOptions,
   selectedSort,
   onSortByPrice,
 }) => {
@@ -16,7 +18,7 @@ const FilterBySort: React.FC<FilterBySortProps> = ({
         Filter by Price
       </h3>
       <div className="space-y-2">
-        {SORT_OPTIONS.map((option) => (
+        {sortOptions.map((option) => (
           <label
             key={option.value}
             className="flex items-center gap-2.5 cursor-pointer"
@@ -24,7 +26,7 @@ const FilterBySort: React.FC<FilterBySortProps> = ({
             <input
               type="checkbox"
               checked={selectedSort === option.value}
-              onChange={() => onSortByPrice(option.value)}
+              onChange={() => onSortByPrice(option.value as "asc" | "desc")}
               className={CHECKBOX_CLASSES}
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">

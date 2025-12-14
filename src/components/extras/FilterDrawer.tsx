@@ -11,11 +11,24 @@ import {
   DrawerTrigger,
   DrawerClose, // Import DrawerClose
 } from "@/src/components/ui/drawer";
-import { FilterProductsProps } from "@/src/types/filterProduct";
+import { ProductFilterValues } from "@/src/types/filterProduct";
 import { FilterIcon, X } from "lucide-react"; // Import the X icon
 import FiltersSidebarContent from "../productsSection/filters/FiltersSidebarContent";
 
-export const FilterDrawer: React.FC<FilterProductsProps> = (props) => {
+interface FilterDrawerProps {
+  categoryOptions: string[];
+  priceRangeOptions: string[];
+  colorOptions: string[];
+  sortOptions: { value: string; label: string }[];
+  filterValues: ProductFilterValues;
+  onToggleCategory: (category: string) => void;
+  onTogglePriceRange: (priceRange: string) => void;
+  onToggleColor: (color: string) => void;
+  onSortByPrice: (order: "asc" | "desc") => void;
+  onResetFilters: () => void;
+}
+
+export const FilterDrawer: React.FC<FilterDrawerProps> = (props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>

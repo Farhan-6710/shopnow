@@ -1,9 +1,22 @@
 "use client";
 
-import { FilterProductsProps } from "@/src/types/filterProduct";
+import { ProductFilterValues } from "@/src/types/filterProduct";
 import React from "react";
 import { FilterDrawer } from "../../extras/FilterDrawer";
 import FiltersSidebarContent from "./FiltersSidebarContent";
+
+interface FilterProductsProps {
+  categoryOptions: string[];
+  priceRangeOptions: string[];
+  colorOptions: string[];
+  sortOptions: { value: string; label: string }[];
+  filterValues: ProductFilterValues;
+  onToggleCategory: (category: string) => void;
+  onTogglePriceRange: (priceRange: string) => void;
+  onToggleColor: (color: string) => void;
+  onSortByPrice: (order: "asc" | "desc") => void;
+  onResetFilters: () => void;
+}
 
 const FilterProducts: React.FC<FilterProductsProps> = (props) => {
   return (
