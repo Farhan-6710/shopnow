@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PRODUCTS_DATA } from "@/src/constants/products";
 import {
   COLOR_OPTIONS,
@@ -50,7 +50,13 @@ export const useFilterProducts = () => {
       const priceB = b.prices[currency] || b.prices.USD;
       return filterValues.selectedSort === "asc" ? priceA - priceB : priceB - priceA;
     });
-  }, [filterValues, currency]);
+  }, [
+    filterValues.selectedCategories,
+    filterValues.selectedPriceRange,
+    filterValues.selectedColors,
+    filterValues.selectedSort,
+    currency
+  ]);
 
   // Fake loading timer
   useEffect(() => {
@@ -86,21 +92,21 @@ export const useFilterProducts = () => {
     }));
   };
 
-  const onSortByPrice = useCallback((order: "asc" | "desc") => {
+  const onSortByPrice = (order: "asc" | "desc") => {
     setFilterValues((prev) => ({
       ...prev,
       selectedSort: prev.selectedSort === order ? "" : order,
     }));
-  }, []);
+  };
 
-  const onResetFilters = useCallback(() => {
+  const onResetFilters = () => {
     setFilterValues({
       selectedCategories: [],
       selectedPriceRange: [],
       selectedColors: [],
       selectedSort: "",
     });
-  }, []);
+  };
 
   // Use derived constant
   const categoryOptions = CATEGORY_OPTIONS;
