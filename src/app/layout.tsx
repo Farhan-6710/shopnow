@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/src/styles/globals.css";
-import { Inter, Cinzel } from "next/font/google";
+import { Inter, Cinzel, Convergence } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -10,6 +10,11 @@ config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
 const cinzel = Cinzel({ weight: "400", style: "normal", subsets: ["latin"] });
+const convergence = Convergence({
+  weight: "400",
+  style: "normal",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -50,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.className} ${cinzel.className}`}
+      className={`${inter.className} ${convergence.className}`}
       suppressHydrationWarning
     >
       <body>
