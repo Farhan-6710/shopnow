@@ -16,8 +16,7 @@ export default function ReduxProvider({
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={false}
-          storageKey="shopnow-theme"
+          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>
