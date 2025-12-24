@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductPageClient from "./ProductPageClient";
-import { PRODUCTS_DATA } from "@/src/constants/products"; // Import the products data
+import { PRODUCTS_DATA } from "@/constants/products"; // Import the products data
 import { notFound } from "next/navigation";
-import { selectCurrency } from "@/src/redux/cart/cartSlice"; // Import the Redux selector
-import ProductDetailsCardSkeleton from "@/src/components/productsSection/ProductDetailsCardSkeleton";
+import { selectCurrency } from "@/redux/cart/cartSlice"; // Import the Redux selector
+import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
 
 interface ProductPageProps {
   params: Promise<{ productName: string }>;
@@ -29,13 +29,16 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   // Skeleton loading state (if productName is not yet set)
   if (!productName) {
     return (
-      <div className="dark:bg-primaryDarkTwo">
+      <main
+        className="dark:bg-primaryDarkTwo"
+        aria-label="Product details loading"
+      >
         <div className="container mx-auto py-4">
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
             <ProductDetailsCardSkeleton />
           </div>
         </div>
-      </div>
+      </main>
     ); // Render skeleton while data is being fetched
   }
 
@@ -52,21 +55,19 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   }
 
   return (
-    <div className="dark:bg-primaryDarkTwo">
+    <main className="dark:bg-primaryDarkTwo">
       <div className="container mx-auto py-4">
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
+        <section
+          className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4"
+          aria-labelledby="product-name"
+        >
           <ProductPageClient
-            id={product.id} // Pass the product ID
-            productName={product.productName}
-            imgSource={product.imgSource || "/default-image.png"}
-            prices={product.prices}
-            rating={product.rating}
+            product={product}
             currency={currency} // Pass currency prop from Redux store
-            description={product.description} // Pass description to ProductPageClient
           />
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

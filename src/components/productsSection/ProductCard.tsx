@@ -1,41 +1,52 @@
 "use client"; // Ensures this component is rendered on the client side
 
-import React, { useState } from "react";
 import ProductImage from "./ProductImage";
 import ProductDetails from "./ProductDetails";
 import ProductActions from "./ProductActions";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { Product } from "@/src/types/product";
-import { useCartActions } from "@/src/hooks/useCartActions";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/store";
+import { Product } from "@/types/product";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { addToCart, removeFromCart } from "@/redux/cart/cartSlice";
+import { showToast } from "@/config/ToastConfig";
+import { ShoppingCart, Trash2 } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
-  fetchImageWithTimeout: (url: string) => Promise<any>;
+  fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   fetchImageWithTimeout,
 }) => {
+  const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const currency = useSelector((state: RootState) => state.cart.currency);
   const isInCart = cartItems.some((item) => item.id === product.id); // Check if the product is in the cart
 
-  const { handleAddToCart: addToCart, handleRemoveFromCart: removeFromCart } =
-    useCartActions();
-
   const handleAddToCart = () => {
-    if (addToCart && !isInCart) {
-      addToCart(product.id); // Pass product ID to addToCart
+    if (!isInCart) {
+      dispatch(addToCart(product));
+      showToast({
+        type: "custom",
+        title: "Added to Cart",
+        description: `${product.productName} has been added to your cart`,
+        icon: ShoppingCart,
+      });
     }
   };
 
   const handleRemoveFromCart = () => {
-    if (removeFromCart && isInCart) {
-      removeFromCart(product.id); // Pass product ID to removeFromCart
+    if (isInCart) {
+      dispatch(removeFromCart(product.id));
+      showToast({
+        type: "custom",
+        title: "Item Removed",
+        description: `${product.productName} removed from cart`,
+        icon: Trash2,
+      });
     }
   };
 
@@ -51,19 +62,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { theme } = useTheme();
 
   return (
-    <div className="px-4 md:px-2 p-2 w-full flex flex-col h-full">
-      <div className="transition-all duration-200 dark:bg-primaryDarkTwo border-gray-200">
+    <article
+      className="px-4 md:px-2 p-2 w-full flex flex-col h-full"
+      aria-label={`${product.productName} product card`}
+    >
+      <div className="transition-all duration-200 border-border">
         <div
-          className={`product-card border text-center h-full pt-4 pb-8 overflow-hidden transition-all duration-300 ${
-            theme === "dark"
-              ? "bg-primaryDarkTwo shadow-for-dark border-for-dark"
-              : "bg-white shadow-for-light border-gray-200"
+          className={`product-card border bg-card text-center h-full pt-4 pb-8 overflow-hidden transition-all duration-300 rounded-lg ${
+            theme === "dark" ? "shadow-for-dark" : "shadow-for-light"
           }`}
         >
           <Link
-            href={`/products/${product.productName}`} // Navigate to /products/[productName]
-            passHref
+            href={`/products/${encodeURIComponent(product.productName)}`}
             className="flex flex-col justify-center items-center "
+            aria-label={`View details for ${product.productName}`}
           >
             <ProductImage
               imgSource={product.imgSource}
@@ -87,7 +99,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

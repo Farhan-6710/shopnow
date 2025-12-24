@@ -1,63 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/src/redux/store";
-import { addToCart, removeFromCart } from "@/src/redux/cart/cartSlice";
-import { Product } from "@/src/types/product";
-import { fetchImageWithTimeout } from "@/src/utils/fetchUtils";
-import ProductDetailsCard from "@/src/components/productsSection/ProductDetailsCard";
-import ProductDetailsCardSkeleton from "@/src/components/productsSection/ProductDetailsCardSkeleton";
+import { Product } from "@/types/product";
+import { fetchImageWithTimeout } from "@/utils/fetchUtils";
+import ProductDetailsCard from "@/components/productsSection/ProductDetailsCard";
+import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
 
 interface ProductPageClientProps {
-  id: number;
-  productName: string;
-  imgSource: string;
-  prices: {
-    USD: number;
-    INR: number;
-  };
-  rating?: number;
-  description: string; // Add description prop
+  product: Product;
   currency: "USD" | "INR";
 }
 
 const ProductPageClient: React.FC<ProductPageClientProps> = ({
-  id,
-  productName,
-  imgSource,
-  prices,
-  rating = 0,
-  description,
+  product,
   currency,
 }) => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-
-  // Construct the product object with the updated type
-  const product: Product = {
-    id,
-    productName,
-    imgSource,
-    prices,
-    rating,
-    description, // Pass description to the product object
-  };
-
-  const isInCart = cartItems.some((item) => item.id === product.id);
-
-  const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        ...product,
-        quantity: 1, // Default quantity
-        currency,
-      })
-    );
-  };
-
-  const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(product.id));
-  };
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -75,16 +30,9 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
       ) : (
         <ProductDetailsCard
           key={product.id}
-          productName={product.productName}
-          imgSource={product.imgSource}
-          prices={product.prices}
-          rating={product.rating}
-          addToCart={handleAddToCart}
-          removeFromCart={handleRemoveFromCart}
-          isInCart={isInCart}
+          product={product}
           currency={currency}
           fetchImageWithTimeout={fetchImageWithTimeout}
-          description={product.description} // Pass description to ProductCard
         />
       )}
     </>

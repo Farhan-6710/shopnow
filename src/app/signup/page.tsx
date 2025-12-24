@@ -1,7 +1,7 @@
 "use client"; // Ensure this is a client component
 
 import React, { useState } from "react";
-import SignUp from "@/src/app/signup/SignUp"; // Adjust the path if necessary
+import SignUp from "@/app/signup/SignUp"; // Adjust the path if necessary
 
 const Page: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -15,11 +15,14 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="auth-container bg-gray-100 dark:bg-primaryDarkTwo flex flex-col transition-all duration-500">
-      <div className="flex-grow flex justify-center items-center">
+    <main
+      className="auth-container bg-background flex flex-col transition-all duration-500"
+      aria-label="Sign up page"
+    >
+      <div className="flex justify-center items-center">
         <SignUp />
       </div>
-    </div>
+    </main>
   );
 };
 

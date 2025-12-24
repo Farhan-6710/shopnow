@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import Header from "../components/headers/Header";
-import Footer from "@/src/components/footers/Footer";
-import FooterTwo from "@/src/components/footers/FooterTwo";
-import ScrollToTop from "@/src/components/extras/ScrollToTop";
-import ModeToggle from "@/src/components/extras/ModeToggle";
+import Footer from "@/components/footers/Footer";
+import FooterTwo from "@/components/footers/FooterTwo";
+import ScrollToTop from "@/components/extras/ScrollToTop";
+import ModeToggle from "@/components/extras/ModeToggle";
 import AppProviders from "../redux/AppProviders";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function LayoutClient({
   children,
@@ -23,6 +24,7 @@ export default function LayoutClient({
       <Footer />
       <FooterTwo />
       <ScrollToTop />
+      <Toaster position="bottom-center" />
     </AppProviders>
   );
 }

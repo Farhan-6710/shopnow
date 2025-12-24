@@ -21,14 +21,14 @@ const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
         <FontAwesomeIcon
           key={`full-${i}`}
           icon={faStar}
-          className="text-yellow-400 mx-0.5 icon-size"
+          className="text-primary mx-0.5 icon-size"
         />
       ))}
       {/* Render half star */}
       {halfStar && (
         <FontAwesomeIcon
           icon={faStarHalfAlt}
-          className="text-yellow-400 mx-0.5"
+          className="text-primary mx-0.5"
         />
       )}
       {/* Render empty stars */}

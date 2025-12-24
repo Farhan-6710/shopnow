@@ -11,7 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
   return (
     <>
-      <header className="fixed z-50 w-full">
+      <header className="fixed z-30 w-screen">
         <HeaderOne />
         <HeaderTwo onMenuClick={() => setSidebarOpen(true)} />
       </header>

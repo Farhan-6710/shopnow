@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter
+import { Button } from "@/components/ui/button";
 
 const SignUp: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -62,21 +63,27 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center px-4">
+    <section
+      className="flex justify-center items-center px-4"
+      aria-labelledby="signup-heading"
+    >
       <div
         id="sign-up-form"
-        className={`w-full max-w-sm mx-auto p-6 md:p-8 rounded-lg shadow-2xl bg-white dark:bg-primaryDark dark:text-white transition-all duration-500 ease-in-out my-6
+        className={`w-full max-w-sm mx-auto p-6 md:p-8 rounded-lg shadow-2xl bg-card transition-all duration-500 ease-in-out my-6 border
           ${
             isVisible ? "translate-x-0 opacity-100" : "translate-x-44 opacity-0"
           }
         `}
       >
         <div className="mb-6">
-          <h2 className="font-bold text-2xl text-gray-700 dark:text-gray-200 text-center">
+          <h2
+            id="signup-heading"
+            className="font-bold text-2xl text-foreground text-center"
+          >
             Sign Up Form
           </h2>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} aria-label="Sign up form">
           <div className="form-group mb-2">
             <label htmlFor="new-username" className="sr-only">
               Username
@@ -87,7 +94,7 @@ const SignUp: React.FC = () => {
               name="new-username"
               placeholder="Username"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-700"
+              className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-background dark:text-white"
             />
             <label htmlFor="new-email" className="sr-only">
               Email
@@ -98,7 +105,7 @@ const SignUp: React.FC = () => {
               name="new-email"
               placeholder="Email"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-700"
+              className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-background dark:text-white"
             />
             <label htmlFor="new-password" className="sr-only">
               Password
@@ -109,7 +116,7 @@ const SignUp: React.FC = () => {
               name="new-password"
               placeholder="Password"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-700"
+              className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-background dark:text-white"
             />
             <label htmlFor="confirm-password" className="sr-only">
               Confirm Password
@@ -120,37 +127,39 @@ const SignUp: React.FC = () => {
               name="confirm-password"
               placeholder="Confirm Password"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-700"
+              className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-none focus:border-green-500 mb-2 bg-background dark:text-white"
             />
           </div>
-          <div className="text-center">
+          <div className="text-center" role="alert" aria-live="polite">
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {success && <p className="text-green-500 mb-4">{success}</p>}
           </div>
           <div className="form-group mb-4">
-            <input
+            <Button
               type="submit"
-              value="Sign Up"
-              className="w-full px-4 py-2 bg-primary text-white rounded-md cursor-pointer transition duration-300 hover:bg-gray-700"
-            />
+              className="w-full bg-primary text-primary-foreground rounded-md cursor-pointer transition duration-300 h-10"
+            >
+              Sign Up
+            </Button>
           </div>
           <div className="or mb-4 flex items-center justify-center space-x-6">
-            <div className="w-1/2 h-px bg-gray-300 dark:bg-gray-400"></div>
+            <div className="w-1/2 h-px bg-border"></div>
             <span className="text-base font-bold text-gray-700 dark:text-gray-300">
               OR
             </span>
-            <div className="w-1/2 h-px bg-gray-300 dark:bg-gray-400"></div>
+            <div className="w-1/2 h-px bg-border"></div>
           </div>
           <div className="social-login mb-4">
-            <button
+            <Button
               type="button"
-              className="w-full flex items-center justify-center px-4 py-2 border border-gray-200 rounded-md transition duration-200 hover:bg-gray-100 mb-2 dark:border-gray-700 dark:hover:bg-gray-600"
+              variant="outline"
+              className="w-full flex items-center justify-center px-4 py-2 border rounded-md transition duration-200"
             >
               <i className="fab fa-google mr-2 text-gray-700 dark:text-gray-200"></i>
               <span className="text-gray-700 dark:text-gray-200">
                 Continue with Google
               </span>
-            </button>
+            </Button>
           </div>
           <p className="create-account text-center mb-4 text-gray-700 dark:text-gray-400">
             Already have an account?{" "}
@@ -158,13 +167,13 @@ const SignUp: React.FC = () => {
               Log In
             </Link>
           </p>
-          <hr className="border-t border-gray-300 dark:border-gray-600 my-4" />
+          <hr className="border-t my-4" />
           <div className="terms text-xs text-gray-700 dark:text-gray-400">
             By signing up, you agree to Terms and policy.
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 

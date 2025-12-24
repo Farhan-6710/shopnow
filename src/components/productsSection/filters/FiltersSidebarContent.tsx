@@ -1,9 +1,12 @@
-import { ProductFilterValues } from "@/src/types/filterProduct";
-import React from "react";
+import { ProductFilterValues } from "@/types/filterProduct";
+import React, { useState } from "react";
 import FilterByCategory from "./FilterByCategory";
 import FilterBySort from "./FilterBySort";
 import FilterByColor from "./FilterByColor";
 import FilterByPriceRange from "./FilterByPriceRange";
+import { Button } from "@/components/ui/button";
+import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import { RotateCcw } from "lucide-react";
 
 interface FiltersSidebarContentProps {
   categoryOptions: string[];
@@ -31,6 +34,21 @@ const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
     onResetFilters,
     onSortByPrice,
   } = props;
+
+  const [showResetModal, setShowResetModal] = useState(false);
+
+  const hasActiveFilters =
+    filterValues.selectedCategories.length > 0 ||
+    filterValues.selectedPriceRange.length > 0 ||
+    filterValues.selectedColors.length > 0 ||
+    filterValues.selectedSort !== "";
+
+  const handleResetClick = () => {
+    if (hasActiveFilters) {
+      setShowResetModal(true);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-between">
       {/* Filter by Category */}
@@ -63,12 +81,27 @@ const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
       />
 
       {/* Reset Filters Button */}
-      <button
-        onClick={onResetFilters}
-        className="mt-2 px-4 py-2.5 text-sm font-medium text-white bg-slate-950 dark:bg-slate-800 hover:bg-red-600 dark:hover:bg-red-600 rounded-md transition-all duration-150"
+      <Button
+        onClick={handleResetClick}
+        disabled={!hasActiveFilters}
+        className="mt-2 px-4 py-2.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-red-600 hover:text-foreground rounded-md transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Reset all filters"
       >
         Reset Filters
-      </button>
+      </Button>
+
+      <ConfirmationModal
+        open={showResetModal}
+        onOpenChange={setShowResetModal}
+        title="Reset Filters"
+        description="Are you sure you want to reset all filters? This will clear all your current selections."
+        icon={RotateCcw}
+        iconClassName="text-primary"
+        confirmLabel="Reset"
+        cancelLabel="Cancel"
+        variant="default"
+        onConfirm={onResetFilters}
+      />
     </div>
   );
 };

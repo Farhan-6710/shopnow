@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import "@/src/styles/globals.css";
-import { Inter, Cinzel, Convergence } from "next/font/google";
+import "@/styles/globals.css";
+import { Inter, Convergence, Libre_Baskerville } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import LayoutClient from "./LayoutClient";
 
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
-const cinzel = Cinzel({ weight: "400", style: "normal", subsets: ["latin"] });
 const convergence = Convergence({
+  weight: "400",
+  style: "normal",
+  subsets: ["latin"],
+});
+const libre = Libre_Baskerville({
   weight: "400",
   style: "normal",
   subsets: ["latin"],

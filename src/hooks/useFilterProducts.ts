@@ -1,18 +1,19 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { PRODUCTS_DATA } from "@/src/constants/products";
+import { PRODUCTS_DATA } from "@/constants/products";
 import {
   COLOR_OPTIONS,
   PRICE_RANGE_OPTIONS,
   CATEGORY_OPTIONS,
   SORT_OPTIONS,
-} from "@/src/constants/filters";
+} from "@/constants/filters";
+import { showToast } from "@/config/ToastConfig";
+import { RotateCcw } from "lucide-react";
 
-import { Product } from "@/src/types/product";
-import { ProductFilterValues } from "@/src/types/filterProduct";
+import { ProductFilterValues } from "@/types/filterProduct";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/store";
+import { RootState } from "@/redux/store";
 
 export const useFilterProducts = () => {
   const currency = useSelector((state: RootState) => state.cart.currency);
@@ -48,14 +49,16 @@ export const useFilterProducts = () => {
     return [...filtered].sort((a, b) => {
       const priceA = a.prices[currency] || a.prices.USD;
       const priceB = b.prices[currency] || b.prices.USD;
-      return filterValues.selectedSort === "asc" ? priceA - priceB : priceB - priceA;
+      return filterValues.selectedSort === "asc"
+        ? priceA - priceB
+        : priceB - priceA;
     });
   }, [
     filterValues.selectedCategories,
     filterValues.selectedPriceRange,
     filterValues.selectedColors,
     filterValues.selectedSort,
-    currency
+    currency,
   ]);
 
   // Fake loading timer
@@ -105,6 +108,12 @@ export const useFilterProducts = () => {
       selectedPriceRange: [],
       selectedColors: [],
       selectedSort: "",
+    });
+    showToast({
+      type: "custom",
+      title: "Filters Reset",
+      description: "All filters have been cleared",
+      icon: RotateCcw,
     });
   };
 

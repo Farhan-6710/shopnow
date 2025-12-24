@@ -1,5 +1,5 @@
 // Filter constants
-import { PRODUCTS_DATA } from "@/src/constants/products";
+import { PRODUCTS_DATA } from "@/constants/products";
 
 export const PRICE_RANGE_OPTIONS: string[] = [
   ...new Set(PRODUCTS_DATA.map((product) => product.priceRange || ""))
@@ -20,4 +20,4 @@ export const SORT_OPTIONS: { value: string; label: string }[] = [
 
 // Shared checkbox styles for consistency
 export const CHECKBOX_CLASSES =
-  "rounded-lg text-primary text-[14px] bg-white dark:text-primary dark:bg-primary focus:ring-0 focus:ring-offset-0 w-5 h-5 appearance-none border border-gray-300 dark:border-gray-600 checked:bg-primary checked:border-primary dark:checked:bg-gray-100 dark:checked:border-gray-100";
+  "rounded-md text-[14px] bg-white focus:ring-0 focus:ring-offset-0 w-5 h-5 appearance-none border border-muted-foreground/50 bg-background dark:bg-background text-foreground checked:bg-foreground checked:dark:bg-foreground checked:text-background checked:border-foreground";

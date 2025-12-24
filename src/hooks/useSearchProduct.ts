@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Product } from "@/types/product";
 
 export const useSearchProduct = (products: Product[]) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchRef = useRef<HTMLDivElement>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [open, setOpen] = useState(false);
 
   const isHomePage = pathname === "/";
 
@@ -22,91 +20,46 @@ export const useSearchProduct = (products: Product[]) => {
       )
     : [];
 
+  // Handle search input change
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setOpen(true);
+  };
+
   // Navigate to product page
   const selectProduct = (productName: string) => {
+    router.push(`/products/${encodeURIComponent(productName)}`);
     setSearchTerm("");
-    setShowDropdown(false);
-    setHighlightedIndex(-1);
-    router.push(`/products/${productName}`);
+    setOpen(false);
   };
 
   // Navigate to home page
   const showAllProducts = () => {
-    setSearchTerm("");
-    setShowDropdown(false);
     router.push("/");
-  };
-
-  // Handle search input change
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    setShowDropdown(true);
-    setHighlightedIndex(-1);
+    setSearchTerm("");
+    setOpen(false);
   };
 
   // Handle input focus
   const handleFocus = () => {
-    setShowDropdown(true);
+    setOpen(true);
   };
 
-  // Keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!showDropdown || filteredProducts.length === 0) return;
-
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev < filteredProducts.length - 1 ? prev + 1 : 0
-        );
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setHighlightedIndex((prev) =>
-          prev > 0 ? prev - 1 : filteredProducts.length - 1
-        );
-        break;
-      case "Enter":
-        e.preventDefault();
-        if (highlightedIndex >= 0) {
-          selectProduct(filteredProducts[highlightedIndex].productName);
-        }
-        break;
-      case "Escape":
-        setShowDropdown(false);
-        setHighlightedIndex(-1);
-        break;
-    }
+  // Handle input blur with delay for click events
+  const handleBlur = () => {
+    setTimeout(() => setOpen(false), 200);
   };
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-        setHighlightedIndex(-1);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return {
-    searchRef,
     searchTerm,
-    showDropdown,
-    highlightedIndex,
+    open,
     isHomePage,
     filteredProducts,
     handleSearchChange,
     handleFocus,
-    handleKeyDown,
+    handleBlur,
     selectProduct,
     showAllProducts,
-    setHighlightedIndex,
+    setOpen,
   };
 };

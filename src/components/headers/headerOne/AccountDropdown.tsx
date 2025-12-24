@@ -1,64 +1,52 @@
-// components/AccountDropdown.tsx
 "use client";
 
-import React, { useRef } from "react";
-import { CircleUser, ChevronDown } from "lucide-react";
+import React from "react";
+import { CircleUser, ChevronDown, UserPlus, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-interface AccountDropdownProps {
-  isOpen: boolean;
-  onToggle: () => void;
-  dropdownRef: React.RefObject<HTMLDivElement>; // Renamed ref
-}
-
-const AccountDropdown: React.FC<AccountDropdownProps> = ({
-  isOpen,
-  onToggle,
-  dropdownRef, // Updated prop name
-}) => {
+const AccountDropdown: React.FC = () => {
   const router = useRouter();
 
-  const handleNavigation = (path: string) => {
-    router.push(path);
-    onToggle(); // Close the dropdown after navigation
-  };
-
   return (
-    <div className="relative" ref={dropdownRef}>
-      {" "}
-      {/* Updated prop usage */}
-      <button
-        className="flex items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-2 py-1 pr-0 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-sm transition-all duration-300 ease-in-out dark:text-gray-200"
-        onClick={onToggle}
-      >
-        <CircleUser
-          className="text-primary dark:text-primaryLight mr-1"
-          size={20}
-          strokeWidth={1.5}
-        />
-        Account <ChevronDown className="ml-1 p-1" />
-      </button>
-      {isOpen && (
-        <ul className="absolute right-0 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-lg transition-all duration-200 ease-in-out z-20">
-          <li>
-            <button
-              onClick={() => handleNavigation("/signup")}
-              className="block w-full px-3 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-300 dark:border-gray-700 transition-all duration-200 ease-in-out text-md text-left"
-            >
-              Sign Up
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => handleNavigation("/login")}
-              className="block w-full px-3 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ease-in-out text-md text-left"
-            >
-              Login
-            </button>
-          </li>
-        </ul>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center gap-1 bg-card text-card-foreground border shadow-xs hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none rounded-md p-2"
+          aria-label="Account menu"
+        >
+          <CircleUser
+            className="text-primary"
+            size={18}
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
+          <span className="text-sm">Account</span>
+          <ChevronDown size={14} className="opacity-50" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[120px]">
+        <DropdownMenuItem
+          onClick={() => router.push("/signup")}
+          className="cursor-pointer"
+        >
+          <UserPlus className="mr-2 h-4 w-4" />
+          Sign Up
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => router.push("/login")}
+          className="cursor-pointer"
+        >
+          <LogIn className="mr-2 h-4 w-4" />
+          Login
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

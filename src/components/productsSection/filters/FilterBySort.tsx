@@ -1,5 +1,5 @@
 import React from "react";
-import { CHECKBOX_CLASSES } from "@/src/constants/filters";
+import { CHECKBOX_CLASSES } from "@/constants/filters";
 
 interface FilterBySortProps {
   sortOptions: { value: string; label: string }[];
@@ -15,7 +15,7 @@ const FilterBySort: React.FC<FilterBySortProps> = ({
   return (
     <div className="filter-div mb-4">
       <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-        Filter by Price
+        Sort by Price
       </h3>
       <div className="space-y-2">
         {sortOptions.map((option) => (
@@ -28,6 +28,7 @@ const FilterBySort: React.FC<FilterBySortProps> = ({
               checked={selectedSort === option.value}
               onChange={() => onSortByPrice(option.value as "asc" | "desc")}
               className={CHECKBOX_CLASSES}
+              aria-label={`Sort by ${option.label.toLowerCase()}`}
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
               {option.label}

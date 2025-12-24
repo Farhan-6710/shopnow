@@ -8,74 +8,53 @@ import {
   IndianRupee,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/src/redux/store"; // Import RootState type
-import { setCurrency } from "@/src/redux/cart/cartSlice"; // Import the setCurrency action
+import { RootState } from "@/redux/store";
+import { setCurrency } from "@/redux/cart/cartSlice";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-interface CurrencyDropdownProps {
-  isOpen: boolean;
-  onToggle: () => void;
-  dropdownRef: React.RefObject<HTMLDivElement>; // Renamed prop
-}
-
-const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
-  isOpen,
-  onToggle,
-  dropdownRef, // Updated prop name
-}) => {
+const CurrencyDropdown: React.FC = () => {
   const dispatch = useDispatch();
   const currency = useSelector((state: RootState) => state.cart.currency);
 
-  const handleCurrencySelect = (selectedCurrency: "USD" | "INR") => {
-    dispatch(setCurrency(selectedCurrency)); // Dispatch the setCurrency action
-    onToggle(); // Close the dropdown
-  };
-
   return (
-    <div className="relative" ref={dropdownRef}>
-      {" "}
-      {/* Updated prop usage */}
-      <button
-        className="flex items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-2 py-1 pr-0 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-sm transition-all duration-300 ease-in-out dark:text-gray-200"
-        onClick={onToggle}
-      >
-        <BadgeDollarSign
-          className="text-primary dark:text-primaryLight mr-1"
-          size={20}
-          strokeWidth={1.5}
-        />
-        {currency} <ChevronDown className="ml-1 p-1" />
-      </button>
-      {isOpen && (
-        <ul className="absolute right-0 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-lg transition-all duration-300 ease-in-out z-10">
-          <li>
-            <button
-              className="flex items-center px-3 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-300 dark:border-gray-700 transition-all duration-300 ease-in-out text-md w-full text-left"
-              onClick={() => handleCurrencySelect("USD")}
-            >
-              <DollarSign
-                className="mr-2 text-gray-700 dark:text-gray-300"
-                size={20}
-                strokeWidth={2}
-              />
-              USD
-            </button>
-          </li>
-          <li>
-            <button
-              className="flex items-center px-3 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 ease-in-out text-md w-full text-left"
-              onClick={() => handleCurrencySelect("INR")}
-            >
-              <IndianRupee
-                className="mr-2 text-gray-700 dark:text-gray-300"
-                size={20}
-                strokeWidth={2}
-              />
-              INR
-            </button>
-          </li>
-        </ul>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center gap-1 bg-card text-card-foreground border shadow-xs hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none rounded-md p-2"
+          aria-label="Currency selector"
+        >
+          <BadgeDollarSign
+            className="text-primary"
+            size={18}
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
+          <span className="text-sm">{currency}</span>
+          <ChevronDown size={14} className="opacity-50" aria-hidden="true" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[100px]">
+        <DropdownMenuItem
+          onClick={() => dispatch(setCurrency("USD"))}
+          className="cursor-pointer"
+        >
+          <DollarSign className="mr-2 h-4 w-4" />
+          USD
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => dispatch(setCurrency("INR"))}
+          className="cursor-pointer"
+        >
+          <IndianRupee className="mr-2 h-4 w-4" />
+          INR
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

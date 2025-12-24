@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/store";
+import { RootState } from "@/redux/store";
 import OrderSummaryHeader from "./OrderSummaryHeader";
 import CouponSection from "./CouponSection";
 import PaymentMethods from "./PaymentMethods";
@@ -38,11 +38,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   handleCouponApply,
 }) => {
   const { theme } = useTheme();
-  const [inputClass, setInputClass] = useState("");
 
-  useEffect(() => {
-    setInputClass(theme === "dark" ? "placeholder-white" : "");
-  }, [theme]);
+  const inputClass = theme === "dark" ? "placeholder-white" : "";
 
   const formatCurrency = (amount: number): string => {
     return currency === "USD"
@@ -52,11 +49,15 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
   return (
     !isEmptyCart && (
-      <div
-        className={`w-full md:w-4/12 border border-gray-300 dark:border-gray-700 p-4 rounded ${
-          theme === "dark" ? "bg-gray-800 shadow-sm" : "bg-white shadow-sm"
+      <section
+        className={`w-full md:w-4/12 border p-4 rounded ${
+          theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
         } h-fit`}
+        aria-labelledby="order-summary-heading"
       >
+        <h2 id="order-summary-heading" className="sr-only">
+          Order Summary
+        </h2>
         <OrderSummaryHeader
           subtotal={subtotal}
           deliveryCharge={deliveryCharge}
@@ -78,7 +79,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           formatCurrency={formatCurrency}
         />
         <PaymentMethods />
-      </div>
+      </section>
     )
   );
 };

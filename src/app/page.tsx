@@ -1,12 +1,13 @@
 "use client";
 
-import { fetchImageWithTimeout } from "@/src/utils/fetchUtils";
-import { useFilterNotification } from "@/src/hooks/useFilterNotification";
-import FilterNotification from "../components/productsSection/filters/FilterNotification";
+import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import FilterProducts from "../components/productsSection/filters/FilterProducts";
 import ProductCardSkeleton from "../components/productsSection/ProductCardSkeleton";
 import ProductCard from "../components/productsSection/ProductCard";
 import { useFilterProducts } from "../hooks/useFilterProducts";
+import { useEffect, useRef } from "react";
+import { Filter } from "lucide-react";
+import { showToast } from "@/config/ToastConfig";
 
 const Index = () => {
   const {
@@ -24,17 +25,30 @@ const Index = () => {
     onResetFilters,
   } = useFilterProducts();
 
-  // Use the notification hook
-  const { notificationMessage, setNotificationMessage } = useFilterNotification(
-    {
-      isLoading,
-      productsLength: filteredProducts.length,
-      isFilterApplied:
-        filterValues.selectedCategories.length > 0 ||
-        filterValues.selectedPriceRange.length > 0 ||
-        filterValues.selectedColors.length > 0,
+  const prevFilteredLengthRef = useRef<number>(filteredProducts.length);
+
+  useEffect(() => {
+    const isFilterApplied =
+      filterValues.selectedCategories.length > 0 ||
+      filterValues.selectedPriceRange.length > 0 ||
+      filterValues.selectedColors.length > 0;
+
+    if (
+      !isLoading &&
+      isFilterApplied &&
+      prevFilteredLengthRef.current !== filteredProducts.length
+    ) {
+      showToast({
+        type: "custom",
+        title: "Filters Applied",
+        description: `${filteredProducts.length} ${
+          filteredProducts.length === 1 ? "item" : "items"
+        } matched your filters`,
+        icon: Filter,
+      });
+      prevFilteredLengthRef.current = filteredProducts.length;
     }
-  );
+  }, [isLoading, filteredProducts.length, filterValues]);
 
   const filterProps = {
     categoryOptions,
@@ -47,21 +61,26 @@ const Index = () => {
     onToggleColor,
     onSortByPrice,
     onResetFilters,
-  }
+  };
 
   return (
-    <div className="bg-gray-50 dark:bg-primaryDark transition-colors duration-200">
+    <main className="bg-background transition-colors duration-200">
       <div className="max-w-screen-3xl mx-auto pt-0">
         <div className="grid md:grid-cols-[theme(spacing.72)_1fr] gap-4">
           <FilterProducts {...filterProps} />
 
-          <div className="product-card-wrapper grid md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4 h-fit py-0 md:py-4">
+          <section
+            className="product-card-wrapper grid md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4 h-fit py-0 md:py-4"
+            aria-label="Product catalog"
+          >
             {isLoading ? (
               Array.from({ length: 8 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))
             ) : filteredProducts.length === 0 ? (
-              <p>No products found</p>
+              <p role="status" aria-live="polite">
+                No products found
+              </p>
             ) : (
               filteredProducts.map((product) => (
                 <ProductCard
@@ -71,17 +90,10 @@ const Index = () => {
                 />
               ))
             )}
-          </div>
+          </section>
         </div>
       </div>
-      {/* Notification Popup */}
-      {notificationMessage && (
-        <FilterNotification
-          message={notificationMessage}
-          onClose={() => setNotificationMessage(null)}
-        />
-      )}
-    </div>
+    </main>
   );
 };
 

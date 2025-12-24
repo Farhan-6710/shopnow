@@ -33,7 +33,6 @@
     position: sticky;
     top: 120px; /* Match header height */
     z-index: 0;
-    height: fit-content;
   }
 }
 

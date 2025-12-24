@@ -1,6 +1,7 @@
 // src/features/cart/cartSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartItem } from "@/src/types/cartItems";
+import { CartItem } from "@/types/cartItems";
+import { Product } from "@/types/product";
 
 // Define the currency type
 type Currency = "USD" | "INR";
@@ -20,32 +21,28 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<CartItem>) {
+    addToCart(state, action: PayloadAction<Product & { quantity?: number }>) {
       const product = action.payload;
       const existingProduct = state.cartItems.find(
         (item) => item.id === product.id
       );
+
       if (existingProduct) {
-        existingProduct.quantity += product.quantity;
+        // Increment by specified quantity or 1 if not provided
+        existingProduct.quantity += product.quantity ?? 1;
       } else {
-        state.cartItems.push(product);
+        // Add new item with quantity defaulting to 1 and currency from state
+        state.cartItems.push({
+          ...product,
+          quantity: product.quantity ?? 1,
+          currency: state.currency,
+        });
       }
     },
     removeFromCart(state, action: PayloadAction<number>) {
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== action.payload
       );
-    },
-    updateQuantity(
-      state,
-      action: PayloadAction<{ id: number; quantity: number }>
-    ) {
-      const { id, quantity } = action.payload;
-      if (quantity <= 0) return; // Prevent quantity from being zero or negative
-      const item = state.cartItems.find((item) => item.id === id);
-      if (item) {
-        item.quantity = quantity;
-      }
     },
     setCurrency(state, action: PayloadAction<Currency>) {
       state.currency = action.payload;
@@ -57,13 +54,8 @@ const cartSlice = createSlice({
 });
 
 // Export actions
-export const {
-  addToCart,
-  removeFromCart,
-  updateQuantity,
-  setCurrency,
-  replace,
-} = cartSlice.actions;
+export const { addToCart, removeFromCart, setCurrency, replace } =
+  cartSlice.actions;
 
 // Selectors
 export const selectCartItems = (state: { cart: CartState }) =>

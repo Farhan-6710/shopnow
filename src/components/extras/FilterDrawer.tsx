@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
@@ -10,8 +10,8 @@ import {
   DrawerDescription,
   DrawerTrigger,
   DrawerClose, // Import DrawerClose
-} from "@/src/components/ui/drawer";
-import { ProductFilterValues } from "@/src/types/filterProduct";
+} from "@/components/ui/drawer";
+import { ProductFilterValues } from "@/types/filterProduct";
 import { FilterIcon, X } from "lucide-react"; // Import the X icon
 import FiltersSidebarContent from "../productsSection/filters/FiltersSidebarContent";
 
@@ -34,7 +34,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = (props) => {
       <DrawerTrigger asChild>
         <Button
           variant="outline"
-          className="dark:bg-gray-800 flex justify-center items-center"
+          className="bg-card flex justify-center items-center"
         >
           <span className="mr-2">
             <FilterIcon />

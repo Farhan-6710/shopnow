@@ -14,13 +14,11 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { theme } = useTheme(); // Get the current theme (dark or light)
-  const [logoSrc, setLogoSrc] = useState<string>("/images/Logo.jpg");
+  const { theme } = useTheme();
 
-  useEffect(() => {
-    // Update the logo source based on the theme
-    setLogoSrc(theme === "dark" ? "/images/Logo-dark.png" : "/images/Logo.jpg");
-  }, [theme]);
+  // Derive logo source directly from theme - no need for state
+  const logoSrc =
+    theme === "dark" ? "/images/logo-dark.png" : "/images/logo-light.png";
 
   const handleClick = () => {
     if (pathname === "/") {
@@ -46,15 +44,14 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
             height={45}
             priority
             className="logo-image"
-            style={{ width: "auto", height: "auto" }}
           />
         </div>
       </div>
       <div
-        className="md:hidden flex items-center ring-2 ring-gray-300 dark:ring-gray-600 rounded-md ml-8 p-2 cursor-pointer"
+        className="md:hidden flex items-center ring-2 ring-border rounded-md ml-8 p-2 cursor-pointer"
         onClick={onMenuClick}
       >
-        <Menu className="text-white dark:text-white text-lg" />
+        <Menu className="text-muted-foreground text-lg" />
       </div>
     </div>
   );

@@ -28,11 +28,14 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   total,
   formatCurrency,
 }) => {
-    const { theme } = useTheme();
+  const { theme } = useTheme();
   return (
     <>
       {!isCouponApplied && (
         <>
+          <label htmlFor="coupon-code-input" className="sr-only">
+            Coupon code
+          </label>
           <input
             type="text"
             id="coupon-code-input"
@@ -48,7 +51,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             value={couponCode}
             onChange={handleInputChange}
             onClick={handleInputClick}
-            className={`w-full p-2 border border-gray-300 dark:border-gray-600 rounded mb-4 transition-transform duration-300 focus:ring-1 focus:ring-primary ${
+            className={`w-full p-2 border rounded mb-4 transition-transform duration-300 focus:ring-1 focus:ring-primary ${
               isInvalidCoupon || isEmptyCart || showCouponPlaceholder
                 ? "animate-shake placeholder-red-500 dark:placeholder-red-500"
                 : ""
@@ -56,13 +59,9 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             disabled={isEmptyCart}
           />
           {!isEmptyCart && !showCouponPlaceholder && !isInvalidCoupon && (
-            <p
-              className="text-lg font-medium mb-3 dark:text-gray-400 text-gray-500"
-            >
+            <p className="text-lg font-medium mb-3 dark:text-gray-400 text-gray-500">
               Enter Coupon code <br />
-              <span
-                className="text-primary font-extrabold dark:text-primaryLight"
-              >
+              <span className="text-primary font-extrabold dark:text-primaryLight">
                 &apos;SHOPNOW10&apos;
               </span>{" "}
               for instant 10% off
@@ -74,10 +73,11 @@ const CouponSection: React.FC<CouponSectionProps> = ({
         onClick={handleCouponApply}
         className={`w-full py-2 rounded transition duration-300 ${
           isCouponApplied
-            ? `bg-secondary text-primary font-bold pointer-events-none`
-            : `dark:bg-primaryDark dark:hover:bg-primaryDark bg-primary hover:bg-slate-950 text-white`
+            ? `bg-secondary text-secondary-foreground font-bold pointer-events-none`
+            : `bg-primary hover:bg-secondary text-primary-foreground hover:text-secondary-foreground cursor-pointer`
         }`}
         disabled={isEmptyCart}
+        aria-label={isCouponApplied ? "Coupon applied" : "Apply coupon code"}
       >
         {isCouponApplied ? "Coupon Applied" : "Apply Coupon"}
       </button>

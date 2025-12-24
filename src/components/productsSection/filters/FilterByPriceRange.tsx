@@ -1,5 +1,5 @@
 import React from "react";
-import { CHECKBOX_CLASSES } from "@/src/constants/filters";
+import { CHECKBOX_CLASSES } from "@/constants/filters";
 
 interface FilterByPriceRangeProps {
   priceRangeOptions: string[];

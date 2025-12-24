@@ -11,6 +11,7 @@ export interface Product {
   color?: string;
   imgSource: string;
   rating?: number;
+  brand?: string;
   description: string;
   priceRange?: string;
 }

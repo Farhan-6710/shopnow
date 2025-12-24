@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Facebook,
@@ -11,6 +11,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import { useTheme } from "next-themes";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -18,7 +19,13 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  React.useEffect(() => {
+  const { theme } = useTheme();
+
+  // Derive logo source directly from theme - no need for state
+  const logoSrc =
+    theme === "dark" ? "/images/logo-dark.png" : "/images/logo-light.png";
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         (event.target as HTMLElement).closest(".sidebar") ||
@@ -53,13 +60,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     <div>
       {/* sidebar content */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-primaryDarkTwo text-primaryDarkTwo dark:text-white transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-64 bg-background text-primaryDarkTwo text-foreground transform transition-transform duration-300 ease-in-out border-r ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } sidebar z-50 overflow-y-auto`}
       >
-        <div className="flex items-center justify-center bg-white dark:bg-primaryDarkTwo py-10 px-3">
+        <div className="flex items-center justify-center bg-background py-10 px-3">
           <Image
-            src="/images/Logo.jpg"
+            src={logoSrc}
             alt="Logo"
             width={220}
             height={100}
@@ -67,25 +74,31 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             priority
           />
         </div>
-        <hr className="border-gray-300 dark:border-gray-700 mb-2" />
+        <hr className="border mb-2" />
         <div className="p-4 px-6 mb-4">
           <h2 className="text-lg font-semibold">About SHOPNOW</h2>
-          <p className="mt-2 text-sm">
+          <p className="mt-2 text-xs">
             SHOPNOW offers a wide range of branded t-shirts, shoes, and more.
             Our mission is to provide high-quality products with exceptional
             customer service. Explore our collection and find your style today!
           </p>
         </div>
-        <hr className="border-gray-300 dark:border-gray-700 mb-2" />
+        <hr className="border mb-2" />
         <div className="p-4 px-6 mb-4">
           <h2 className="text-lg font-semibold">Contact Us</h2>
           <ul className="mt-2 space-y-2">
             <li className="flex items-center space-x-2">
-              <MapPin className="text-primaryDarkTwo dark:text-gray-200" size={16} />
+              <MapPin
+                className="text-primaryDarkTwo dark:text-gray-200"
+                size={16}
+              />
               <span className="text-sm">123 Street, Trend City, TX</span>
             </li>
             <li className="flex items-center space-x-2">
-              <Mail className="text-primaryDarkTwo dark:text-gray-200" size={16} />
+              <Mail
+                className="text-primaryDarkTwo dark:text-gray-200"
+                size={16}
+              />
               <a
                 href="mailto:contact@shopnow.com"
                 className="text-sm hover:underline"
@@ -94,12 +107,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               </a>
             </li>
             <li className="flex items-center space-x-2">
-              <Phone className="text-primaryDarkTwo dark:text-gray-200" size={16} />
+              <Phone
+                className="text-primaryDarkTwo dark:text-gray-200"
+                size={16}
+              />
               <span className="text-sm">+1 (123) 456-7890</span>
             </li>
           </ul>
         </div>
-        <hr className="border-gray-300 dark:border-gray-700 mb-1" />
+        <hr className="border mb-1" />
         <div className="flex justify-center space-x-4 p-4">
           <a
             href="#"
@@ -128,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
       <div
-        className={`fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm transition-opacity duration-300 z-40 ${
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-40 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => onClose()}

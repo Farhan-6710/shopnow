@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
-import { Oval } from "react-loader-spinner"; // Import the Oval loader from react-loader-spinner
+import React, { useState } from "react";
+import { X, Trash2 } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
+import { showToast } from "@/config/ToastConfig";
 
 interface ProductActionsProps {
   productName: string;
   handleAddToCart: () => void;
   handleRemoveFromCart: () => void;
-  isInCart: boolean; // Added isInCart prop to determine if the product is in the cart
+  isInCart: boolean;
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({
   handleAddToCart,
   handleRemoveFromCart,
   productName,
-  isInCart, // Added isInCart prop to determine if the product is in the cart
+  isInCart,
 }) => {
   const [loading, setLoading] = useState(false);
 
-  // Simulate loading timeout logic
   const simulateAction = (action: "add" | "remove") => {
     setLoading(true);
     setTimeout(() => {
@@ -25,64 +26,47 @@ const ProductActions: React.FC<ProductActionsProps> = ({
         handleAddToCart();
       } else if (action === "remove") {
         handleRemoveFromCart();
+        showToast({
+          type: "custom",
+          title: "Item Removed",
+          description: `${productName} removed from cart`,
+          icon: Trash2,
+        });
       }
       setLoading(false);
-    }, 300); // 300 millisecond timeout
+    }, 300);
   };
 
   return (
-    <div className="flex items-center justify-center space-x-2">
-      {/* Add to Cart Button */}
-      {!isInCart && (
-        <button
+    <div className="flex items-center justify-center gap-2">
+      {!isInCart ? (
+        <Button
           onClick={() => simulateAction("add")}
+          disabled={loading}
+          className="min-w-[150px] rounded-lg bg-primary text-primary-foreground transition-all duration-200"
           aria-label={`Add ${productName} to cart`}
-          className="px-4 py-2 h-10 min-w-[150px] rounded transition-all duration-200 dark:border-for-dark dark:bg-gray-700 dark:text-white bg-primary text-white flex items-center justify-center"
         >
-          {loading ? (
-            <Oval
-              height={20}
-              width={20}
-              color="#ffffff"
-              visible={true}
-              ariaLabel="oval-loading"
-              secondaryColor="#ffffff"
-              strokeWidth={6}
-              strokeWidthSecondary={6}
-            />
-          ) : (
-            "Add to Cart"
-          )}
-        </button>
-      )}
-
-      {/* Added to Cart Button with Remove */}
-      {isInCart && (
-        <div className="flex items-center space-x-2">
-          <span className="px-4 py-2 h-10 min-w-[160px] rounded bg-secondary text-primary font-bold transition-all duration-200 dark:text-primaryDark flex items-center justify-center">
-            {loading ? (
-              <Oval
-                height={20}
-                width={20}
-                color="#ffffff"
-                visible={true}
-                ariaLabel="oval-loading"
-                secondaryColor="#000"
-                strokeWidth={7}
-                strokeWidthSecondary={7}
-              />
-            ) : (
-              "Added to Cart"
-            )}
-          </span>
-
-          <button
-            onClick={() => simulateAction("remove")}
-            aria-label={`Remove ${productName} from cart`}
-            className="p-2 h-10 w-10 rounded bg-red-600 text-white transition-all duration-200 flex items-center justify-center dark:bg-red-600"
+          {loading ? <Spinner className="size-4" /> : "Add to Cart"}
+        </Button>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Button
+            variant="secondary"
+            className="min-w-[160px] rounded-lg font-bold opacity-100 cursor-default"
           >
-              <X size={20} />
-          </button>
+            {loading ? <Spinner className="size-4" /> : "Added to Cart"}
+          </Button>
+
+          <Button
+            variant="destructive"
+            size="icon"
+            onClick={() => simulateAction("remove")}
+            disabled={loading}
+            className="rounded-lg h-9 w-9 flex items-center justify-center transition-all duration-200"
+            aria-label={`Remove ${productName} from cart`}
+          >
+            <X size={20} />
+          </Button>
         </div>
       )}
     </div>

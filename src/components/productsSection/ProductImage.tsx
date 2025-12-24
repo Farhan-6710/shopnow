@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Oval } from "react-loader-spinner"; // Import the Oval loader
+import { Spinner } from "@/components/ui/spinner";
 
 interface ProductImageProps {
   imgSource: string;
   alt: string;
-  fetchImageWithTimeout: (url: string) => Promise<any>;
+  fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
 const ProductImage: React.FC<ProductImageProps> = ({
@@ -33,13 +33,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
     // Display loader until image is loaded
     return (
       <div className="relative w-2/3 h-44 xl:h-36 2xl:h-44 mb-4 flex items-center justify-center">
-        <Oval
-          color="#1f2937"
-          secondaryColor="gray"
-          height={70}
-          width={70}
-          strokeWidth={6}
-        />
+        <Spinner className="size-8" />
       </div>
     );
   }
