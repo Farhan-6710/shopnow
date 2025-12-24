@@ -19,11 +19,20 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  // Derive logo source directly from theme - no need for state
-  const logoSrc =
-    theme === "dark" ? "/images/logo-dark.png" : "/images/logo-light.png";
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use resolvedTheme for accurate theme detection (handles 'system' preference)
+  const logoSrc = mounted
+    ? resolvedTheme === "dark"
+      ? "/images/logo-dark.png"
+      : "/images/logo-light.png"
+    : "/images/logo-light.png"; // Fallback during SSR
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
