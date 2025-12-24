@@ -37,7 +37,24 @@ export const showToast = ({
     );
   } else {
     // Fallback to default toast types
-    const toastFn = toast[type] || toast;
-    toastFn(`${title}: ${description}`, { duration });
+    const message = `${title}: ${description}`;
+    const options = { duration };
+
+    switch (type) {
+      case "success":
+        toast.success(message, options);
+        break;
+      case "error":
+        toast.error(message, options);
+        break;
+      case "info":
+        toast.info(message, options);
+        break;
+      case "warning":
+        toast.warning(message, options);
+        break;
+      default:
+        toast(message, options);
+    }
   }
 };
