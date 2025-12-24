@@ -14,7 +14,7 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
@@ -22,12 +22,11 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
     setMounted(true);
   }, []);
 
-  // Use resolvedTheme for accurate theme detection (handles 'system' preference)
-  const logoSrc = mounted
-    ? resolvedTheme === "dark"
+  // Use theme for accurate theme detection
+  const logoSrc =
+    mounted && theme === "dark"
       ? "/images/logo-dark.png"
-      : "/images/logo-light.png"
-    : "/images/logo-light.png"; // Fallback during SSR
+      : "/images/logo-light.png";
 
   const handleClick = () => {
     if (pathname === "/") {
@@ -47,6 +46,7 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
       >
         <div className="flex items-center logo-container">
           <Image
+            key={logoSrc}
             src={logoSrc}
             alt="Logo"
             width={225}

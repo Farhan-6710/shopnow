@@ -15,7 +15,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 
 const Footer: React.FC = () => {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
@@ -23,12 +23,11 @@ const Footer: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // Use resolvedTheme for accurate theme detection (handles 'system' preference)
-  const logoSrc = mounted
-    ? resolvedTheme === "dark"
+  // Use theme for accurate theme detection
+  const logoSrc =
+    mounted && theme === "dark"
       ? "/images/logo-dark.png"
-      : "/images/logo-light.png"
-    : "/images/logo-light.png"; // Fallback during SSR
+      : "/images/logo-light.png";
 
   const router = useRouter();
   const pathname = usePathname();
@@ -55,6 +54,7 @@ const Footer: React.FC = () => {
           aria-label="Brand information"
         >
           <Image
+            key={logoSrc}
             src={logoSrc}
             alt="Logo"
             width={256}

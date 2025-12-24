@@ -19,7 +19,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
@@ -27,12 +27,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     setMounted(true);
   }, []);
 
-  // Use resolvedTheme for accurate theme detection (handles 'system' preference)
-  const logoSrc = mounted
-    ? resolvedTheme === "dark"
+  // Use theme for accurate theme detection
+  const logoSrc =
+    mounted && theme === "dark"
       ? "/images/logo-dark.png"
-      : "/images/logo-light.png"
-    : "/images/logo-light.png"; // Fallback during SSR
+      : "/images/logo-light.png";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,6 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       >
         <div className="flex items-center justify-center bg-background py-10 px-3">
           <Image
+            key={logoSrc}
             src={logoSrc}
             alt="Logo"
             width={220}
