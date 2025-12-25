@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Search } from "lucide-react";
 import { Product } from "@/types/product";
 import { useSearchProduct } from "@/hooks/useSearchProduct";
@@ -16,17 +15,15 @@ interface SearchBarProps {
   products: Product[];
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ products }) => {
+const SearchBar = ({ products }: SearchBarProps) => {
   const {
     searchTerm,
     open,
-    isHomePage,
     filteredProducts,
     handleSearchChange,
     handleFocus,
     handleBlur,
     selectProduct,
-    showAllProducts,
   } = useSearchProduct(products);
 
   return (
@@ -36,7 +33,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ products }) => {
         shouldFilter={false}
       >
         <div className="relative flex items-center w-full">
-          {/* Search Input */}
           <label htmlFor="search-products" className="sr-only">
             Search products
           </label>
@@ -44,7 +40,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ products }) => {
             type="text"
             id="search-products"
             placeholder={open ? "Type to search..." : "Search products"}
-            className="relative z-10 border-0 py-2 px-4 w-full h-10 font-bold text-foreground bg-red-500 placeholder-muted-foreground focus:outline-none focus:ring-0 rounded-l-md border-r border-muted-foreground/20"
+            className="relative z-10 px-3 w-full h-9 text-sm font-semibold text-foreground bg-card placeholder-muted-foreground focus:outline-primary rounded-l-md"
             value={searchTerm}
             onChange={(e) => handleSearchChange(e.target.value)}
             onFocus={handleFocus}
@@ -56,43 +52,28 @@ const SearchBar: React.FC<SearchBarProps> = ({ products }) => {
             aria-autocomplete="list"
           />
 
-          {/* Search Icon */}
           <button
             type="button"
             aria-label="Search"
-            className="w-10 h-10 flex items-center justify-center bg-card border-0 cursor-pointer rounded-r-md"
+            className="w-10 h-8 flex items-center justify-center bg-card cursor-pointer rounded-r-md"
             tabIndex={-1}
           >
             <Search
-              className="text-gray-500 dark:text-gray-300 w-4 h-4"
+              className="text-gray-500 dark:text-gray-300 w-3.5 h-3.5"
               aria-hidden="true"
             />
           </button>
         </div>
 
-        {/* Dropdown Results */}
         {open && (
           <div className="absolute top-full left-0 right-0 mt-0 z-50">
             <CommandList
               id="search-results"
               className="bg-card border border-t-0 border-border max-h-60 overflow-y-auto shadow-lg rounded-b-md"
             >
-              {/* Show All Products option (when not on homepage) */}
-              {!isHomePage && searchTerm === "" && (
-                <CommandGroup>
-                  <CommandItem
-                    onSelect={showAllProducts}
-                    className="cursor-pointer p-3 px-4 hover:bg-accent font-semibold text-primary dark:text-gray-100 border-b dark:border-gray-600 data-[selected=true]:bg-muted"
-                  >
-                    Show All Products
-                  </CommandItem>
-                </CommandGroup>
-              )}
-
-              {/* Search results */}
               {searchTerm && (
                 <>
-                  <CommandEmpty className="p-3 px-4 text-muted-foreground">
+                  <CommandEmpty className="p-2 px-3 text-sm text-muted-foreground">
                     No products found
                   </CommandEmpty>
 
@@ -100,26 +81,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ products }) => {
                     {filteredProducts.map((product) => (
                       <CommandItem
                         key={product.id}
-                        value={product.productName}
-                        onSelect={() => selectProduct(product.productName)}
-                        className="cursor-pointer p-3 px-4 transition-colors hover:bg-accent text-gray-800 dark:text-gray-200 data-[selected=true]:bg-muted"
+                        value={product.name}
+                        onSelect={() => selectProduct(product.name)}
+                        className="cursor-pointer p-2 px-3 text-sm transition-colors hover:bg-accent text-gray-800 dark:text-gray-200 data-[selected=true]:bg-muted"
                       >
-                        {product.productName}
+                        {product.name}
                       </CommandItem>
                     ))}
                   </CommandGroup>
-
-                  {/* Show All Products at bottom when searching on non-homepage */}
-                  {!isHomePage && filteredProducts.length > 0 && (
-                    <CommandGroup>
-                      <CommandItem
-                        onSelect={showAllProducts}
-                        className="cursor-pointer p-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold text-primary dark:text-gray-100 border-t dark:border-gray-600 data-[selected=true]:bg-gray-100 dark:data-[selected=true]:bg-gray-700"
-                      >
-                        Show All Products
-                      </CommandItem>
-                    </CommandGroup>
-                  )}
                 </>
               )}
             </CommandList>

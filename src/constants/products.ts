@@ -3,8 +3,8 @@ import type { Product } from "@/types/product";
 export const PRODUCTS_DATA: Product[] = [
   {
     id: 1,
-    imgSource: "/images/img-1-removebg-preview.png",
-    productName: "Nike Air Monarch IV",
+    imgSource: "/images/products/img-1.png",
+    name: "Nike Air Monarch IV",
     prices: {
       USD: 40.0,
       INR: 3300.0,
@@ -23,8 +23,8 @@ Enjoy the reliable performance and timeless style of the Air Monarch IV.",
   },
   {
     id: 2,
-    imgSource: "/images/img-2-removebg-preview.png",
-    productName: "Nike Air Vapormax Plus",
+    imgSource: "/images/products/img-2.png",
+    name: "Nike Air Vapormax Plus",
     prices: {
       USD: 45.0,
       INR: 3700.0,
@@ -44,8 +44,8 @@ Perfect for those who want to stand out from the crowd.",
 
   {
     id: 3,
-    imgSource: "/images/img-3-removebg-preview.png",
-    productName: "Nike Waffle Sneaker",
+    imgSource: "/images/products/img-3.png",
+    name: "Nike Waffle Sneaker",
     prices: {
       USD: 50.0,
       INR: 4150.0,
@@ -64,8 +64,8 @@ Ideal for casual wear and adding a retro vibe to your outfit.",
   },
   {
     id: 4,
-    imgSource: "/images/img-4-removebg-preview.png",
-    productName: "Nike Running Shoe",
+    imgSource: "/images/products/img-4.png",
+    name: "Nike Running Shoe",
     prices: {
       USD: 55.0,
       INR: 4550.0,
@@ -84,8 +84,8 @@ Dominate your runs with these reliable and high-performance running shoes.",
   },
   {
     id: 5,
-    imgSource: "/images/img-5-removebg-preview.png",
-    productName: "Flat Slip On Pumps",
+    imgSource: "/images/products/img-5.png",
+    name: "Flat Slip On Pumps",
     prices: {
       USD: 18.0,
       INR: 1529.0,
@@ -104,8 +104,8 @@ A perfect addition to your everyday wardrobe for easy and stylish wear.",
   },
   {
     id: 6,
-    imgSource: "/images/img-6-removebg-preview.png",
-    productName: "Knit Ballet Flat",
+    imgSource: "/images/products/img-6.png",
+    name: "Knit Ballet Flat",
     prices: {
       USD: 18.0,
       INR: 1529.0,
@@ -125,8 +125,8 @@ Perfect for pairing with both casual and slightly more dressed-up outfits.",
 
   {
     id: 7,
-    imgSource: "/images/img-7-removebg-preview.png",
-    productName: "Loafer Flats",
+    imgSource: "/images/products/img-7.png",
+    name: "Loafer Flats",
     prices: {
       USD: 18.0,
       INR: 1529.0,
@@ -146,8 +146,8 @@ A versatile addition to your footwear collection for effortless style.",
 
   {
     id: 8,
-    imgSource: "/images/img-8-removebg-preview.png",
-    productName: "Nike Zoom Freak",
+    imgSource: "/images/products/img-8.png",
+    name: "Nike Zoom Freak",
     prices: {
       USD: 40.0,
       INR: 3300.0,
@@ -167,8 +167,8 @@ Perfect for basketball enthusiasts and those who appreciate high-performance foo
 
   {
     id: 9,
-    imgSource: "/images/img-9-removebg-preview.png",
-    productName: "Nike Men's Sneaker",
+    imgSource: "/images/products/img-9.png",
+    name: "Nike Men's Sneaker",
     prices: {
       USD: 45.0,
       INR: 3700.0,
@@ -188,8 +188,8 @@ Experience the quality and style that Nike is known for.",
 
   {
     id: 10,
-    imgSource: "/images/img-10-removebg-preview.png",
-    productName: "PUMA BLACK-OCE",
+    imgSource: "/images/products/img-10.png",
+    name: "PUMA BLACK-OCE",
     prices: {
       USD: 38.0,
       INR: 3150.0,
@@ -208,8 +208,8 @@ Add a touch of sporty flair to your wardrobe with these stylish sneakers.",
   },
   {
     id: 11,
-    imgSource: "/images/img-11-removebg-preview.png",
-    productName: "Pacer Future Sneaker",
+    imgSource: "/images/products/img-11.png",
+    name: "Pacer Future Sneaker",
     prices: {
       USD: 37.0,
       INR: 3050.0,
@@ -228,8 +228,8 @@ Upgrade your sneaker game with these eye-catching Pacer Future sneakers.",
   },
   {
     id: 12,
-    imgSource: "/images/img-12-removebg-preview.png",
-    productName: "Unisex-Adult Super",
+    imgSource: "/images/products/img-12.png",
+    name: "Unisex-Adult Super",
     prices: {
       USD: 40.0,
       INR: 3300.0,
@@ -248,8 +248,8 @@ A wardrobe staple that combines comfort and classic athletic style.",
   },
   {
     id: 13,
-    imgSource: "/images/img-13-removebg-preview.png",
-    productName: "Roma Basic Sneaker",
+    imgSource: "/images/products/img-13.png",
+    name: "Roma Basic Sneaker",
     prices: {
       USD: 43.0,
       INR: 3550.0,
@@ -268,8 +268,8 @@ A comfortable and stylish choice for everyday wear.",
   },
   {
     id: 14,
-    imgSource: "/images/img-14-removebg-preview.png",
-    productName: "Pacer Future Doubleknit",
+    imgSource: "/images/products/img-14.png",
+    name: "Pacer Future Doubleknit",
     prices: {
       USD: 45.0,
       INR: 3700.0,
@@ -289,8 +289,8 @@ Elevate your sneaker collection with these stylish and comfortable sneakers.",
 
   {
     id: 15,
-    imgSource: "/images/img-15-removebg-preview.png",
-    productName: "Fusion Evo Golf Shoe",
+    imgSource: "/images/products/img-15.png",
+    name: "Fusion Evo Golf Shoe",
     prices: {
       USD: 35.0,
       INR: 2900.0,
@@ -309,8 +309,8 @@ A perfect blend of athletic performance and modern design for the avid golfer.",
   },
   {
     id: 16,
-    imgSource: "/images/img-16-removebg-preview.png",
-    productName: "Rainbow Chex Skate",
+    imgSource: "/images/products/img-16.png",
+    name: "Rainbow Chex Skate",
     prices: {
       USD: 18.0,
       INR: 1529.0,
@@ -329,8 +329,8 @@ A staple for skaters and fashion enthusiasts alike.",
   },
   {
     id: 17,
-    imgSource: "/images/img-17-removebg-preview.png",
-    productName: "Low-Top Trainers",
+    imgSource: "/images/products/img-17.png",
+    name: "Low-Top Trainers",
     prices: {
       USD: 36.0,
       INR: 3000.0,
@@ -349,8 +349,8 @@ A must-have for those who appreciate timeless skate shoe design.",
   },
   {
     id: 18,
-    imgSource: "/images/img-18-removebg-preview.png",
-    productName: "Vans Unisex Low-Top",
+    imgSource: "/images/products/img-18.png",
+    name: "Vans Unisex Low-Top",
     prices: {
       USD: 39.0,
       INR: 3200.0,
@@ -369,8 +369,8 @@ A timeless choice for those who love classic skate-inspired footwear.",
   },
   {
     id: 19,
-    imgSource: "/images/img-19-removebg-preview.png",
-    productName: "Classic Bandana",
+    imgSource: "/images/products/img-19.png",
+    name: "Classic Bandana",
     prices: {
       USD: 30.0,
       INR: 2500.0,
@@ -389,8 +389,8 @@ A reliable and stylish choice for those who appreciate iconic footwear.",
   },
   {
     id: 20,
-    imgSource: "/images/img-20-removebg-preview.png",
-    productName: "Chunky High Heel",
+    imgSource: "/images/products/img-20.png",
+    name: "Chunky High Heel",
     prices: {
       USD: 35.0,
       INR: 2900.0,
@@ -409,8 +409,8 @@ A fashionable choice for evenings out or special occasions.",
   },
   {
     id: 21,
-    imgSource: "/images/img-21-removebg-preview.png",
-    productName: "Stiletto High Heel",
+    imgSource: "/images/products/img-21.png",
+    name: "Stiletto High Heel",
     prices: {
       USD: 38.0,
       INR: 3150.0,
@@ -429,8 +429,8 @@ Make a lasting impression with these elegant and stylish heels.",
   },
   {
     id: 22,
-    imgSource: "/images/img-22-removebg-preview.png",
-    productName: "Dream Pairs",
+    imgSource: "/images/products/img-22.png",
+    name: "Dream Pairs",
     prices: {
       USD: 40.0,
       INR: 3300.0,
@@ -449,8 +449,8 @@ Make your fashion dreams a reality with these stunning red heels.",
   },
   {
     id: 23,
-    imgSource: "/images/img-23-removebg-preview.png",
-    productName: "Crystal Heels Canvas",
+    imgSource: "/images/products/img-23.png",
+    name: "Crystal Heels Canvas",
     prices: {
       USD: 45.0,
       INR: 3700.0,
@@ -470,8 +470,8 @@ Shine bright with these beautiful and unique crystal heels.",
 
   {
     id: 24,
-    imgSource: "/images/img-24-removebg-preview.png",
-    productName: "Low Mid Block Heels",
+    imgSource: "/images/products/img-24.png",
+    name: "Low Mid Block Heels",
     prices: {
       USD: 46.0,
       INR: 3800.0,
@@ -490,8 +490,8 @@ A stylish and practical choice for the modern woman.",
   },
   {
     id: 25,
-    imgSource: "/images/img-25-removebg-preview.png",
-    productName: "Chunky High Heel",
+    imgSource: "/images/products/img-25.png",
+    name: "Chunky High Heel",
     prices: {
       USD: 33.0,
       INR: 2700.0,
@@ -510,8 +510,8 @@ A stylish choice for those who love to stand out from the crowd.",
   },
   {
     id: 26,
-    imgSource: "/images/img-26-removebg-preview.png",
-    productName: "Amore Fashion Stilettos",
+    imgSource: "/images/products/img-26.png",
+    name: "Amore Fashion Stilettos",
     prices: {
       USD: 42.0,
       INR: 3500.0,
@@ -530,8 +530,8 @@ Make a memorable entrance with these beautiful and stylish stilettos.",
   },
   {
     id: 27,
-    imgSource: "/images/img-27-removebg-preview.png",
-    productName: "Bridal Canvas Glitter",
+    imgSource: "/images/products/img-27.png",
+    name: "Bridal Canvas Glitter",
     prices: {
       USD: 30.0,
       INR: 2500.0,
@@ -550,8 +550,8 @@ Walk down the aisle in style with these beautiful bridal heels.",
   },
   {
     id: 28,
-    imgSource: "/images/img-28-removebg-preview.png",
-    productName: "Wedding Prom Bridal",
+    imgSource: "/images/products/img-28.png",
+    name: "Wedding Prom Bridal",
     prices: {
       USD: 35.0,
       INR: 2900.0,

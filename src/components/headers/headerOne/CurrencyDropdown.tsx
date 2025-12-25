@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import {
   BadgeDollarSign,
   ChevronDown,
@@ -17,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const CurrencyDropdown: React.FC = () => {
+const CurrencyDropdown = () => {
   const dispatch = useDispatch();
   const currency = useSelector((state: RootState) => state.cart.currency);
 
@@ -25,17 +24,17 @@ const CurrencyDropdown: React.FC = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="flex items-center gap-1 bg-card text-card-foreground border shadow-xs hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none rounded-md p-2"
+          className="flex items-center gap-0.5 bg-card text-card-foreground border shadow-xs hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none rounded-md p-1.5 px-2"
           aria-label="Currency selector"
         >
           <BadgeDollarSign
             className="text-primary"
-            size={18}
+            size={14}
             strokeWidth={1.5}
             aria-hidden="true"
           />
-          <span className="text-sm">{currency}</span>
-          <ChevronDown size={14} className="opacity-50" aria-hidden="true" />
+          <span className="text-xs">{currency}</span>
+          <ChevronDown size={11} className="opacity-50" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[100px]">

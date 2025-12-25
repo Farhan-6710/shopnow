@@ -21,20 +21,18 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<Product & { quantity?: number }>) {
+    addToCart(state, action: PayloadAction<Product>) {
       const product = action.payload;
       const existingProduct = state.cartItems.find(
         (item) => item.id === product.id
       );
 
       if (existingProduct) {
-        // Increment by specified quantity or 1 if not provided
-        existingProduct.quantity += product.quantity ?? 1;
+        existingProduct.quantity += 1;
       } else {
-        // Add new item with quantity defaulting to 1 and currency from state
         state.cartItems.push({
           ...product,
-          quantity: product.quantity ?? 1,
+          quantity: 1,
           currency: state.currency,
         });
       }
@@ -43,6 +41,17 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== action.payload
       );
+    },
+    updateQuantity(
+      state,
+      action: PayloadAction<{ id: number; quantity: number }>
+    ) {
+      const item = state.cartItems.find(
+        (item) => item.id === action.payload.id
+      );
+      if (item && action.payload.quantity > 0) {
+        item.quantity = action.payload.quantity;
+      }
     },
     setCurrency(state, action: PayloadAction<Currency>) {
       state.currency = action.payload;
@@ -54,8 +63,13 @@ const cartSlice = createSlice({
 });
 
 // Export actions
-export const { addToCart, removeFromCart, setCurrency, replace } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  setCurrency,
+  replace,
+} = cartSlice.actions;
 
 // Selectors
 export const selectCartItems = (state: { cart: CartState }) =>

@@ -20,7 +20,7 @@ const Marquee: React.FC = () => {
           isMarqueeVisible ? "opacity-100" : "opacity-0"
         } transition-opacity duration-1000`}
       >
-        <p className="text-xl px-4 py-2 font-semibold text-foreground">
+        <p className="text-base px-3 py-1.5 font-semibold text-foreground">
           Grab the instant 10% off on coupon code &apos;SHOPNOW10&apos;
         </p>
       </div>

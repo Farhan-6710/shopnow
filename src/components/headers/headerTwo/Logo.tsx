@@ -25,35 +25,35 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
 
   return (
     <div className="flex items-center justify-between md:w-3/12">
-      <div
+      <button
         onClick={handleClick}
-        className="flex title-font font-medium items-center text-primary dark:text-gray-100 my-2 md:my-1 cursor-pointer"
+        className="flex items-center relative my-1.5 md:my-0.5 cursor-pointer"
+        aria-label="Go to homepage"
       >
-        <div className="flex items-center logo-container relative">
-          <Image
-            src="/images/logo-light.png"
-            alt="Logo"
-            width={225}
-            height={45}
-            priority
-            className="logo-image block dark:hidden"
-          />
-          <Image
-            src="/images/logo-dark.png"
-            alt="Logo"
-            width={225}
-            height={45}
-            priority
-            className="logo-image hidden dark:block"
-          />
-        </div>
-      </div>
-      <div
-        className="md:hidden flex items-center ring-2 ring-border rounded-md ml-8 p-2 cursor-pointer"
+        <Image
+          src="/images/logo-light.png"
+          alt="Logo"
+          width={200}
+          height={30}
+          priority
+          className="block dark:hidden"
+        />
+        <Image
+          src="/images/logo-dark.png"
+          alt="Logo"
+          width={200}
+          height={30}
+          priority
+          className="hidden dark:block"
+        />
+      </button>
+      <button
+        className="md:hidden flex items-center ring-2 ring-border rounded-md ml-6 p-1.5 cursor-pointer"
         onClick={onMenuClick}
+        aria-label="Open menu"
       >
-        <Menu className="text-muted-foreground text-lg" />
-      </div>
+        <Menu className="text-muted-foreground" size={18} />
+      </button>
     </div>
   );
 };

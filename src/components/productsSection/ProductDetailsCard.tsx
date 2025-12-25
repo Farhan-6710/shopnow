@@ -12,22 +12,29 @@ import { addToCart, removeFromCart } from "@/redux/cart/cartSlice";
 import { showToast } from "@/config/ToastConfig";
 import { RootState } from "@/redux/store";
 import { Product } from "@/types/product";
+import { useCartManagement } from "@/hooks/useCartManagement";
 
 interface ProductDetailsCardProps {
-  product: Product;
+  item: Product;
   isHighlighted?: boolean;
-  currency: "USD" | "INR";
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
 const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
-  product,
-  currency,
+  item,
   fetchImageWithTimeout,
 }) => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  const isInCart = cartItems.some((item) => item.id === product.id);
+  const {
+    isInCart,
+    quantity,
+    currency,
+    loading,
+    handleAddToCart,
+    handleRemoveFromCart,
+    handleIncrementQuantity,
+    handleDecrementQuantity,
+  } = useCartManagement(item);
+
   const [isInCartState, setIsInCartState] = useState(isInCart);
 
   // Synchronize component state with props
@@ -35,29 +42,9 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
     setIsInCartState(isInCart);
   }, [isInCart]);
 
-  const handleAddToCart = () => {
-    dispatch(addToCart(product));
-    showToast({
-      type: "custom",
-      title: "Added to Cart",
-      description: `${product.productName} has been added to your cart`,
-      icon: ShoppingCart,
-    });
-  };
-
-  const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(product.id));
-    showToast({
-      type: "custom",
-      title: "Item Removed",
-      description: `${product.productName} removed from cart`,
-      icon: Trash2,
-    });
-  };
-
   // Display price based on selected currency
   const displayPrice = (currency: "USD" | "INR") => {
-    const price = product.prices[currency];
+    const price = item.prices[currency];
     if (typeof price !== "number" || isNaN(price)) {
       return "0.00"; // Fallback value in case of invalid price
     }
@@ -71,33 +58,37 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
           {/* Product Image on the Left */}
           <div className="w-full md:w-1/3 md:mb-4 flex justify-center">
             <ProductImage
-              imgSource={product.imgSource}
-              alt={product.productName}
+              imgSource={item.imgSource}
+              alt={item.name}
               fetchImageWithTimeout={fetchImageWithTimeout}
             />
           </div>
 
-          {/* Product Info and Actions on the Right */}
+          {/* Item Info and Actions on the Right */}
           <div className="w-full md:w-2/3 flex flex-col justify-between items-start p-4 pt-0 md:pt-4 md:pr-10">
             <h2 className="text-lg 2xl:text-lg font-bold dark:text-white text-primaryDarkTwo">
-              {product.productName}
+              {item.name}
             </h2>
             <p className="text-sm text-start text-gray-600 dark:text-gray-300 mt-4">
-              {product.description}
+              {item.description}
             </p>
             <div className="flex flex-col justify-center items-start mt-4">
               <p className="text-3xl font-bold dark:text-gray-300 text-gray-700 mb-2">
                 {currency === "INR" ? "₹" : "$"}
                 {displayPrice(currency)}
               </p>
-              <Rating rating={product.rating ?? 0} totalStars={5} />
+              <Rating rating={item.rating ?? 0} totalStars={5} />
             </div>
             <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2 w-full">
               <ProductActions
-                handleAddToCart={handleAddToCart}
-                handleRemoveFromCart={handleRemoveFromCart}
-                productName={product.productName}
-                isInCart={isInCartState}
+                itemName={item.name}
+                quantity={quantity}
+                isInCart={isInCart}
+                loading={loading}
+                onAddToCart={handleAddToCart}
+                onRemove={handleRemoveFromCart}
+                onIncrement={handleIncrementQuantity}
+                onDecrement={handleDecrementQuantity}
               />
               <Link href="/" className="ml-auto">
                 <Button variant="outline">Back To Home</Button>

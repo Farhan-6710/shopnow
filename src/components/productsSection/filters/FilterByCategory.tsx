@@ -18,13 +18,13 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
 }) => {
   return (
     <div className="filter-div mb-4">
-      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+      <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">
         Filter by Category
       </h3>
 
       {/* "All" Checkbox */}
       <div className="mb-2">
-        <label className="flex items-center gap-2.5 cursor-pointer">
+        <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={selectedCategories.length === 0}
@@ -33,11 +33,11 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
             }}
             className={CHECKBOX_CLASSES}
           />
-          <span className="text-sm text-gray-700 dark:text-gray-300">All</span>
+          <span className="text-xs text-gray-700 dark:text-gray-300">All</span>
         </label>
       </div>
 
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-2">
         {categoryOptions.map((category) => (
           <label
             key={category}
@@ -49,7 +49,7 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
               onChange={() => onToggleCategory(category)}
               className={CHECKBOX_CLASSES}
             />
-            <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
+            <span className="text-xs text-gray-700 dark:text-gray-300 capitalize">
               {category}
             </span>
           </label>

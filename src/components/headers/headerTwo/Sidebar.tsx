@@ -146,13 +146,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </a>
         </div>
       </div>
-      <div
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-40 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => onClose()}
-        aria-hidden="true"
-      ></div>
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-40"
+          onClick={() => onClose()}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+              onClose();
+            }
+          }}
+          aria-label="Close sidebar"
+        ></div>
+      )}
     </div>
   );
 };

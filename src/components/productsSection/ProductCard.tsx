@@ -1,4 +1,4 @@
-"use client"; // Ensures this component is rendered on the client side
+"use client";
 
 import ProductImage from "./ProductImage";
 import ProductDetails from "./ProductDetails";
@@ -6,57 +6,31 @@ import ProductActions from "./ProductActions";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { Product } from "@/types/product";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { addToCart, removeFromCart } from "@/redux/cart/cartSlice";
-import { showToast } from "@/config/ToastConfig";
-import { ShoppingCart, Trash2 } from "lucide-react";
+import { useCartManagement } from "@/hooks/useCartManagement";
 
 interface ProductCardProps {
-  product: Product;
+  item: Product;
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  fetchImageWithTimeout,
-}) => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  const currency = useSelector((state: RootState) => state.cart.currency);
-  const isInCart = cartItems.some((item) => item.id === product.id); // Check if the product is in the cart
+const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
+  const {
+    isInCart,
+    quantity,
+    currency,
+    loading,
+    handleAddToCart,
+    handleRemoveFromCart,
+    handleIncrementQuantity,
+    handleDecrementQuantity,
+  } = useCartManagement(item);
 
-  const handleAddToCart = () => {
-    if (!isInCart) {
-      dispatch(addToCart(product));
-      showToast({
-        type: "custom",
-        title: "Added to Cart",
-        description: `${product.productName} has been added to your cart`,
-        icon: ShoppingCart,
-      });
-    }
-  };
-
-  const handleRemoveFromCart = () => {
-    if (isInCart) {
-      dispatch(removeFromCart(product.id));
-      showToast({
-        type: "custom",
-        title: "Item Removed",
-        description: `${product.productName} removed from cart`,
-        icon: Trash2,
-      });
-    }
-  };
-
-  // Display price based on selected currency
   const displayPrice = (currency: "USD" | "INR") => {
-    const price = product.prices[currency];
+    const price = item.prices[currency];
     if (typeof price !== "number" || isNaN(price)) {
-      return "0.00"; // Fallback value in case of invalid price
+      return "0.00";
     }
-    return price.toFixed(2); // Return price formatted to two decimal places
+    return price.toFixed(2);
   };
 
   const { theme } = useTheme();
@@ -64,37 +38,50 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <article
       className="px-4 md:px-2 p-2 w-full flex flex-col h-full"
-      aria-label={`${product.productName} product card`}
+      aria-label={`${item.name} item card`}
     >
-      <div className="transition-all duration-200 border-border">
+      <div className="transition-all duration-200">
         <div
-          className={`product-card border bg-card text-center h-full pt-4 pb-8 overflow-hidden transition-all duration-300 rounded-lg ${
+          className={`product-card relative border bg-card text-center h-full pt-0 pb-8 transition-all duration-300 rounded-lg ${
             theme === "dark" ? "shadow-for-dark" : "shadow-for-light"
           }`}
         >
+          {/* tags  */}
+          {isInCart ? 
+            <div className="absolute -right-2 -top-2 bg-emerald-900 text-green-100 text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
+              <p>Added To Cart</p>
+            </div> : <div className="absolute -right-2 -top-2 bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
+            <p>{item.brand}</p>
+          </div> 
+          }
+          
           <Link
-            href={`/products/${encodeURIComponent(product.productName)}`}
-            className="flex flex-col justify-center items-center "
-            aria-label={`View details for ${product.productName}`}
+            href={`/products/${encodeURIComponent(item.name)}`}
+            className="flex flex-col justify-center items-center"
+            aria-label={`View details for ${item.name}`}
           >
             <ProductImage
-              imgSource={product.imgSource}
-              alt={product.productName}
+              imgSource={item.imgSource}
+              alt={item.name}
               fetchImageWithTimeout={fetchImageWithTimeout}
             />
             <ProductDetails
-              productName={product.productName}
+              name={item.name}
               currency={currency}
               displayPrice={displayPrice}
-              rating={product.rating ?? 0} // Fallback to 0 if rating is undefined
+              rating={item.rating ?? 0}
             />
           </Link>
           <div className="mt-4">
             <ProductActions
-              productName={product.productName}
-              handleAddToCart={handleAddToCart}
-              handleRemoveFromCart={handleRemoveFromCart}
+              itemName={item.name}
+              quantity={quantity}
               isInCart={isInCart}
+              loading={loading}
+              onAddToCart={handleAddToCart}
+              onRemove={handleRemoveFromCart}
+              onIncrement={handleIncrementQuantity}
+              onDecrement={handleDecrementQuantity}
             />
           </div>
         </div>

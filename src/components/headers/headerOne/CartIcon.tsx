@@ -11,13 +11,13 @@ const CartIcon: React.FC<CartIconProps> = ({ cartCount }) => (
     <div className="block md:hidden relative mt-1">
       <ShoppingCart
         className="text-primary dark:text-gray-200 transition-all duration-200"
-        size={24}
+        size={20}
         strokeWidth={2.5}
         aria-hidden="true"
       />
       {cartCount > 0 && (
         <span
-          className="absolute top-0 -right-6 flex items-center justify-center w-6 h-6 bg-red-600 text-white text-xs font-medium rounded-full border-2 border-white -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-0 -right-5 flex items-center justify-center w-5 h-5 bg-red-600 text-white text-[10px] font-medium rounded-full border-2 border-white -translate-x-1/2 -translate-y-1/2"
           aria-label="Cart item count"
         >
           {cartCount}

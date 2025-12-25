@@ -1,33 +1,30 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import ProductPageClient from "./ProductPageClient";
 import { PRODUCTS_DATA } from "@/constants/products"; // Import the products data
 import { notFound } from "next/navigation";
-import { selectCurrency } from "@/redux/cart/cartSlice"; // Import the Redux selector
 import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
 
 interface ProductPageProps {
-  params: Promise<{ productName: string }>;
+  params: Promise<{ itemName: string }>;
 }
 
 const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
-  const [productName, setProductName] = useState<string | null>(null);
-  const currency = useSelector(selectCurrency); // Fetch currency from Redux store
+  const [itemName, setItemName] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchParams = async () => {
-      // Unwrap the params Promise to get the productName
+      // Unwrap the params Promise to get the itemName
       const unwrappedParams = await params;
-      setProductName(unwrappedParams.productName);
+      setItemName(unwrappedParams.itemName);
     };
 
     fetchParams();
   }, [params]);
 
-  // Skeleton loading state (if productName is not yet set)
-  if (!productName) {
+  // Skeleton loading state (if itemName is not yet set)
+  if (!itemName) {
     return (
       <main
         className="dark:bg-primaryDarkTwo"
@@ -43,14 +40,14 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   }
 
   // Decode the product name from the URL
-  const decodedProductName = decodeURIComponent(productName);
+  const decodedItemName = decodeURIComponent(itemName);
 
   // Find the product based on the decoded name
-  const product = PRODUCTS_DATA.find(
-    (p) => p.productName.toLowerCase() === decodedProductName.toLowerCase()
+  const item = PRODUCTS_DATA.find(
+    (p) => p.name.toLowerCase() === decodedItemName.toLowerCase()
   );
 
-  if (!product) {
+  if (!item) {
     return notFound();
   }
 
@@ -61,10 +58,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
           className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4"
           aria-labelledby="product-name"
         >
-          <ProductPageClient
-            product={product}
-            currency={currency} // Pass currency prop from Redux store
-          />
+          <ProductPageClient item={item} />
         </section>
       </div>
     </main>

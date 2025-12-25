@@ -14,7 +14,7 @@ const FilterByColor: React.FC<FilterByColorProps> = ({
 }) => {
   return (
     <div className="filter-div mb-4">
-      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+      <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">
         Filter by Color
       </h3>
       <div className="flex flex-wrap gap-3">

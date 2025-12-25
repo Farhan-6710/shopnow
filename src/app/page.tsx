@@ -66,15 +66,15 @@ const Index = () => {
   return (
     <main className="bg-background transition-colors duration-200">
       <div className="max-w-screen-3xl mx-auto pt-0">
-        <div className="grid md:grid-cols-[theme(spacing.72)_1fr] gap-4">
+        <div className="grid md:grid-cols-[--spacing(60)_1fr] gap-3">
           <FilterProducts {...filterProps} />
 
           <section
-            className="product-card-wrapper grid md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4 h-fit py-0 md:py-4"
+            className="product-card-wrapper grid md:grid-cols-2 md:pr-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit py-0 md:py-3"
             aria-label="Product catalog"
           >
             {isLoading ? (
-              Array.from({ length: 8 }).map((_, index) => (
+              Array.from({ length: 10 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))
             ) : filteredProducts.length === 0 ? (
@@ -82,10 +82,10 @@ const Index = () => {
                 No products found
               </p>
             ) : (
-              filteredProducts.map((product) => (
+              filteredProducts.map((item) => (
                 <ProductCard
-                  key={product.id}
-                  product={product}
+                  key={item.id}
+                  item={item}
                   fetchImageWithTimeout={fetchImageWithTimeout}
                 />
               ))

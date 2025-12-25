@@ -32,7 +32,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
   if (loading) {
     // Display loader until image is loaded
     return (
-      <div className="relative w-2/3 h-44 xl:h-36 2xl:h-44 mb-4 flex items-center justify-center">
+      <div className="relative w-2/3 aspect-16/14 mb-0 flex items-center justify-center">
         <Spinner className="size-8" />
       </div>
     );
@@ -43,13 +43,13 @@ const ProductImage: React.FC<ProductImageProps> = ({
   }
 
   return (
-    <div className="relative w-2/3 h-44 xl:h-36 2xl:h-44 mb-4">
+    <div className="relative w-2/3 aspect-16/14 mb-0">
       <Image
         src={image}
         alt={alt}
         fill
         style={{ objectFit: "contain" }}
-        className="rounded-t-lg w-10"
+        className="rounded-t-lg w-full"
         priority
       />
     </div>

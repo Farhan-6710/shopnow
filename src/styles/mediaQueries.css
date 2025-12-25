@@ -4,7 +4,7 @@
    BASE / MOBILE (default, no media query needed)
    =================================== */
 .header-placeholder {
-  height: 148px; /* Mobile header height */
+  height: 118px; /* Mobile header height */
 }
 
 .logo-image {
@@ -22,7 +22,7 @@
    =================================== */
 @media (min-width: 768px) {
   .header-placeholder {
-    height: 120px; /* Tablet/Laptop header height */
+    height: 100px; /* Tablet/Laptop header height */
   }
 
   .fixed-container {
@@ -31,7 +31,7 @@
 
   .sticky-filter-sidebar {
     position: sticky;
-    top: 120px; /* Match header height */
+    top: 100px; /* Match header height */
     z-index: 0;
   }
 }
@@ -41,11 +41,11 @@
    =================================== */
 @media (min-width: 1024px) {
   .header-placeholder {
-    height: 133px; /* Desktop header height */
+    height: 107px; /* Desktop header height */
   }
 
   .sticky-filter-sidebar {
-    top: 133px; /* Match desktop header height */
+    top: 109px; /* Match desktop header height */
   }
 }
 

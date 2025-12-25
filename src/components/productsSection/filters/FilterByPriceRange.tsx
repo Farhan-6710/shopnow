@@ -14,7 +14,7 @@ const FilterByPriceRange: React.FC<FilterByPriceRangeProps> = ({
 }) => {
   return (
     <div className="filter-div mb-4">
-      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+      <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">
         Filter by Price Range
       </h3>
       <div className="space-y-2">
@@ -29,7 +29,7 @@ const FilterByPriceRange: React.FC<FilterByPriceRangeProps> = ({
               onChange={() => onTogglePriceRange(range)}
               className={CHECKBOX_CLASSES}
             />
-            <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
+            <span className="text-xs text-gray-700 dark:text-gray-300 capitalize">
               {range}
             </span>
           </label>

@@ -2,21 +2,21 @@ import React from "react";
 import Rating from "./Rating";
 
 interface ProductDetailsProps {
-  productName: string;
+  name: string;
   currency: "USD" | "INR";
   displayPrice: (currency: "USD" | "INR") => string;
   rating: number;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
-  productName,
+  name,
   currency,
   displayPrice,
   rating,
 }) => (
-  <div className="flex flex-col justify-center items-center flex-grow">
-    <h2 className="text-md 2xl:text-lg font-bold dark:text-white text-primaryDarkTwo">
-      {productName}
+  <div className="flex flex-col gap-1 justify-center items-center">
+    <h2 className="text-sm font-bold dark:text-white text-primaryDarkTwo">
+      {name}
     </h2>
     <p className="dark:text-gray-300 text-gray-700">
       {currency === "INR" ? "₹" : "$"}

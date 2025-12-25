@@ -1,73 +1,60 @@
-import React, { useState } from "react";
-import { X, Trash2 } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import { showToast } from "@/config/ToastConfig";
+import { Trash2 } from "lucide-react";
+import QuantityCounter from "@/components/atoms/QuantityCounter";
 
 interface ProductActionsProps {
-  productName: string;
-  handleAddToCart: () => void;
-  handleRemoveFromCart: () => void;
+  itemName: string;
+  quantity: number;
   isInCart: boolean;
+  loading: boolean;
+  onAddToCart: () => void;
+  onRemove: () => void;
+  onIncrement: () => void;
+  onDecrement: () => void;
 }
 
-const ProductActions: React.FC<ProductActionsProps> = ({
-  handleAddToCart,
-  handleRemoveFromCart,
-  productName,
+const ProductActions = ({
+  itemName,
+  quantity,
   isInCart,
-}) => {
-  const [loading, setLoading] = useState(false);
-
-  const simulateAction = (action: "add" | "remove") => {
-    setLoading(true);
-    setTimeout(() => {
-      if (action === "add") {
-        handleAddToCart();
-      } else if (action === "remove") {
-        handleRemoveFromCart();
-        showToast({
-          type: "custom",
-          title: "Item Removed",
-          description: `${productName} removed from cart`,
-          icon: Trash2,
-        });
-      }
-      setLoading(false);
-    }, 300);
-  };
-
+  loading,
+  onAddToCart,
+  onRemove,
+  onIncrement,
+  onDecrement,
+}: ProductActionsProps) => {
   return (
     <div className="flex items-center justify-center gap-2">
       {!isInCart ? (
         <Button
-          onClick={() => simulateAction("add")}
+          onClick={onAddToCart}
           disabled={loading}
-          className="min-w-[150px] rounded-lg bg-primary text-primary-foreground transition-all duration-200"
-          aria-label={`Add ${productName} to cart`}
+          className="min-w-30 rounded-lg text-[14px] bg-primary text-primary-foreground transition-all duration-200"
+          aria-label={`Add ${itemName} to cart`}
         >
           {loading ? <Spinner className="size-4" /> : "Add to Cart"}
         </Button>
       ) : (
-        <div className="flex items-center gap-2">
+        <>
+          <QuantityCounter
+            quantity={quantity}
+            itemName={itemName}
+            onIncrement={onIncrement}
+            onDecrement={onDecrement}
+          />
           <Button
-            variant="secondary"
-            className="min-w-[160px] rounded-lg font-bold opacity-100 cursor-default"
-          >
-            {loading ? <Spinner className="size-4" /> : "Added to Cart"}
-          </Button>
-
-          <Button
+            type="button"
             variant="destructive"
-            size="icon"
-            onClick={() => simulateAction("remove")}
+            size="icon-sm"
+            onClick={onRemove}
             disabled={loading}
-            className="rounded-lg h-9 w-9 flex items-center justify-center transition-all duration-200"
-            aria-label={`Remove ${productName} from cart`}
+            className="rounded-lg"
+            aria-label={`Remove ${itemName} from cart`}
           >
-            <X size={20} />
+            {loading ? <Spinner className="size-4" /> : <Trash2 size={16} />}
           </Button>
-        </div>
+        </>
       )}
     </div>
   );

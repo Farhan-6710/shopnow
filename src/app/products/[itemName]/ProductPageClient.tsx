@@ -5,13 +5,11 @@ import ProductDetailsCard from "@/components/productsSection/ProductDetailsCard"
 import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
 
 interface ProductPageClientProps {
-  product: Product;
-  currency: "USD" | "INR";
+  item: Product;
 }
 
 const ProductPageClient: React.FC<ProductPageClientProps> = ({
-  product,
-  currency,
+  item,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +20,7 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
 
     return () => clearTimeout(timer);
   }, []);
+  console.log("isLoading:", isLoading);
 
   return (
     <>
@@ -29,9 +28,8 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
         <ProductDetailsCardSkeleton />
       ) : (
         <ProductDetailsCard
-          key={product.id}
-          product={product}
-          currency={currency}
+          key={item.id}
+          item={item}
           fetchImageWithTimeout={fetchImageWithTimeout}
         />
       )}

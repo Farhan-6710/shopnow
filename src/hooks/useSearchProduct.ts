@@ -15,8 +15,8 @@ export const useSearchProduct = (products: Product[]) => {
 
   // Filter products based on search term
   const filteredProducts = searchTerm
-    ? products.filter((product) =>
-        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    ? products.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
@@ -27,15 +27,8 @@ export const useSearchProduct = (products: Product[]) => {
   };
 
   // Navigate to product page
-  const selectProduct = (productName: string) => {
-    router.push(`/products/${encodeURIComponent(productName)}`);
-    setSearchTerm("");
-    setOpen(false);
-  };
-
-  // Navigate to home page
-  const showAllProducts = () => {
-    router.push("/");
+  const selectProduct = (name: string) => {
+    router.push(`/products/${encodeURIComponent(name)}`);
     setSearchTerm("");
     setOpen(false);
   };
@@ -59,7 +52,6 @@ export const useSearchProduct = (products: Product[]) => {
     handleFocus,
     handleBlur,
     selectProduct,
-    showAllProducts,
     setOpen,
   };
 };

@@ -17,7 +17,7 @@ const HeaderOne: React.FC = () => {
   return (
     <header className="bg-card transition-colors duration-200" role="banner">
       <div
-        className="container mx-auto flex justify-center md:justify-center lg:justify-between items-center p-4 md:p-2 pr-0 pl-1 space-x-0 md:space-x-8"
+        className="container mx-auto flex justify-center md:justify-center lg:justify-between items-center p-2 lg:px-16 md:p-1 pr-0 pl-1 space-x-0 md:space-x-6"
         aria-label="Main navigation"
       >
         <AddressSection />
