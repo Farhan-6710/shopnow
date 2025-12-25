@@ -13,11 +13,6 @@ const convergence = Convergence({
   style: "normal",
   subsets: ["latin"],
 });
-const libre = Libre_Baskerville({
-  weight: "400",
-  style: "normal",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
