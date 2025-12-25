@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             className="block dark:hidden"
           />
           <Image
-            src="/images/logo-dark-v2.png"
+            src="/images/logo-dark.png"
             alt="Logo"
             width={220}
             height={100}
