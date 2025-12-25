@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   FaFacebookF,
   FaInstagram,
@@ -12,23 +12,8 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 
 const Footer: React.FC = () => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Use theme for accurate theme detection
-  const logoSrc =
-    mounted && theme === "dark"
-      ? "/images/logo-dark.png"
-      : "/images/logo-light.png";
-
   const router = useRouter();
   const pathname = usePathname();
 
@@ -53,16 +38,24 @@ const Footer: React.FC = () => {
           className="w-full lg:w-4/12 flex flex-col justify-between md:justify-normal px-4 cursor-pointer"
           aria-label="Brand information"
         >
-          <Image
-            key={logoSrc}
-            src={logoSrc}
-            alt="Logo"
-            width={256}
-            height={64}
-            className="logo-image"
-            onClick={handleClick}
-            priority
-          />
+          <div onClick={handleClick} className="relative">
+            <Image
+              src="/images/logo-light.png"
+              alt="Logo"
+              width={256}
+              height={64}
+              className="logo-image block dark:hidden"
+              priority
+            />
+            <Image
+              src="/images/logo-dark.png"
+              alt="Logo"
+              width={256}
+              height={64}
+              className="logo-image hidden dark:block"
+              priority
+            />
+          </div>
           <p className="text-sm mt-6 mb-4">
             At SHOPNOW, we offer an extensive selection of branded clothing,
             bags, shoes, accessories, purses, and sandals. Whether you&apos;re

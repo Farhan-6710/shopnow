@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
-import { useTheme } from "next-themes"; // Import useTheme hook
 
 interface LogoProps {
   onMenuClick: () => void;
@@ -13,20 +12,6 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Use theme for accurate theme detection
-  const logoSrc =
-    mounted && theme === "dark"
-      ? "/images/logo-dark.png"
-      : "/images/logo-light.png";
 
   const handleClick = () => {
     if (pathname === "/") {
@@ -44,15 +29,22 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
         onClick={handleClick}
         className="flex title-font font-medium items-center text-primary dark:text-gray-100 my-2 md:my-1 cursor-pointer"
       >
-        <div className="flex items-center logo-container">
+        <div className="flex items-center logo-container relative">
           <Image
-            key={logoSrc}
-            src={logoSrc}
+            src="/images/logo-light.png"
             alt="Logo"
             width={225}
             height={45}
             priority
-            className="logo-image"
+            className="logo-image block dark:hidden"
+          />
+          <Image
+            src="/images/logo-dark.png"
+            alt="Logo"
+            width={225}
+            height={45}
+            priority
+            className="logo-image hidden dark:block"
           />
         </div>
       </div>

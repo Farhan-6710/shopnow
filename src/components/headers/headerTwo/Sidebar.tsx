@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import {
   Facebook,
@@ -11,7 +11,6 @@ import {
   Linkedin,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
-import { useTheme } from "next-themes";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -19,20 +18,6 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Use theme for accurate theme detection
-  const logoSrc =
-    mounted && theme === "dark"
-      ? "/images/logo-dark.png"
-      : "/images/logo-light.png";
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -74,13 +59,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       >
         <div className="flex items-center justify-center bg-background py-10 px-3">
           <Image
-            key={logoSrc}
-            src={logoSrc}
+            src="/images/logo-light.png"
             alt="Logo"
             width={220}
             height={100}
-            style={{ width: "auto", height: "auto" }} // Ensure aspect ratio is maintained
+            style={{ width: "auto", height: "auto" }}
             priority
+            className="block dark:hidden"
+          />
+          <Image
+            src="/images/logo-dark.png"
+            alt="Logo"
+            width={220}
+            height={100}
+            style={{ width: "auto", height: "auto" }}
+            priority
+            className="hidden dark:block"
           />
         </div>
         <hr className="border mb-2" />
