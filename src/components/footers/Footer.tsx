@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               priority
             />
             <Image
-              src="/images/logo-dark.png"
+              src="/images/logo-dark-v2.png"
               alt="Logo"
               width={256}
               height={64}

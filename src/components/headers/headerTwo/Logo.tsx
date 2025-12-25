@@ -39,7 +39,7 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
             className="logo-image block dark:hidden"
           />
           <Image
-            src="/images/logo-dark.png"
+            src="/images/logo-dark-v2.png"
             alt="Logo"
             width={225}
             height={45}
