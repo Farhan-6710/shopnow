@@ -6,7 +6,7 @@ import Footer from "@/components/footers/Footer";
 import FooterTwo from "@/components/footers/FooterTwo";
 import ScrollToTop from "@/components/extras/ScrollToTop";
 import ModeToggle from "@/components/extras/ModeToggle";
-import AppProviders from "../redux/AppProviders";
+import AppProviders from "../providers/AppProviders";
 import { Toaster } from "@/components/ui/sonner";
 
 export default function LayoutClient({

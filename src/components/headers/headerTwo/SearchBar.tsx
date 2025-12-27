@@ -27,7 +27,7 @@ const SearchBar = ({ products }: SearchBarProps) => {
   } = useSearchProduct(products);
 
   return (
-    <div className="relative hidden md:flex justify-center md:w-6/12 mb-4 md:mb-0">
+    <div className="relative hidden md:flex justify-center md:w-6/12 mb-4 md:mb-0 pl-8">
       <Command
         className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible"
         shouldFilter={false}
@@ -55,7 +55,7 @@ const SearchBar = ({ products }: SearchBarProps) => {
           <button
             type="button"
             aria-label="Search"
-            className="w-10 h-8 flex items-center justify-center bg-card cursor-pointer rounded-r-md"
+            className="w-10 h-8 flex items-center justify-center bg-card cursor-pointer rounded-r-md border-l border-muted-foreground/20"
             tabIndex={-1}
           >
             <Search

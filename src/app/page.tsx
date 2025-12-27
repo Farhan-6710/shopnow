@@ -13,6 +13,7 @@ const Index = () => {
   const {
     filteredProducts,
     isLoading,
+    error,
     filterValues,
     categoryOptions,
     priceRangeOptions,
@@ -70,17 +71,31 @@ const Index = () => {
           <FilterProducts {...filterProps} />
 
           <section
-            className="product-card-wrapper grid md:grid-cols-2 md:pr-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit py-0 md:py-3"
+            className="product-card-wrapper grid sm:grid-cols-2 md:pr-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit py-0 md:py-3"
             aria-label="Product catalog"
           >
             {isLoading ? (
               Array.from({ length: 10 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))
+            ) : error ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-lg font-semibold text-destructive">
+                  Error loading products
+                </p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  {error.message || "Please try again later"}
+                </p>
+              </div>
             ) : filteredProducts.length === 0 ? (
-              <p role="status" aria-live="polite">
-                No products found
-              </p>
+              <div className="col-span-full text-center py-12">
+                <p className="text-lg font-semibold text-foreground">
+                  No products found
+                </p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Try adjusting your filters
+                </p>
+              </div>
             ) : (
               filteredProducts.map((item) => (
                 <ProductCard

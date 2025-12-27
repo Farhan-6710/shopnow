@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer
-      className="bg-card border-t text-foregorund py-8 lg:py-14 transition-colors duration-200"
+      className="lg:pl-10 xl:pl-20 bg-card border-t text-foregorund py-8 lg:py-14 transition-colors duration-200"
       role="contentinfo"
     >
       <div className="container mx-auto flex flex-wrap">

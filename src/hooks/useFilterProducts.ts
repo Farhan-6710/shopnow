@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { PRODUCTS_DATA } from "@/constants/products";
 import {
   COLOR_OPTIONS,
   PRICE_RANGE_OPTIONS,
@@ -14,6 +13,7 @@ import { RotateCcw } from "lucide-react";
 import { ProductFilterValues } from "@/types/filterProduct";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useFetchProducts } from "./useFetchProducts";
 
 export const useFilterProducts = () => {
   const currency = useSelector((state: RootState) => state.cart.currency);
@@ -23,11 +23,19 @@ export const useFilterProducts = () => {
     selectedColors: [],
     selectedSort: "",
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
+
+  const {
+    data: products,
+    isLoading: isProductsLoading,
+    error,
+  } = useFetchProducts();
 
   // Calculate filtered & sorted products with useMemo
   const filteredProducts = useMemo(() => {
-    const filtered = PRODUCTS_DATA.filter((product) => {
+    if (!products) return [];
+
+    const filtered = products.filter((product) => {
       const categoryMatch =
         !filterValues.selectedCategories.length ||
         filterValues.selectedCategories.includes(product.category || "");
@@ -54,6 +62,7 @@ export const useFilterProducts = () => {
         : priceB - priceA;
     });
   }, [
+    products,
     filterValues.selectedCategories,
     filterValues.selectedPriceRange,
     filterValues.selectedColors,
@@ -61,10 +70,10 @@ export const useFilterProducts = () => {
     currency,
   ]);
 
-  // Fake loading timer
+  // Show loading when filters change
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 700);
+    setIsFilterLoading(true);
+    const timer = setTimeout(() => setIsFilterLoading(false), 700);
     return () => clearTimeout(timer);
   }, [filteredProducts]);
 
@@ -125,7 +134,8 @@ export const useFilterProducts = () => {
 
   return {
     filteredProducts,
-    isLoading,
+    isLoading: isProductsLoading || isFilterLoading,
+    error,
     filterValues,
     categoryOptions,
     priceRangeOptions,

@@ -16,14 +16,16 @@ export const useCartManagement = (item: Product) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const currency = useSelector((state: RootState) => state.cart.currency);
-  const [loading, setLoading] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const cartItem = cartItems.find((ci) => ci.id === item.id);
   const isInCart = !!cartItem;
   const quantity = cartItem?.quantity || 0;
 
   const handleAddToCart = () => {
-    setLoading(true);
+    setIsAdding(true);
     setTimeout(() => {
       dispatch(addToCart(item));
       showToast({
@@ -32,12 +34,12 @@ export const useCartManagement = (item: Product) => {
         description: `${item.name} has been added to your cart`,
         icon: ShoppingCart,
       });
-      setLoading(false);
-    }, 300);
+      setIsAdding(false);
+    }, 500);
   };
 
   const handleRemoveFromCart = () => {
-    setLoading(true);
+    setIsRemoving(true);
     setTimeout(() => {
       dispatch(removeFromCart(item.id));
       showToast({
@@ -46,31 +48,37 @@ export const useCartManagement = (item: Product) => {
         description: `${item.name} removed from cart`,
         icon: Trash2,
       });
-      setLoading(false);
-    }, 300);
+      setIsRemoving(false);
+    }, 500);
   };
 
   const handleIncrementQuantity = () => {
-    dispatch(updateQuantity({ id: item.id, quantity: quantity + 1 }));
-    showToast({
-      type: "custom",
-      title: "Quantity Updated",
-      description: `${item.name} quantity increased to ${quantity + 1}`,
-      icon: ShoppingCart,
-    });
+    setIsUpdating(true);
+    setTimeout(() => {
+      dispatch(updateQuantity({ id: item.id, quantity: quantity + 1 }));
+      showToast({
+        type: "custom",
+        title: "Quantity Updated",
+        description: `${item.name} quantity increased to ${quantity + 1}`,
+        icon: ShoppingCart,
+      });
+      setIsUpdating(false);
+    }, 500);
   };
 
   const handleDecrementQuantity = () => {
     if (quantity > 1) {
-      dispatch(updateQuantity({ id: item.id, quantity: quantity - 1 }));
-      showToast({
-        type: "custom",
-        title: "Quantity Updated",
-        description: `${item.name} quantity decreased to ${
-          quantity - 1
-        }`,
-        icon: ShoppingCart,
-      });
+      setIsUpdating(true);
+      setTimeout(() => {
+        dispatch(updateQuantity({ id: item.id, quantity: quantity - 1 }));
+        showToast({
+          type: "custom",
+          title: "Quantity Updated",
+          description: `${item.name} quantity decreased to ${quantity - 1}`,
+          icon: ShoppingCart,
+        });
+        setIsUpdating(false);
+      }, 500);
     }
   };
 
@@ -78,7 +86,9 @@ export const useCartManagement = (item: Product) => {
     isInCart,
     quantity,
     currency,
-    loading,
+    isAdding,
+    isRemoving,
+    isUpdating,
     handleAddToCart,
     handleRemoveFromCart,
     handleIncrementQuantity,

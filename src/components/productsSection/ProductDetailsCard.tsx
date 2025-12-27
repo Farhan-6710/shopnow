@@ -1,18 +1,15 @@
 "use client"; // Ensures this component is rendered on the client side
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProductImage from "./ProductImage";
 import ProductActions from "./ProductActions";
 import Rating from "./Rating";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { ShoppingCart, Trash2 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "@/redux/cart/cartSlice";
-import { showToast } from "@/config/ToastConfig";
-import { RootState } from "@/redux/store";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
+import ConfirmationModal from "../atoms/ConfirmationModal";
+import { Trash2 } from "lucide-react";
 
 interface ProductDetailsCardProps {
   item: Product;
@@ -24,23 +21,20 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
   item,
   fetchImageWithTimeout,
 }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const {
     isInCart,
     quantity,
     currency,
-    loading,
+    isAdding,
+    isRemoving,
+    isUpdating,
     handleAddToCart,
     handleRemoveFromCart,
     handleIncrementQuantity,
     handleDecrementQuantity,
   } = useCartManagement(item);
-
-  const [isInCartState, setIsInCartState] = useState(isInCart);
-
-  // Synchronize component state with props
-  useEffect(() => {
-    setIsInCartState(isInCart);
-  }, [isInCart]);
 
   // Display price based on selected currency
   const displayPrice = (currency: "USD" | "INR") => {
@@ -84,9 +78,11 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
                 itemName={item.name}
                 quantity={quantity}
                 isInCart={isInCart}
-                loading={loading}
+                isAdding={isAdding}
+                isRemoving={isRemoving}
+                isUpdating={isUpdating}
                 onAddToCart={handleAddToCart}
-                onRemove={handleRemoveFromCart}
+                onRemove={() => setIsModalVisible(true)}
                 onIncrement={handleIncrementQuantity}
                 onDecrement={handleDecrementQuantity}
               />
@@ -97,6 +93,17 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        open={isModalVisible}
+        onOpenChange={setIsModalVisible}
+        title="Remove Item"
+        description={`Are you sure you want to remove "${item.name}" from your cart?`}
+        icon={Trash2}
+        confirmLabel="Remove"
+        cancelLabel="Cancel"
+        onConfirm={handleRemoveFromCart}
+        onCancel={() => setIsModalVisible(false)}
+      />
     </div>
   );
 };

@@ -2,20 +2,20 @@
 import { PRODUCTS_DATA } from "@/constants/products";
 
 export const PRICE_RANGE_OPTIONS: string[] = [
-  ...new Set(PRODUCTS_DATA.map((product) => product.priceRange || ""))
+  ...new Set(PRODUCTS_DATA.map((product) => product.priceRange || "")),
 ].filter(Boolean);
 
 export const COLOR_OPTIONS: string[] = [
-  ...new Set(PRODUCTS_DATA.map((product) => product.color || ""))
+  ...new Set(PRODUCTS_DATA.map((product) => product.color || "")),
 ].filter(Boolean);
 
 export const CATEGORY_OPTIONS: string[] = [
-  ...new Set(PRODUCTS_DATA.map((product) => product.category || ""))
+  ...new Set(PRODUCTS_DATA.map((product) => product.category || "")),
 ].filter(Boolean);
 
 export const SORT_OPTIONS: { value: string; label: string }[] = [
-  { value: "asc", label: "Price: Low to High" },
-  { value: "desc", label: "Price: High to Low" },
+  { value: "desc", label: "High to Low" },
+  { value: "asc", label: "Low to High" },
 ] as const;
 
 // Shared checkbox styles for consistency

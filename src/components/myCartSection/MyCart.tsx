@@ -50,7 +50,7 @@ const MyCartPage: React.FC = () => {
       className="bg-background transition-colors duration-300"
       aria-labelledby="cart-heading"
     >
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 lg:px-20 py-8">
         <div className="flex flex-wrap md:flex-nowrap gap-3 md:gap-4">
           <CartItemsContainer
             cartItems={cartItems}

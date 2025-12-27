@@ -51,7 +51,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             value={couponCode}
             onChange={handleInputChange}
             onClick={handleInputClick}
-            className={`w-full p-2 border rounded mb-4 transition-transform duration-300 focus:ring-1 focus:ring-primary ${
+            className={`w-full p-2 px-4 border rounded-lg mb-4 transition-transform duration-300 focus:ring-1 focus:ring-primary ${
               isInvalidCoupon || isEmptyCart || showCouponPlaceholder
                 ? "animate-shake placeholder-red-500 dark:placeholder-red-500"
                 : ""
@@ -71,7 +71,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
       )}
       <button
         onClick={handleCouponApply}
-        className={`w-full py-2 rounded transition duration-300 ${
+        className={`w-full py-2 rounded-lg transition duration-300 ${
           isCouponApplied
             ? `bg-secondary text-secondary-foreground font-bold pointer-events-none`
             : `bg-primary hover:bg-secondary text-primary-foreground hover:text-secondary-foreground cursor-pointer`

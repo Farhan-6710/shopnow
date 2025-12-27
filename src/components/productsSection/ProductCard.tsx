@@ -7,6 +7,9 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
+import ConfirmationModal from "../atoms/ConfirmationModal";
+import { useState } from "react";
+import { Trash2 } from "lucide-react";
 
 interface ProductCardProps {
   item: Product;
@@ -14,11 +17,15 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const {
     isInCart,
     quantity,
     currency,
-    loading,
+    isAdding,
+    isRemoving,
+    isUpdating,
     handleAddToCart,
     handleRemoveFromCart,
     handleIncrementQuantity,
@@ -47,14 +54,16 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
           }`}
         >
           {/* tags  */}
-          {isInCart ? 
+          {isInCart ? (
             <div className="absolute -right-2 -top-2 bg-emerald-900 text-green-100 text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
               <p>Added To Cart</p>
-            </div> : <div className="absolute -right-2 -top-2 bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
-            <p>{item.brand}</p>
-          </div> 
-          }
-          
+            </div>
+          ) : (
+            <div className="absolute -right-2 -top-2 bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
+              <p>{item.brand}</p>
+            </div>
+          )}
+
           <Link
             href={`/products/${encodeURIComponent(item.name)}`}
             className="flex flex-col justify-center items-center"
@@ -77,15 +86,28 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
               itemName={item.name}
               quantity={quantity}
               isInCart={isInCart}
-              loading={loading}
+              isAdding={isAdding}
+              isRemoving={isRemoving}
+              isUpdating={isUpdating}
               onAddToCart={handleAddToCart}
-              onRemove={handleRemoveFromCart}
+              onRemove={() => setIsModalVisible(true)}
               onIncrement={handleIncrementQuantity}
               onDecrement={handleDecrementQuantity}
             />
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        open={isModalVisible}
+        onOpenChange={setIsModalVisible}
+        title="Remove Item"
+        description={`Are you sure you want to remove "${item.name}" from your cart?`}
+        icon={Trash2}
+        confirmLabel="Remove"
+        cancelLabel="Cancel"
+        onConfirm={handleRemoveFromCart}
+        onCancel={() => setIsModalVisible(false)}
+      />
     </article>
   );
 };

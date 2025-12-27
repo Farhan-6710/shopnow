@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { Spinner } from "../ui/spinner";
 
 interface QuantityCounterProps {
   quantity: number;
   itemName: string;
+  loading?: boolean;
+  disabled?: boolean;
   onIncrement: () => void;
   onDecrement: () => void;
 }
@@ -10,27 +13,11 @@ interface QuantityCounterProps {
 const QuantityCounter = ({
   quantity,
   itemName,
+  loading,
+  disabled,
   onIncrement,
   onDecrement,
 }: QuantityCounterProps) => {
-  const handleDecrease = (e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    if (quantity > 1) {
-      onDecrement();
-    }
-  };
-
-  const handleIncrease = (e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    onIncrement();
-  };
-
   return (
     <div className="flex items-center gap-2">
       <div
@@ -42,8 +29,12 @@ const QuantityCounter = ({
           type="button"
           variant="outline"
           size="icon-sm"
-          onClick={handleDecrease}
-          disabled={quantity <= 1}
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onDecrement();
+          }}
+          disabled={quantity <= 1 || loading || disabled}
           className="rounded-r-none border-r-0 bg-card"
           aria-label={`Decrease quantity of ${itemName}`}
         >
@@ -58,7 +49,7 @@ const QuantityCounter = ({
           }}
         >
           <span aria-live="polite" aria-label={`Quantity: ${quantity}`}>
-            {quantity}
+            {loading ? <Spinner className="size-4" /> : quantity}
           </span>
         </div>
 
@@ -66,7 +57,12 @@ const QuantityCounter = ({
           type="button"
           variant="outline"
           size="icon-sm"
-          onClick={handleIncrease}
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onIncrement();
+          }}
+          disabled={loading || disabled}
           className="rounded-l-none border-l-0 bg-card"
           aria-label={`Increase quantity of ${itemName}`}
         >

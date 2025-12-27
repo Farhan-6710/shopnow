@@ -71,7 +71,7 @@ Ideal for casual wear and adding a retro vibe to your outfit.",
       INR: 4550.0,
     },
     rating: 4.6,
-    brand: "Adidas",
+    brand: "Nike",
     color: "black",
     category: "sneakers",
     description:
@@ -174,7 +174,7 @@ Perfect for basketball enthusiasts and those who appreciate high-performance foo
       INR: 3700.0,
     },
     rating: 4.6,
-    brand: "Adidas",
+    brand: "Nike",
     color: "blue",
     category: "sneakers",
     description:

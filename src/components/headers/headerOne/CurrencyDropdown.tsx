@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 const CurrencyDropdown = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const CurrencyDropdown = () => {
           <ChevronDown size={11} className="opacity-50" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[100px]">
+      <DropdownMenuContent align="end" className="w-25">
         <DropdownMenuItem
           onClick={() => dispatch(setCurrency("USD"))}
           className="cursor-pointer"
@@ -45,6 +46,7 @@ const CurrencyDropdown = () => {
           <DollarSign className="mr-2 h-4 w-4" />
           USD
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => dispatch(setCurrency("INR"))}
           className="cursor-pointer"

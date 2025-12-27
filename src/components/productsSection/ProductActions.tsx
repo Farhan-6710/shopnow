@@ -7,7 +7,9 @@ interface ProductActionsProps {
   itemName: string;
   quantity: number;
   isInCart: boolean;
-  loading: boolean;
+  isAdding: boolean;
+  isRemoving: boolean;
+  isUpdating: boolean;
   onAddToCart: () => void;
   onRemove: () => void;
   onIncrement: () => void;
@@ -18,7 +20,9 @@ const ProductActions = ({
   itemName,
   quantity,
   isInCart,
-  loading,
+  isAdding,
+  isRemoving,
+  isUpdating,
   onAddToCart,
   onRemove,
   onIncrement,
@@ -28,18 +32,24 @@ const ProductActions = ({
     <div className="flex items-center justify-center gap-2">
       {!isInCart ? (
         <Button
-          onClick={onAddToCart}
-          disabled={loading}
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onAddToCart();
+          }}
+          disabled={isAdding || isRemoving || isUpdating}
           className="min-w-30 rounded-lg text-[14px] bg-primary text-primary-foreground transition-all duration-200"
           aria-label={`Add ${itemName} to cart`}
         >
-          {loading ? <Spinner className="size-4" /> : "Add to Cart"}
+          {isAdding ? <Spinner className="size-4" /> : "Add to Cart"}
         </Button>
       ) : (
         <>
           <QuantityCounter
             quantity={quantity}
             itemName={itemName}
+            loading={isUpdating}
+            disabled={isUpdating || isRemoving}
             onIncrement={onIncrement}
             onDecrement={onDecrement}
           />
@@ -47,12 +57,16 @@ const ProductActions = ({
             type="button"
             variant="destructive"
             size="icon-sm"
-            onClick={onRemove}
-            disabled={loading}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onRemove();
+            }}
+            disabled={isRemoving || isUpdating}
             className="rounded-lg"
             aria-label={`Remove ${itemName} from cart`}
           >
-            {loading ? <Spinner className="size-4" /> : <Trash2 size={16} />}
+            {isRemoving ? <Spinner className="size-4" /> : <Trash2 size={16} />}
           </Button>
         </>
       )}
