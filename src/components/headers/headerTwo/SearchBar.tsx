@@ -27,9 +27,9 @@ const SearchBar = ({ products }: SearchBarProps) => {
   } = useSearchProduct(products);
 
   return (
-    <div className="relative w-full">
+    <div className="flex justify-center relative w-full">
       <Command
-        className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible"
+        className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible max-w-2xl"
         shouldFilter={false}
       >
         <div className="relative flex items-center w-full">
