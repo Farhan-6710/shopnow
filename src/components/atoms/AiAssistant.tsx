@@ -1,177 +1,45 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { SendIcon, BotIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface Message {
-  id: string;
-  content: string;
-  role: "user" | "assistant" | "system";
-  timestamp: Date;
-}
+import { useAiAssistant, type Message } from "@/hooks/useAiAssistant";
 
 interface AiAssistantProps {
-  /** Additional className for the container */
   className?: string;
-  /** Placeholder text for the input field */
   placeholder?: string;
-  /** Title for the assistant */
   title?: string;
-  /** Initial messages */
   initialMessages?: Message[];
-  /** Callback when a message is sent */
   onSendMessage?: (message: string) => void;
-  /** Custom message handler for AI responses */
   onGetResponse?: (message: string) => Promise<string>;
-  /** Products context for AI to reference */
-  productsContext?: any;
+  context?: unknown;
 }
 
 const AiAssistant: React.FC<AiAssistantProps> = ({
   className,
   placeholder = "Ask me anything...",
   title = "AI Assistant",
-  initialMessages = [],
+  initialMessages,
   onSendMessage,
   onGetResponse,
-  productsContext,
+  context,
 }) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
-  const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "";
-
-  // Auto-scroll to bottom when new messages arrive
-  const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTo({
-        top: chatContainerRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!inputValue.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: inputValue.trim(),
-      role: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInputValue("");
-    setIsLoading(true);
-
-    // Callback for external handling
-    if (onSendMessage) {
-      onSendMessage(userMessage.content);
-    }
-
-    try {
-      // Use custom handler if provided, otherwise use OpenRouter API
-      if (onGetResponse) {
-        const aiResponse = await onGetResponse(userMessage.content);
-        const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: aiResponse,
-          role: "assistant",
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, assistantMessage]);
-      } else {
-        // Call OpenRouter API
-        const response = await fetch(
-          "https://openrouter.ai/api/v1/chat/completions",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${apiKey.trim()}`,
-              "Content-Type": "application/json",
-              "HTTP-Referer": window.location.origin,
-              "X-Title": "Shop Now AI Assistant",
-            },
-            body: JSON.stringify({
-              model: "deepseek/deepseek-chat",
-              messages: [
-                ...(productsContext
-                  ? [
-                      {
-                        role: "system",
-                        content: `You are a helpful shopping assistant for an e-commerce store. Here are the available products you can help customers with:\n\n${JSON.stringify(
-                          productsContext,
-                          null,
-                          2
-                        )}\n\nUse this information to answer customer questions about products, prices, availability, and recommendations. Be friendly and helpful.`,
-                      },
-                    ]
-                  : []),
-                ...messages.map((m) => ({
-                  role: m.role === "system" ? "user" : m.role,
-                  content: m.content,
-                })),
-                { role: "user", content: userMessage.content },
-              ],
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(
-            `API Error ${response.status}: ${
-              errorData.error?.message || response.statusText
-            }`
-          );
-        }
-
-        const data = await response.json();
-        const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: data.choices[0].message.content,
-          role: "assistant",
-          timestamp: new Date(),
-        };
-
-        setMessages((prev) => [...prev, assistantMessage]);
-      }
-    } catch (error) {
-      console.error("Error getting AI response:", error);
-
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: `Error: ${
-          error instanceof Error ? error.message : "Unknown error occurred"
-        }`,
-        role: "system",
-        timestamp: new Date(),
-      };
-
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-      inputRef.current?.focus();
-    }
-  };
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  const {
+    messages,
+    inputValue,
+    setInputValue,
+    isLoading,
+    chatContainerRef,
+    inputRef,
+    handleSubmit,
+    formatTime,
+  } = useAiAssistant({
+    initialMessages,
+    onSendMessage,
+    onGetResponse,
+    context,
+  });
 
   return (
     <div
@@ -309,4 +177,4 @@ const AiAssistant: React.FC<AiAssistantProps> = ({
 };
 
 export default AiAssistant;
-export type { Message, AiAssistantProps };
+export type { AiAssistantProps };

@@ -55,7 +55,7 @@ const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
           className="h-full border-0 rounded-none shadow-none"
           title="ShopNow Assistant"
           placeholder="Ask about products, orders, or anything..."
-          productsContext={productsFromApiRes}
+          context={productsFromApiRes}
         />
       </Sheet>
     </div>
