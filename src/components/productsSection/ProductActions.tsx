@@ -29,7 +29,13 @@ const ProductActions = ({
   onDecrement,
 }: ProductActionsProps) => {
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div
+      className="flex items-center justify-center gap-2"
+      onClick={(e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       {!isInCart ? (
         <Button
           onClick={(e: React.MouseEvent) => {
