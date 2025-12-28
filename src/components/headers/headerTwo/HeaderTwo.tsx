@@ -23,12 +23,26 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
       role="banner"
     >
       <nav
-        className="container mx-auto flex p-2 px-3 lg:px-16 flex-col md:flex-row items-center space-y-3 md:space-y-0 md:justify-between md:gap-4"
+        className="mx-auto w-full px-6 sm:px-6 lg:px-20"
         aria-label="Secondary navigation"
       >
-        <Logo onMenuClick={onMenuClick} />
-        <SearchBar products={PRODUCTS_DATA} />
-        <CartButton cartCount={cartCount} />
+        {/* Desktop Layout */}
+        <div className="flex items-center justify-between gap-4 py-3">
+          {/* Logo - Left */}
+          <div className="shrink-0 w-full md:w-fit">
+            <Logo onMenuClick={onMenuClick} />
+          </div>
+
+          {/* Search Bar - Center - Hidden on Mobile/Tablet */}
+          <div className="hidden md:block flex-1">
+            <SearchBar products={PRODUCTS_DATA} />
+          </div>
+
+          {/* Cart & AI - Right - Hidden on Mobile/Tablet */}
+          <div className="hidden md:flex shrink-0">
+            <CartButton cartCount={cartCount} />
+          </div>
+        </div>
       </nav>
     </header>
   );

@@ -4,6 +4,8 @@ import { ProductFilterValues } from "@/types/filterProduct";
 import React from "react";
 import { FilterDrawer } from "../../extras/FilterDrawer";
 import FiltersSidebarContent from "./FiltersSidebarContent";
+import SearchBar from "@/components/headers/headerTwo/SearchBar";
+import { PRODUCTS_DATA } from "@/constants/products";
 
 interface FilterProductsProps {
   categoryOptions: string[];
@@ -31,10 +33,11 @@ const FilterProducts: React.FC<FilterProductsProps> = (props) => {
 
       {/* Mobile Drawer */}
       <div
-        className="md:hidden p-6 pb-0 pt-4"
+        className="flex flex-col gap-3 md:hidden p-4 pb-0 pt-1"
         role="region"
         aria-label="Filter controls"
       >
+        <SearchBar products={PRODUCTS_DATA} />
         <FilterDrawer {...props} />
       </div>
     </>

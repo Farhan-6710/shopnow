@@ -4,15 +4,17 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import cartReducer from "@/redux/cart/cartSlice";
+import chatReducer from "@/redux/chat/chatSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart"], // only persist cart state
+  whitelist: ["cart", "chat"], // persist cart and chat state
 };
 
 const rootReducer = combineReducers({
   cart: cartReducer,
+  chat: chatReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -30,6 +32,7 @@ export const store = configureStore({
           "persist/PURGE",
           "persist/REGISTER",
         ],
+        ignoredPaths: ["chat.messages"],
       },
     }),
 });

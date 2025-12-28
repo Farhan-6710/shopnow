@@ -5,7 +5,7 @@ import { ShoppingCart, BotIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Sheet from "@/components/atoms/Sheet";
-import AiAssistant from "@/components/atoms/AiAssistant";
+import AiAssistant from "@/components/ai-assistant/AiAssistant";
 import { useFilterProducts } from "@/hooks/useFilterProducts";
 
 interface CartButtonProps {
@@ -17,11 +17,11 @@ const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
   const { productsFromApiRes } = useFilterProducts();
 
   return (
-    <div className="hidden md:flex items-center gap-2 justify-end md:w-3/12">
-      <Link href="/cart">
+    <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">
+      <Link href="/cart" className="w-full md:w-fit">
         <Button
           size="default"
-          className="bg-primary text-primary-foreground rounded-md px-3 py-2 gap-2"
+          className="w-full bg-primary text-primary-foreground rounded-md px-3 py-2 gap-2"
         >
           <div className="relative">
             <ShoppingCart className="size-4 font-bold" />
@@ -42,7 +42,7 @@ const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
           <Button
             variant="outline"
             size="default"
-            className="rounded-md px-3 py-2 gap-2"
+            className="w-full md:w-auto rounded-md px-3 py-2 gap-2"
           >
             <BotIcon className="size-4" />
             <span className="text-sm font-bold">AI Assistant</span>

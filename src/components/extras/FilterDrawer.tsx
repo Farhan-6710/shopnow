@@ -43,7 +43,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = (props) => {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="relative mx-auto w-full max-w-sm">
+        <div className="relative mx-auto w-full max-w-sm overflow-y-auto">
           {/* Close Button */}
           <div className="absolute top-2 right-4 z-10">
             <DrawerClose asChild>

@@ -24,35 +24,39 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
   };
 
   return (
-    <div className="flex items-center justify-between md:w-3/12">
+    <div className="flex justify-between items-center gap-4 w-full">
+      {/* Logo Button */}
       <button
         onClick={handleClick}
-        className="flex items-center relative my-1.5 md:my-0.5 cursor-pointer"
+        className="inline-flex shrink-0 cursor-pointer transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
         aria-label="Go to homepage"
       >
         <Image
           src="/images/logo-light.png"
-          alt="Logo"
-          width={200}
-          height={30}
+          alt="ShopNow"
+          width={160}
+          height={24}
           priority
-          className="block dark:hidden"
+          className="block dark:hidden h-10 w-auto"
         />
         <Image
           src="/images/logo-dark.png"
-          alt="Logo"
-          width={200}
-          height={30}
+          alt="ShopNow"
+          width={160}
+          height={24}
           priority
-          className="hidden dark:block"
+          className="hidden dark:block h-10 w-auto"
         />
       </button>
+
+      {/* Mobile Menu Button */}
       <button
-        className="md:hidden flex items-center ring-2 ring-border rounded-md ml-6 p-1.5 cursor-pointer"
         onClick={onMenuClick}
-        aria-label="Open menu"
+        className="md:hidden inline-flex items-center justify-center p-2 rounded-md border border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
       >
-        <Menu className="text-muted-foreground" size={18} />
+        <Menu className="size-5" />
       </button>
     </div>
   );

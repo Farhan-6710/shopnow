@@ -1,16 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  MapPin,
-  Mail,
-  Phone,
-  Linkedin,
-} from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { MapPin, Mail, Phone, Linkedin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import CartButton from "./CartButton";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -48,6 +43,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       document.body.style.overflow = "";
     };
   }, [isOpen, onClose]);
+
+  const cartCount = useSelector(
+    (state: RootState) => state.cart.cartItems.length
+  );
 
   return (
     <div>
@@ -144,6 +143,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           >
             <Linkedin size={24} />
           </a>
+        </div>
+        <div className="p-4 px-6 mb-4 flex flex-col gap-3">
+          <CartButton cartCount={cartCount} />
         </div>
       </div>
       {isOpen && (

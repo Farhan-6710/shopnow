@@ -31,7 +31,7 @@
 
   .sticky-filter-sidebar {
     position: sticky;
-    top: 100px; /* Match header height */
+    top: 110px; /* Match header height */
     z-index: 0;
   }
 }
@@ -45,7 +45,7 @@
   }
 
   .sticky-filter-sidebar {
-    top: 109px; /* Match desktop header height */
+    top: 117px; /* Match desktop header height */
   }
 }
 

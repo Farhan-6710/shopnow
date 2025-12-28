@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setMessages } from "@/redux/chat/chatSlice";
+import { RootState, AppDispatch } from "@/redux/store";
 
 interface Message {
   id: string;
@@ -22,12 +25,62 @@ export const useAiAssistant = ({
   onGetResponse,
   context,
 }: UseAiAssistantProps) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const dispatch = useDispatch<AppDispatch>();
+  const reduxMessages = useSelector((state: RootState) => state.chat.messages);
+
+  // Convert ISO strings back to Date objects and use Redux messages if available
+  // If no saved messages, add initial greeting from AI
+  const [messages, setLocalMessages] = useState<Message[]>(() => {
+    const messagesToUse =
+      reduxMessages.length > 0 ? reduxMessages : initialMessages;
+
+    if (messagesToUse.length === 0) {
+      // Add initial greeting message from AI
+      const greeting: Message = {
+        id: "greeting-" + Date.now(),
+        content:
+          "Hi! 👋 I'm your ShopNow assistant. I'm here to help you find the perfect products, answer your questions, and make your shopping experience amazing. What can I help you with today?",
+        role: "assistant",
+        timestamp: new Date(),
+      };
+      return [greeting];
+    }
+
+    return messagesToUse.map((msg) => ({
+      ...msg,
+      timestamp:
+        typeof msg.timestamp === "string"
+          ? new Date(msg.timestamp)
+          : msg.timestamp,
+    }));
+  });
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "";
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    });
+  }, []);
+
+  // Sync local messages with Redux
+  useEffect(() => {
+    // Convert Date to ISO string for Redux persistence
+    const serializableMessages = messages.map((msg) => ({
+      ...msg,
+      timestamp:
+        msg.timestamp instanceof Date
+          ? msg.timestamp.toISOString()
+          : (msg.timestamp as string),
+    }));
+    // Type assertion needed due to Redux serialization - timestamps converted to strings for storage
+    dispatch(setMessages(serializableMessages as unknown as Message[]));
+  }, [messages, dispatch]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -54,7 +107,7 @@ export const useAiAssistant = ({
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setLocalMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
 
@@ -71,7 +124,7 @@ export const useAiAssistant = ({
           role: "assistant",
           timestamp: new Date(),
         };
-        setMessages((prev) => [...prev, assistantMessage]);
+        setLocalMessages((prev) => [...prev, assistantMessage]);
       } else {
         const response = await fetch(
           "https://openrouter.ai/api/v1/chat/completions",
@@ -125,7 +178,7 @@ export const useAiAssistant = ({
           timestamp: new Date(),
         };
 
-        setMessages((prev) => [...prev, assistantMessage]);
+        setLocalMessages((prev) => [...prev, assistantMessage]);
       }
     } catch (error) {
       console.error("Error getting AI response:", error);
@@ -139,7 +192,7 @@ export const useAiAssistant = ({
         timestamp: new Date(),
       };
 
-      setMessages((prev) => [...prev, errorMessage]);
+      setLocalMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();

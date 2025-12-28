@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/authContext";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
@@ -14,6 +14,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
   const { signInWithGoogle, signInWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    });
+  }, []);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -61,6 +70,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
               Username
             </label>
             <input
+              ref={inputRef}
               type="text"
               id="login-username"
               name="username"

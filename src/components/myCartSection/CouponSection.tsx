@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface CouponSectionProps {
   isEmptyCart: boolean;
@@ -28,7 +28,17 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   total,
   formatCurrency,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    });
+  }, []);
+
   return (
     <>
       {!isCouponApplied && (
@@ -37,6 +47,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             Coupon code
           </label>
           <input
+            ref={inputRef}
             type="text"
             id="coupon-code-input"
             placeholder={
@@ -51,7 +62,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             value={couponCode}
             onChange={handleInputChange}
             onClick={handleInputClick}
-            className={`w-full p-2 px-4 border rounded-lg mb-4 transition-transform duration-300 focus:ring-1 focus:ring-primary ${
+            className={`w-full p-2 px-4 border rounded-lg mb-4 transition-transform duration-300 outline-primary ${
               isInvalidCoupon || isEmptyCart || showCouponPlaceholder
                 ? "animate-shake placeholder-red-500 dark:placeholder-red-500"
                 : ""
