@@ -68,7 +68,7 @@ const UserAvatar = () => {
                 src={user?.user_metadata?.avatar_url}
                 alt={getUserName()}
               />
-              <AvatarFallback className="bg-card border border-primary text-primary text-xs font-semibold">
+              <AvatarFallback className="bg-card border-2 border-primary text-primary text-xs font-semibold">
                 {getInitials(getUserName())}
               </AvatarFallback>
             </Avatar>

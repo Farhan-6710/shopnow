@@ -27,7 +27,7 @@ const SearchBar = ({ products }: SearchBarProps) => {
   } = useSearchProduct(products);
 
   return (
-    <div className="relative hidden md:flex justify-center md:w-6/12 mb-4 md:mb-0 pl-8">
+    <div className="relative hidden md:flex md:w-6/12 mb-4 md:mb-0 pl-8">
       <Command
         className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible"
         shouldFilter={false}

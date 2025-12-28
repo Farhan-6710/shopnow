@@ -23,7 +23,7 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
       role="banner"
     >
       <nav
-        className="container mx-auto flex flex-wrap p-2 px-3 lg:px-16 flex-col md:flex-row md:items-center space-x-4 md:space-x-0"
+        className="container mx-auto flex p-2 px-3 lg:px-16 flex-col md:flex-row items-center space-y-3 md:space-y-0 md:justify-between md:gap-4"
         aria-label="Secondary navigation"
       >
         <Logo onMenuClick={onMenuClick} />

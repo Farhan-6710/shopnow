@@ -134,6 +134,7 @@ export const useFilterProducts = () => {
 
   return {
     filteredProducts,
+    productsFromApiRes: products || [],
     isLoading: isProductsLoading || isFilterLoading,
     error,
     filterValues,
