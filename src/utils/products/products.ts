@@ -25,40 +25,40 @@ const TAG_STYLES: Record<
     "added-to-cart": {
       label: "Added To Cart",
       style: {
-        backgroundColor: "#065f46", // emerald-800
-        color: "#d1fae5",
+        backgroundColor: "#1f4f3f", // deeper emerald with rich saturation
+        color: "#d1fae5", // bright, high contrast text
       },
     },
 
     bestseller: {
       label: "Bestseller",
       style: {
-        backgroundColor: "#2563eb", // blue-600
-        color: "#eff6ff",
+        backgroundColor: "#1d3a8a", // richer blue-900 with deep saturation
+        color: "#dbeafe", // bright blue text for contrast
       },
     },
 
     trending: {
       label: "Trending",
       style: {
-        backgroundColor: "#facc15", // yellow-400
-        color: "#422006",
+        backgroundColor: "#92400e", // deeper amber-900 with rich tone
+        color: "#fef08a", // bright amber text
       },
     },
 
     "top-rated": {
       label: "Top Rated",
       style: {
-        backgroundColor: "#dc2626", // red-600
-        color: "#fee2e2",
+        backgroundColor: "#dc2626", // red-600 (reference - perfect)
+        color: "#fee2e2", // light red (reference - perfect)
       },
     },
 
     unavailable: {
       label: "Not in Stock",
       style: {
-        backgroundColor: "#6b7280", // gray-500
-        color: "#f9fafb",
+        backgroundColor: "#374151", // gray-700 with richer tone
+        color: "#f3f4f6", // bright gray text
       },
     },
   },
@@ -67,40 +67,40 @@ const TAG_STYLES: Record<
     "added-to-cart": {
       label: "Added To Cart",
       style: {
-        backgroundColor: "#064e3b",
-        color: "#a7f3d0",
+        backgroundColor: "#0d3f33", // deeper, saturated emerald
+        color: "#aef5e0", // bright, high contrast emerald text
       },
     },
 
     bestseller: {
       label: "Bestseller",
       style: {
-        backgroundColor: "#0b2f5b", // deeper, more saturated blue
-        color: "#c7ddff", // brighter blue text
+        backgroundColor: "#0f2d5c", // rich, saturated blue
+        color: "#bcd8ff", // bright, high contrast blue text
       },
     },
 
     trending: {
       label: "Trending",
       style: {
-        backgroundColor: "#4a3500", // warmer, richer amber bg
-        color: "#ffeb99", // lifted amber text
+        backgroundColor: "#5a3f0f", // deep, saturated amber
+        color: "#ffeb80", // bright, vibrant amber text
       },
     },
 
     "top-rated": {
       label: "Top Rated",
       style: {
-        backgroundColor: "#4a0f0f", // richer red bg
-        color: "#ffd1d1", // brighter red text
+        backgroundColor: "#871C1B", // richer red bg (reference - perfect)
+        color: "#ffd1d1", // brighter red text (reference - perfect)
       },
     },
 
     unavailable: {
       label: "Not in Stock",
       style: {
-        backgroundColor: "#1f2933", // slightly lighter than card bg
-        color: "#b6bcc6", // readable but subdued
+        backgroundColor: "#2a3038", // deeper gray with richer tone
+        color: "#d1d5db", // bright gray text for good contrast
       },
     },
   },

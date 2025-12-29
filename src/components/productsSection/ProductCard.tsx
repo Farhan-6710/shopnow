@@ -95,7 +95,7 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
               icon={isWishlisted ? faHeartSolid : faHeartRegular}
               className={`text-lg transition-colors duration-200 ${
                 isWishlisted
-                  ? "text-red-500"
+                  ? "text-destructive"
                   : "text-gray-400 hover:text-red-500"
               }`}
             />

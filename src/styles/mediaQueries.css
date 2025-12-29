@@ -17,6 +17,28 @@
   top: 176px; /* 148px header + 28px offset */
 }
 
+/* globals.css */
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 17s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(116%);
+  }
+  100% {
+    transform: translateX(-116%);
+  }
+}
+
 /* ===================================
    TABLET (min-width: 768px)
    =================================== */
@@ -46,6 +68,15 @@
 
   .sticky-filter-sidebar {
     top: 117px; /* Match desktop header height */
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(156%);
+    }
+    100% {
+      transform: translateX(-140%);
+    }
   }
 }
 

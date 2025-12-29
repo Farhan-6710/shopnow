@@ -1,5 +1,6 @@
 import { useTheme } from "next-themes";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Spinner } from "../ui/spinner";
 
 interface CouponSectionProps {
   isCouponApplied: boolean;
@@ -27,6 +28,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   formatCurrency,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -36,6 +38,15 @@ const CouponSection: React.FC<CouponSectionProps> = ({
       }
     });
   }, []);
+
+  const handleSubmitCoupon = () => {
+    if (loading) return;
+    setLoading(true);
+    setTimeout(() => {
+      handleCouponApply();
+      setLoading(false);
+    }, 1000);
+  };
 
   return (
     <>
@@ -76,15 +87,22 @@ const CouponSection: React.FC<CouponSectionProps> = ({
         </>
       )}
       <button
-        onClick={handleCouponApply}
-        className={`w-full py-2 rounded-lg transition duration-300 ${
+        onClick={handleSubmitCoupon}
+        disabled={loading || couponCode.trim() === "" || isCouponApplied}
+        className={`w-full py-2 rounded-lg transition duration-300 flex items-center justify-center ${
           isCouponApplied
             ? `bg-secondary text-secondary-foreground font-bold pointer-events-none`
-            : `bg-primary hover:bg-secondary text-primary-foreground hover:text-secondary-foreground cursor-pointer`
+            : `bg-primary hover:bg-primary/80 text-primary-foreground hover:text-primary-foreground cursor-pointer`
         }`}
         aria-label={isCouponApplied ? "Coupon applied" : "Apply coupon code"}
       >
-        {isCouponApplied ? "Coupon Applied" : "Apply Coupon"}
+        {isCouponApplied ? (
+          "Coupon Applied"
+        ) : loading ? (
+          <Spinner className="size-6" />
+        ) : (
+          "Apply Coupon"
+        )}
       </button>
       <div
         className={`flex justify-between mt-4 font-bold text-2xl ${

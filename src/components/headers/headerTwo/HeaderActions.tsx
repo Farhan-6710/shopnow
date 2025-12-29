@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShoppingCart, Heart, BotIcon } from "lucide-react";
+import { ShoppingCart, Heart, BotIcon, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Sheet from "@/components/atoms/Sheet";
 import AiAssistant from "@/components/ai-assistant/AiAssistant";
 import { useFilterProducts } from "@/hooks/useFilterProducts";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useTheme } from "next-themes";
 
 interface HeaderActionsProps {
   cartCount: number;
@@ -19,9 +26,21 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
 }) => {
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
   const { productsFromApiRes } = useFilterProducts();
+  const { setTheme, theme } = useTheme();
 
   return (
     <div className="flex items-center gap-2">
+      {/* Theme Toggle */}
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      >
+        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+
       {/* Wishlist Button */}
       <Link href="/wishlist">
         <Button
@@ -32,7 +51,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
         >
           <Heart className="size-5" />
           {wishlistCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-red-500 text-white text-[12px] font-bold rounded-full">
+            <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-destructive text-white text-[12px] font-bold rounded-full">
               {wishlistCount > 99 ? "99+" : wishlistCount}
             </span>
           )}
