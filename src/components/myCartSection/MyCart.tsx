@@ -1,18 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { selectCurrency } from "@/redux/cart/cartSlice";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/redux/store";
+import { selectCurrency, replace } from "@/redux/cart/cartSlice";
 import { useCartCoupon } from "@/hooks/useCartCoupon";
+import CartHeader from "./CartHeader";
+import CartEmpty from "./CartEmpty";
+import CartItemList from "./CartItemList";
 import OrderSummary from "./OrderSummary";
-import CartItemsContainer from "./CartItemsContainer";
 
-const MyCartPage: React.FC = () => {
+const MyCart: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const currency = useSelector(selectCurrency);
-
-  const [isEmptyCart, setIsEmptyCart] = useState(cartItems.length === 0);
+  const isEmpty = cartItems.length === 0;
 
   // Use coupon hook for coupon logic
   const {
@@ -30,11 +32,6 @@ const MyCartPage: React.FC = () => {
   const deliveryChargeUSD = 5.0;
   const deliveryChargeINR = 400.0;
 
-  // Effect to update cart empty status
-  useEffect(() => {
-    setIsEmptyCart(cartItems.length === 0);
-  }, [cartItems]);
-
   // Calculate totals based on currency
   const subtotal = cartItems.reduce(
     (acc, item) => acc + (item.prices[currency] || 0) * item.quantity,
@@ -45,37 +42,48 @@ const MyCartPage: React.FC = () => {
     currency === "USD" ? deliveryChargeUSD : deliveryChargeINR;
   const total = subtotal - discount + deliveryCharge;
 
+  const handleClearCart = () => {
+    dispatch(replace({ cartItems: [], currency }));
+  };
+
   return (
     <section
-      className="bg-background transition-colors duration-300"
+      className="bg-background transition-colors duration-300 min-h-[60vh]"
       aria-labelledby="cart-heading"
     >
       <div className="container mx-auto px-4 lg:px-20 py-8">
-        <div className="flex flex-wrap md:flex-nowrap gap-3 md:gap-4">
-          <CartItemsContainer
-            cartItems={cartItems}
-            isEmptyCart={isEmptyCart}
-            currency={currency}
-          />
-          <OrderSummary
-            isEmptyCart={isEmptyCart}
-            isCouponApplied={isCouponApplied}
-            showCouponPlaceholder={showCouponPlaceholder}
-            isInvalidCoupon={isInvalidCoupon}
-            couponCode={couponCode}
-            subtotal={subtotal}
-            deliveryCharge={deliveryCharge}
-            discount={discount}
-            total={total}
-            currency={currency}
-            handleInputChange={handleInputChange}
-            handleInputClick={handleInputClick}
-            handleCouponApply={handleCouponApply}
-          />
-        </div>
+        <CartHeader
+          itemCount={cartItems.length}
+          onClearCart={handleClearCart}
+          isEmpty={isEmpty}
+        />
+
+        {isEmpty ? (
+          <CartEmpty />
+        ) : (
+          <div className="flex flex-wrap md:flex-nowrap gap-3 md:gap-4">
+            <div className="w-full md:w-8/12 bg-card h-fit">
+              <CartItemList cartItems={cartItems} currency={currency} />
+            </div>
+            <OrderSummary
+              isCouponApplied={isCouponApplied}
+              showCouponPlaceholder={showCouponPlaceholder}
+              isInvalidCoupon={isInvalidCoupon}
+              couponCode={couponCode}
+              subtotal={subtotal}
+              deliveryCharge={deliveryCharge}
+              discount={discount}
+              total={total}
+              currency={currency}
+              handleInputChange={handleInputChange}
+              handleInputClick={handleInputClick}
+              handleCouponApply={handleCouponApply}
+            />
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
-export default MyCartPage;
+export default MyCart;

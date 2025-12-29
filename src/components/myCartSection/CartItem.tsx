@@ -1,9 +1,6 @@
-import React, { useState } from "react";
 import Image from "next/image";
 import type { CartItem as CartItemType } from "@/types/cartItems";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
-import ConfirmationModal from "@/components/atoms/ConfirmationModal";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import ProductActions from "../productsSection/ProductActions";
 
@@ -15,7 +12,6 @@ interface CartItemProps {
 }
 
 const CartItem = ({ item, index, length, currency }: CartItemProps) => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const {
     isInCart,
     quantity,
@@ -32,7 +28,7 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
     <>
       <Link
         href={`/products/${encodeURIComponent(item.name)}`}
-        className={`flex flex-col xs:flex-row items-center justify-between px-4 md:px-8 py-4 ${
+        className={`flex flex-col xs:flex-row items-center justify-between px-4 md:px-8 py-4 h-fit ${
           length > 1 && index === 0 ? "border-t border-x" : "border"
         }`}
       >
@@ -67,23 +63,12 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
             isRemoving={isRemoving}
             isUpdating={isUpdating}
             onAddToCart={handleAddToCart}
-            onRemove={() => setShowDeleteModal(true)}
+            onRemove={handleRemoveFromCart}
             onIncrement={handleIncrementQuantity}
             onDecrement={handleDecrementQuantity}
           />
         </div>
       </Link>
-
-      <ConfirmationModal
-        open={showDeleteModal}
-        onOpenChange={setShowDeleteModal}
-        title="Remove Item"
-        description={`Are you sure you want to remove "${item.name}" from your cart?`}
-        icon={Trash2}
-        confirmLabel="Remove"
-        cancelLabel="Cancel"
-        onConfirm={handleRemoveFromCart}
-      />
     </>
   );
 };

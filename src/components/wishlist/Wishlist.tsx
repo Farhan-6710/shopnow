@@ -1,0 +1,42 @@
+"use client";
+
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import { clearWishlist } from "@/redux/wishlist/wishlistSlice";
+import WishlistEmpty from "./WishlistEmpty";
+import WishlistItemList from "./WishlistItemList";
+import WishlistHeader from "./WishlistHeader";
+
+const Wishlist: React.FC = () => {
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
+  const isEmpty = wishlistItems.length === 0;
+
+  const handleClearAll = () => {
+    dispatch(clearWishlist());
+  };
+
+  return (
+    <section
+      className="bg-background transition-colors duration-300 min-h-[60vh]"
+      aria-labelledby="wishlist-heading"
+    >
+      <div className="container mx-auto px-4 lg:px-20 py-8">
+        <WishlistHeader
+          itemCount={wishlistItems.length}
+          onClearAll={handleClearAll}
+          isEmpty={isEmpty}
+        />
+
+        {isEmpty ? (
+          <WishlistEmpty />
+        ) : (
+          <WishlistItemList items={wishlistItems} />
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default Wishlist;

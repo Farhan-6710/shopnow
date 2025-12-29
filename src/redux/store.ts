@@ -5,16 +5,18 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import cartReducer from "@/redux/cart/cartSlice";
 import chatReducer from "@/redux/chat/chatSlice";
+import wishlistReducer from "@/redux/wishlist/wishlistSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "chat"], // persist cart and chat state
+  whitelist: ["cart", "chat", "wishlist"], // persist cart, chat, and wishlist state
 };
 
 const rootReducer = combineReducers({
   cart: cartReducer,
   chat: chatReducer,
+  wishlist: wishlistReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

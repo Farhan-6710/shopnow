@@ -11,7 +11,9 @@ export interface Product {
   color?: string;
   imgSource: string;
   rating?: number;
+  status?: "available" | "unavailable" | "preorder";
   brand?: string;
   description: string;
   priceRange?: string;
+  tags?: string[];
 }

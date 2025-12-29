@@ -2,7 +2,6 @@ import { useTheme } from "next-themes";
 import React, { useEffect, useRef } from "react";
 
 interface CouponSectionProps {
-  isEmptyCart: boolean;
   isCouponApplied: boolean;
   showCouponPlaceholder: boolean;
   isInvalidCoupon: boolean;
@@ -16,7 +15,6 @@ interface CouponSectionProps {
 }
 
 const CouponSection: React.FC<CouponSectionProps> = ({
-  isEmptyCart,
   isCouponApplied,
   showCouponPlaceholder,
   isInvalidCoupon,
@@ -51,9 +49,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             type="text"
             id="coupon-code-input"
             placeholder={
-              isEmptyCart
-                ? "Kindly Add Items In Cart First"
-                : showCouponPlaceholder
+              showCouponPlaceholder
                 ? "Enter Coupon Code"
                 : isInvalidCoupon
                 ? "Coupon Not Found"
@@ -63,13 +59,12 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             onChange={handleInputChange}
             onClick={handleInputClick}
             className={`w-full p-2 px-4 border rounded-lg mb-4 transition-transform duration-300 outline-primary ${
-              isInvalidCoupon || isEmptyCart || showCouponPlaceholder
+              isInvalidCoupon || showCouponPlaceholder
                 ? "animate-shake placeholder-red-500 dark:placeholder-red-500"
                 : ""
             } placeholder-gray-500 dark:placeholder-gray-400 ${inputClass}`}
-            disabled={isEmptyCart}
           />
-          {!isEmptyCart && !showCouponPlaceholder && !isInvalidCoupon && (
+          {!showCouponPlaceholder && !isInvalidCoupon && (
             <p className="text-lg font-medium mb-3 dark:text-gray-400 text-gray-500">
               Enter Coupon code <br />
               <span className="text-primary font-extrabold dark:text-primaryLight">
@@ -87,7 +82,6 @@ const CouponSection: React.FC<CouponSectionProps> = ({
             ? `bg-secondary text-secondary-foreground font-bold pointer-events-none`
             : `bg-primary hover:bg-secondary text-primary-foreground hover:text-secondary-foreground cursor-pointer`
         }`}
-        disabled={isEmptyCart}
         aria-label={isCouponApplied ? "Coupon applied" : "Apply coupon code"}
       >
         {isCouponApplied ? "Coupon Applied" : "Apply Coupon"}

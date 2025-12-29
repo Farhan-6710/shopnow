@@ -6,7 +6,7 @@ import { RootState } from "@/redux/store";
 import { PRODUCTS_DATA } from "@/constants/products";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
-import CartButton from "./CartButton";
+import HeaderActions from "./HeaderActions";
 
 interface HeaderTwoProps {
   onMenuClick: () => void;
@@ -15,6 +15,9 @@ interface HeaderTwoProps {
 const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
   const cartCount = useSelector(
     (state: RootState) => state.cart.cartItems.length
+  );
+  const wishlistCount = useSelector(
+    (state: RootState) => state.wishlist.items.length
   );
 
   return (
@@ -38,9 +41,12 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
             <SearchBar products={PRODUCTS_DATA} />
           </div>
 
-          {/* Cart & AI - Right - Hidden on Mobile/Tablet */}
+          {/* Cart, Wishlist & AI - Right - Hidden on Mobile/Tablet */}
           <div className="hidden md:flex shrink-0">
-            <CartButton cartCount={cartCount} />
+            <HeaderActions
+              cartCount={cartCount}
+              wishlistCount={wishlistCount}
+            />
           </div>
         </div>
       </nav>

@@ -7,7 +7,6 @@ import PaymentMethods from "./PaymentMethods";
 import { useTheme } from "next-themes";
 
 interface OrderSummaryProps {
-  isEmptyCart: boolean;
   isCouponApplied: boolean;
   showCouponPlaceholder: boolean;
   isInvalidCoupon: boolean;
@@ -23,7 +22,6 @@ interface OrderSummaryProps {
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
-  isEmptyCart,
   isCouponApplied,
   showCouponPlaceholder,
   isInvalidCoupon,
@@ -48,7 +46,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   };
 
   return (
-    !isEmptyCart && (
       <section
         className={`w-full md:w-4/12 border p-4 rounded ${
           theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
@@ -66,7 +63,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           currency={currency}
         />
         <CouponSection
-          isEmptyCart={isEmptyCart}
           isCouponApplied={isCouponApplied}
           showCouponPlaceholder={showCouponPlaceholder}
           isInvalidCoupon={isInvalidCoupon}
@@ -80,7 +76,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         />
         <PaymentMethods />
       </section>
-    )
   );
 };
 

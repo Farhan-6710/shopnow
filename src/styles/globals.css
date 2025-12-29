@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 * {
-  scrollbar-color: var(--primary) transparent;
+  scrollbar-color: var(--secondary-foreground) transparent;
   scrollbar-width: thin;
 }
 
@@ -24,7 +24,7 @@
   --muted-foreground: oklch(0.5486 0 0);
   --accent: oklch(0.931 0 0);
   --accent-foreground: oklch(0.2435 0 0);
-  --destructive: oklch(0.6272 0.1934 33.1108);
+  --destructive: rgb(229, 77, 47);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9401 0 0);
   --input: oklch(0.9006 0 0);
@@ -777,7 +777,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
+  background-color: var(--secondary-foreground);
   border-radius: 6px;
   border: 3px solid transparent;
   background-clip: content-box;
@@ -785,6 +785,6 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary);
+  background-color: var(--secondary-foreground);
   opacity: 0.8;
 }
