@@ -15,6 +15,8 @@ import { getProductTag } from "@/utils/products/products";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { toggleWishlist } from "@/redux/wishlist/wishlistSlice";
+import { showToast } from "@/config/ToastConfig";
+import { Heart, Trash2 } from "lucide-react";
 
 interface ProductCardProps {
   item: Product;
@@ -31,6 +33,13 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    showToast({
+      type: isWishlisted ? "info" : "success",
+      title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
+      description: isWishlisted
+        ? `${item.name} has been removed from your wishlist`
+        : `${item.name} has been added to your wishlist`,
+    });
     dispatch(toggleWishlist(item));
   };
 

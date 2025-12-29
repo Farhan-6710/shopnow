@@ -40,12 +40,11 @@ const Index = () => {
       prevFilteredLengthRef.current !== filteredProducts.length
     ) {
       showToast({
-        type: "custom",
+        type: "success",
         title: "Filters Applied",
         description: `${filteredProducts.length} ${
           filteredProducts.length === 1 ? "item" : "items"
         } matched your filters`,
-        icon: Filter,
       });
       prevFilteredLengthRef.current = filteredProducts.length;
     }

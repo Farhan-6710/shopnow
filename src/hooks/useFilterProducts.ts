@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   COLOR_OPTIONS,
   PRICE_RANGE_OPTIONS,
@@ -8,7 +8,6 @@ import {
   SORT_OPTIONS,
 } from "@/constants/filters";
 import { showToast } from "@/config/ToastConfig";
-import { RotateCcw } from "lucide-react";
 
 import { ProductFilterValues } from "@/types/filterProduct";
 import { useSelector } from "react-redux";
@@ -24,6 +23,11 @@ export const useFilterProducts = () => {
     selectedSort: "",
   });
   const [isFilterLoading, setIsFilterLoading] = useState(false);
+
+  const triggerFilterLoading = () => {
+    setIsFilterLoading(true);
+    setTimeout(() => setIsFilterLoading(false), 700);
+  };
 
   const {
     data: products,
@@ -70,14 +74,8 @@ export const useFilterProducts = () => {
     currency,
   ]);
 
-  // Show loading when filters change
-  useEffect(() => {
-    setIsFilterLoading(true);
-    const timer = setTimeout(() => setIsFilterLoading(false), 700);
-    return () => clearTimeout(timer);
-  }, [filteredProducts]);
-
   const onToggleCategory = (category: string) => {
+    triggerFilterLoading();
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedCategories: prevFilters.selectedCategories.includes(category)
@@ -87,6 +85,7 @@ export const useFilterProducts = () => {
   };
 
   const onTogglePriceRange = (priceRange: string) => {
+    triggerFilterLoading();
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedPriceRange: prevFilters.selectedPriceRange.includes(priceRange)
@@ -96,6 +95,7 @@ export const useFilterProducts = () => {
   };
 
   const onToggleColor = (color: string) => {
+    triggerFilterLoading();
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedColors: prevFilters.selectedColors.includes(color)
@@ -105,6 +105,7 @@ export const useFilterProducts = () => {
   };
 
   const onSortByPrice = (order: "asc" | "desc") => {
+    triggerFilterLoading();
     setFilterValues((prev) => ({
       ...prev,
       selectedSort: prev.selectedSort === order ? "" : order,
@@ -112,6 +113,7 @@ export const useFilterProducts = () => {
   };
 
   const onResetFilters = () => {
+    triggerFilterLoading();
     setFilterValues({
       selectedCategories: [],
       selectedPriceRange: [],
@@ -119,10 +121,9 @@ export const useFilterProducts = () => {
       selectedSort: "",
     });
     showToast({
-      type: "custom",
+      type: "success",
       title: "Filters Reset",
       description: "All filters have been cleared",
-      icon: RotateCcw,
     });
   };
 

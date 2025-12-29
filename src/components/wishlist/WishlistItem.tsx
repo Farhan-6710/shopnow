@@ -62,7 +62,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
         {/* Product Image */}
         <Link
           href={`/products/${encodeURIComponent(item.name)}`}
-          className="flex items-center justify-center py-4 bg-muted"
+          className="flex items-center justify-center py-4 bg-background border-b"
         >
           <div className="relative w-2/3 aspect-square">
             {!imageError ? (

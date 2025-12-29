@@ -3,14 +3,18 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/authContext";
 import { useEffect, useRef, useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { toast } from "sonner";
+import { CheckCheck, CircleX, Eye, EyeOff } from "lucide-react";
+import { showToast } from "@/config/ToastConfig";
 
 interface LoginFormProps {
-  onClose?: () => void;
+  setShowLoginModal: (show: boolean) => void;
+  setShowSignupModal: (show: boolean) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  setShowLoginModal,
+  setShowSignupModal,
+}) => {
   const { signInWithGoogle, signInWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,13 +32,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
     try {
       setLoading(true);
       await signInWithGoogle();
-      onClose?.();
+      setShowLoginModal(false);
     } catch (error: unknown) {
       const message =
         error instanceof Error
           ? error.message
           : "Failed to sign in with Google";
-      toast.error(message);
+      showToast({
+        type: "error",
+        title: "Google Sign-In Failed",
+        description: message,
+      });
     } finally {
       setLoading(false);
     }
@@ -50,12 +58,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
       const password = formData.get("password") as string;
 
       await signInWithEmail(email, password);
-      toast.success("Successfully signed in!");
-      onClose?.();
+      showToast({
+        type: "success",
+        title: "Successfully Signed In",
+        description: "Welcome back!",
+      });
+      setShowLoginModal(false);
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Failed to sign in";
-      toast.error(message);
+      showToast({
+        type: "error",
+        title: "Sign In Failed",
+        description: message,
+      });
     } finally {
       setLoading(false);
     }
@@ -146,7 +162,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
           Don&apos;t have an account?{" "}
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              setShowLoginModal(false);
+              setShowSignupModal(true);
+            }}
             className="text-primary hover:underline font-medium"
           >
             Sign Up

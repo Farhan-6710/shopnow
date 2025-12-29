@@ -96,10 +96,10 @@ const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
         title="Reset Filters"
         description="Are you sure you want to reset all filters? This will clear all your current selections."
         icon={RotateCcw}
-        iconClassName="text-primary"
+        iconClassName="text-destructive"
         confirmLabel="Reset"
         cancelLabel="Cancel"
-        variant="default"
+        variant="destructive"
         onConfirm={onResetFilters}
       />
     </div>

@@ -16,11 +16,13 @@ import {
   FileText,
   LogOut,
   ChevronRight,
+  ChevronDown,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "sonner";
 import { useState } from "react";
 import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import { showToast } from "@/config/ToastConfig";
+import { Button } from "@/components/ui/button";
 
 const UserAvatar = () => {
   const { user, signOut } = useAuth();
@@ -29,14 +31,22 @@ const UserAvatar = () => {
   const handleSignOutConfirm = async () => {
     try {
       await signOut();
-      toast.success("Signed out successfully");
+      showToast({
+        type: "success",
+        title: "Signed Out",
+        description: "You have been signed out successfully",
+      });
     } catch {
-      toast.error("Failed to sign out");
+      showToast({
+        type: "error",
+        title: "Sign Out Failed",
+        description: "An error occurred while signing out. Please try again.",
+      });
     }
   };
 
   const handleSignOut = () => {
-    setShowSignOutModal((prev) => !prev);
+    setShowSignOutModal(true);
   };
 
   const getInitials = (name?: string) => {
@@ -59,61 +69,94 @@ const UserAvatar = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button
-            className="flex items-center gap-2 focus:outline-none rounded-full"
-            aria-label="User menu"
+          <Button
+            className="flex items-center gap-2 bg-card hover:bg-accent rounded-full transition-all duration-200"
+            aria-label="User account menu"
           >
-            <Avatar className="h-8 w-8 cursor-pointer ring-2 ring-transparent hover:ring-primary transition-all">
+            <Avatar className="h-7 w-7">
               <AvatarImage
                 src={user?.user_metadata?.avatar_url}
                 alt={getUserName()}
               />
-              <AvatarFallback className="bg-card border-2 border-primary text-primary text-xs font-semibold">
+              <AvatarFallback className="bg-primary text-primary-foreground text-xs font-medium">
                 {getInitials(getUserName())}
               </AvatarFallback>
             </Avatar>
-          </button>
+            <span className="text-sm font-medium text-foreground max-w-20 truncate">
+              {getUserName()}
+            </span>
+            <ChevronDown className="h-3 w-3 text-muted-foreground" />
+          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-50">
-          <div className="px-2 py-1.5">
-            <p className="text-sm font-medium">{getUserName()}</p>
-            <p className="text-xs text-muted-foreground truncate">
-              {user?.email}
-            </p>
-          </div>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <User className="mr-2 h-4 w-4" />
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            <CreditCard className="mr-2 h-4 w-4" />
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer justify-between">
-            <div className="flex items-center">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
+
+        <DropdownMenuContent align="end" className="w-56 p-0">
+          {/* User Info Header */}
+          <div className="px-3 py-3 bg-muted/50">
+            <div className="flex items-center gap-3">
+              <Avatar className="h-9 w-9">
+                <AvatarImage
+                  src={user?.user_metadata?.avatar_url}
+                  alt={getUserName()}
+                />
+                <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                  {getInitials(getUserName())}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">
+                  {getUserName()}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {user?.email}
+                </p>
+              </div>
             </div>
-            <ChevronRight className="h-4 w-4 opacity-50" />
-          </DropdownMenuItem>
+          </div>
+
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <HelpCircle className="mr-2 h-4 w-4" />
-            Help & Support
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            <FileText className="mr-2 h-4 w-4" />
-            Documentation
-          </DropdownMenuItem>
+
+          {/* Main Menu Items */}
+          <div className="py-1">
+            <DropdownMenuItem className="cursor-pointer px-3 py-2.5 focus:bg-accent">
+              <User className="mr-3 h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer px-3 py-2.5 focus:bg-accent">
+              <CreditCard className="mr-3 h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Orders</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer px-3 py-2.5 focus:bg-accent">
+              <Settings className="mr-3 h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Settings</span>
+            </DropdownMenuItem>
+          </div>
+
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={handleSignOut}
-            className="cursor-pointer text-destructive focus:text-destructive"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </DropdownMenuItem>
+
+          {/* Support Items */}
+          <div className="py-1">
+            <DropdownMenuItem className="cursor-pointer px-3 py-2.5 focus:bg-accent">
+              <HelpCircle className="mr-3 h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Help Center</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer px-3 py-2.5 focus:bg-accent">
+              <FileText className="mr-3 h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Documentation</span>
+            </DropdownMenuItem>
+          </div>
+
+          <DropdownMenuSeparator />
+
+          {/* Sign Out */}
+          <div className="py-1">
+            <DropdownMenuItem
+              onClick={handleSignOut}
+              className="cursor-pointer px-3 py-2.5 text-destructive focus:text-destructive focus:bg-destructive/10"
+            >
+              <LogOut className="mr-3 h-4 w-4" />
+              <span className="text-sm">Sign Out</span>
+            </DropdownMenuItem>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
       <ConfirmationModal

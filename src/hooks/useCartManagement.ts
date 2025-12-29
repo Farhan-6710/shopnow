@@ -29,10 +29,9 @@ export const useCartManagement = (item: Product) => {
     setTimeout(() => {
       dispatch(addToCart(item));
       showToast({
-        type: "custom",
+        type: "success",
         title: "Added to Cart",
         description: `${item.name} has been added to your cart`,
-        icon: ShoppingCart,
       });
       setIsAdding(false);
     }, 500);
@@ -43,10 +42,9 @@ export const useCartManagement = (item: Product) => {
     setTimeout(() => {
       dispatch(removeFromCart(item.id));
       showToast({
-        type: "custom",
+        type: "success",
         title: "Item Removed",
         description: `${item.name} removed from cart`,
-        icon: Trash2,
       });
       setIsRemoving(false);
     }, 500);
@@ -57,10 +55,9 @@ export const useCartManagement = (item: Product) => {
     setTimeout(() => {
       dispatch(updateQuantity({ id: item.id, quantity: quantity + 1 }));
       showToast({
-        type: "custom",
+        type: "success",
         title: "Quantity Updated",
         description: `${item.name} quantity increased to ${quantity + 1}`,
-        icon: ShoppingCart,
       });
       setIsUpdating(false);
     }, 500);
@@ -72,10 +69,9 @@ export const useCartManagement = (item: Product) => {
       setTimeout(() => {
         dispatch(updateQuantity({ id: item.id, quantity: quantity - 1 }));
         showToast({
-          type: "custom",
+          type: "success",
           title: "Quantity Updated",
           description: `${item.name} quantity decreased to ${quantity - 1}`,
-          icon: ShoppingCart,
         });
         setIsUpdating(false);
       }, 500);

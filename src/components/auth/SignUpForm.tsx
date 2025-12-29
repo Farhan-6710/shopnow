@@ -3,14 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/authContext";
 import { useEffect, useRef, useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { CheckCheck, CircleX, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
+import { showToast } from "@/config/ToastConfig";
 
 interface SignUpFormProps {
-  onClose?: () => void;
+  setShowLoginModal: (show: boolean) => void;
+  setShowSignupModal: (show: boolean) => void;
 }
 
-const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
+const SignUpForm: React.FC<SignUpFormProps> = ({
+  setShowLoginModal,
+  setShowSignupModal,
+}) => {
   const { signInWithGoogle, signUpWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,13 +33,17 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
     try {
       setLoading(true);
       await signInWithGoogle();
-      onClose?.();
+      setShowSignupModal(false);
     } catch (error: unknown) {
       const message =
         error instanceof Error
           ? error.message
           : "Failed to sign in with Google";
-      toast.error(message);
+      showToast({
+        type: "success",
+        title: "Google Sign-In Failed",
+        description: message,
+      });
     } finally {
       setLoading(false);
     }
@@ -52,17 +61,31 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
       const confirmPassword = formData.get("confirm-password") as string;
 
       if (password !== confirmPassword) {
-        toast.error("Passwords do not match");
+        showToast({
+          type: "error",
+          title: "Password Mismatch",
+          description: "The passwords you entered do not match.",
+        });
         return;
       }
 
       await signUpWithEmail(email, password, fullName);
-      toast.success("Account created! Please check your email to verify.");
-      onClose?.();
+
+      showToast({
+        type: "success",
+        title: "Account Created",
+        description: "Please check your email to verify.",
+      });
+
+      setShowSignupModal(false);
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Failed to create account";
-      toast.error(message);
+      showToast({
+        type: "error",
+        title: "Sign Up Failed",
+        description: message,
+      });
     } finally {
       setLoading(false);
     }
@@ -178,7 +201,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
           Already have an account?{" "}
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              setShowSignupModal(false);
+              setShowLoginModal(true);
+            }}
             className="text-primary hover:underline font-medium"
           >
             Login

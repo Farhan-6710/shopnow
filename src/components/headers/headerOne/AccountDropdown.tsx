@@ -83,7 +83,10 @@ const AccountDropdown = () => {
         title="Login to Your Account"
         description="Enter your credentials to access your account"
       >
-        <LoginForm onClose={handleSwitchToSignup} />
+        <LoginForm
+          setShowLoginModal={setShowLoginModal}
+          setShowSignupModal={setShowSignupModal}
+        />
       </Modal>
 
       <Modal
@@ -93,7 +96,10 @@ const AccountDropdown = () => {
         title="Create Your Account"
         description="Sign up to start shopping with us"
       >
-        <SignUpForm onClose={handleSwitchToLogin} />
+        <SignUpForm
+          setShowLoginModal={setShowLoginModal}
+          setShowSignupModal={setShowSignupModal}
+        />
       </Modal>
     </>
   );
