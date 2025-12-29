@@ -18,7 +18,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const { signInWithGoogle, signInWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     requestAnimationFrame(() => {

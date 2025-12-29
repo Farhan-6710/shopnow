@@ -19,7 +19,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   const { signInWithGoogle, signUpWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     requestAnimationFrame(() => {

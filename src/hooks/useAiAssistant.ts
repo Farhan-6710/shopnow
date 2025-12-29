@@ -56,8 +56,8 @@ export const useAiAssistant = ({
   });
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "";
 
   useEffect(() => {

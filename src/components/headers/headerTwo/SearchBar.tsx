@@ -10,6 +10,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { useRef } from "react";
 
 interface SearchBarProps {
   products: Product[];
@@ -25,11 +26,24 @@ const SearchBar = ({ products }: SearchBarProps) => {
     handleBlur,
     selectProduct,
   } = useSearchProduct(products);
+  const searchRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSearchClick = () => {
+    if (searchTerm.trim()) {
+      // If search term exists and there are filtered results, select the first one
+      if (filteredProducts.length > 0) {
+        selectProduct(filteredProducts[0].name);
+      }
+    } else {
+      // If no search term, just focus the input
+      searchRef.current?.focus();
+    }
+  };
 
   return (
     <div className="flex justify-center relative w-full">
       <Command
-        className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible max-w-2xl"
+        className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible max-w-3xl"
         shouldFilter={false}
       >
         <div className="relative flex items-center w-full">
@@ -37,10 +51,11 @@ const SearchBar = ({ products }: SearchBarProps) => {
             Search products
           </label>
           <input
+            ref={searchRef}
             type="text"
             id="search-products"
             placeholder={open ? "Type to search..." : "Search products"}
-            className="relative z-10 px-3 w-full h-9 text-sm font-semibold text-foreground bg-card placeholder-muted-foreground focus:outline-primary rounded-l-md"
+            className="relative z-10 px-4 w-full h-9 text-sm font-semibold text-foreground bg-card placeholder-muted-foreground focus:outline-primary rounded-l-md"
             value={searchTerm}
             onChange={(e) => handleSearchChange(e.target.value)}
             onFocus={handleFocus}
@@ -57,6 +72,7 @@ const SearchBar = ({ products }: SearchBarProps) => {
             aria-label="Search"
             className="w-10 h-8 flex items-center justify-center bg-card cursor-pointer rounded-r-md border-l border-muted-foreground/20"
             tabIndex={-1}
+            onClick={handleSearchClick}
           >
             <Search
               className="text-gray-500 dark:text-gray-300 w-3.5 h-3.5"

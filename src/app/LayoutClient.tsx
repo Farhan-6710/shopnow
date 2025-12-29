@@ -24,7 +24,7 @@ export default function LayoutClient({
       <Footer />
       <FooterTwo />
       <ScrollToTop />
-      <Toaster position="bottom-center" />
+      <Toaster position="top-center" />
     </AppProviders>
   );
 }

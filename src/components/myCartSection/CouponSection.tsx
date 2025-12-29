@@ -7,7 +7,7 @@ interface CouponSectionProps {
   showCouponPlaceholder: boolean;
   isInvalidCoupon: boolean;
   couponCode: string;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | null>) => void;
   handleInputClick: () => void;
   handleCouponApply: () => void;
   inputClass: string;
@@ -27,7 +27,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   total,
   formatCurrency,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
 

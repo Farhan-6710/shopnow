@@ -49,7 +49,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
           className="relative rounded-lg"
           aria-label={`Wishlist with ${wishlistCount} items`}
         >
-          <Heart className="size-5" />
+          <Heart className="size-4" />
           {wishlistCount > 0 && (
             <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-destructive text-white text-[12px] font-bold rounded-full">
               {wishlistCount > 99 ? "99+" : wishlistCount}
@@ -66,7 +66,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
           className="relative rounded-lg"
           aria-label={`Cart with ${cartCount} items`}
         >
-          <ShoppingCart className="size-5" />
+          <ShoppingCart className="size-4" />
           {cartCount > 0 && (
             <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-primary text-primary-foreground text-[12px] font-bold rounded-full">
               {cartCount > 99 ? "99+" : cartCount}
@@ -85,7 +85,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
             size="default"
             className="w-full md:w-auto rounded-md px-3 py-2 gap-2 ml-3 text-foreground transition-all"
           >
-            <BotIcon className="size-4 text-cyan-400" />
+            <BotIcon className="size-4 text-primary" />
             <span className="text-sm font-bold">AI Assistant</span>
           </Button>
         }

@@ -66,7 +66,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({
         isLoading={isLoading}
         messages={messages}
         placeholder={placeholder}
-        inputRef={inputRef as React.RefObject<HTMLInputElement>}
+        inputRef={inputRef as React.RefObject<HTMLInputElement | null>}
         onInputChange={setInputValue}
         onSubmit={handleSubmit}
       />

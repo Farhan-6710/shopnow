@@ -116,15 +116,18 @@ export const getProductTag = (
 ): ProductTagConfig | null => {
   const palette = TAG_STYLES[theme];
 
-  // 1. Cart state
+  // 1. Cart state (highest priority)
   if (isInCart) return palette["added-to-cart"];
 
-  // 2. Check product tags
+  // 2. Check item status (second priority)
+  if (item.status === "unavailable") return palette["unavailable"];
+
+  // 3. Check product tags (lowest priority)
   if (item.tags?.length) {
     const tag = item.tags[0] as ProductTag;
     return palette[tag] || null;
   }
 
-  // 3. No tag to display
+  // 4. No tag to display
   return null;
 };

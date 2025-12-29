@@ -71,6 +71,8 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
     theme === "dark" ? "dark" : "light"
   );
 
+  console.log("item", item)
+
   return (
     <article
       className="px-4 md:px-2 p-2 w-full flex flex-col h-full"

@@ -16,7 +16,7 @@ interface OrderSummaryProps {
   discount: number;
   total: number;
   currency: "USD" | "INR";
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | null>) => void;
   handleInputClick: () => void;
   handleCouponApply: () => void;
 }
@@ -46,36 +46,36 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   };
 
   return (
-      <section
-        className={`w-full md:w-4/12 border p-4 rounded ${
-          theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
-        } h-fit`}
-        aria-labelledby="order-summary-heading"
-      >
-        <h2 id="order-summary-heading" className="sr-only">
-          Order Summary
-        </h2>
-        <OrderSummaryHeader
-          subtotal={subtotal}
-          deliveryCharge={deliveryCharge}
-          isCouponApplied={isCouponApplied}
-          discount={discount}
-          currency={currency}
-        />
-        <CouponSection
-          isCouponApplied={isCouponApplied}
-          showCouponPlaceholder={showCouponPlaceholder}
-          isInvalidCoupon={isInvalidCoupon}
-          couponCode={couponCode}
-          handleInputChange={handleInputChange}
-          handleInputClick={handleInputClick}
-          handleCouponApply={handleCouponApply}
-          inputClass={inputClass}
-          total={total}
-          formatCurrency={formatCurrency}
-        />
-        <PaymentMethods />
-      </section>
+    <section
+      className={`w-full md:w-4/12 border p-4 rounded ${
+        theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
+      } h-fit`}
+      aria-labelledby="order-summary-heading"
+    >
+      <h2 id="order-summary-heading" className="sr-only">
+        Order Summary
+      </h2>
+      <OrderSummaryHeader
+        subtotal={subtotal}
+        deliveryCharge={deliveryCharge}
+        isCouponApplied={isCouponApplied}
+        discount={discount}
+        currency={currency}
+      />
+      <CouponSection
+        isCouponApplied={isCouponApplied}
+        showCouponPlaceholder={showCouponPlaceholder}
+        isInvalidCoupon={isInvalidCoupon}
+        couponCode={couponCode}
+        handleInputChange={handleInputChange}
+        handleInputClick={handleInputClick}
+        handleCouponApply={handleCouponApply}
+        inputClass={inputClass}
+        total={total}
+        formatCurrency={formatCurrency}
+      />
+      <PaymentMethods />
+    </section>
   );
 };
 

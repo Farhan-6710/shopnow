@@ -11,7 +11,7 @@ interface AiAssistantFooterProps {
   isLoading: boolean;
   messages: Message[];
   placeholder: string;
-  inputRef: React.RefObject<HTMLInputElement> | null;
+  inputRef: React.RefObject<HTMLInputElement | null> | null;
   onInputChange: (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
 }

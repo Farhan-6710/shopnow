@@ -48,7 +48,7 @@ export const useCartCoupon = ({ cartItemsCount }: UseCartCouponProps) => {
     }
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | null>) => {
     setCouponCode(e.target.value);
   };
 
