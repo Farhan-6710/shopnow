@@ -2,15 +2,17 @@
 
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
-import { clearWishlist } from "@/redux/wishlist/wishlistSlice";
+import {
+  clearWishlist,
+  selectWishlistItems,
+} from "@/redux/wishlist/wishlistSlice";
 import WishlistEmpty from "./WishlistEmpty";
 import WishlistItemList from "./WishlistItemList";
 import WishlistHeader from "./WishlistHeader";
 
 const Wishlist: React.FC = () => {
   const dispatch = useDispatch();
-  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
+  const wishlistItems = useSelector(selectWishlistItems);
   const isEmpty = wishlistItems.length === 0;
 
   const handleClearAll = () => {

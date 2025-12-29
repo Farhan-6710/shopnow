@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { selectCartCount } from "@/redux/cart/cartSlice";
 import { MapPin, Mail, Phone, Linkedin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import CartButton from "./CartButton";
@@ -44,9 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  const cartCount = useSelector(
-    (state: RootState) => state.cart.cartItems.length
-  );
+  const cartCount = useSelector(selectCartCount);
 
   return (
     <div>

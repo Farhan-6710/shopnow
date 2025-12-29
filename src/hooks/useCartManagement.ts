@@ -9,7 +9,6 @@ import {
   updateQuantity,
 } from "@/redux/cart/cartSlice";
 import { showToast } from "@/config/ToastConfig";
-import { ShoppingCart, Trash2 } from "lucide-react";
 import { Product } from "@/types/product";
 
 export const useCartManagement = (item: Product) => {
@@ -20,7 +19,7 @@ export const useCartManagement = (item: Product) => {
   const [isRemoving, setIsRemoving] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const cartItem = cartItems.find((ci) => ci.id === item.id);
+  const cartItem = cartItems[item.id];
   const isInCart = !!cartItem;
   const quantity = cartItem?.quantity || 0;
 

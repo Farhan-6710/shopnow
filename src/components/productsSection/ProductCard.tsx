@@ -13,10 +13,11 @@ import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { getProductTag } from "@/utils/products/products";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { toggleWishlist } from "@/redux/wishlist/wishlistSlice";
+import {
+  toggleWishlist,
+  selectIsInWishlist,
+} from "@/redux/wishlist/wishlistSlice";
 import { showToast } from "@/config/ToastConfig";
-import { Heart, Trash2 } from "lucide-react";
 
 interface ProductCardProps {
   item: Product;
@@ -26,9 +27,7 @@ interface ProductCardProps {
 const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
   const dispatch = useDispatch();
 
-  const isWishlisted = useSelector((state: RootState) =>
-    state.wishlist.items.some((wishItem) => wishItem.id === item.id)
-  );
+  const isWishlisted = useSelector(selectIsInWishlist(item.id));
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();

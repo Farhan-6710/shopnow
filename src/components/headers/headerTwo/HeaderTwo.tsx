@@ -2,7 +2,8 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { selectCartCount } from "@/redux/cart/cartSlice";
+import { selectWishlistCount } from "@/redux/wishlist/wishlistSlice";
 import { PRODUCTS_DATA } from "@/constants/products";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
@@ -13,12 +14,8 @@ interface HeaderTwoProps {
 }
 
 const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
-  const cartCount = useSelector(
-    (state: RootState) => state.cart.cartItems.length
-  );
-  const wishlistCount = useSelector(
-    (state: RootState) => state.wishlist.items.length
-  );
+  const cartCount = useSelector(selectCartCount);
+  const wishlistCount = useSelector(selectWishlistCount);
 
   return (
     <header

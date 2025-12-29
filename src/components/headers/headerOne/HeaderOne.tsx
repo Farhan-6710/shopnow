@@ -6,13 +6,11 @@ import Marquee from "./Marquee";
 import Dropdowns from "./Dropdowns";
 import CartIcon from "./CartIcon";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store"; // Import RootState
+import { selectCartCount } from "@/redux/cart/cartSlice"; // Import RootState
 
 const HeaderOne: React.FC = () => {
   // Get cart count and currency from Redux store
-  const cartCount = useSelector(
-    (state: RootState) => state.cart.cartItems.length
-  );
+  const cartCount = useSelector(selectCartCount);
 
   return (
     <header className="bg-card transition-colors duration-200" role="banner">

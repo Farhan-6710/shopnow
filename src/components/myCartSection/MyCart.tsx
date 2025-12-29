@@ -2,8 +2,12 @@
 
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "@/redux/store";
-import { selectCurrency, replace } from "@/redux/cart/cartSlice";
+import { AppDispatch } from "@/redux/store";
+import {
+  selectCurrency,
+  replace,
+  selectCartItems,
+} from "@/redux/cart/cartSlice";
 import { useCartCoupon } from "@/hooks/useCartCoupon";
 import CartHeader from "./CartHeader";
 import CartEmpty from "./CartEmpty";
@@ -12,7 +16,7 @@ import OrderSummary from "./OrderSummary";
 
 const MyCart: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const cartItems = useSelector(selectCartItems);
   const currency = useSelector(selectCurrency);
   const isEmpty = cartItems.length === 0;
 
@@ -43,7 +47,7 @@ const MyCart: React.FC = () => {
   const total = subtotal - discount + deliveryCharge;
 
   const handleClearCart = () => {
-    dispatch(replace({ cartItems: [], currency }));
+    dispatch(replace({ cartItems: {}, currency }));
   };
 
   return (

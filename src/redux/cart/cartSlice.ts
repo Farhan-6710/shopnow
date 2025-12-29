@@ -7,13 +7,13 @@ import { Product } from "@/types/product";
 type Currency = "USD" | "INR";
 
 interface CartState {
-  cartItems: CartItem[];
+  cartItems: { [key: number]: CartItem };
   currency: Currency;
 }
 
 // Initial state
 const initialState: CartState = {
-  cartItems: [],
+  cartItems: {},
   currency: "USD",
 };
 
@@ -23,32 +23,26 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<Product>) {
       const product = action.payload;
-      const existingProduct = state.cartItems.find(
-        (item) => item.id === product.id
-      );
+      const existingProduct = state.cartItems[product.id];
 
       if (existingProduct) {
         existingProduct.quantity += 1;
       } else {
-        state.cartItems.push({
+        state.cartItems[product.id] = {
           ...product,
           quantity: 1,
           currency: state.currency,
-        });
+        };
       }
     },
     removeFromCart(state, action: PayloadAction<number>) {
-      state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload
-      );
+      delete state.cartItems[action.payload];
     },
     updateQuantity(
       state,
       action: PayloadAction<{ id: number; quantity: number }>
     ) {
-      const item = state.cartItems.find(
-        (item) => item.id === action.payload.id
-      );
+      const item = state.cartItems[action.payload.id];
       if (item && action.payload.quantity > 0) {
         item.quantity = action.payload.quantity;
       }
@@ -73,9 +67,22 @@ export const {
 
 // Selectors
 export const selectCartItems = (state: { cart: CartState }) =>
+  Object.values(state.cart.cartItems);
+
+export const selectCartItemsDict = (state: { cart: CartState }) =>
   state.cart.cartItems;
+
 export const selectCartCount = (state: { cart: CartState }) =>
-  state.cart.cartItems.length;
+  Object.keys(state.cart.cartItems).length;
+
+export const selectIsInCart =
+  (productId: number) => (state: { cart: CartState }) =>
+    !!state.cart.cartItems[productId];
+
+export const selectCartItem =
+  (productId: number) => (state: { cart: CartState }) =>
+    state.cart.cartItems[productId];
+
 export const selectCurrency = (state: { cart: CartState }) =>
   state.cart.currency;
 

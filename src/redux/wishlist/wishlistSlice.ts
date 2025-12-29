@@ -3,11 +3,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
 
 interface WishlistState {
-  items: Product[];
+  items: { [key: number]: Product };
 }
 
 const initialState: WishlistState = {
-  items: [],
+  items: {},
 };
 
 const wishlistSlice = createSlice({
@@ -16,30 +16,26 @@ const wishlistSlice = createSlice({
   reducers: {
     toggleWishlist(state, action: PayloadAction<Product>) {
       const product = action.payload;
-      const existingIndex = state.items.findIndex(
-        (item) => item.id === product.id
-      );
 
-      if (existingIndex >= 0) {
+      if (state.items[product.id]) {
         // Remove from wishlist
-        state.items.splice(existingIndex, 1);
+        delete state.items[product.id];
       } else {
         // Add to wishlist
-        state.items.push(product);
+        state.items[product.id] = product;
       }
     },
     addToWishlist(state, action: PayloadAction<Product>) {
       const product = action.payload;
-      const exists = state.items.some((item) => item.id === product.id);
-      if (!exists) {
-        state.items.push(product);
+      if (!state.items[product.id]) {
+        state.items[product.id] = product;
       }
     },
     removeFromWishlist(state, action: PayloadAction<number>) {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+      delete state.items[action.payload];
     },
     clearWishlist(state) {
-      state.items = [];
+      state.items = {};
     },
   },
 });
@@ -54,14 +50,17 @@ export const {
 
 // Selectors
 export const selectWishlistItems = (state: { wishlist: WishlistState }) =>
+  Object.values(state.wishlist.items);
+
+export const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
   state.wishlist.items;
 
 export const selectWishlistCount = (state: { wishlist: WishlistState }) =>
-  state.wishlist.items.length;
+  Object.keys(state.wishlist.items).length;
 
 export const selectIsInWishlist =
   (productId: number) => (state: { wishlist: WishlistState }) =>
-    state.wishlist.items.some((item) => item.id === productId);
+    !!state.wishlist.items[productId];
 
 // Export reducer
 export default wishlistSlice.reducer;
