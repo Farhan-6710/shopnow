@@ -8,6 +8,7 @@ import cartReducer from "@/redux/cart/cartSlice";
 import chatReducer from "@/redux/chat/chatSlice";
 import wishlistReducer from "@/redux/wishlist/wishlistSlice";
 import productsReducer from "@/redux/products/productsSlice";
+import feedbackReducer from "@/redux/feedback/feedbackSlice";
 import rootSaga from "@/redux/rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   chat: chatReducer,
   wishlist: wishlistReducer,
   products: productsReducer,
+  feedback: feedbackReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -3,7 +3,13 @@ import { all, fork } from "redux-saga/effects";
 import { watchCart } from "./cart/cartSaga";
 import { watchWishlist } from "./wishlist/wishlistSaga";
 import { watchProducts } from "./products/productsSaga";
+import { watchFeedback } from "./feedback/feedbackSaga";
 
 export default function* rootSaga() {
-  yield all([fork(watchCart), fork(watchWishlist), fork(watchProducts)]);
+  yield all([
+    fork(watchCart),
+    fork(watchWishlist),
+    fork(watchProducts),
+    fork(watchFeedback),
+  ]);
 }

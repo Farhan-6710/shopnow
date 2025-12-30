@@ -25,6 +25,7 @@ const Index = () => {
     onSortByPrice,
     onResetFilters,
   } = useFilterProducts();
+  console.log("component rendered")
 
   const prevFilteredLengthRef = useRef<number>(filteredProducts.length);
 

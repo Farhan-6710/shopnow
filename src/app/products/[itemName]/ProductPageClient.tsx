@@ -20,7 +20,6 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
 
     return () => clearTimeout(timer);
   }, []);
-  console.log("isLoading:", isLoading);
 
   return (
     <>

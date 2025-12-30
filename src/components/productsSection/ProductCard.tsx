@@ -77,8 +77,6 @@ const ProductCard = ({
     theme === "dark" ? "dark" : "light"
   );
 
-  console.log("item", item);
-
   return (
     <motion.article
       initial={{ opacity: 0, y: -20, scale: 0.9 }}
