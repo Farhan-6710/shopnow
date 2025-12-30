@@ -67,7 +67,7 @@ const Index = () => {
     <main className="bg-background transition-colors duration-200">
       <div className="max-w-screen-3xl mx-auto pt-0">
         <div className="grid md:grid-cols-[--spacing(60)_1fr] gap-3">
-            <FilterProducts {...filterProps} />
+          <FilterProducts {...filterProps} />
 
           <section
             className="product-card-wrapper grid sm:grid-cols-2 md:pr-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit py-0 md:py-3"
@@ -96,9 +96,10 @@ const Index = () => {
                 </p>
               </div>
             ) : (
-              filteredProducts.map((item) => (
+              filteredProducts.map((item, index) => (
                 <ProductCard
                   key={item.id}
+                  index={index}
                   item={item}
                   fetchImageWithTimeout={fetchImageWithTimeout}
                 />

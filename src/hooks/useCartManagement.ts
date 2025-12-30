@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
-  addToCart,
-  removeFromCart,
-  updateQuantity,
+  addToCartRequest,
+  removeFromCartRequest,
+  updateQuantityRequest,
 } from "@/redux/cart/cartSlice";
 import { showToast } from "@/config/ToastConfig";
 import { Product } from "@/types/product";
@@ -25,55 +25,51 @@ export const useCartManagement = (item: Product) => {
 
   const handleAddToCart = () => {
     setIsAdding(true);
-    setTimeout(() => {
-      dispatch(addToCart(item));
-      showToast({
-        type: "success",
-        title: "Added to Cart",
-        description: `${item.name} has been added to your cart`,
-      });
-      setIsAdding(false);
-    }, 500);
+    // Dispatch optimistic update - saga handles API call
+    dispatch(addToCartRequest(item));
+    showToast({
+      type: "success",
+      title: "Added to Cart",
+      description: `${item.name} has been added to your cart`,
+    });
+    setTimeout(() => setIsAdding(false), 500);
   };
 
   const handleRemoveFromCart = () => {
     setIsRemoving(true);
-    setTimeout(() => {
-      dispatch(removeFromCart(item.id));
-      showToast({
-        type: "success",
-        title: "Item Removed",
-        description: `${item.name} removed from cart`,
-      });
-      setIsRemoving(false);
-    }, 500);
+    // Dispatch optimistic update - saga handles API call
+    dispatch(removeFromCartRequest(item.id));
+    showToast({
+      type: "success",
+      title: "Item Removed",
+      description: `${item.name} removed from cart`,
+    });
+    setTimeout(() => setIsRemoving(false), 500);
   };
 
   const handleIncrementQuantity = () => {
     setIsUpdating(true);
-    setTimeout(() => {
-      dispatch(updateQuantity({ id: item.id, quantity: quantity + 1 }));
-      showToast({
-        type: "success",
-        title: "Quantity Updated",
-        description: `${item.name} quantity increased to ${quantity + 1}`,
-      });
-      setIsUpdating(false);
-    }, 500);
+    // Dispatch optimistic update - saga handles API call
+    dispatch(updateQuantityRequest({ id: item.id, quantity: quantity + 1 }));
+    showToast({
+      type: "success",
+      title: "Quantity Updated",
+      description: `${item.name} quantity increased to ${quantity + 1}`,
+    });
+    setTimeout(() => setIsUpdating(false), 500);
   };
 
   const handleDecrementQuantity = () => {
     if (quantity > 1) {
       setIsUpdating(true);
-      setTimeout(() => {
-        dispatch(updateQuantity({ id: item.id, quantity: quantity - 1 }));
-        showToast({
-          type: "success",
-          title: "Quantity Updated",
-          description: `${item.name} quantity decreased to ${quantity - 1}`,
-        });
-        setIsUpdating(false);
-      }, 500);
+      // Dispatch optimistic update - saga handles API call
+      dispatch(updateQuantityRequest({ id: item.id, quantity: quantity - 1 }));
+      showToast({
+        type: "success",
+        title: "Quantity Updated",
+        description: `${item.name} quantity decreased to ${quantity - 1}`,
+      });
+      setTimeout(() => setIsUpdating(false), 500);
     }
   };
 

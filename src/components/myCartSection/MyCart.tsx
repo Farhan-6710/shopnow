@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import {
   selectCurrency,
-  replace,
+  replaceCart,
   selectCartItems,
 } from "@/redux/cart/cartSlice";
 import { useCartCoupon } from "@/hooks/useCartCoupon";
@@ -47,7 +47,9 @@ const MyCart: React.FC = () => {
   const total = subtotal - discount + deliveryCharge;
 
   const handleClearCart = () => {
-    dispatch(replace({ cartItems: {}, currency }));
+    dispatch(
+      replaceCart({ cartItems: {}, currency, loading: false, error: null })
+    );
   };
 
   return (

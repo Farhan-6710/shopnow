@@ -3,13 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ShoppingCart, Trash2, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
-import { removeFromWishlist } from "@/redux/wishlist/wishlistSlice";
-import { addToCart } from "@/redux/cart/cartSlice";
-import { RootState } from "@/redux/store";
+import { removeFromWishlistRequest } from "@/redux/wishlist/wishlistSlice";
 import ConfirmationModal from "@/components/atoms/ConfirmationModal";
 import Rating from "@/components/productsSection/Rating";
 import ProductActions from "../productsSection/ProductActions";
@@ -38,7 +35,8 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
   } = useCartManagement(item);
 
   const handleRemove = () => {
-    dispatch(removeFromWishlist(item.id));
+    // Dispatch optimistic update - saga handles API call
+    dispatch(removeFromWishlistRequest(item.id));
     setShowDeleteModal(false);
   };
 

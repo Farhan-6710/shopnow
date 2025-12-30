@@ -3,20 +3,26 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import createSagaMiddleware from "redux-saga";
 import cartReducer from "@/redux/cart/cartSlice";
 import chatReducer from "@/redux/chat/chatSlice";
 import wishlistReducer from "@/redux/wishlist/wishlistSlice";
+import productsReducer from "@/redux/products/productsSlice";
+import rootSaga from "@/redux/rootSaga";
+
+const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "chat", "wishlist"], // persist cart, chat, and wishlist state
+  whitelist: ["cart", "chat", "wishlist"], // persist cart, chat, and wishlist state (not products)
 };
 
 const rootReducer = combineReducers({
   cart: cartReducer,
   chat: chatReducer,
   wishlist: wishlistReducer,
+  products: productsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -36,8 +42,12 @@ export const store = configureStore({
         ],
         ignoredPaths: ["chat.messages"],
       },
-    }),
+      thunk: false, // Disable thunk since we're using saga
+    }).concat(sagaMiddleware),
 });
+
+// Run the saga
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);
 

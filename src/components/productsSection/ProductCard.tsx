@@ -14,17 +14,22 @@ import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { getProductTag } from "@/utils/products/products";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  toggleWishlist,
+  toggleWishlistRequest,
   selectIsInWishlist,
 } from "@/redux/wishlist/wishlistSlice";
 import { showToast } from "@/config/ToastConfig";
 
 interface ProductCardProps {
+  index?: number;
   item: Product;
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
-const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
+const ProductCard = ({
+  index = 0,
+  item,
+  fetchImageWithTimeout,
+}: ProductCardProps) => {
   const dispatch = useDispatch();
 
   const isWishlisted = useSelector(selectIsInWishlist(item.id));
@@ -39,7 +44,8 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
         ? `${item.name} has been removed from your wishlist`
         : `${item.name} has been added to your wishlist`,
     });
-    dispatch(toggleWishlist(item));
+    // Dispatch optimistic update - saga handles API call
+    dispatch(toggleWishlistRequest(item));
   };
 
   const {
@@ -71,10 +77,17 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
     theme === "dark" ? "dark" : "light"
   );
 
-  console.log("item", item)
+  console.log("item", item);
 
   return (
-    <article
+    <motion.article
+      initial={{ opacity: 0, y: -20, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: 0.3,
+        delay: index * 0.075,
+        ease: "easeOut",
+      }}
       className="px-4 md:px-2 p-2 w-full flex flex-col h-full"
       aria-label={`${item.name} item card`}
     >
@@ -147,7 +160,7 @@ const ProductCard = ({ item, fetchImageWithTimeout }: ProductCardProps) => {
           </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };
 

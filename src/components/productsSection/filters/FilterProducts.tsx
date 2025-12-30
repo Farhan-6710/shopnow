@@ -6,6 +6,7 @@ import { FilterDrawer } from "../../extras/FilterDrawer";
 import FiltersSidebarContent from "./FiltersSidebarContent";
 import SearchBar from "@/components/headers/headerTwo/SearchBar";
 import { PRODUCTS_DATA } from "@/constants/products";
+import { motion } from "framer-motion";
 
 interface FilterProductsProps {
   categoryOptions: string[];
@@ -24,12 +25,18 @@ const FilterProducts: React.FC<FilterProductsProps> = (props) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside
+      <motion.aside
+        initial={{ opacity: 0, x: -180 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          duration: 0.2,
+          ease: "easeOut",
+        }}
         className="bg-card hidden md:flex md:flex-col sticky-filter-sidebar border-r border-border p-6 pb-6 pt-4 xl:pt-6 h-[calc(100vh-133px)]"
         aria-label="Product filters"
       >
         <FiltersSidebarContent {...props} />
-      </aside>
+      </motion.aside>
 
       {/* Mobile Drawer */}
       <div
