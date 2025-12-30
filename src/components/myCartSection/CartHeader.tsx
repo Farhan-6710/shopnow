@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import { motion } from "framer-motion";
 
 interface CartHeaderProps {
   itemCount: number;
@@ -20,7 +21,12 @@ const CartHeader: React.FC<CartHeaderProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="flex items-center justify-between mb-6"
+      >
         <div>
           <h1
             id="cart-heading"
@@ -37,8 +43,8 @@ const CartHeader: React.FC<CartHeaderProps> = ({
 
         {!isEmpty && (
           <Button
-            variant="ghost"
-            size="sm"
+            variant="outline"
+            size="md"
             className="text-destructive hover:text-destructive hover:bg-destructive/10"
             onClick={() => setShowClearModal(true)}
           >
@@ -46,7 +52,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
             Clear Cart
           </Button>
         )}
-      </div>
+      </motion.div>
 
       <ConfirmationModal
         open={showClearModal}

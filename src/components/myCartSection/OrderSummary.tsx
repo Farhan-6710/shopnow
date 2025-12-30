@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import React from "react";
 import OrderSummaryHeader from "./OrderSummaryHeader";
 import CouponSection from "./CouponSection";
 import PaymentMethods from "./PaymentMethods";
@@ -20,6 +18,8 @@ interface OrderSummaryProps {
   handleInputClick: () => void;
   handleCouponApply: () => void;
 }
+
+import { motion } from "framer-motion";
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   isCouponApplied,
@@ -46,7 +46,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   };
 
   return (
-    <section
+    <motion.section
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.2, delay: 0.2, ease: "easeOut" }}
       className={`w-full md:w-4/12 border p-4 rounded ${
         theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
       } h-fit`}
@@ -75,7 +78,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         formatCurrency={formatCurrency}
       />
       <PaymentMethods />
-    </section>
+    </motion.section>
   );
 };
 

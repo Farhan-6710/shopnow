@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import {
@@ -13,12 +13,23 @@ import CartHeader from "./CartHeader";
 import CartEmpty from "./CartEmpty";
 import CartItemList from "./CartItemList";
 import OrderSummary from "./OrderSummary";
+import MyCartSkeleton from "./MyCartSkeleton";
 
 const MyCart: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
   const currency = useSelector(selectCurrency);
   const isEmpty = cartItems.length === 0;
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Show skeleton for 500ms on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Use coupon hook for coupon logic
   const {
@@ -51,6 +62,11 @@ const MyCart: React.FC = () => {
       replaceCart({ cartItems: {}, currency, loading: false, error: null })
     );
   };
+
+  // Show skeleton during loading
+  if (isLoading) {
+    return <MyCartSkeleton />;
+  }
 
   return (
     <section

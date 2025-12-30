@@ -7,17 +7,25 @@ interface CartItemListProps {
   currency: "USD" | "INR";
 }
 
+import { motion } from "framer-motion";
+
 const CartItemList: React.FC<CartItemListProps> = ({ cartItems, currency }) => {
   return (
     <>
       {cartItems.map((item, index) => (
-        <CartItem
+        <motion.div
           key={item.id}
-          index={index}
-          length={cartItems.length}
-          item={item}
-          currency={currency}
-        />
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2, delay: index * 0.1, ease: "easeOut" }}
+        >
+          <CartItem
+            index={index}
+            length={cartItems.length}
+            item={item}
+            currency={currency}
+          />
+        </motion.div>
       ))}
     </>
   );

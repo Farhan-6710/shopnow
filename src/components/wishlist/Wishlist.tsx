@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearWishlist,
@@ -9,15 +9,31 @@ import {
 import WishlistEmpty from "./WishlistEmpty";
 import WishlistItemList from "./WishlistItemList";
 import WishlistHeader from "./WishlistHeader";
+import WishlistSkeleton from "./WishlistSkeleton";
 
 const Wishlist: React.FC = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector(selectWishlistItems);
   const isEmpty = wishlistItems.length === 0;
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Show skeleton for 500ms on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleClearAll = () => {
     dispatch(clearWishlist());
   };
+
+  // Show skeleton during loading
+  if (isLoading) {
+    return <WishlistSkeleton />;
+  }
 
   return (
     <section

@@ -58,7 +58,7 @@ const ProductActions = ({
           e.stopPropagation();
         }}
       >
-        {!isInCart ? (
+        {!isInCart || isAdding ? (
           <Button
             onClick={(e: React.MouseEvent) => {
               e.preventDefault();

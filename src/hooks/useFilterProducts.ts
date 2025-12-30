@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   COLOR_OPTIONS,
   PRICE_RANGE_OPTIONS,
@@ -26,8 +26,12 @@ export const useFilterProducts = () => {
 
   const triggerFilterLoading = () => {
     setIsFilterLoading(true);
-    setTimeout(() => setIsFilterLoading(false), 700);
+    setTimeout(() => setIsFilterLoading(false), 500);
   };
+
+  useEffect(() => {
+    triggerFilterLoading();
+  }, []);
 
   const {
     data: products,

@@ -44,11 +44,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   };
 
   return (
-    <Modal
-      open={open}
-      onOpenChange={onOpenChange}
-      className="sm:max-w-[425px]"
-    >
+    <Modal open={open} onOpenChange={onOpenChange} className="sm:max-w-[425px]">
       <div className="flex flex-col gap-4">
         <div className="flex items-start gap-4">
           {Icon && (
