@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import { Inter, Convergence, Libre_Baskerville } from "next/font/google";
+import { Inter, Convergence } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import LayoutClient from "./LayoutClient";

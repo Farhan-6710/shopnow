@@ -29,8 +29,8 @@ export const useFilterProducts = () => {
     setTimeout(() => setIsFilterLoading(false), 500);
   };
 
-  // Remove useEffect that triggers fake loading on mount to avoid extra renders
-  // Real data loading from useFetchProducts is sufficient
+  // Removed: Triggering filter loading on mount causes unnecessary re-renders.
+  // We rely on useFetchProducts loading state.
 
   const {
     data: products,

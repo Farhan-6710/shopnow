@@ -10,16 +10,15 @@ import {
 
 export const useFetchProducts = () => {
   const dispatch = useDispatch();
+
   const products = useSelector(selectProducts);
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
 
+  // Fetch ONCE on mount
   useEffect(() => {
-    // Only fetch if we don't have products yet
-    if (products.length === 0 && !isLoading && !error) {
-      dispatch(fetchProductsRequest());
-    }
-  }, [dispatch, products.length, isLoading, error]);
+    dispatch(fetchProductsRequest());
+  }, [dispatch]);
 
   return {
     data: products as Product[],

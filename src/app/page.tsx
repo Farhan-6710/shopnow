@@ -6,7 +6,6 @@ import ProductCardSkeleton from "../components/productsSection/ProductCardSkelet
 import ProductCard from "../components/productsSection/ProductCard";
 import { useFilterProducts } from "../hooks/useFilterProducts";
 import { useEffect, useRef } from "react";
-import { Filter } from "lucide-react";
 import { showToast } from "@/config/ToastConfig";
 
 const Index = () => {
@@ -25,7 +24,8 @@ const Index = () => {
     onSortByPrice,
     onResetFilters,
   } = useFilterProducts();
-  console.log("component rendered")
+  
+  console.log("component rendered");
 
   const prevFilteredLengthRef = useRef<number>(filteredProducts.length);
 
