@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import {
   COLOR_OPTIONS,
   PRICE_RANGE_OPTIONS,
@@ -29,9 +29,8 @@ export const useFilterProducts = () => {
     setTimeout(() => setIsFilterLoading(false), 500);
   };
 
-  useEffect(() => {
-    triggerFilterLoading();
-  }, []);
+  // Remove useEffect that triggers fake loading on mount to avoid extra renders
+  // Real data loading from useFetchProducts is sufficient
 
   const {
     data: products,
@@ -78,7 +77,8 @@ export const useFilterProducts = () => {
     currency,
   ]);
 
-  const onToggleCategory = (category: string) => {
+  // Wrap handlers in useCallback to prevent unnecessary re-creations
+  const onToggleCategory = useCallback((category: string) => {
     triggerFilterLoading();
     setFilterValues((prevFilters) => ({
       ...prevFilters,
@@ -86,9 +86,9 @@ export const useFilterProducts = () => {
         ? prevFilters.selectedCategories.filter((c) => c !== category)
         : [...prevFilters.selectedCategories, category],
     }));
-  };
+  }, []);
 
-  const onTogglePriceRange = (priceRange: string) => {
+  const onTogglePriceRange = useCallback((priceRange: string) => {
     triggerFilterLoading();
     setFilterValues((prevFilters) => ({
       ...prevFilters,
@@ -96,9 +96,9 @@ export const useFilterProducts = () => {
         ? prevFilters.selectedPriceRange.filter((r) => r !== priceRange)
         : [...prevFilters.selectedPriceRange, priceRange],
     }));
-  };
+  }, []);
 
-  const onToggleColor = (color: string) => {
+  const onToggleColor = useCallback((color: string) => {
     triggerFilterLoading();
     setFilterValues((prevFilters) => ({
       ...prevFilters,
@@ -106,17 +106,17 @@ export const useFilterProducts = () => {
         ? prevFilters.selectedColors.filter((c) => c !== color)
         : [...prevFilters.selectedColors, color],
     }));
-  };
+  }, []);
 
-  const onSortByPrice = (order: "asc" | "desc") => {
+  const onSortByPrice = useCallback((order: "asc" | "desc") => {
     triggerFilterLoading();
     setFilterValues((prev) => ({
       ...prev,
       selectedSort: prev.selectedSort === order ? "" : order,
     }));
-  };
+  }, []);
 
-  const onResetFilters = () => {
+  const onResetFilters = useCallback(() => {
     triggerFilterLoading();
     setFilterValues({
       selectedCategories: [],
@@ -129,7 +129,7 @@ export const useFilterProducts = () => {
       title: "Filters Reset",
       description: "All filters have been cleared",
     });
-  };
+  }, []);
 
   // Use derived constant
   const categoryOptions = CATEGORY_OPTIONS;
