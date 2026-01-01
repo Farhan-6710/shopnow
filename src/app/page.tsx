@@ -66,7 +66,6 @@ const Index = () => {
 
   return (
     <main className="bg-background transition-colors duration-200">
-      <h1 className="sr-only">Our Product Collection</h1>
       <div className="max-w-screen-3xl mx-auto pt-0">
         <div className="grid md:grid-cols-[--spacing(60)_1fr] gap-3">
           <FilterProducts {...filterProps} />
