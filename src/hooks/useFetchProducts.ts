@@ -1,29 +1,25 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { Product } from "@/types/product";
-import {
-  fetchProductsRequest,
-  selectProducts,
-  selectProductsLoading,
-  selectProductsError,
-} from "@/redux/products/productsSlice";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "@/types/product";
+import { timeout } from "@/utils/timeout";
+
+const fetchProductsApi = async (): Promise<Product[]> => {
+  const response = await fetch("/api/products");
+  const data = await response.json();
+  if (!data.success) throw new Error(data.error || "Failed to fetch products");
+  return data.data;
+};
 
 export const useFetchProducts = () => {
-  const dispatch = useDispatch();
-
-  const products = useSelector(selectProducts);
-  const isLoading = useSelector(selectProductsLoading);
-  const error = useSelector(selectProductsError);
-
-  // Fetch ONCE on mount
-  useEffect(() => {
-    dispatch(fetchProductsRequest());
-  }, [dispatch]);
+  const { data, isLoading, error, refetch } = useQuery<Product[], Error>({
+    queryKey: ["products"],
+    queryFn: fetchProductsApi,
+    staleTime: 5 * 60 * 1000, // 5 minutes cache
+  });
 
   return {
-    data: products as Product[],
+    data: data || [],
     isLoading,
-    error: error ? new Error(error) : null,
-    refetch: () => dispatch(fetchProductsRequest()),
+    error,
+    refetch,
   };
 };

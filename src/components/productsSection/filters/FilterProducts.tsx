@@ -21,6 +21,8 @@ interface FilterProductsProps {
   onResetFilters: () => void;
 }
 
+console.log("filters rendered");
+
 const FilterProducts: React.FC<FilterProductsProps> = (props) => {
   return (
     <>
@@ -51,4 +53,4 @@ const FilterProducts: React.FC<FilterProductsProps> = (props) => {
   );
 };
 
-export default FilterProducts;
+export default React.memo(FilterProducts);

@@ -61,6 +61,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
         <Link
           href={`/products/${encodeURIComponent(item.name)}`}
           className="flex items-center justify-center py-4 bg-background border-b"
+          aria-label={`View details for ${item.name}`}
         >
           <div className="relative w-2/3 aspect-square">
             {!imageError ? (
@@ -82,7 +83,10 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
 
         {/* Product Details */}
         <div className="p-4">
-          <Link href={`/products/${encodeURIComponent(item.name)}`}>
+          <Link
+            href={`/products/${encodeURIComponent(item.name)}`}
+            aria-label={`View details for ${item.name}`}
+          >
             <h3 className="font-medium text-foreground line-clamp-1 hover:text-primary transition-colors">
               {item.name}
             </h3>

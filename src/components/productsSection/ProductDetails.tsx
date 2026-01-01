@@ -18,7 +18,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     <h2 className="text-sm font-bold dark:text-white text-primaryDarkTwo">
       {name}
     </h2>
-    <p className="dark:text-gray-300 text-gray-700">
+    <p className="dark:text-gray-200 text-gray-800">
       {currency === "INR" ? "₹" : "$"}
       {displayPrice(currency)}
     </p>

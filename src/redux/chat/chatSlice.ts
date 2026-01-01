@@ -32,4 +32,7 @@ const chatSlice = createSlice({
 });
 
 export const { setMessages, addMessage, clearChat } = chatSlice.actions;
+export const selectChatMessages = (state: { chat: ChatState }) =>
+  state.chat.messages;
+
 export default chatSlice.reducer;

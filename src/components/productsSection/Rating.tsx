@@ -13,7 +13,11 @@ const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
   const emptyStars = totalStars - fullStars - (halfStar ? 1 : 0);
 
   return (
-    <div className="flex items-center" style={{ fontSize: "1.25rem" }}>
+    <div
+      className="flex items-center"
+      style={{ fontSize: "1.25rem" }}
+      aria-label={`Rating: ${rating} out of ${totalStars} stars`}
+    >
       {" "}
       {/* Adjust fontSize as needed */}
       {/* Render full stars */}
@@ -22,6 +26,7 @@ const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
           key={`full-${i}`}
           icon={faStar}
           className="text-primary mx-0.3 icon-size"
+          aria-hidden="true"
         />
       ))}
       {/* Render half star */}
@@ -29,13 +34,19 @@ const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
         <FontAwesomeIcon
           icon={faStarHalfAlt}
           className="text-primary mx-0.3 icon-size"
+          aria-hidden="true"
         />
       )}
       {/* Render empty stars */}
       {[...Array(emptyStars)].map((_, i) => (
-        <FontAwesomeIcon key={`empty-${i}`} icon={faStar} className="icon-size" />
+        <FontAwesomeIcon
+          key={`empty-${i}`}
+          icon={faStar}
+          className="icon-size"
+          aria-hidden="true"
+        />
       ))}
-      <small className="text-sm ml-2 dark:text-gray-300 text-gray-500">
+      <small className="text-sm ml-2 dark:text-gray-200 text-gray-700">
         ({rating.toFixed(1)})
       </small>
     </div>

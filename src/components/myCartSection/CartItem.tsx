@@ -31,6 +31,7 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
         className={`flex flex-col xs:flex-row items-center justify-between px-4 md:px-8 py-4 h-fit ${
           length > 1 && index === 0 ? "border-t border-x" : "border"
         }`}
+        aria-label={`View details for ${item.name}`}
       >
         <div className="relative flex justify-center items-center w-28 xs:w-24 h-24">
           <Image

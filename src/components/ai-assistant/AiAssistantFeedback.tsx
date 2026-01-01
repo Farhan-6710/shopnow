@@ -1,8 +1,11 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { submitFeedbackRequest } from "@/redux/feedback/feedbackSlice";
+import {
+  submitFeedbackRequest,
+  selectFeedbackLoading,
+  selectFeedbackError,
+} from "@/redux/feedback/feedbackSlice";
 import { Spinner } from "@/components/ui/spinner";
 import { useEffect, useState } from "react";
 import { MessageSquare } from "lucide-react";
@@ -18,31 +21,14 @@ import Modal from "../atoms/Modal";
 
 const AiAssistantFeedback: React.FC = () => {
   const dispatch = useDispatch();
-  const { isLoading: isSubmitting, error } = useSelector(
-    (state: RootState) => state.feedback
-  );
+  const isSubmitting = useSelector(selectFeedbackLoading);
+  const error = useSelector(selectFeedbackError);
 
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [selectedRating, setSelectedRating] = useState<string>("");
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
 
-  useEffect(() => {
-    // If not loading and no error, and modal is open, it might mean success.
-    // However, we don't have a clear "success" flag in the slice, only loading/error.
-    // We'll rely on checking if submission finished successfully inside the effect isn't ideal without a flag.
-    // For now, simpler: we keep correct local submit handling.
-    // Wait, the saga handles success toast.
-    // If we want to close the modal on success, we need to know.
-    // A separate "isSuccess" in slice would be nice, but we can infer:
-    // If we were submitting (local state? no, redux state) and now we are not, AND no error -> success.
-    // But we need to track "wasSubmitting".
-  }, [isSubmitting, error]);
-
-  // Actually, let's keep it simple:
-  // We can't close the modal easily purely from Redux state without a success flag or local wrapper.
-  // BUT the user asked for using Redux.
-  // Let's add a local effect to close modal on success.
   const [wasSubmitting, setWasSubmitting] = useState(false);
 
   useEffect(() => {
@@ -150,10 +136,14 @@ const AiAssistantFeedback: React.FC = () => {
 
           {/* Feedback Textarea */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">
+            <label
+              htmlFor="feedback-message"
+              className="text-sm font-medium text-foreground"
+            >
               Your Feedback
             </label>
             <textarea
+              id="feedback-message"
               value={feedbackMessage}
               onChange={(e) => setFeedbackMessage(e.target.value)}
               placeholder="Tell us what you think... (optional but appreciated)"

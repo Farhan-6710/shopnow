@@ -8,7 +8,6 @@ interface CartIconProps {
 
 const CartIcon: React.FC<CartIconProps> = ({ cartCount }) => (
   <Link href="/cart" aria-label={`Shopping cart with ${cartCount} items`}>
-    <div className="block md:hidden relative mt-1">
       <ShoppingCart
         className="text-primary dark:text-gray-200 transition-all duration-200"
         size={20}
@@ -23,7 +22,6 @@ const CartIcon: React.FC<CartIconProps> = ({ cartCount }) => (
           {cartCount}
         </span>
       )}
-    </div>
   </Link>
 );
 

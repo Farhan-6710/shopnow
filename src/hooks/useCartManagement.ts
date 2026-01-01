@@ -6,6 +6,8 @@ import { RootState } from "@/redux/store";
 import {
   addToCartRequest,
   removeFromCartRequest,
+  selectCartItem,
+  selectCurrency,
   updateQuantityRequest,
 } from "@/redux/cart/cartSlice";
 import { showToast } from "@/config/ToastConfig";
@@ -15,13 +17,12 @@ import { timeout } from "@/utils/timeout";
 
 export const useCartManagement = (item: Product) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  const currency = useSelector((state: RootState) => state.cart.currency);
+  const currency = useSelector(selectCurrency);
+  const cartItem = useSelector(selectCartItem(item.id));
   const [isAdding, setIsAdding] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const cartItem = cartItems[item.id];
   const isInCart = !!cartItem;
   const quantity = cartItem?.quantity || 0;
 

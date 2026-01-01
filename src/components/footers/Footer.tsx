@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer
-      className="lg:pl-10 xl:pl-20 bg-card border-t text-foregorund py-8 lg:py-14 transition-colors duration-200"
+      className="lg:pl-10 xl:pl-20 bg-card border-t text-foreground py-8 lg:py-14 transition-colors duration-200"
       role="contentinfo"
     >
       <div className="container mx-auto flex flex-wrap">
@@ -38,10 +38,14 @@ const Footer: React.FC = () => {
           className="w-full lg:w-4/12 flex flex-col justify-between md:justify-normal px-4 cursor-pointer"
           aria-label="Brand information"
         >
-          <div onClick={handleClick} className="relative">
+          <button
+            onClick={handleClick}
+            className="relative focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
+            aria-label="Back to home"
+          >
             <Image
               src="/images/logo-light.png"
-              alt="Logo"
+              alt="SHOPNOW Logo"
               width={256}
               height={64}
               className="logo-image block dark:hidden"
@@ -49,13 +53,13 @@ const Footer: React.FC = () => {
             />
             <Image
               src="/images/logo-dark.png"
-              alt="Logo"
+              alt="SHOPNOW Logo"
               width={256}
               height={64}
               className="logo-image hidden dark:block"
               priority
             />
-          </div>
+          </button>
           <p className="text-sm mt-6 mb-4">
             At SHOPNOW, we offer an extensive selection of branded clothing,
             bags, shoes, accessories, purses, and sandals. Whether you&apos;re

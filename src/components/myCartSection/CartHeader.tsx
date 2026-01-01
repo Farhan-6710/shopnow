@@ -47,6 +47,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
             size="md"
             className="text-destructive hover:text-destructive hover:bg-destructive/10"
             onClick={() => setShowClearModal(true)}
+            aria-label="Clear all items from cart"
           >
             <Trash2 className="size-4 mr-2" />
             Clear Cart

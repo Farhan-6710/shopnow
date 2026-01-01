@@ -50,7 +50,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
         fill
         style={{ objectFit: "contain" }}
         className="rounded-t-lg w-full"
-        priority
+        priority={false}
       />
     </div>
   );

@@ -2,8 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessages } from "@/redux/chat/chatSlice";
-import { RootState, AppDispatch } from "@/redux/store";
+import {
+  setMessages,
+  selectChatMessages,
+} from "@/redux/chat/chatSlice";
+import { AppDispatch } from "@/redux/store";
 
 interface Message {
   id: string;
@@ -26,7 +29,7 @@ export const useAiAssistant = ({
   context,
 }: UseAiAssistantProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const reduxMessages = useSelector((state: RootState) => state.chat.messages);
+  const reduxMessages = useSelector(selectChatMessages);
 
   // Convert ISO strings back to Date objects and use Redux messages if available
   // If no saved messages, add initial greeting from AI

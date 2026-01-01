@@ -48,7 +48,10 @@ const QuantityCounter = ({
             e.stopPropagation();
           }}
         >
-          <span aria-live="polite" aria-label={`Quantity: ${quantity}`}>
+          <span
+            aria-live="polite"
+            aria-label={`Quantity: ${quantity} items of ${itemName}`}
+          >
             {loading ? <Spinner className="size-4" /> : quantity}
           </span>
         </div>

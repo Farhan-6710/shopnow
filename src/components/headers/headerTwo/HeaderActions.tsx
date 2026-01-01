@@ -7,12 +7,6 @@ import Link from "next/link";
 import Sheet from "@/components/atoms/Sheet";
 import AiAssistant from "@/components/ai-assistant/AiAssistant";
 import { useFilterProducts } from "@/hooks/useFilterProducts";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useTheme } from "next-themes";
 
 interface HeaderActionsProps {
@@ -84,6 +78,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
             variant="outline"
             size="default"
             className="w-full md:w-auto rounded-md px-3 py-2 gap-2 ml-3 text-foreground transition-all"
+            aria-label="Open AI Assistant"
           >
             <BotIcon className="size-4 text-primary" />
             <span className="text-sm font-bold">AI Assistant</span>

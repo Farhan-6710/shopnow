@@ -26,6 +26,7 @@ const FilterByColor: React.FC<FilterByColorProps> = ({
                 checked={selectedColors.includes(color)}
                 onChange={() => onToggleColor(color)}
                 className={CHECKBOX_CLASSES}
+                aria-label={`Filter by color ${color}`}
               />
               <span
                 className="h-5 w-5 rounded-full border border-gray-300 dark:border-gray-600"

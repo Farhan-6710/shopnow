@@ -8,7 +8,6 @@ interface HeaderProps {
   isSidebarOpen: boolean;
   setSidebarOpen: (isOpen: boolean) => void;
 }
-
 const Header: React.FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
   return (
     <>

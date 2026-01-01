@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setCurrency } from "@/redux/cart/cartSlice";
+import { setCurrency, selectCurrency } from "@/redux/cart/cartSlice";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 const CurrencyDropdown = () => {
   const dispatch = useDispatch();
-  const currency = useSelector((state: RootState) => state.cart.currency);
+  const currency = useSelector(selectCurrency);
 
   return (
     <DropdownMenu>

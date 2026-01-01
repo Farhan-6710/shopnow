@@ -1,7 +1,5 @@
 import React from "react";
 import { CHECKBOX_CLASSES } from "@/constants/filters";
-import { showToast } from "@/config/ToastConfig";
-import { ListFilter } from "lucide-react";
 
 interface FilterByCategoryProps {
   categoryOptions: string[];
@@ -32,6 +30,7 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
               onResetFilters();
             }}
             className={CHECKBOX_CLASSES}
+            aria-label="Show all categories"
           />
           <span className="text-xs text-gray-700 dark:text-gray-300">All</span>
         </label>
@@ -48,6 +47,7 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
               checked={selectedCategories.includes(category)}
               onChange={() => onToggleCategory(category)}
               className={CHECKBOX_CLASSES}
+              aria-label={`Filter by category ${category}`}
             />
             <span className="text-xs text-gray-700 dark:text-gray-300 capitalize">
               {category}

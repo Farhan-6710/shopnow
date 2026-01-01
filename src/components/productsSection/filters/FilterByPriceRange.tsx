@@ -28,6 +28,7 @@ const FilterByPriceRange: React.FC<FilterByPriceRangeProps> = ({
               checked={selectedPriceRanges.includes(range)}
               onChange={() => onTogglePriceRange(range)}
               className={CHECKBOX_CLASSES}
+              aria-label={`Filter by price range ${range}`}
             />
             <span className="text-xs text-gray-700 dark:text-gray-300 capitalize">
               {range}

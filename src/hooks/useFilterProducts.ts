@@ -8,29 +8,21 @@ import {
   SORT_OPTIONS,
 } from "@/constants/filters";
 import { showToast } from "@/config/ToastConfig";
+import { timeout } from "@/utils/timeout";
 
 import { ProductFilterValues } from "@/types/filterProduct";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { selectCurrency } from "@/redux/cart/cartSlice";
 import { useFetchProducts } from "./useFetchProducts";
 
 export const useFilterProducts = () => {
-  const currency = useSelector((state: RootState) => state.cart.currency);
+  const currency = useSelector(selectCurrency);
   const [filterValues, setFilterValues] = useState<ProductFilterValues>({
     selectedCategories: [],
     selectedPriceRange: [],
     selectedColors: [],
     selectedSort: "",
   });
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
-
-  const triggerFilterLoading = () => {
-    setIsFilterLoading(true);
-    setTimeout(() => setIsFilterLoading(false), 500);
-  };
-
-  // Removed: Triggering filter loading on mount causes unnecessary re-renders.
-  // We rely on useFetchProducts loading state.
 
   const {
     data: products,
@@ -77,53 +69,65 @@ export const useFilterProducts = () => {
     currency,
   ]);
 
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
+
   // Wrap handlers in useCallback to prevent unnecessary re-creations
-  const onToggleCategory = useCallback((category: string) => {
-    triggerFilterLoading();
+  const onToggleCategory = useCallback(async (category: string) => {
+    setIsFilterLoading(true);
+    await timeout(700);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedCategories: prevFilters.selectedCategories.includes(category)
         ? prevFilters.selectedCategories.filter((c) => c !== category)
         : [...prevFilters.selectedCategories, category],
     }));
+    setIsFilterLoading(false);
   }, []);
 
-  const onTogglePriceRange = useCallback((priceRange: string) => {
-    triggerFilterLoading();
+  const onTogglePriceRange = useCallback(async (priceRange: string) => {
+    setIsFilterLoading(true);
+    await timeout(700);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedPriceRange: prevFilters.selectedPriceRange.includes(priceRange)
         ? prevFilters.selectedPriceRange.filter((r) => r !== priceRange)
         : [...prevFilters.selectedPriceRange, priceRange],
     }));
+    setIsFilterLoading(false);
   }, []);
 
-  const onToggleColor = useCallback((color: string) => {
-    triggerFilterLoading();
+  const onToggleColor = useCallback(async (color: string) => {
+    setIsFilterLoading(true);
+    await timeout(700);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedColors: prevFilters.selectedColors.includes(color)
         ? prevFilters.selectedColors.filter((c) => c !== color)
         : [...prevFilters.selectedColors, color],
     }));
+    setIsFilterLoading(false);
   }, []);
 
-  const onSortByPrice = useCallback((order: "asc" | "desc") => {
-    triggerFilterLoading();
+  const onSortByPrice = useCallback(async (order: "asc" | "desc") => {
+    setIsFilterLoading(true);
+    await timeout(700);
     setFilterValues((prev) => ({
       ...prev,
       selectedSort: prev.selectedSort === order ? "" : order,
     }));
+    setIsFilterLoading(false);
   }, []);
 
-  const onResetFilters = useCallback(() => {
-    triggerFilterLoading();
+  const onResetFilters = useCallback(async () => {
+    setIsFilterLoading(true);
+    await timeout(700);
     setFilterValues({
       selectedCategories: [],
       selectedPriceRange: [],
       selectedColors: [],
       selectedSort: "",
     });
+    setIsFilterLoading(false);
     showToast({
       type: "success",
       title: "Filters Reset",

@@ -6,7 +6,7 @@ import CurrencyDropdown from "./CurrencyDropdown";
 
 const Dropdowns: React.FC = () => {
   return (
-    <div className="flex space-x-3 pr-2">
+    <div className="flex space-x-3 pr-">
       <CurrencyDropdown />
       <AccountDropdown />
     </div>

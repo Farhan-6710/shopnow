@@ -44,4 +44,11 @@ export const {
   submitFeedbackFailure,
 } = feedbackSlice.actions;
 
+// Selectors
+export const selectFeedbackLoading = (state: { feedback: FeedbackState }) =>
+  state.feedback.isLoading;
+
+export const selectFeedbackError = (state: { feedback: FeedbackState }) =>
+  state.feedback.error;
+
 export default feedbackSlice.reducer;
