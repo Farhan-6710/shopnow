@@ -30,10 +30,21 @@ interface ProductCardProps {
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
   itemsPerRow?: number;
   style?: React.CSSProperties;
+  priority?: boolean;
 }
 
 const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
-  ({ index = 0, item, fetchImageWithTimeout, itemsPerRow = 5, style }, ref) => {
+  (
+    {
+      index = 0,
+      item,
+      fetchImageWithTimeout,
+      itemsPerRow = 5,
+      style,
+      priority = false,
+    },
+    ref
+  ) => {
     const dispatch = useDispatch();
     const { theme } = useTheme();
 
@@ -116,7 +127,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
           {/* Tag */}
           {item.tags && item.tags?.length > 0 && (
             <div
-              className="absolute -right-2 -top-2 text-[10px] px-2 py-1 rounded-bl-lg rounded-tr-lg"
+              className="absolute -right-2 -top-2 z-1 text-[10px] px-2 py-1 rounded-bl-lg rounded-tr-lg"
               style={tag?.style}
             >
               <p>{tag?.label}</p>
@@ -133,6 +144,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
               imgSource={item.imgSource}
               alt={item.name}
               fetchImageWithTimeout={fetchImageWithTimeout}
+              priority={priority}
             />
 
             <MemoProductDetails

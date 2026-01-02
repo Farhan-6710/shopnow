@@ -6,24 +6,26 @@ interface ProductImageProps {
   imgSource: string;
   alt: string;
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
+  priority?: boolean;
 }
 
 const ProductImage: React.FC<ProductImageProps> = ({
   imgSource,
   alt,
   fetchImageWithTimeout,
+  priority = false,
 }) => {
   const [image, setImage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadImage = async () => {
-      setLoading(true); // Set loading to true when starting to fetch
+      setLoading(true);
       const imageBlob = await fetchImageWithTimeout(imgSource);
       if (imageBlob) {
         setImage(URL.createObjectURL(imageBlob));
       }
-      setLoading(false); // Set loading to false once the image is fetched (either success or failure)
+      setLoading(false);
     };
 
     loadImage();
@@ -50,7 +52,8 @@ const ProductImage: React.FC<ProductImageProps> = ({
         fill
         style={{ objectFit: "contain" }}
         className="rounded-t-lg w-full"
-        priority={false}
+        loading={priority ? "eager" : "lazy"}
+        priority={priority}
       />
     </div>
   );

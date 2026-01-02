@@ -167,6 +167,7 @@ const Index = () => {
                     fetchImageWithTimeout={fetchImageWithTimeout}
                     itemsPerRow={itemsPerRow}
                     style={{ padding: productsGap }}
+                    priority={index < itemsPerRow}
                   />
                 ))}
 

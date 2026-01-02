@@ -34,10 +34,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
       await signInWithGoogle();
       setShowLoginModal(false);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Failed to sign in with Google";
       showToast({
         type: "error",
         title: "Google Sign-In Failed",
@@ -66,8 +62,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
       });
       setShowLoginModal(false);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Failed to sign in";
       showToast({
         type: "error",
         title: "Sign In Failed",

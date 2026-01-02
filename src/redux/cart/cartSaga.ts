@@ -139,9 +139,6 @@ function* addToCartSaga(action: PayloadAction<Product>) {
     yield call(cartApi.addItem, product.id, 1);
     yield put(addToCartSuccess({ productId: product.id }));
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to add to cart";
-
     // Rollback: remove item if it was new, or revert quantity
     yield put(addToCartFailure({ product, previousQuantity }));
 
@@ -174,9 +171,6 @@ function* removeFromCartSaga(
     yield call(cartApi.removeItem, productId);
     yield put(removeFromCartSuccess({ productId }));
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to remove from cart";
-
     // Rollback: restore the removed item if we have it
     if (removedItem) {
       yield put(removeFromCartFailure(removedItem));
@@ -216,9 +210,6 @@ function* updateQuantitySaga(
     yield call(cartApi.updateQuantity, productId, quantity);
     yield put(updateQuantitySuccess({ productId, quantity }));
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to update quantity";
-
     // Rollback: revert to previous quantity
     if (previousQuantity !== undefined) {
       yield put(updateQuantityFailure({ productId, previousQuantity }));

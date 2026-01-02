@@ -123,9 +123,6 @@ function* addToWishlistSaga(action: PayloadAction<Product>) {
     yield call(wishlistApi.addItem, product.id);
     yield put(addToWishlistSuccess({ productId: product.id }));
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to add to wishlist";
-
     // Rollback: remove the optimistically added item
     yield put(addToWishlistFailure(product));
 
@@ -158,9 +155,6 @@ function* removeFromWishlistSaga(
     yield call(wishlistApi.removeItem, productId);
     yield put(removeFromWishlistSuccess({ productId }));
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to remove from wishlist";
-
     // Rollback: restore the removed item if we have it
     if (removedItem) {
       yield put(removeFromWishlistFailure(removedItem));
@@ -212,9 +206,6 @@ function* toggleWishlistSaga(action: PayloadAction<Product>) {
       );
     }
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to update wishlist";
-
     // Rollback: toggle back to original state
     yield put(toggleWishlistFailure({ product, wasInWishlist }));
 

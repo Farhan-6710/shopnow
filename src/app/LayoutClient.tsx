@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import Header from "../components/headers/Header";
-import Footer from "@/components/footers/Footer";
-import FooterTwo from "@/components/footers/FooterTwo";
-import ScrollToTop from "@/components/extras/ScrollToTop";
-import ModeToggle from "@/components/extras/ModeToggle";
 import AppProviders from "../providers/AppProviders";
 import { Toaster } from "@/components/ui/sonner";
+
+// Lazy load heavy components that are not immediately visible
+const Footer = lazy(() => import("@/components/footers/Footer"));
+const FooterTwo = lazy(() => import("@/components/footers/FooterTwo"));
+const ScrollToTop = lazy(() => import("@/components/extras/ScrollToTop"));
+const ModeToggle = lazy(() => import("@/components/extras/ModeToggle"));
 
 export default function LayoutClient({
   children,
@@ -19,11 +21,19 @@ export default function LayoutClient({
   return (
     <AppProviders>
       <Header isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <ModeToggle />
+      <Suspense fallback={null}>
+        <ModeToggle />
+      </Suspense>
       {children}
-      <Footer />
-      <FooterTwo />
-      <ScrollToTop />
+      <Suspense fallback={<div className="h-32" />}>
+        <Footer />
+      </Suspense>
+      <Suspense fallback={null}>
+        <FooterTwo />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ScrollToTop />
+      </Suspense>
       <Toaster position="top-center" />
     </AppProviders>
   );

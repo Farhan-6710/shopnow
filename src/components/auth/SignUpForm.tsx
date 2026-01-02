@@ -35,10 +35,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       await signInWithGoogle();
       setShowSignupModal(false);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Failed to sign in with Google";
       showToast({
         type: "error",
         title: "Google Sign-In Failed",
@@ -80,8 +76,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
       setShowSignupModal(false);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Failed to create account";
       showToast({
         type: "error",
         title: "Sign Up Failed",
