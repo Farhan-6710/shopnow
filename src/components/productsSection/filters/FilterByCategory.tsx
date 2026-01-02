@@ -16,7 +16,7 @@ const FilterByCategory: React.FC<FilterByCategoryProps> = ({
 }) => {
   return (
     <div className="filter-div mb-4">
-      <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">
+      <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">
         Filter by Category
       </h3>
 

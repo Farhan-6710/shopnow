@@ -7,6 +7,8 @@ import ProductCard from "../components/productsSection/ProductCard";
 import { useFilterProducts } from "../hooks/useFilterProducts";
 import { useEffect, useRef } from "react";
 import { showToast } from "@/config/ToastConfig";
+import Footer from "@/components/footers/Footer";
+import FooterTwo from "@/components/footers/FooterTwo";
 
 const Index = () => {
   const {
@@ -65,13 +67,13 @@ const Index = () => {
   console.log("page rendered");
 
   return (
-    <main className="bg-background transition-colors duration-200">
+    <main className="main-content bg-background transition-colors duration-200">
       <div className="max-w-screen-3xl mx-auto pt-0">
-        <div className="grid md:grid-cols-[--spacing(60)_1fr] gap-3">
+        <div className="flex flex-col md:flex-row">
           <FilterProducts {...filterProps} />
 
           <section
-            className="product-card-wrapper grid sm:grid-cols-2 md:pr-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit py-0 md:py-3"
+            className="w-full product-card-wrapper grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit p-3"
             aria-label="Product catalog"
           >
             {isLoading ? (

@@ -20,7 +20,7 @@ export default function LayoutClient({
     <AppProviders>
       <Header isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       <ModeToggle />
-      <main>{children}</main>
+      {children}
       <Footer />
       <FooterTwo />
       <ScrollToTop />

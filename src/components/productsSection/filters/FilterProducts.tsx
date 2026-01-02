@@ -2,7 +2,7 @@
 
 import { ProductFilterValues } from "@/types/filterProduct";
 import React from "react";
-import { FilterDrawer } from "../../extras/FilterDrawer";
+import { FilterSheet } from "../../extras/FilterSheet";
 import FiltersSidebarContent from "./FiltersSidebarContent";
 import SearchBar from "@/components/headers/headerTwo/SearchBar";
 import { PRODUCTS_DATA } from "@/constants/products";
@@ -34,20 +34,20 @@ const FilterProducts: React.FC<FilterProductsProps> = (props) => {
           duration: 0.2,
           ease: "easeOut",
         }}
-        className="bg-card hidden md:flex md:flex-col sticky-filter-sidebar border-r border-border p-6 pb-6 pt-4 xl:pt-6 h-[calc(100vh-133px)]"
+        className="w-70 bg-card hidden md:flex md:flex-col sticky-filter-sidebar border-r border-border p-6 pb-6 pt-4 xl:pt-6 h-[calc(100vh-133px)]"
         aria-label="Product filters"
       >
         <FiltersSidebarContent {...props} />
       </motion.aside>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Sheet */}
       <div
         className="flex flex-col gap-3 md:hidden p-4 pb-0 pt-1"
         role="region"
         aria-label="Filter controls"
       >
         <SearchBar products={PRODUCTS_DATA} />
-        <FilterDrawer {...props} />
+        <FilterSheet {...props} />
       </div>
     </>
   );
