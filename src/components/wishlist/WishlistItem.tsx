@@ -35,8 +35,8 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
   } = useCartManagement(item);
 
   const handleRemove = () => {
-    // Dispatch optimistic update - saga handles API call
-    dispatch(removeFromWishlistRequest(item.id));
+    // Dispatch optimistic update with item metadata for potential rollback
+    dispatch(removeFromWishlistRequest(item.id, { removedItem: item }));
     setShowDeleteModal(false);
   };
 

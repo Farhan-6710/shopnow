@@ -82,8 +82,16 @@ const cartSlice = createSlice({
     },
 
     // ========== Remove from Cart (Optimistic) ==========
-    removeFromCartRequest(state, action: PayloadAction<number>) {
-      delete state.cartItems[action.payload];
+    removeFromCartRequest: {
+      reducer(
+        state,
+        action: PayloadAction<number, string, { removedItem?: CartItem }>
+      ) {
+        delete state.cartItems[action.payload];
+      },
+      prepare(productId: number, meta?: { removedItem?: CartItem }) {
+        return { payload: productId, meta: meta || {} };
+      },
     },
     removeFromCartSuccess(state, action: PayloadAction<{ productId: number }>) {
       // UI already updated optimistically - nothing to do

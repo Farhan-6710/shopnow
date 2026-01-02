@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import {
   addToCartRequest,
   removeFromCartRequest,
@@ -44,8 +43,8 @@ export const useCartManagement = (item: Product) => {
     setIsRemoving(true);
     await timeout(400);
 
-    // Dispatch optimistic update after 400ms - saga handles API call
-    dispatch(removeFromCartRequest(item.id));
+    // Dispatch optimistic update with item metadata for potential rollback
+    dispatch(removeFromCartRequest(item.id, { removedItem: cartItem }));
     setIsRemoving(false);
     showToast({
       type: "success",

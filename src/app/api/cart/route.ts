@@ -50,7 +50,7 @@ export async function GET() {
   }
 }
 
-// POST /api/cart - Add item to cart
+// POST /api/cart - Add item(s) to cart (supports single item or bulk)
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -68,44 +68,52 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { productId, quantity = 1 } = await request.json();
+    const body = await request.json();
 
-    if (!productId) {
+    // Support both single item and bulk array
+    const items = Array.isArray(body)
+      ? body
+      : [{ productId: body.productId, quantity: body.quantity || 1 }];
+
+    if (items.length === 0) {
       return NextResponse.json(
-        { success: false, error: "Product ID is required" },
+        { success: false, error: "No items provided" },
         { status: 400 }
       );
     }
 
-    // Check if item already exists in cart
-    const { data: existingItem } = await supabase
-      .from("cart_items")
-      .select("quantity")
-      .eq("user_id", user.id)
-      .eq("product_id", productId)
-      .single();
+    // Process each item
+    for (const item of items) {
+      const { productId, quantity = 1 } = item;
 
-    if (existingItem) {
-      // Update quantity if item exists
-      const { error } = await supabase
+      if (!productId) continue; // Skip invalid items
+
+      // Check if item already exists in cart
+      const { data: existingItem } = await supabase
         .from("cart_items")
-        .update({
-          quantity: existingItem.quantity + quantity,
-          updated_at: new Date().toISOString(),
-        })
+        .select("quantity")
         .eq("user_id", user.id)
-        .eq("product_id", productId);
+        .eq("product_id", productId)
+        .single();
 
-      if (error) throw error;
-    } else {
-      // Insert new cart item
-      const { error } = await supabase.from("cart_items").insert({
-        user_id: user.id,
-        product_id: productId,
-        quantity,
-      });
-
-      if (error) throw error;
+      if (existingItem) {
+        // Replace with new quantity (user's latest intent)
+        await supabase
+          .from("cart_items")
+          .update({
+            quantity: quantity,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("user_id", user.id)
+          .eq("product_id", productId);
+      } else {
+        // Insert new cart item
+        await supabase.from("cart_items").insert({
+          user_id: user.id,
+          product_id: productId,
+          quantity,
+        });
+      }
     }
 
     return NextResponse.json({ success: true });

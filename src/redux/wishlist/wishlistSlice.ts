@@ -53,8 +53,16 @@ const wishlistSlice = createSlice({
     },
 
     // ========== Remove from Wishlist (Optimistic) ==========
-    removeFromWishlistRequest(state, action: PayloadAction<number>) {
-      delete state.items[action.payload];
+    removeFromWishlistRequest: {
+      reducer(
+        state,
+        action: PayloadAction<number, string, { removedItem?: Product }>
+      ) {
+        delete state.items[action.payload];
+      },
+      prepare(productId: number, meta?: { removedItem?: Product }) {
+        return { payload: productId, meta: meta || {} };
+      },
     },
     removeFromWishlistSuccess(
       state,

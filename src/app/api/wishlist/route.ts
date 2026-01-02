@@ -45,7 +45,7 @@ export async function GET() {
   }
 }
 
-// POST /api/wishlist - Add item to wishlist
+// POST /api/wishlist - Add item(s) to wishlist (supports single item or bulk)
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -63,39 +63,55 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { productId } = await request.json();
+    const body = await request.json();
 
-    if (!productId) {
+    // Support both single item and bulk array
+    const productIds = Array.isArray(body)
+      ? body.map((item) => item.productId)
+      : [body.productId];
+
+    if (productIds.length === 0 || !productIds[0]) {
       return NextResponse.json(
-        { success: false, error: "Product ID is required" },
+        { success: false, error: "No product IDs provided" },
         { status: 400 }
       );
     }
 
-    // Check if item already exists in wishlist
-    const { data: existingItem } = await supabase
+    // Get existing wishlist items to avoid duplicates
+    const { data: existingItems } = await supabase
       .from("wishlist_items")
       .select("product_id")
       .eq("user_id", user.id)
-      .eq("product_id", productId)
-      .single();
+      .in("product_id", productIds);
 
-    if (existingItem) {
-      return NextResponse.json(
-        { success: false, error: "Item already in wishlist" },
-        { status: 409 }
-      );
+    const existingProductIds = new Set(
+      existingItems?.map((item) => item.product_id) || []
+    );
+
+    // Filter out items that already exist
+    const newProductIds = productIds.filter(
+      (id) => !existingProductIds.has(id)
+    );
+
+    if (newProductIds.length > 0) {
+      // Insert new wishlist items in bulk
+      const itemsToInsert = newProductIds.map((productId) => ({
+        user_id: user.id,
+        product_id: productId,
+      }));
+
+      const { error } = await supabase
+        .from("wishlist_items")
+        .insert(itemsToInsert);
+
+      if (error) throw error;
     }
 
-    // Insert new wishlist item
-    const { error } = await supabase.from("wishlist_items").insert({
-      user_id: user.id,
-      product_id: productId,
+    return NextResponse.json({
+      success: true,
+      added: newProductIds.length,
+      skipped: existingProductIds.size,
     });
-
-    if (error) throw error;
-
-    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error adding to wishlist:", error);
     return NextResponse.json(
