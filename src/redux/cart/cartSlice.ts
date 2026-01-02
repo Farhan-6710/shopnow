@@ -10,6 +10,7 @@ export interface CartState {
   cartItems: { [key: number]: CartItem };
   currency: Currency;
   loading: boolean;
+  isSyncing: boolean;
   error: string | null;
 }
 
@@ -18,6 +19,7 @@ const initialState: CartState = {
   cartItems: {},
   currency: "USD",
   loading: false,
+  isSyncing: false,
   error: null,
 };
 
@@ -131,6 +133,19 @@ const cartSlice = createSlice({
       }
     },
 
+    // ========== Sync Status ==========
+    syncCartRequest(state) {
+      state.isSyncing = true;
+      state.error = null;
+    },
+    syncCartSuccess(state) {
+      state.isSyncing = false;
+    },
+    syncCartFailure(state, action: PayloadAction<string>) {
+      state.isSyncing = false;
+      state.error = action.payload;
+    },
+
     // ========== Currency ==========
     setCurrency(state, action: PayloadAction<Currency>) {
       state.currency = action.payload;
@@ -141,9 +156,18 @@ const cartSlice = createSlice({
       return action.payload;
     },
 
-    // ========== Clear cart ==========
-    clearCart(state) {
+    // ========== Clear Cart ==========
+    clearCartRequest(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    clearCartSuccess(state) {
+      state.loading = false;
       state.cartItems = {};
+    },
+    clearCartFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
@@ -162,9 +186,14 @@ export const {
   updateQuantityRequest,
   updateQuantitySuccess,
   updateQuantityFailure,
+  syncCartRequest,
+  syncCartSuccess,
+  syncCartFailure,
   setCurrency,
   replaceCart,
-  clearCart,
+  clearCartRequest,
+  clearCartSuccess,
+  clearCartFailure,
 } = cartSlice.actions;
 
 // Selectors
@@ -190,6 +219,9 @@ export const selectCurrency = (state: { cart: CartState }) =>
 
 export const selectCartLoading = (state: { cart: CartState }) =>
   state.cart.loading;
+
+export const selectCartSyncing = (state: { cart: CartState }) =>
+  state.cart.isSyncing;
 
 export const selectCartError = (state: { cart: CartState }) => state.cart.error;
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  clearWishlist,
+  clearWishlistRequest,
   selectWishlistItems,
 } from "@/redux/wishlist/wishlistSlice";
 import WishlistEmpty from "./WishlistEmpty";
@@ -27,7 +27,7 @@ const Wishlist: React.FC = () => {
   }, []);
 
   const handleClearAll = () => {
-    dispatch(clearWishlist());
+    dispatch(clearWishlistRequest());
   };
 
   // Show skeleton during loading

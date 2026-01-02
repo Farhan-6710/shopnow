@@ -5,12 +5,14 @@ import { Product } from "@/types/product";
 export interface WishlistState {
   items: { [key: number]: Product };
   loading: boolean;
+  isWishlistSyncing: boolean;
   error: string | null;
 }
 
 const initialState: WishlistState = {
   items: {},
   loading: false,
+  isWishlistSyncing: false,
   error: null,
 };
 
@@ -108,14 +110,36 @@ const wishlistSlice = createSlice({
       }
     },
 
-    // ========== Clear Wishlist ==========
-    clearWishlist(state) {
-      state.items = {};
+    // ========== Sync Status ==========
+    wishlistSyncRequest(state) {
+      state.isWishlistSyncing = true;
+      state.error = null;
+    },
+    wishlistSyncSuccess(state) {
+      state.isWishlistSyncing = false;
+    },
+    wishlistSyncFailure(state, action: PayloadAction<string>) {
+      state.isWishlistSyncing = false;
+      state.error = action.payload;
     },
 
     // ========== Replace entire wishlist (for sync) ==========
     replaceWishlist(state, action: PayloadAction<WishlistState>) {
       return action.payload;
+    },
+
+    // ========== Clear Wishlist ==========
+    clearWishlistRequest(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    clearWishlistSuccess(state) {
+      state.loading = false;
+      state.items = {};
+    },
+    clearWishlistFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
@@ -134,8 +158,13 @@ export const {
   toggleWishlistRequest,
   toggleWishlistSuccess,
   toggleWishlistFailure,
-  clearWishlist,
+  wishlistSyncRequest,
+  wishlistSyncSuccess,
+  wishlistSyncFailure,
   replaceWishlist,
+  clearWishlistRequest,
+  clearWishlistSuccess,
+  clearWishlistFailure,
 } = wishlistSlice.actions;
 
 // Selectors
@@ -154,6 +183,9 @@ export const selectIsInWishlist =
 
 export const selectWishlistLoading = (state: { wishlist: WishlistState }) =>
   state.wishlist.loading;
+
+export const selectWishlistSyncing = (state: { wishlist: WishlistState }) =>
+  state.wishlist.isWishlistSyncing;
 
 export const selectWishlistError = (state: { wishlist: WishlistState }) =>
   state.wishlist.error;

@@ -181,7 +181,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE /api/cart - Remove item from cart
+// DELETE /api/cart & /api/cart/clear - Remove single item or clear all cart items
 export async function DELETE(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -199,6 +199,22 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    const url = new URL(request.url);
+    const isClearRequest = url.pathname.endsWith("/clear");
+
+    if (isClearRequest) {
+      // Clear all cart items for the user
+      const { error } = await supabase
+        .from("cart_items")
+        .delete()
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+      return NextResponse.json({ success: true });
+    }
+
+    // Single item delete
     const { productId } = await request.json();
 
     if (!productId) {

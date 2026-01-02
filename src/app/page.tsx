@@ -1,16 +1,22 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import FilterProducts from "../components/productsSection/filters/FilterProducts";
 import ProductCardSkeleton from "../components/productsSection/ProductCardSkeleton";
 import ProductCard from "../components/productsSection/ProductCard";
 import { useFilterProducts } from "../hooks/useFilterProducts";
 import { usePageVirtualizedProducts } from "../hooks/usePageVirtualizedProducts";
+import { selectCartSyncing } from "@/redux/cart/cartSlice";
+import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
 import { showToast } from "@/config/ToastConfig";
 
 const Index = () => {
   const productsGap = 8; // in px, matches the padding applied to ProductCard
+
+  const isCartSyncing = useSelector(selectCartSyncing);
+  const isWishlistSyncing = useSelector(selectWishlistSyncing);
 
   const {
     filteredProducts,
@@ -125,7 +131,7 @@ const Index = () => {
             className="w-full product-card-wrapper grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit p-3"
             aria-label="Product catalog"
           >
-            {isLoading ? (
+            {isLoading && isCartSyncing && isWishlistSyncing ? (
               Array.from({ length: 10 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))

@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useAuth } from "@/providers/authContext";
+import { syncCartRequest } from "@/redux/cart/cartSlice";
+import { wishlistSyncRequest } from "@/redux/wishlist/wishlistSlice";
 
 /**
  * Hook to handle all initial data syncing.
@@ -26,8 +28,9 @@ export const useSyncUserData = () => {
       // 2. Get local items from Redux state
       // 3. Send bulk items to backend
       // 4. Fetch merged data from backend
-      dispatch({ type: "cart/syncToBackend" });
-      dispatch({ type: "wishlist/syncToBackend" });
+
+      dispatch(syncCartRequest());
+      dispatch(wishlistSyncRequest());
     }
 
     // Reset sync flag when user logs out

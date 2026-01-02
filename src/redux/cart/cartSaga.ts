@@ -20,6 +20,12 @@ import {
   fetchCartFailure,
   selectCartItem,
   selectCartItems,
+  syncCartRequest,
+  syncCartSuccess,
+  syncCartFailure,
+  clearCartRequest,
+  clearCartSuccess,
+  clearCartFailure,
 } from "./cartSlice";
 
 // Helper to check authentication
@@ -81,6 +87,14 @@ const cartApi = {
     const data = await response.json();
     if (!data.success)
       throw new Error(data.error || "Failed to update quantity");
+  },
+  clearAll: async (): Promise<void> => {
+    const response = await fetch("/api/cart/clear", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (!data.success) throw new Error(data.error || "Failed to clear cart");
   },
 };
 
@@ -225,11 +239,15 @@ function* updateQuantitySaga(
 // Sync local cart to backend on login
 function* syncCartToBackendSaga() {
   try {
+    // Mark sync as started
+    yield put(syncCartRequest());
+
     // Check if user is authenticated
     const isAuthenticated: boolean = yield call(isUserAuthenticated);
 
     if (!isAuthenticated) {
       console.log("User not authenticated, skipping cart sync");
+      yield put(syncCartSuccess());
       return;
     }
 
@@ -240,6 +258,7 @@ function* syncCartToBackendSaga() {
       console.log("No local cart items to sync");
       // Still fetch backend cart in case user has items there
       yield put(fetchCartRequest());
+      yield put(syncCartSuccess());
       return;
     }
 
@@ -257,13 +276,14 @@ function* syncCartToBackendSaga() {
     // Fetch merged cart from backend
     yield put(fetchCartRequest());
 
-    showToast({
-      type: "success",
-      title: "Cart Synced",
-      description: `${bulkItems.length} items synced successfully`,
-    });
+    // Mark sync as completed
+    yield put(syncCartSuccess());
   } catch (error) {
     console.error("Cart sync error:", error);
+
+    const message =
+      error instanceof Error ? error.message : "Failed to sync cart";
+    yield put(syncCartFailure(message));
 
     // Still try to fetch backend cart
     yield put(fetchCartRequest());
@@ -276,13 +296,48 @@ function* syncCartToBackendSaga() {
   }
 }
 
+// Clear all cart items
+function* clearCartSaga() {
+  try {
+    // Check if user is authenticated
+    const isAuthenticated: boolean = yield call(isUserAuthenticated);
+
+    // If authenticated, call API to clear backend
+    if (isAuthenticated) {
+      yield call(cartApi.clearAll);
+    }
+
+    // Clear local state
+    yield put(clearCartSuccess());
+
+    showToast({
+      type: "success",
+      title: "Cart Cleared",
+      description: "All items have been removed from your cart",
+    });
+  } catch (error) {
+    console.error("Clear cart error:", error);
+
+    const message =
+      error instanceof Error ? error.message : "Failed to clear cart";
+    yield put(clearCartFailure(message));
+
+    showToast({
+      type: "error",
+      title: "Clear Cart Failed",
+      description: message,
+    });
+  }
+}
+
 // Watcher Saga
 export function* watchCart() {
   yield takeEvery(fetchCartRequest.type, fetchCartSaga);
   yield takeEvery(addToCartRequest.type, addToCartSaga);
   yield takeEvery(removeFromCartRequest.type, removeFromCartSaga);
   yield takeEvery(updateQuantityRequest.type, updateQuantitySaga);
-  yield takeEvery("cart/syncToBackend", syncCartToBackendSaga);
+  yield takeEvery(syncCartRequest.type, syncCartToBackendSaga);
+  yield takeEvery(clearCartRequest.type, clearCartSaga);
 }
 
 export default watchCart;

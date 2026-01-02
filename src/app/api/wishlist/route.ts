@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE /api/wishlist - Remove item from wishlist
+// DELETE /api/wishlist & /api/wishlist/clear - Remove single item or clear all wishlist items
 export async function DELETE(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -139,6 +139,22 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    const url = new URL(request.url);
+    const isClearRequest = url.pathname.endsWith("/clear");
+
+    if (isClearRequest) {
+      // Clear all wishlist items for the user
+      const { error } = await supabase
+        .from("wishlist_items")
+        .delete()
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+      return NextResponse.json({ success: true });
+    }
+
+    // Single item delete
     const { productId } = await request.json();
 
     if (!productId) {

@@ -19,6 +19,12 @@ import {
   toggleWishlistFailure,
   selectIsInWishlist,
   selectWishlistItems,
+  wishlistSyncRequest,
+  wishlistSyncSuccess,
+  wishlistSyncFailure,
+  clearWishlistRequest,
+  clearWishlistSuccess,
+  clearWishlistFailure,
 } from "./wishlistSlice";
 
 // Helper to check authentication
@@ -70,6 +76,15 @@ const wishlistApi = {
     const data = await response.json();
     if (!data.success)
       throw new Error(data.error || "Failed to remove from wishlist");
+  },
+  clearAll: async (): Promise<void> => {
+    const response = await fetch("/api/wishlist/clear", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (!data.success)
+      throw new Error(data.error || "Failed to clear wishlist");
   },
 };
 
@@ -211,11 +226,15 @@ function* toggleWishlistSaga(action: PayloadAction<Product>) {
 // Sync local wishlist to backend on login
 function* syncWishlistToBackendSaga() {
   try {
+    // Mark sync as started
+    yield put(wishlistSyncRequest());
+
     // Check if user is authenticated
     const isAuthenticated: boolean = yield call(isUserAuthenticated);
 
     if (!isAuthenticated) {
       console.log("User not authenticated, skipping wishlist sync");
+      yield put(wishlistSyncSuccess());
       return;
     }
 
@@ -226,6 +245,7 @@ function* syncWishlistToBackendSaga() {
       console.log("No local wishlist items to sync");
       // Still fetch backend wishlist in case user has items there
       yield put(fetchWishlistRequest());
+      yield put(wishlistSyncSuccess());
       return;
     }
 
@@ -240,13 +260,14 @@ function* syncWishlistToBackendSaga() {
     // Fetch merged wishlist from backend
     yield put(fetchWishlistRequest());
 
-    showToast({
-      type: "success",
-      title: "Wishlist Synced",
-      description: `${productIds.length} items synced successfully`,
-    });
+    // Mark sync as completed
+    yield put(wishlistSyncSuccess());
   } catch (error) {
     console.error("Wishlist sync error:", error);
+
+    const message =
+      error instanceof Error ? error.message : "Failed to sync wishlist";
+    yield put(wishlistSyncFailure(message));
 
     // Still try to fetch backend wishlist
     yield put(fetchWishlistRequest());
@@ -259,13 +280,48 @@ function* syncWishlistToBackendSaga() {
   }
 }
 
+// Clear all wishlist items
+function* clearWishlistSaga() {
+  try {
+    // Check if user is authenticated
+    const isAuthenticated: boolean = yield call(isUserAuthenticated);
+
+    // If authenticated, call API to clear backend
+    if (isAuthenticated) {
+      yield call(wishlistApi.clearAll);
+    }
+
+    // Clear local state
+    yield put(clearWishlistSuccess());
+
+    showToast({
+      type: "success",
+      title: "Wishlist Cleared",
+      description: "All items have been removed from your wishlist",
+    });
+  } catch (error) {
+    console.error("Clear wishlist error:", error);
+
+    const message =
+      error instanceof Error ? error.message : "Failed to clear wishlist";
+    yield put(clearWishlistFailure(message));
+
+    showToast({
+      type: "error",
+      title: "Clear Wishlist Failed",
+      description: message,
+    });
+  }
+}
+
 // Watcher Saga
 export function* watchWishlist() {
   yield takeEvery(fetchWishlistRequest.type, fetchWishlistSaga);
   yield takeEvery(addToWishlistRequest.type, addToWishlistSaga);
   yield takeEvery(removeFromWishlistRequest.type, removeFromWishlistSaga);
   yield takeEvery(toggleWishlistRequest.type, toggleWishlistSaga);
-  yield takeEvery("wishlist/syncToBackend", syncWishlistToBackendSaga);
+  yield takeEvery(wishlistSyncRequest.type, syncWishlistToBackendSaga);
+  yield takeEvery(clearWishlistRequest.type, clearWishlistSaga);
 }
 
 export default watchWishlist;
