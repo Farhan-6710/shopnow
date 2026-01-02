@@ -181,7 +181,8 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE /api/cart & /api/cart/clear - Remove single item or clear all cart items
+// DELETE /api/cart - Remove single item or clear all cart items
+// If no productId is provided, clears all cart items
 export async function DELETE(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -199,10 +200,17 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const url = new URL(request.url);
-    const isClearRequest = url.pathname.endsWith("/clear");
+    // Try to parse the request body
+    let productId: number | undefined;
+    try {
+      const body = await request.json();
+      productId = body.productId;
+    } catch {
+      // No body or invalid JSON - treat as clear all request
+      productId = undefined;
+    }
 
-    if (isClearRequest) {
+    if (!productId) {
       // Clear all cart items for the user
       const { error } = await supabase
         .from("cart_items")
@@ -215,15 +223,6 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Single item delete
-    const { productId } = await request.json();
-
-    if (!productId) {
-      return NextResponse.json(
-        { success: false, error: "Product ID is required" },
-        { status: 400 }
-      );
-    }
-
     const { error } = await supabase
       .from("cart_items")
       .delete()

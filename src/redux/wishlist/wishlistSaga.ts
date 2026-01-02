@@ -78,7 +78,7 @@ const wishlistApi = {
       throw new Error(data.error || "Failed to remove from wishlist");
   },
   clearAll: async (): Promise<void> => {
-    const response = await fetch("/api/wishlist/clear", {
+    const response = await fetch("/api/wishlist", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });

@@ -121,7 +121,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE /api/wishlist & /api/wishlist/clear - Remove single item or clear all wishlist items
+// DELETE /api/wishlist - Remove single item or clear all wishlist items
+// If no productId is provided, clears all wishlist items
 export async function DELETE(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -139,10 +140,17 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const url = new URL(request.url);
-    const isClearRequest = url.pathname.endsWith("/clear");
+    // Try to parse the request body
+    let productId: number | undefined;
+    try {
+      const body = await request.json();
+      productId = body.productId;
+    } catch {
+      // No body or invalid JSON - treat as clear all request
+      productId = undefined;
+    }
 
-    if (isClearRequest) {
+    if (!productId) {
       // Clear all wishlist items for the user
       const { error } = await supabase
         .from("wishlist_items")
@@ -155,15 +163,6 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Single item delete
-    const { productId } = await request.json();
-
-    if (!productId) {
-      return NextResponse.json(
-        { success: false, error: "Product ID is required" },
-        { status: 400 }
-      );
-    }
-
     const { error } = await supabase
       .from("wishlist_items")
       .delete()

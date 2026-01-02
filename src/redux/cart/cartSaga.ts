@@ -89,7 +89,7 @@ const cartApi = {
       throw new Error(data.error || "Failed to update quantity");
   },
   clearAll: async (): Promise<void> => {
-    const response = await fetch("/api/cart/clear", {
+    const response = await fetch("/api/cart", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
