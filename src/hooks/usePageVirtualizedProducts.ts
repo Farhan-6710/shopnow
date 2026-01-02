@@ -7,7 +7,7 @@ import { timeout } from "@/utils/timeout";
 const ROWS_TO_UNLOAD = 2; // Number of rows to remove when unloading
 const LOAD_DELAY_AFTER = 50; // Delay after loading to prevent chain loading (ms) - reduced for fast scrolling
 const UNLOAD_DELAY_AFTER = 50; // Delay after unloading to prevent rapid unloading (ms) - reduced for fast scrolling
-const LOADING_BUFFER_OFFSET = 300; // Extra pixels to trigger loading early (ms)
+const LOADING_BUFFER_OFFSET = -80; // Extra pixels to trigger loading early (ms)
 const UNLOAD_THRESHOLD_MULTIPLIER = 1.5; // Rows distance needed to trigger unload
 const SCROLL_THROTTLE = 16; // Throttle scroll events (ms) - ~60fps
 
