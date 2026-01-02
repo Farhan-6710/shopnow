@@ -45,7 +45,8 @@ function* submitFeedbackSaga(action: PayloadAction<SubmitFeedbackPayload>) {
     showToast({
       type: "error",
       title: "Submission Failed",
-      description: message,
+      description:
+        "Unable to submit feedback. Please check your network connection and try again.",
     });
   }
 }

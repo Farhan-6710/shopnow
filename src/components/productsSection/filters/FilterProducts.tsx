@@ -5,8 +5,8 @@ import React from "react";
 import { FilterSheet } from "../../extras/FilterSheet";
 import FiltersSidebarContent from "./FiltersSidebarContent";
 import SearchBar from "@/components/headers/headerTwo/SearchBar";
-import { PRODUCTS_DATA } from "@/constants/products";
 import { motion } from "framer-motion";
+import { Product } from "@/types/product";
 
 interface FilterProductsProps {
   categoryOptions: string[];
@@ -14,6 +14,7 @@ interface FilterProductsProps {
   colorOptions: string[];
   sortOptions: { value: string; label: string }[];
   filterValues: ProductFilterValues;
+  productsFromApiRes: Product[];
   onToggleCategory: (category: string) => void;
   onTogglePriceRange: (priceRange: string) => void;
   onToggleColor: (color: string) => void;
@@ -23,7 +24,10 @@ interface FilterProductsProps {
 
 console.log("filters rendered");
 
-const FilterProducts: React.FC<FilterProductsProps> = (props) => {
+const FilterProducts: React.FC<FilterProductsProps> = ({
+  productsFromApiRes,
+  ...props
+}) => {
   return (
     <>
       {/* Desktop Sidebar */}
@@ -42,11 +46,11 @@ const FilterProducts: React.FC<FilterProductsProps> = (props) => {
 
       {/* Mobile Sheet */}
       <div
-        className="flex flex-col gap-3 md:hidden p-4 pb-0 pt-1"
+        className="flex flex-col gap-3 md:hidden p-4 pb-0 pt-4"
         role="region"
         aria-label="Filter controls"
       >
-        <SearchBar products={PRODUCTS_DATA} />
+        <SearchBar products={productsFromApiRes} />
         <FilterSheet {...props} />
       </div>
     </>

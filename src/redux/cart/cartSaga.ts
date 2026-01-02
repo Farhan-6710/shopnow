@@ -109,8 +109,9 @@ function* fetchCartSaga() {
     yield put(fetchCartFailure(message));
     showToast({
       type: "error",
-      title: "Cart Error",
-      description: message,
+      title: "Failed to Load Cart",
+      description:
+        "Unable to load your cart. Please check your network connection and try again.",
     });
   }
 }
@@ -146,8 +147,9 @@ function* addToCartSaga(action: PayloadAction<Product>) {
 
     showToast({
       type: "error",
-      title: "Cart Sync Failed",
-      description: message,
+      title: "Add to Cart Failed",
+      description:
+        "Unable to add item to cart. Please check your network connection and retry.",
     });
   }
 }
@@ -182,8 +184,9 @@ function* removeFromCartSaga(
 
     showToast({
       type: "error",
-      title: "Cart Sync Failed",
-      description: message,
+      title: "Remove Item Failed",
+      description:
+        "Unable to remove item from cart. Please check your network connection and retry.",
     });
   }
 }
@@ -230,8 +233,9 @@ function* updateQuantitySaga(
 
     showToast({
       type: "error",
-      title: "Quantity Update Failed",
-      description: message,
+      title: "Update Quantity Failed",
+      description:
+        "Unable to update item quantity. Please check your network connection and retry.",
     });
   }
 }
@@ -239,9 +243,6 @@ function* updateQuantitySaga(
 // Sync local cart to backend on login
 function* syncCartToBackendSaga() {
   try {
-    // Mark sync as started
-    yield put(syncCartRequest());
-
     // Check if user is authenticated
     const isAuthenticated: boolean = yield call(isUserAuthenticated);
 
@@ -290,8 +291,9 @@ function* syncCartToBackendSaga() {
 
     showToast({
       type: "error",
-      title: "Cart Sync Warning",
-      description: "Some items may not have synced properly",
+      title: "Cart Sync Failed",
+      description:
+        "Unable to sync your cart. Please check your network connection and try again.",
     });
   }
 }
@@ -325,7 +327,8 @@ function* clearCartSaga() {
     showToast({
       type: "error",
       title: "Clear Cart Failed",
-      description: message,
+      description:
+        "Unable to clear your cart. Please check your network connection and retry.",
     });
   }
 }

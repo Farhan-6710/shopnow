@@ -34,6 +34,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = (props) => {
     <Sheet open={open} onOpenChange={setOpen}>
       <Button
         variant="outline"
+        size="lg"
         className="bg-card flex justify-center items-center w-full"
         onClick={() => setOpen(true)}
       >
@@ -56,9 +57,6 @@ export const FilterSheet: React.FC<FilterSheetProps> = (props) => {
 
         {/* Scrollable content area - SearchBar fixed at top */}
         <div className="flex-1 overflow-y-auto">
-          <div className="px-4 pt-4">
-            <SearchBar products={[]} />
-          </div>
           <div className="px-4 py-4">
             <FiltersSidebarContent {...props} />
           </div>

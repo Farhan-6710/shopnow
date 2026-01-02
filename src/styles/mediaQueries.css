@@ -4,7 +4,7 @@
    BASE / MOBILE (default, no media query needed)
    =================================== */
 .header-placeholder {
-  height: 124px; /* Mobile header height */
+  height: 118px; /* Mobile header height */
 }
 
 .logo-image {
@@ -44,7 +44,7 @@
    =================================== */
 @media (min-width: 768px) {
   .header-placeholder {
-    height: 110px; /* Tablet/Laptop header height */
+    height: 117px; /* Tablet/Laptop header height */
   }
 
   .fixed-container {

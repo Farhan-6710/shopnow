@@ -40,9 +40,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           ? error.message
           : "Failed to sign in with Google";
       showToast({
-        type: "success",
+        type: "error",
         title: "Google Sign-In Failed",
-        description: message,
+        description:
+          "Unable to sign in with Google. Please check your network connection and try again.",
       });
     } finally {
       setLoading(false);
@@ -84,7 +85,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       showToast({
         type: "error",
         title: "Sign Up Failed",
-        description: message,
+        description:
+          "Unable to create account. Please check your information and try again.",
       });
     } finally {
       setLoading(false);

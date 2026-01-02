@@ -99,8 +99,9 @@ function* fetchWishlistSaga() {
     yield put(fetchWishlistFailure(message));
     showToast({
       type: "error",
-      title: "Wishlist Error",
-      description: message,
+      title: "Failed to Load Wishlist",
+      description:
+        "Unable to load your wishlist. Please check your network connection and try again.",
     });
   }
 }
@@ -130,8 +131,9 @@ function* addToWishlistSaga(action: PayloadAction<Product>) {
 
     showToast({
       type: "error",
-      title: "Wishlist Sync Failed",
-      description: message,
+      title: "Add to Wishlist Failed",
+      description:
+        "Unable to add item to wishlist. Please check your network connection and retry.",
     });
   }
 }
@@ -166,8 +168,9 @@ function* removeFromWishlistSaga(
 
     showToast({
       type: "error",
-      title: "Wishlist Sync Failed",
-      description: message,
+      title: "Remove Item Failed",
+      description:
+        "Unable to remove item from wishlist. Please check your network connection and retry.",
     });
   }
 }
@@ -217,8 +220,9 @@ function* toggleWishlistSaga(action: PayloadAction<Product>) {
 
     showToast({
       type: "error",
-      title: "Wishlist Sync Failed",
-      description: message,
+      title: "Update Wishlist Failed",
+      description:
+        "Unable to update your wishlist. Please check your network connection and retry.",
     });
   }
 }
@@ -226,9 +230,6 @@ function* toggleWishlistSaga(action: PayloadAction<Product>) {
 // Sync local wishlist to backend on login
 function* syncWishlistToBackendSaga() {
   try {
-    // Mark sync as started
-    yield put(wishlistSyncRequest());
-
     // Check if user is authenticated
     const isAuthenticated: boolean = yield call(isUserAuthenticated);
 
@@ -274,8 +275,9 @@ function* syncWishlistToBackendSaga() {
 
     showToast({
       type: "error",
-      title: "Wishlist Sync Warning",
-      description: "Some items may not have synced properly",
+      title: "Wishlist Sync Failed",
+      description:
+        "Unable to sync your wishlist. Please check your network connection and try again.",
     });
   }
 }
@@ -309,7 +311,8 @@ function* clearWishlistSaga() {
     showToast({
       type: "error",
       title: "Clear Wishlist Failed",
-      description: message,
+      description:
+        "Unable to clear your wishlist. Please check your network connection and retry.",
     });
   }
 }

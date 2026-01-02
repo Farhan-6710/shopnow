@@ -20,6 +20,7 @@ const Index = () => {
 
   const {
     filteredProducts,
+    productsFromApiRes,
     isLoading,
     error,
     filterValues,
@@ -112,6 +113,7 @@ const Index = () => {
     colorOptions,
     sortOptions,
     filterValues,
+    productsFromApiRes,
     onToggleCategory,
     onTogglePriceRange,
     onToggleColor,

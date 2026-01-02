@@ -41,7 +41,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
       showToast({
         type: "error",
         title: "Google Sign-In Failed",
-        description: message,
+        description:
+          "Unable to sign in with Google. Please check your network connection and try again.",
       });
     } finally {
       setLoading(false);
@@ -70,7 +71,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
       showToast({
         type: "error",
         title: "Sign In Failed",
-        description: message,
+        description:
+          "Unable to sign in. Please check your credentials and try again.",
       });
     } finally {
       setLoading(false);
