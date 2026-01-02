@@ -4,12 +4,12 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { timeout } from "@/utils/timeout";
 
 // Constants
-const ROWS_TO_LOAD = 3; // Number of rows to add when loading
 const ROWS_TO_UNLOAD = 2; // Number of rows to remove when unloading
-const LOAD_DELAY_AFTER = 100; // Delay after loading to prevent chain loading (ms)
-const UNLOAD_DELAY_AFTER = 200; // Delay after unloading to prevent rapid unloading (ms)
+const LOAD_DELAY_AFTER = 50; // Delay after loading to prevent chain loading (ms) - reduced for fast scrolling
+const UNLOAD_DELAY_AFTER = 50; // Delay after unloading to prevent rapid unloading (ms) - reduced for fast scrolling
 const LOADING_BUFFER_OFFSET = 300; // Extra pixels to trigger loading early (ms)
 const UNLOAD_THRESHOLD_MULTIPLIER = 1.5; // Rows distance needed to trigger unload
+const SCROLL_THROTTLE = 16; // Throttle scroll events (ms) - ~60fps
 
 interface UsePageVirtualizedProductsOptions<T> {
   /** All products to virtualize */
@@ -69,6 +69,8 @@ export function usePageVirtualizedProducts<T>({
   const isLoadingRef = useRef(false);
   const isUnloadingRef = useRef(false);
   const prevItemsLengthRef = useRef(items.length);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTimeRef = useRef(0);
 
   // Update items per row on resize
   useEffect(() => {
@@ -104,19 +106,17 @@ export function usePageVirtualizedProducts<T>({
   const visibleItems = items.slice(startIndex, endIndex);
   const hasLoadedAll = endIndex >= items.length;
 
-  // Load more items (adds multiple rows at once)
+  // Load more items (adds rows based on initial viewport capacity)
   const loadMore = useCallback(async () => {
     if (isLoadingRef.current || hasLoadedAll) return;
 
     isLoadingRef.current = true;
     setIsLoadingMore(true);
 
-    // Calculate items needed for the next rows
+    // Load same number of rows as initially visible (viewport-based)
+    const rowsToLoad = initialRows;
     const remainingItems = items.length - endIndex;
-    const itemsInNextRows = Math.min(
-      itemsPerRow * ROWS_TO_LOAD,
-      remainingItems
-    );
+    const itemsInNextRows = Math.min(itemsPerRow * rowsToLoad, remainingItems);
 
     // Show skeletons
     setSkeletonCount(itemsInNextRows);
@@ -125,33 +125,48 @@ export function usePageVirtualizedProducts<T>({
     await timeout(loadingDelay);
 
     // Add rows and clear skeletons
-    setRenderedRows((prev) => prev + ROWS_TO_LOAD);
+    setRenderedRows((prev) => prev + rowsToLoad);
     setSkeletonCount(0);
     setIsLoadingMore(false);
 
     // Prevent immediate chain loading
     await timeout(LOAD_DELAY_AFTER);
     isLoadingRef.current = false;
-  }, [items.length, endIndex, itemsPerRow, loadingDelay, hasLoadedAll]);
+  }, [
+    items.length,
+    endIndex,
+    itemsPerRow,
+    loadingDelay,
+    hasLoadedAll,
+    initialRows,
+  ]);
 
-  // Unload items when scrolling up (removes multiple rows instantly)
-  const unloadMore = useCallback(async () => {
-    if (isUnloadingRef.current || renderedRows <= initialRows) return;
+  // Unload items when scrolling up (calculates and removes all out-of-view rows)
+  const unloadMore = useCallback(
+    async (rowsToUnload: number) => {
+      if (isUnloadingRef.current || renderedRows <= initialRows) return;
 
-    isUnloadingRef.current = true;
+      isUnloadingRef.current = true;
 
-    // Remove rows instantly (no skeletons for unloading)
-    setRenderedRows((prev) => Math.max(prev - ROWS_TO_UNLOAD, initialRows));
+      // Remove the calculated number of rows instantly (no skeletons for unloading)
+      setRenderedRows((prev) => Math.max(prev - rowsToUnload, initialRows));
 
-    // Prevent aggressive consecutive unloading
-    await timeout(UNLOAD_DELAY_AFTER);
-    isUnloadingRef.current = false;
-  }, [renderedRows, initialRows]);
+      // Prevent aggressive consecutive unloading
+      await timeout(UNLOAD_DELAY_AFTER);
+      isUnloadingRef.current = false;
+    },
+    [renderedRows, initialRows]
+  );
 
   // Handle scroll event - manages loading and unloading
   useEffect(() => {
     const handleScroll = () => {
-      if (isLoadingRef.current || isUnloadingRef.current) return;
+      // Throttle scroll events for performance
+      const now = Date.now();
+      if (now - lastScrollTimeRef.current < SCROLL_THROTTLE) {
+        return;
+      }
+      lastScrollTimeRef.current = now;
 
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight;
@@ -160,23 +175,54 @@ export function usePageVirtualizedProducts<T>({
       // Downward scroll: Load more rows when near bottom
       const distanceFromBottom =
         scrollHeight - scrollTop - clientHeight + LOADING_BUFFER_OFFSET;
-      if (!hasLoadedAll && distanceFromBottom <= threshold) {
+      if (!hasLoadedAll && distanceFromBottom <= threshold && !isLoadingRef.current) {
         loadMore();
       }
 
-      // Upward scroll: Unload rows when they're far out of view
+      // Upward scroll: Calculate how many rows are far out of view and unload them all
       const viewportBottom = scrollTop + clientHeight;
       const lastRowBottom = renderedRows * rowHeight;
       const distanceToLastRow = lastRowBottom - viewportBottom;
       const unloadThreshold = rowHeight * UNLOAD_THRESHOLD_MULTIPLIER;
 
-      if (renderedRows > initialRows && distanceToLastRow > unloadThreshold) {
-        unloadMore();
+      if (renderedRows > initialRows && distanceToLastRow > unloadThreshold && !isUnloadingRef.current) {
+        // Calculate how many rows are beyond the threshold (handles fast scrolling)
+        const rowsBeyondThreshold = Math.floor(
+          (distanceToLastRow - unloadThreshold) / rowHeight
+        );
+        const rowsToUnload = Math.min(
+          rowsBeyondThreshold + ROWS_TO_UNLOAD,
+          renderedRows - initialRows
+        );
+
+        if (rowsToUnload > 0) {
+          unloadMore(rowsToUnload);
+        }
       }
     };
 
+    // Add scroll end detection to handle final position after fast scrolling
+    const handleScrollEnd = () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      scrollTimeoutRef.current = setTimeout(() => {
+        // Re-check position after scroll momentum stops
+        handleScroll();
+      }, 150);
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScrollEnd, { passive: true });
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScrollEnd);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, [
     threshold,
     hasLoadedAll,

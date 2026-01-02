@@ -33,6 +33,21 @@ const Index = () => {
   const [dynamicThreshold, setDynamicThreshold] = React.useState(300);
   const [cardHeight, setCardHeight] = React.useState(450); // Default fallback
 
+  // Calculate initial rows based on viewport height (before hook initialization)
+  const getInitialRows = () => {
+    if (typeof window === "undefined") return 2;
+
+    const viewportHeight = window.innerHeight;
+    const estimatedCardHeight = 450; // Estimated card height before measurement
+    const rowsThatFitDecimal = viewportHeight / estimatedCardHeight;
+
+    // If viewport can fit more than 2.3 rows, render 3 to ensure scrollability
+    // This covers zoomed out cases where 2.5 rows are visible but need 3 to scroll
+    return rowsThatFitDecimal > 2 ? 4 : 3;
+  };
+
+  const [initialRows] = React.useState(getInitialRows);
+
   // Custom page-level virtualization
   const {
     visibleItems,
@@ -42,7 +57,7 @@ const Index = () => {
     itemsPerRow,
   } = usePageVirtualizedProducts({
     items: filteredProducts,
-    initialRows: 2,
+    initialRows: initialRows,
     loadingDelay: 500,
     threshold: dynamicThreshold,
     rowHeight: cardHeight,
@@ -53,12 +68,15 @@ const Index = () => {
     if (productCardRef.current) {
       const measuredHeight = productCardRef.current.offsetHeight;
       const threshold = measuredHeight + productsGap / 2;
+
       setDynamicThreshold(threshold);
       setCardHeight(measuredHeight);
+
       console.log("Dynamic threshold calculated:", threshold, "px");
       console.log("Card height measured:", measuredHeight, "px");
+      console.log("Initial rows set to:", initialRows);
     }
-  }, [visibleItems.length, productsGap]); // Recalculate when items change
+  }, [visibleItems.length, productsGap, initialRows]); // Recalculate when items change
 
   useEffect(() => {
     const isFilterApplied =
