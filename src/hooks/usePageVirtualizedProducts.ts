@@ -175,7 +175,11 @@ export function usePageVirtualizedProducts<T>({
       // Downward scroll: Load more rows when near bottom
       const distanceFromBottom =
         scrollHeight - scrollTop - clientHeight + LOADING_BUFFER_OFFSET;
-      if (!hasLoadedAll && distanceFromBottom <= threshold && !isLoadingRef.current) {
+      if (
+        !hasLoadedAll &&
+        distanceFromBottom <= threshold &&
+        !isLoadingRef.current
+      ) {
         loadMore();
       }
 
@@ -185,7 +189,11 @@ export function usePageVirtualizedProducts<T>({
       const distanceToLastRow = lastRowBottom - viewportBottom;
       const unloadThreshold = rowHeight * UNLOAD_THRESHOLD_MULTIPLIER;
 
-      if (renderedRows > initialRows && distanceToLastRow > unloadThreshold && !isUnloadingRef.current) {
+      if (
+        renderedRows > initialRows &&
+        distanceToLastRow > unloadThreshold &&
+        !isUnloadingRef.current
+      ) {
         // Calculate how many rows are beyond the threshold (handles fast scrolling)
         const rowsBeyondThreshold = Math.floor(
           (distanceToLastRow - unloadThreshold) / rowHeight
@@ -206,7 +214,7 @@ export function usePageVirtualizedProducts<T>({
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
-      
+
       scrollTimeoutRef.current = setTimeout(() => {
         // Re-check position after scroll momentum stops
         handleScroll();
@@ -215,7 +223,7 @@ export function usePageVirtualizedProducts<T>({
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("scroll", handleScrollEnd, { passive: true });
-    
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("scroll", handleScrollEnd);
