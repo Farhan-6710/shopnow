@@ -21,8 +21,6 @@ export default function LayoutClient({
       <Header isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       <ModeToggle />
       {children}
-      <Footer />
-      <FooterTwo />
       <ScrollToTop />
       <Toaster position="top-center" />
     </AppProviders>

@@ -1,16 +1,17 @@
 "use client";
 
+import React, { useEffect, useRef } from "react";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import FilterProducts from "../components/productsSection/filters/FilterProducts";
 import ProductCardSkeleton from "../components/productsSection/ProductCardSkeleton";
 import ProductCard from "../components/productsSection/ProductCard";
 import { useFilterProducts } from "../hooks/useFilterProducts";
-import { useEffect, useRef } from "react";
+import { usePageVirtualizedProducts } from "../hooks/usePageVirtualizedProducts";
 import { showToast } from "@/config/ToastConfig";
-import Footer from "@/components/footers/Footer";
-import FooterTwo from "@/components/footers/FooterTwo";
 
 const Index = () => {
+  const productsGap = 8; // in px, matches the padding applied to ProductCard
+
   const {
     filteredProducts,
     isLoading,
@@ -28,6 +29,36 @@ const Index = () => {
   } = useFilterProducts();
 
   const prevFilteredLengthRef = useRef<number>(filteredProducts.length);
+  const productCardRef = useRef<HTMLElement>(null);
+  const [dynamicThreshold, setDynamicThreshold] = React.useState(300);
+  const [cardHeight, setCardHeight] = React.useState(450); // Default fallback
+
+  // Custom page-level virtualization
+  const {
+    visibleItems,
+    skeletonCount,
+    isLoadingMore,
+    hasLoadedAll,
+    itemsPerRow,
+  } = usePageVirtualizedProducts({
+    items: filteredProducts,
+    initialRows: 2,
+    loadingDelay: 500,
+    threshold: dynamicThreshold,
+    rowHeight: cardHeight,
+  });
+
+  // Calculate dynamic threshold and card height based on measured card
+  useEffect(() => {
+    if (productCardRef.current) {
+      const measuredHeight = productCardRef.current.offsetHeight;
+      const threshold = measuredHeight + productsGap / 2;
+      setDynamicThreshold(threshold);
+      setCardHeight(measuredHeight);
+      console.log("Dynamic threshold calculated:", threshold, "px");
+      console.log("Card height measured:", measuredHeight, "px");
+    }
+  }, [visibleItems.length, productsGap]); // Recalculate when items change
 
   useEffect(() => {
     const isFilterApplied =
@@ -99,14 +130,45 @@ const Index = () => {
                 </p>
               </div>
             ) : (
-              filteredProducts.map((item, index) => (
-                <ProductCard
-                  key={item.id}
-                  index={index}
-                  item={item}
-                  fetchImageWithTimeout={fetchImageWithTimeout}
-                />
-              ))
+              <>
+                {/* Render visible items */}
+                {visibleItems.map((item, index) => (
+                  <ProductCard
+                    key={item.id}
+                    ref={index === 0 ? productCardRef : undefined}
+                    index={index}
+                    item={item}
+                    fetchImageWithTimeout={fetchImageWithTimeout}
+                    itemsPerRow={itemsPerRow}
+                    style={{ padding: productsGap }}
+                  />
+                ))}
+
+                {/* Render skeleton loaders for the next row being loaded */}
+                {skeletonCount > 0 &&
+                  Array.from({ length: skeletonCount }).map((_, index) => (
+                    <ProductCardSkeleton key={`skeleton-${index}`} />
+                  ))}
+
+                {/* Loading indicator */}
+                {!hasLoadedAll && !isLoadingMore && visibleItems.length > 0 && (
+                  <div className="col-span-full text-center py-8">
+                    <p className="text-sm text-muted-foreground">
+                      Scroll down to load more products ({visibleItems.length}{" "}
+                      of {filteredProducts.length})
+                    </p>
+                  </div>
+                )}
+
+                {/* All loaded message */}
+                {hasLoadedAll && filteredProducts.length > itemsPerRow * 2 && (
+                  <div className="col-span-full text-center py-8">
+                    <p className="text-sm text-muted-foreground">
+                      All {filteredProducts.length} products loaded
+                    </p>
+                  </div>
+                )}
+              </>
             )}
           </section>
         </div>

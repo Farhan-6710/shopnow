@@ -28,133 +28,143 @@ interface ProductCardProps {
   index?: number;
   item: Product;
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
+  itemsPerRow?: number;
+  style?: React.CSSProperties;
 }
 
-const ProductCard = ({
-  index = 0,
-  item,
-  fetchImageWithTimeout,
-}: ProductCardProps) => {
-  const dispatch = useDispatch();
-  const { theme } = useTheme();
+const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
+  ({ index = 0, item, fetchImageWithTimeout, itemsPerRow = 5, style }, ref) => {
+    const dispatch = useDispatch();
+    const { theme } = useTheme();
 
-  const isWishlisted = useSelector(selectIsInWishlist(item.id));
+    const isWishlisted = useSelector(selectIsInWishlist(item.id));
 
-  const handleToggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+    // Calculate relative position within the current row for stagger animation
+    // This ensures each new row's animation starts from 0, not accumulating delay
+    const relativeIndex = index % itemsPerRow;
 
-    showToast({
-      type: isWishlisted ? "info" : "success",
-      title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
-      description: isWishlisted
-        ? `${item.name} has been removed from your wishlist`
-        : `${item.name} has been added to your wishlist`,
-    });
+    const handleToggleWishlist = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    dispatch(toggleWishlistRequest(item));
-  };
+      showToast({
+        type: isWishlisted ? "info" : "success",
+        title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
+        description: isWishlisted
+          ? `${item.name} has been removed from your wishlist`
+          : `${item.name} has been added to your wishlist`,
+      });
 
-  const {
-    isInCart,
-    quantity,
-    currency,
-    isAdding,
-    isRemoving,
-    isUpdating,
-    handleAddToCart,
-    handleRemoveFromCart,
-    handleIncrementQuantity,
-    handleDecrementQuantity,
-  } = useCartManagement(item);
+      dispatch(toggleWishlistRequest(item));
+    };
 
-  /* ✅ Memoized derived values */
-  const displayPrice = useMemo(() => {
-    const price = item.prices[currency];
-    if (typeof price !== "number" || isNaN(price)) return "0.00";
-    return price.toFixed(2);
-  }, [item.prices, currency]);
+    const {
+      isInCart,
+      quantity,
+      currency,
+      isAdding,
+      isRemoving,
+      isUpdating,
+      handleAddToCart,
+      handleRemoveFromCart,
+      handleIncrementQuantity,
+      handleDecrementQuantity,
+    } = useCartManagement(item);
 
-  const tag = useMemo(() => {
-    return getProductTag(item, isInCart, theme === "dark" ? "dark" : "light");
-  }, [item, isInCart, theme]);
+    /* ✅ Memoized derived values */
+    const displayPrice = useMemo(() => {
+      const price = item.prices[currency];
+      if (typeof price !== "number" || isNaN(price)) return "0.00";
+      return price.toFixed(2);
+    }, [item.prices, currency]);
 
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: -20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
-        duration: 0.3,
-        delay: index * 0.075,
-        ease: "easeOut",
-      }}
-      className="px-4 md:px-2 p-2 w-full flex flex-col h-full"
-    >
-      <div className="product-card relative border bg-card text-center h-full pt-0 pb-6 rounded-lg transition-all duration-300">
-        {/* Wishlist */}
-        <motion.button
-          className="absolute left-2 top-2 z-10 h-10 w-10 rounded-lg bg-card shadow-md flex items-center justify-center border cursor-pointer"
-          whileTap={{ scale: 0.9 }}
-          onClick={handleToggleWishlist}
-          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-        >
-          <FontAwesomeIcon
-            icon={isWishlisted ? faHeartSolid : faHeartRegular}
-            className={`text-lg ${
-              isWishlisted ? "text-destructive" : "text-gray-400"
-            }`}
-          />
-        </motion.button>
+    const tag = useMemo(() => {
+      return getProductTag(item, isInCart, theme === "dark" ? "dark" : "light");
+    }, [item, isInCart, theme]);
 
-        {/* Tag */}
-        {item.tags && item.tags?.length > 0 && (
-          <div
-            className="absolute -right-2 -top-2 text-[10px] px-2 py-1 rounded-bl-lg rounded-tr-lg"
-            style={tag?.style}
+    return (
+      <motion.article
+        ref={ref}
+        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: 0.3,
+          delay: relativeIndex * 0.075,
+          ease: "easeOut",
+        }}
+        className="w-full flex flex-col h-full"
+        style={style}
+      >
+        <div className="product-card relative border bg-card text-center h-full pt-0 pb-6 rounded-lg transition-all duration-300">
+          {/* Wishlist */}
+          <motion.button
+            className="absolute left-2 top-2 z-10 h-10 w-10 rounded-lg bg-card shadow-md flex items-center justify-center border cursor-pointer"
+            whileTap={{ scale: 0.9 }}
+            onClick={handleToggleWishlist}
+            aria-label={
+              isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+            }
           >
-            <p>{tag?.label}</p>
+            <FontAwesomeIcon
+              icon={isWishlisted ? faHeartSolid : faHeartRegular}
+              className={`text-lg ${
+                isWishlisted ? "text-destructive" : "text-gray-400"
+              }`}
+            />
+          </motion.button>
+
+          {/* Tag */}
+          {item.tags && item.tags?.length > 0 && (
+            <div
+              className="absolute -right-2 -top-2 text-[10px] px-2 py-1 rounded-bl-lg rounded-tr-lg"
+              style={tag?.style}
+            >
+              <p>{tag?.label}</p>
+            </div>
+          )}
+
+          <Link
+            href={`/products/${encodeURIComponent(item.name)}`}
+            className="flex flex-col items-center"
+            aria-label={`View details for ${item.name}`}
+          >
+            {/* ✅ Will NOT re-render on quantity change */}
+            <MemoProductImage
+              imgSource={item.imgSource}
+              alt={item.name}
+              fetchImageWithTimeout={fetchImageWithTimeout}
+            />
+
+            <MemoProductDetails
+              name={item.name}
+              currency={currency}
+              displayPrice={() => displayPrice}
+              rating={item.rating ?? 0}
+            />
+          </Link>
+
+          {/* ✅ This WILL re-render (expected) */}
+          <div className="mt-4">
+            <ProductActions
+              itemName={item.name}
+              quantity={quantity}
+              isInCart={isInCart}
+              isAdding={isAdding}
+              isRemoving={isRemoving}
+              isUpdating={isUpdating}
+              onAddToCart={handleAddToCart}
+              onRemove={handleRemoveFromCart}
+              onIncrement={handleIncrementQuantity}
+              onDecrement={handleDecrementQuantity}
+              showRemoveConfirmation
+            />
           </div>
-        )}
-
-        <Link
-          href={`/products/${encodeURIComponent(item.name)}`}
-          className="flex flex-col items-center"
-          aria-label={`View details for ${item.name}`}
-        >
-          {/* ✅ Will NOT re-render on quantity change */}
-          <MemoProductImage
-            imgSource={item.imgSource}
-            alt={item.name}
-            fetchImageWithTimeout={fetchImageWithTimeout}
-          />
-
-          <MemoProductDetails
-            name={item.name}
-            currency={currency}
-            displayPrice={() => displayPrice}
-            rating={item.rating ?? 0}
-          />
-        </Link>
-
-        {/* ✅ This WILL re-render (expected) */}
-        <div className="mt-4">
-          <ProductActions
-            itemName={item.name}
-            quantity={quantity}
-            isInCart={isInCart}
-            isAdding={isAdding}
-            isRemoving={isRemoving}
-            isUpdating={isUpdating}
-            onAddToCart={handleAddToCart}
-            onRemove={handleRemoveFromCart}
-            onIncrement={handleIncrementQuantity}
-            onDecrement={handleDecrementQuantity}
-            showRemoveConfirmation
-          />
         </div>
-      </div>
-    </motion.article>
-  );
-};
+      </motion.article>
+    );
+  }
+);
+
+ProductCard.displayName = "ProductCard";
 
 export default ProductCard;
