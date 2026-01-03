@@ -133,7 +133,7 @@ const Index = () => {
             className="w-full product-card-wrapper grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit p-3"
             aria-label="Product catalog"
           >
-            {isLoading && isCartSyncing && isWishlistSyncing ? (
+            {isLoading || isCartSyncing || isWishlistSyncing ? (
               Array.from({ length: 10 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))

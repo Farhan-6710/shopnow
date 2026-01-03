@@ -27,6 +27,7 @@ export const useFilterProducts = () => {
   const {
     data: products,
     isLoading: isProductsLoading,
+    isFetching: isProductsFetching,
     error,
   } = useFetchProducts();
 
@@ -144,7 +145,7 @@ export const useFilterProducts = () => {
   return {
     filteredProducts,
     productsFromApiRes: products || [],
-    isLoading: isProductsLoading || isFilterLoading,
+    isLoading: isProductsLoading || isFilterLoading || isProductsFetching,
     error,
     filterValues,
     categoryOptions,

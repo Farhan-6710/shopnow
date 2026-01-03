@@ -10,7 +10,10 @@ const fetchProductsApi = async (): Promise<Product[]> => {
 };
 
 export const useFetchProducts = () => {
-  const { data, isLoading, error, refetch } = useQuery<Product[], Error>({
+  const { data, isLoading, isFetching, error, refetch } = useQuery<
+    Product[],
+    Error
+  >({
     queryKey: ["products"],
     queryFn: fetchProductsApi,
     staleTime: 5 * 60 * 1000, // 5 minutes cache
@@ -19,6 +22,7 @@ export const useFetchProducts = () => {
   return {
     data: data || [],
     isLoading,
+    isFetching,
     error,
     refetch,
   };
