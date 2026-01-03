@@ -66,7 +66,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <Button
             type="button"
             variant="outline"
-            onClick={handleCancel}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleCancel();
+            }}
             className="sm:flex-1"
           >
             {cancelLabel}
@@ -74,7 +78,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <Button
             type="button"
             variant={variant}
-            onClick={handleConfirm}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleConfirm();
+            }}
             className="sm:flex-1"
           >
             {confirmLabel}

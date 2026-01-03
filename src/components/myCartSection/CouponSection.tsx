@@ -1,6 +1,7 @@
 import { useTheme } from "next-themes";
 import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "../ui/spinner";
+import { Button } from "../ui/button";
 
 interface CouponSectionProps {
   isCouponApplied: boolean;
@@ -86,10 +87,11 @@ const CouponSection: React.FC<CouponSectionProps> = ({
           )}
         </>
       )}
-      <button
+      <Button
         onClick={handleSubmitCoupon}
+        size="lg"
         disabled={loading || couponCode.trim() === "" || isCouponApplied}
-        className={`w-full py-2 rounded-lg transition duration-300 flex items-center justify-center ${
+        className={`w-full rounded-lg transition duration-300 flex items-center justify-center ${
           isCouponApplied
             ? `bg-secondary text-secondary-foreground font-bold pointer-events-none`
             : `bg-primary hover:bg-primary/80 text-primary-foreground hover:text-primary-foreground cursor-pointer`
@@ -103,7 +105,7 @@ const CouponSection: React.FC<CouponSectionProps> = ({
         ) : (
           "Apply Coupon"
         )}
-      </button>
+      </Button>
       <div
         className={`flex justify-between mt-4 font-bold text-2xl ${
           theme === "dark" ? "text-gray-200" : "text-gray-800"
