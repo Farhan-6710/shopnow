@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Product } from "@/types/product";
-import { timeout } from "@/utils/timeout";
 
 const fetchProductsApi = async (): Promise<Product[]> => {
   const response = await fetch("/api/products");
