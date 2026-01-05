@@ -107,6 +107,7 @@ const Index = () => {
 
   useEffect(() => {
     const timer = async () => {
+      setFakeLoading(true);
       await timeout(400);
       setFakeLoading(false);
     };

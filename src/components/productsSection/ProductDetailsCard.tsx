@@ -72,22 +72,24 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
 
           {/* Item Info and Actions on the Right */}
           <div className="w-full md:w-2/3 flex flex-col justify-between items-start p-4 pt-0 md:pt-4 md:pr-10">
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-2">
               <h2 className="text-xl 2xl:text-2xl font-bold dark:text-white text-primaryDarkTwo">
                 {item.name}
               </h2>
-              {tags?.map((tag, idx) => {
-                return (
-                  <div key={idx}>
-                    <p
-                      className="text-foreground rounded-full py-1 px-2.5 text-xs"
-                      style={tag.style}
-                    >
-                      {tag.label}
-                    </p>
-                  </div>
-                );
-              })}
+              <div className="flex flex-wrap gap-2">
+                {tags?.map((tag, idx) => {
+                  return (
+                    <div key={idx}>
+                      <p
+                        className="text-foreground rounded-full py-1 px-2.5 text-xs whitespace-nowrap"
+                        style={tag.style}
+                      >
+                        {tag.label}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             <p className="text-sm text-start text-gray-600 dark:text-gray-300 mt-4">
               {item.description}
@@ -99,7 +101,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
               </p>
               <Rating rating={item.rating ?? 0} totalStars={5} />
             </div>
-            <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2 w-full">
+            <div className="flex flex-row justify-center items-center mt-4 gap-2 w-full">
               <ProductActions
                 itemName={item.name}
                 quantity={quantity}

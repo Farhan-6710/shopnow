@@ -20,6 +20,7 @@ The supportive cushioning ensures all-day comfort, whether you're running errand
 Its versatile white colorway makes it a staple in any wardrobe. \
 Enjoy the reliable performance and timeless style of the Air Monarch IV.",
     priceRange: "expensive",
+    tags: ["bestseller", "trending", "top-rated"],
   },
   {
     id: 2,
