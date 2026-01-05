@@ -1,9 +1,9 @@
 import { useTheme } from "next-themes";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
 
-interface CouponSectionProps {
+interface CouponProps {
   isCouponApplied: boolean;
   showCouponPlaceholder: boolean;
   isInvalidCoupon: boolean;
@@ -16,7 +16,7 @@ interface CouponSectionProps {
   formatCurrency: (amount: number) => string; // Add formatCurrency function prop
 }
 
-const CouponSection: React.FC<CouponSectionProps> = ({
+const Coupon: React.FC<CouponProps> = ({
   isCouponApplied,
   showCouponPlaceholder,
   isInvalidCoupon,
@@ -31,14 +31,6 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
-
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    });
-  }, []);
 
   const handleSubmitCoupon = () => {
     if (loading) return;
@@ -118,4 +110,4 @@ const CouponSection: React.FC<CouponSectionProps> = ({
   );
 };
 
-export default CouponSection;
+export default Coupon;

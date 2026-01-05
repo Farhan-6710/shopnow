@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 
-const MyCartSkeleton = () => {
+const MyCartSectionSkeleton = () => {
   const { theme } = useTheme();
 
   return (
@@ -22,9 +22,9 @@ const MyCartSkeleton = () => {
         </div>
 
         {/* Cart Content Skeleton */}
-        <div className="flex flex-wrap md:flex-nowrap gap-3 md:gap-4">
+        <div className="flex flex-wrap lg:flex-nowrap gap-3 md:gap-4">
           {/* Cart Items List Skeleton */}
-          <div className="w-full md:w-8/12 bg-card h-fit">
+          <div className="w-full lg:w-8/12 bg-card h-fit">
             {/* Cart Item Skeleton - Repeat 3 times */}
             {[1, 2, 3].map((index) => (
               <div
@@ -54,7 +54,7 @@ const MyCartSkeleton = () => {
 
           {/* Order Summary Skeleton */}
           <section
-            className={`w-full md:w-4/12 border p-4 rounded ${
+            className={`w-full lg:w-4/12 border p-4 rounded ${
               theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
             } h-fit`}
           >
@@ -109,4 +109,4 @@ const MyCartSkeleton = () => {
   );
 };
 
-export default MyCartSkeleton;
+export default MyCartSectionSkeleton;

@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Modal from "../atoms/Modal";
+import Modal from "../modals/Modal";
 
 const AiAssistantFeedback: React.FC = () => {
   const dispatch = useDispatch();

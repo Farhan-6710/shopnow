@@ -44,11 +44,17 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   };
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange} className="sm:max-w-[425px]">
+    <Modal
+      open={open}
+      onOpenChange={onOpenChange}
+      className="sm:max-w-106.25"
+      title={title}
+      description={description}
+    >
       <div className="flex flex-col gap-4">
         <div className="flex items-start gap-4">
           {Icon && (
-            <div className={`flex-shrink-0 ${iconClassName}`}>
+            <div className={`shrink-0 ${iconClassName}`}>
               <Icon className="h-5 w-5" />
             </div>
           )}
@@ -66,11 +72,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <Button
             type="button"
             variant="outline"
-            onClick={(e: React.MouseEvent) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleCancel();
-            }}
+            onClick={handleCancel}
             className="sm:flex-1"
           >
             {cancelLabel}
@@ -78,11 +80,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <Button
             type="button"
             variant={variant}
-            onClick={(e: React.MouseEvent) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleConfirm();
-            }}
+            onClick={handleConfirm}
             className="sm:flex-1"
           >
             {confirmLabel}

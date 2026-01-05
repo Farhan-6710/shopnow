@@ -1,6 +1,6 @@
 import React from "react";
 import OrderSummaryHeader from "./OrderSummaryHeader";
-import CouponSection from "./CouponSection";
+import Coupon from "./Coupon";
 import PaymentMethods from "./PaymentMethods";
 import { useTheme } from "next-themes";
 
@@ -50,7 +50,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.2, delay: 0.2, ease: "easeOut" }}
-      className={`w-full md:w-4/12 border p-4 rounded ${
+      className={`w-full lg:w-4/12 border p-4 rounded ${
         theme === "dark" ? "bg-card shadow-sm" : "bg-white shadow-sm"
       } h-fit`}
       aria-labelledby="order-summary-heading"
@@ -65,7 +65,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         discount={discount}
         currency={currency}
       />
-      <CouponSection
+      <Coupon
         isCouponApplied={isCouponApplied}
         showCouponPlaceholder={showCouponPlaceholder}
         isInvalidCoupon={isInvalidCoupon}

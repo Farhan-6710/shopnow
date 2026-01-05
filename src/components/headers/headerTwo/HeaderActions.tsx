@@ -3,11 +3,18 @@
 import React, { useState } from "react";
 import { ShoppingCart, Heart, BotIcon, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Sheet from "@/components/atoms/Sheet";
+import Sheet from "@/components/shared/Sheet";
 import AiAssistant from "@/components/ai-assistant/AiAssistant";
-import { useFilterProducts } from "@/hooks/useFilterProducts";
+import { useProductsQuery } from "@/hooks/useProductsQuery";
 import { useTheme } from "next-themes";
+import { showToast } from "@/config/ToastConfig";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  CART_ROUTE,
+  HOME_ROUTE,
+  ROUTES,
+  WISHLIST_ROUTE,
+} from "@/constants/routes";
 
 interface HeaderActionsProps {
   cartCount: number;
@@ -19,11 +26,84 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
   wishlistCount,
 }) => {
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
-  const { productsFromApiRes } = useFilterProducts();
+
+  const { products: productsFromApiRes } = useProductsQuery();
   const { setTheme, theme } = useTheme();
+
+  const pathname = usePathname();
+  const router = useRouter();
+
+  /* ---------------- Generic route handler ---------------- */
+  const handleRouteClick = (route: { PATHNAME: string; LABEL: string }) => {
+    if (pathname === route.PATHNAME) {
+      showToast({
+        title: `Already in ${route.LABEL} screen`,
+        description: "Please click a different route to navigate",
+      });
+      return;
+    }
+
+    router.push(route.PATHNAME);
+  };
 
   return (
     <div className="flex items-center gap-2">
+      {/* Home Button */}
+      <Button
+        onClick={() => handleRouteClick(ROUTES.HOME)}
+        variant="outline"
+        size="icon"
+        className="rounded-lg"
+        aria-label="Home"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="size-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
+        </svg>
+      </Button>
+
+      {/* Wishlist Button */}
+      <Button
+        onClick={() => handleRouteClick(ROUTES.WISHLIST)}
+        variant="outline"
+        size="icon"
+        className="relative rounded-lg"
+        aria-label={`Wishlist with ${wishlistCount} items`}
+      >
+        <Heart className="size-4" />
+        {wishlistCount > 0 && (
+          <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-destructive text-white text-[12px] font-bold rounded-full">
+            {wishlistCount > 99 ? "99+" : wishlistCount}
+          </span>
+        )}
+      </Button>
+
+      {/* Cart Button */}
+      <Button
+        onClick={() => handleRouteClick(ROUTES.CART)}
+        variant="outline"
+        size="icon"
+        className="relative rounded-lg"
+        aria-label={`Cart with ${cartCount} items`}
+      >
+        <ShoppingCart className="size-4" />
+        {cartCount > 0 && (
+          <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-primary text-primary-foreground text-[12px] font-bold rounded-full">
+            {cartCount > 99 ? "99+" : cartCount}
+          </span>
+        )}
+      </Button>
+
       {/* Theme Toggle */}
       <Button
         variant="outline"
@@ -35,41 +115,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
         <span className="sr-only">Toggle theme</span>
       </Button>
 
-      {/* Wishlist Button */}
-      <Link href="/wishlist">
-        <Button
-          variant="outline"
-          size="icon"
-          className="relative rounded-lg"
-          aria-label={`Wishlist with ${wishlistCount} items`}
-        >
-          <Heart className="size-4" />
-          {wishlistCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-destructive text-white text-[12px] font-bold rounded-full">
-              {wishlistCount > 99 ? "99+" : wishlistCount}
-            </span>
-          )}
-        </Button>
-      </Link>
-
-      {/* Cart Button */}
-      <Link href="/cart">
-        <Button
-          variant="outline"
-          size="icon"
-          className="relative rounded-lg"
-          aria-label={`Cart with ${cartCount} items`}
-        >
-          <ShoppingCart className="size-4" />
-          {cartCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-primary text-primary-foreground text-[12px] font-bold rounded-full">
-              {cartCount > 99 ? "99+" : cartCount}
-            </span>
-          )}
-        </Button>
-      </Link>
-
-      {/* AI Assistant Button */}
+      {/* AI Assistant */}
       <Sheet
         open={isAiAssistantOpen}
         onOpenChange={setIsAiAssistantOpen}
@@ -77,7 +123,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
           <Button
             variant="outline"
             size="default"
-            className="w-full md:w-auto rounded-md px-3 py-2 gap-2 ml-3 text-foreground transition-all"
+            className="w-full md:w-auto rounded-md px-3 py-2 gap-2 ml-3"
             aria-label="Open AI Assistant"
           >
             <BotIcon className="size-4 text-primary" />

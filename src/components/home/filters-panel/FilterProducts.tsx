@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductFilterValues } from "@/types/filterProduct";
+import { ProductFilterValues, SelectOption } from "@/types/filterProduct";
 import React from "react";
 import { FilterSheet } from "../../extras/FilterSheet";
 import FiltersSidebarContent from "./FiltersSidebarContent";
@@ -9,10 +9,6 @@ import { motion } from "framer-motion";
 import { Product } from "@/types/product";
 
 interface FilterProductsProps {
-  categoryOptions: string[];
-  priceRangeOptions: string[];
-  colorOptions: string[];
-  sortOptions: { value: string; label: string }[];
   filterValues: ProductFilterValues;
   productsFromApiRes: Product[];
   onToggleCategory: (category: string) => void;

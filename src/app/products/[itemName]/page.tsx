@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProductPageClient from "./ProductPageClient";
+import ProductDetailsPageClient from "./ProductDetailsPageClient";
 import { notFound } from "next/navigation";
-import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
-import { useFilterProducts } from "@/hooks/useFilterProducts";
+import ProductDetailsCardSkeleton from "@/components/product-details/ProductDetailsCardSkeleton";
+import { useProductsQuery } from "@/hooks/useProductsQuery";
 
-interface ProductPageProps {
+interface ProductDetailsPageProps {
   params: Promise<{ itemName: string }>;
 }
 
-const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
+const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
   const [itemName, setItemName] = useState<string | null>(null);
 
-  const { productsFromApiRes } = useFilterProducts();
+  const { products: productsFromApiRes } = useProductsQuery();
 
   useEffect(() => {
     const fetchParams = async () => {
@@ -60,11 +60,11 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
           className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4 lg:px-20 2xl:px-32"
           aria-labelledby="product-name"
         >
-          <ProductPageClient item={item} />
+          <ProductDetailsPageClient item={item} />
         </section>
       </div>
     </main>
   );
 };
 
-export default ProductPage;
+export default ProductDetailsPage;

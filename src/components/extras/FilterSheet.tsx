@@ -11,14 +11,9 @@ import {
 } from "@/components/ui/sheet";
 import { ProductFilterValues } from "@/types/filterProduct";
 import { FilterIcon } from "lucide-react";
-import FiltersSidebarContent from "../productsSection/filters/FiltersSidebarContent";
-import SearchBar from "../headers/headerTwo/SearchBar";
+import FiltersSidebarContent from "../home/filters-panel/FiltersSidebarContent";
 
 interface FilterSheetProps {
-  categoryOptions: string[];
-  priceRangeOptions: string[];
-  colorOptions: string[];
-  sortOptions: { value: string; label: string }[];
   filterValues: ProductFilterValues;
   onToggleCategory: (category: string) => void;
   onTogglePriceRange: (priceRange: string) => void;

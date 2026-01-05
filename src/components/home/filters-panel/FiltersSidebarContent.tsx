@@ -1,18 +1,20 @@
-import { ProductFilterValues } from "@/types/filterProduct";
+import { ProductFilterValues, SelectOption } from "@/types/filterProduct";
 import React, { useState } from "react";
 import FilterByCategory from "./FilterByCategory";
 import FilterBySort from "./FilterBySort";
 import FilterByColor from "./FilterByColor";
 import FilterByPriceRange from "./FilterByPriceRange";
 import { Button } from "@/components/ui/button";
-import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import { RotateCcw } from "lucide-react";
+import {
+  COLOR_OPTIONS,
+  PRICE_RANGE_OPTIONS,
+  CATEGORY_OPTIONS,
+  SORT_OPTIONS,
+} from "@/constants/filters";
 
 interface FiltersSidebarContentProps {
-  categoryOptions: string[];
-  priceRangeOptions: string[];
-  colorOptions: string[];
-  sortOptions: { value: string; label: string }[];
   filterValues: ProductFilterValues;
   onToggleCategory: (category: string) => void;
   onTogglePriceRange: (priceRange: string) => void;
@@ -23,10 +25,6 @@ interface FiltersSidebarContentProps {
 
 const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
   const {
-    categoryOptions,
-    priceRangeOptions,
-    colorOptions,
-    sortOptions,
     filterValues,
     onToggleCategory,
     onTogglePriceRange,
@@ -53,7 +51,7 @@ const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
     <div className="flex flex-col justify-between">
       {/* Filter by Category */}
       <FilterByCategory
-        categoryOptions={categoryOptions}
+        categoryOptions={CATEGORY_OPTIONS}
         selectedCategories={filterValues.selectedCategories}
         onToggleCategory={onToggleCategory}
         onResetFilters={onResetFilters}
@@ -61,21 +59,21 @@ const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
 
       {/* Filter by Sort */}
       <FilterBySort
-        sortOptions={sortOptions}
+        sortOptions={SORT_OPTIONS}
         selectedSort={filterValues.selectedSort}
         onSortByPrice={onSortByPrice}
       />
 
       {/* Filter by Price Range */}
       <FilterByPriceRange
-        priceRangeOptions={priceRangeOptions}
+        priceRangeOptions={PRICE_RANGE_OPTIONS}
         selectedPriceRanges={filterValues.selectedPriceRange}
         onTogglePriceRange={onTogglePriceRange}
       />
 
       {/* Filter by Color */}
       <FilterByColor
-        colorOptions={colorOptions}
+        colorOptions={COLOR_OPTIONS}
         selectedColors={filterValues.selectedColors}
         onToggleColor={onToggleColor}
       />

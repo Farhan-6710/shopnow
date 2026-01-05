@@ -16,3 +16,8 @@ export interface FilterProductsProps {
   onSortByPrice: (order: "asc" | "desc") => void;
   onResetFilters: () => void;
 }
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}

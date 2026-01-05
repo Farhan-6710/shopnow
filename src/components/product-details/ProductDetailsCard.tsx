@@ -1,16 +1,16 @@
 "use client"; // Ensures this component is rendered on the client side
 
 import React, { useState, useMemo } from "react";
-import ProductImage from "./ProductImage";
-import ProductActions from "./ProductActions";
-import Rating from "./Rating";
+import ProductImage from "../shared/ProductImage";
+import ProductActions from "../shared/ProductActions";
+import Rating from "../home/products-grid/Rating";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
-import ConfirmationModal from "../atoms/ConfirmationModal";
+import ConfirmationModal from "../modals/ConfirmationModal";
 import { Trash2 } from "lucide-react";
-import WishlistToggle from "./WishlistToggle";
+import WishlistToggle from "../shared/WishlistToggle";
 import { getProductTags } from "@/utils/products/products";
 import { useTheme } from "next-themes";
 

@@ -13,13 +13,14 @@ import {
 } from "@/components/ui/drawer";
 import { ProductFilterValues } from "@/types/filterProduct";
 import { FilterIcon, X } from "lucide-react"; // Import the X icon
-import FiltersSidebarContent from "../productsSection/filters/FiltersSidebarContent";
+import FiltersSidebarContent from "../home/filters-panel/FiltersSidebarContent";
+import type { SelectOption } from "@/types/filterProduct";
 
 interface FilterDrawerProps {
   categoryOptions: string[];
   priceRangeOptions: string[];
   colorOptions: string[];
-  sortOptions: { value: string; label: string }[];
+  sortOptions: SelectOption[];
   filterValues: ProductFilterValues;
   onToggleCategory: (category: string) => void;
   onTogglePriceRange: (priceRange: string) => void;

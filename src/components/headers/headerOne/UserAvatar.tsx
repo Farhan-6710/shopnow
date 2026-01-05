@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState } from "react";
-import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import { showToast } from "@/config/ToastConfig";
 import { Button } from "@/components/ui/button";
 

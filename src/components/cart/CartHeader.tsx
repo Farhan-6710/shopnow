@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import { motion } from "framer-motion";
 
 interface CartHeaderProps {

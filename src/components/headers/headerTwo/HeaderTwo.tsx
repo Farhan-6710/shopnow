@@ -4,16 +4,17 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCartCount } from "@/redux/cart/cartSlice";
 import { selectWishlistCount } from "@/redux/wishlist/wishlistSlice";
-import { PRODUCTS_DATA } from "@/constants/products";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import HeaderActions from "./HeaderActions";
+import { useProductsQuery } from "@/hooks/useProductsQuery";
 
 interface HeaderTwoProps {
   onMenuClick: () => void;
 }
 
 const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
+  const { products } = useProductsQuery();
   const cartCount = useSelector(selectCartCount);
   const wishlistCount = useSelector(selectWishlistCount);
 
@@ -35,7 +36,7 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
 
           {/* Search Bar - Center - Hidden on Mobile/Tablet */}
           <div className="hidden md:block flex-1">
-            <SearchBar products={PRODUCTS_DATA} />
+            <SearchBar products={products} />
           </div>
 
           {/* Cart, Wishlist & AI - Right - Hidden on Mobile/Tablet */}

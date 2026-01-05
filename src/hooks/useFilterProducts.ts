@@ -1,21 +1,16 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import {
-  COLOR_OPTIONS,
-  PRICE_RANGE_OPTIONS,
-  CATEGORY_OPTIONS,
-  SORT_OPTIONS,
-} from "@/constants/filters";
 import { showToast } from "@/config/ToastConfig";
-import { timeout } from "@/utils/timeout";
 
 import { ProductFilterValues } from "@/types/filterProduct";
 import { useSelector } from "react-redux";
 import { selectCurrency } from "@/redux/cart/cartSlice";
-import { useFetchProducts } from "./useFetchProducts";
+import { Product } from "@/types/product";
 
-export const useFilterProducts = () => {
+export const useFilterProducts = (
+  productsFromApiRes: Product[] | undefined
+) => {
   const currency = useSelector(selectCurrency);
   const [filterValues, setFilterValues] = useState<ProductFilterValues>({
     selectedCategories: [],
@@ -24,18 +19,11 @@ export const useFilterProducts = () => {
     selectedSort: "",
   });
 
-  const {
-    data: products,
-    isLoading: isProductsLoading,
-    isFetching: isProductsFetching,
-    error,
-  } = useFetchProducts();
-
   // Calculate filtered & sorted products with useMemo
   const filteredProducts = useMemo(() => {
-    if (!products) return [];
+    if (!productsFromApiRes) return [];
 
-    const filtered = products.filter((product) => {
+    const filtered = productsFromApiRes.filter((product: Product) => {
       const categoryMatch =
         !filterValues.selectedCategories.length ||
         filterValues.selectedCategories.includes(product.category || "");
@@ -62,7 +50,7 @@ export const useFilterProducts = () => {
         : priceB - priceA;
     });
   }, [
-    products,
+    productsFromApiRes,
     filterValues.selectedCategories,
     filterValues.selectedPriceRange,
     filterValues.selectedColors,
@@ -70,60 +58,48 @@ export const useFilterProducts = () => {
     currency,
   ]);
 
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
-
   // Wrap handlers in useCallback to prevent unnecessary re-creations
   const onToggleCategory = useCallback(async (category: string) => {
-    setIsFilterLoading(true);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedCategories: prevFilters.selectedCategories.includes(category)
         ? prevFilters.selectedCategories.filter((c) => c !== category)
         : [...prevFilters.selectedCategories, category],
     }));
-    setIsFilterLoading(false);
   }, []);
 
   const onTogglePriceRange = useCallback(async (priceRange: string) => {
-    setIsFilterLoading(true);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedPriceRange: prevFilters.selectedPriceRange.includes(priceRange)
         ? prevFilters.selectedPriceRange.filter((r) => r !== priceRange)
         : [...prevFilters.selectedPriceRange, priceRange],
     }));
-    setIsFilterLoading(false);
   }, []);
 
   const onToggleColor = useCallback(async (color: string) => {
-    setIsFilterLoading(true);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedColors: prevFilters.selectedColors.includes(color)
         ? prevFilters.selectedColors.filter((c) => c !== color)
         : [...prevFilters.selectedColors, color],
     }));
-    setIsFilterLoading(false);
   }, []);
 
   const onSortByPrice = useCallback(async (order: "asc" | "desc") => {
-    setIsFilterLoading(true);
     setFilterValues((prev) => ({
       ...prev,
       selectedSort: prev.selectedSort === order ? "" : order,
     }));
-    setIsFilterLoading(false);
   }, []);
 
   const onResetFilters = useCallback(async () => {
-    setIsFilterLoading(true);
     setFilterValues({
       selectedCategories: [],
       selectedPriceRange: [],
       selectedColors: [],
       selectedSort: "",
     });
-    setIsFilterLoading(false);
     showToast({
       type: "success",
       title: "Filters Reset",
@@ -131,22 +107,9 @@ export const useFilterProducts = () => {
     });
   }, []);
 
-  // Use derived constant
-  const categoryOptions = CATEGORY_OPTIONS;
-  const priceRangeOptions = PRICE_RANGE_OPTIONS;
-  const colorOptions = COLOR_OPTIONS;
-  const sortOptions = SORT_OPTIONS;
-
   return {
     filteredProducts,
-    productsFromApiRes: products || [],
-    isLoading: isProductsLoading || isFilterLoading || isProductsFetching,
-    error,
     filterValues,
-    categoryOptions,
-    priceRangeOptions,
-    colorOptions,
-    sortOptions,
     onToggleCategory,
     onTogglePriceRange,
     onToggleColor,

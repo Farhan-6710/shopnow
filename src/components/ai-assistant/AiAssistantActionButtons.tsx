@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ConfirmationModal from "../atoms/ConfirmationModal";
+import ConfirmationModal from "../modals/ConfirmationModal";
 import AiAssistantFeedback from "./AiAssistantFeedback";
 import { useDispatch } from "react-redux";
 import { clearChat } from "@/redux/chat/chatSlice";

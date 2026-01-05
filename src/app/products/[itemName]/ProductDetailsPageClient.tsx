@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Product } from "@/types/product";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
-import ProductDetailsCard from "@/components/productsSection/ProductDetailsCard";
-import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
+import ProductDetailsCard from "@/components/product-details/ProductDetailsCard";
+import ProductDetailsCardSkeleton from "@/components/product-details/ProductDetailsCardSkeleton";
 
-interface ProductPageClientProps {
+interface ProductDetailsPageClientProps {
   item: Product;
 }
 
-const ProductPageClient: React.FC<ProductPageClientProps> = ({
-  item,
-}) => {
+const ProductDetailsPageClient: React.FC<ProductDetailsPageClientProps> = ({ item }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -36,4 +34,4 @@ const ProductPageClient: React.FC<ProductPageClientProps> = ({
   );
 };
 
-export default ProductPageClient;
+export default ProductDetailsPageClient;

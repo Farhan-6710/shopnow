@@ -1,22 +1,16 @@
 "use client";
 
 import React, { memo, useMemo } from "react";
-import ProductImage from "./ProductImage";
-import ProductDetails from "./ProductDetails";
-import ProductActions from "./ProductActions";
+import ProductDetails from "../../product-details/ProductDetails";
+import ProductActions from "../../shared/ProductActions";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import { motion } from "framer-motion";
 import { getProductTags } from "@/utils/products/products";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  toggleWishlistRequest,
-  selectIsInWishlist,
-} from "@/redux/wishlist/wishlistSlice";
-import { showToast } from "@/config/ToastConfig";
-import WishlistToggle from "./WishlistToggle";
+import WishlistToggle from "../../shared/WishlistToggle";
+import ProductImage from "../../shared/ProductImage";
 
 /* ✅ Memoized child components */
 const MemoProductImage = memo(ProductImage);
@@ -43,10 +37,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
     },
     ref
   ) => {
-    const dispatch = useDispatch();
     const { theme } = useTheme();
-
-    const isWishlisted = useSelector(selectIsInWishlist(item.id));
 
     // Calculate relative position within the current row for stagger animation
     // This ensures each new row's animation starts from 0, not accumulating delay
@@ -111,7 +102,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
 
           <Link
             href={`/products/${encodeURIComponent(item.name)}`}
-            className="flex flex-col items-center"
+            className="group flex flex-col items-center"
             aria-label={`View details for ${item.name}`}
           >
             {/* ✅ Will NOT re-render on quantity change */}
@@ -125,7 +116,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
             <MemoProductDetails
               name={item.name}
               currency={currency}
-              displayPrice={() => displayPrice}
+              displayPrice={displayPrice}
               rating={item.rating ?? 0}
             />
           </Link>

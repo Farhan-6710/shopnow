@@ -10,11 +10,11 @@ import {
   removeFromWishlistRequest,
   selectIsInWishlist,
 } from "@/redux/wishlist/wishlistSlice";
-import ConfirmationModal from "@/components/atoms/ConfirmationModal";
-import Rating from "@/components/productsSection/Rating";
-import ProductActions from "../productsSection/ProductActions";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
+import Rating from "@/components/home/products-grid/Rating";
+import ProductActions from "../shared/ProductActions";
 import { useCartManagement } from "@/hooks/useCartManagement";
-import WishlistToggle from "../productsSection/WishlistToggle";
+import WishlistToggle from "../shared/WishlistToggle";
 import { showToast } from "@/config/ToastConfig";
 
 interface WishlistItemProps {
@@ -101,7 +101,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
               {item.name}
             </h3>
           </Link>
-
           {item.brand && (
             <p className="text-xs text-muted-foreground mt-0.5">{item.brand}</p>
           )}

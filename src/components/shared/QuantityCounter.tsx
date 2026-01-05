@@ -29,11 +29,7 @@ const QuantityCounter = ({
           type="button"
           variant="outline"
           size="icon-sm"
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onDecrement();
-          }}
+          onClick={onDecrement}
           disabled={quantity <= 1 || loading || disabled}
           className="rounded-r-none border-r-0 bg-card"
           aria-label={`Decrease quantity of ${itemName}`}
@@ -41,13 +37,7 @@ const QuantityCounter = ({
           -
         </Button>
 
-        <div
-          className="inline-flex items-center justify-center border-y bg-background px-4 min-w-12 text-sm font-semibold cursor-auto border-x"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
+        <div className="inline-flex items-center justify-center border-y bg-background px-4 min-w-12 text-sm font-semibold cursor-auto border-x">
           <span
             aria-live="polite"
             aria-label={`Quantity: ${quantity} items of ${itemName}`}
@@ -60,11 +50,7 @@ const QuantityCounter = ({
           type="button"
           variant="outline"
           size="icon-sm"
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onIncrement();
-          }}
+          onClick={onIncrement}
           disabled={loading || disabled}
           className="rounded-l-none border-l-0 bg-card"
           aria-label={`Increase quantity of ${itemName}`}

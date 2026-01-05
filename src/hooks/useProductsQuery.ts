@@ -8,7 +8,7 @@ const fetchProductsApi = async (): Promise<Product[]> => {
   return data.data;
 };
 
-export const useFetchProducts = () => {
+export const useProductsQuery = () => {
   const { data, isLoading, isFetching, error, refetch } = useQuery<
     Product[],
     Error
@@ -19,7 +19,7 @@ export const useFetchProducts = () => {
   });
 
   return {
-    data: data || [],
+    products: data || [],
     isLoading,
     isFetching,
     error,

@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { ShoppingCart, BotIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Sheet from "@/components/atoms/Sheet";
+import Sheet from "@/components/shared/Sheet";
 import AiAssistant from "@/components/ai-assistant/AiAssistant";
-import { useFilterProducts } from "@/hooks/useFilterProducts";
+import { useProductsQuery } from "@/hooks/useProductsQuery";
 
 interface CartButtonProps {
   cartCount: number;
@@ -15,7 +15,7 @@ interface CartButtonProps {
 
 const CartButton: React.FC<CartButtonProps> = ({ cartCount, onClose }) => {
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
-  const { productsFromApiRes } = useFilterProducts();
+  const { products: productsFromApiRes } = useProductsQuery();
 
   return (
     <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">

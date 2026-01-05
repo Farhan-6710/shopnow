@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import QuantityCounter from "@/components/atoms/QuantityCounter";
-import ConfirmationModal from "@/components/atoms/ConfirmationModal";
+import QuantityCounter from "@/components/shared/QuantityCounter";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
 
 interface ProductActionsProps {
   itemName: string;
@@ -34,9 +34,7 @@ const ProductActions = ({
 }: ProductActionsProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleRemoveClick = () => {
     if (showRemoveConfirmation) {
       setShowDeleteModal(true);
     } else {
@@ -51,20 +49,10 @@ const ProductActions = ({
 
   return (
     <>
-      <div
-        className="flex items-center justify-center gap-2"
-        onClick={(e: React.MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
+      <div className="flex items-center justify-center gap-2">
         {!isInCart || isAdding ? (
           <Button
-            onClick={(e: React.MouseEvent) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onAddToCart();
-            }}
+            onClick={onAddToCart}
             disabled={isAdding || isRemoving || isUpdating}
             className="min-w-30 rounded-lg text-[14px] bg-primary text-primary-foreground transition-all duration-200"
             aria-label={`Add ${itemName} to cart`}

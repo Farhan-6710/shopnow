@@ -13,9 +13,9 @@ import CartHeader from "./CartHeader";
 import CartEmpty from "./CartEmpty";
 import CartItemList from "./CartItemList";
 import OrderSummary from "./OrderSummary";
-import MyCartSkeleton from "./MyCartSkeleton";
+import MyCartSectionSkeleton from "./MyCartSectionSkeleton";
 
-const MyCart: React.FC = () => {
+const MyCartSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
   const currency = useSelector(selectCurrency);
@@ -63,7 +63,7 @@ const MyCart: React.FC = () => {
 
   // Show skeleton during loading
   if (isLoading) {
-    return <MyCartSkeleton />;
+    return <MyCartSectionSkeleton />;
   }
 
   return (
@@ -81,8 +81,8 @@ const MyCart: React.FC = () => {
         {isEmpty ? (
           <CartEmpty />
         ) : (
-          <div className="flex flex-wrap md:flex-nowrap gap-3 md:gap-4">
-            <div className="w-full md:w-8/12 bg-card h-fit">
+          <div className="flex flex-col lg:flex-row gap-3 md:gap-4">
+            <div className="w-full lg:w-8/12 bg-card h-fit">
               <CartItemList cartItems={cartItems} currency={currency} />
             </div>
             <OrderSummary
@@ -106,4 +106,4 @@ const MyCart: React.FC = () => {
   );
 };
 
-export default MyCart;
+export default MyCartSection;
