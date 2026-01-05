@@ -42,8 +42,9 @@
   --sidebar-accent-foreground: oklch(0.252 0 0);
   --sidebar-border: oklch(0.9189 0 0);
   --sidebar-ring: oklch(0.7809 0.1691 69.9324);
-  --font-sans: Libre Baskerville, ui-serif, serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-convergence), ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   --radius: 0.6rem;
@@ -102,8 +103,9 @@
   --sidebar-accent-foreground: oklch(0.9189 0 0);
   --sidebar-border: oklch(0.252 0 0);
   --sidebar-ring: oklch(0.7809 0.1691 69.9324);
-  --font-sans: Libre Baskerville, ui-serif, serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-convergence), ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   --radius: 0.6rem;
@@ -161,8 +163,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --font-inter: var(--font-inter);
+  --font-convergence: var(--font-convergence);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 
   --radius-sm: calc(var(--radius) - 4px);

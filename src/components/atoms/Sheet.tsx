@@ -8,7 +8,6 @@ import {
   SheetTitle,
   SheetDescription,
   SheetTrigger,
-  SheetClose,
 } from "@/components/ui/sheet";
 
 interface SheetProps {
@@ -30,8 +29,6 @@ interface SheetProps {
   className?: string;
   /** Additional className for the sheet header */
   headerClassName?: string;
-  /** Show the close button */
-  showClose?: boolean;
 }
 
 const Sheet: React.FC<SheetProps> = ({
@@ -44,19 +41,19 @@ const Sheet: React.FC<SheetProps> = ({
   side = "right",
   className,
   headerClassName,
-  showClose = true,
 }) => {
   return (
     <SheetRoot open={open} onOpenChange={onOpenChange}>
       {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
       <SheetContent side={side} className={className}>
-        <SheetTitle className="sr-only">{title}</SheetTitle>
-        {(title || description) && (
-          <SheetHeader className={headerClassName}>
-            {title && <SheetTitle>{title}</SheetTitle>}
-            {description && <SheetDescription>{description}</SheetDescription>}
-          </SheetHeader>
-        )}
+        <SheetHeader className={`${headerClassName} sr-only`}>
+          <SheetTitle>
+            {title || "Navigation Menu"}
+          </SheetTitle>
+          <SheetDescription>
+            {description || "Access navigation links and tools."}
+          </SheetDescription>
+        </SheetHeader>
         {children}
       </SheetContent>
     </SheetRoot>

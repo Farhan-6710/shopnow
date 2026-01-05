@@ -7,11 +7,12 @@ import LayoutClient from "./LayoutClient";
 
 config.autoAddCss = false;
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const convergence = Convergence({
   weight: "400",
   style: "normal",
   subsets: ["latin"],
+  variable: "--font-convergence",
 });
 
 export const metadata: Metadata = {
@@ -53,10 +54,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.className} ${convergence.className}`}
+      className={`${inter.variable} ${convergence.variable}`}
       suppressHydrationWarning
     >
-      <body>
+      <body className="font-convergence">
         <LayoutClient>{children}</LayoutClient>
       </body>
     </html>

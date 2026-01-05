@@ -86,6 +86,8 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
         }
         side="right"
         className="w-full sm:max-w-md h-full p-0 outline-none"
+        title="ShopNow AI Assistant"
+        description="Chat with our AI to find products, get recommendations, and more."
       >
         <AiAssistant
           className="h-full border-0 rounded-none shadow-none"
