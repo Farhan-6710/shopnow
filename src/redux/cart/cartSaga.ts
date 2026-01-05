@@ -260,8 +260,6 @@ function* syncCartToBackendSaga() {
       quantity: item.quantity,
     }));
 
-    console.log(`Syncing ${bulkItems.length} cart items to backend...`);
-
     // Send local cart to backend
     yield call(cartApi.addBulkItems, bulkItems);
 

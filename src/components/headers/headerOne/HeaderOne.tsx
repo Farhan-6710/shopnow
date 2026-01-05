@@ -20,7 +20,7 @@ const HeaderOne: React.FC = () => {
         <AddressSection />
         <Marquee />
         <Dropdowns /> {/* Dropdowns already uses currency from Redux */}
-        <div className="block md:hidden relative mt-1">
+        <div className="block md:hidden relative mt-1 pl-2">
           <CartIcon cartCount={cartCount} />
         </div>
       </div>

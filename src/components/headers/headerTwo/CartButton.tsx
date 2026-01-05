@@ -10,9 +10,10 @@ import { useFilterProducts } from "@/hooks/useFilterProducts";
 
 interface CartButtonProps {
   cartCount: number;
+  onClose: () => void;
 }
 
-const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
+const CartButton: React.FC<CartButtonProps> = ({ cartCount, onClose }) => {
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
   const { productsFromApiRes } = useFilterProducts();
 
@@ -20,6 +21,7 @@ const CartButton: React.FC<CartButtonProps> = ({ cartCount }) => {
     <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">
       <Link href="/cart" className="w-full md:w-fit">
         <Button
+          onClick={onClose}
           size="default"
           className="w-full bg-primary text-primary-foreground rounded-md px-3 py-2 gap-2"
         >

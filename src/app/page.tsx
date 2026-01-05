@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import FilterProducts from "../components/productsSection/filters/FilterProducts";
@@ -11,6 +11,7 @@ import { usePageVirtualizedProducts } from "../hooks/usePageVirtualizedProducts"
 import { selectCartSyncing } from "@/redux/cart/cartSlice";
 import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
 import { showToast } from "@/config/ToastConfig";
+import { timeout } from "@/utils/timeout";
 
 const Index = () => {
   const productsGap = 8; // in px, matches the padding applied to ProductCard
@@ -39,6 +40,7 @@ const Index = () => {
   const productCardRef = useRef<HTMLElement>(null);
   const [dynamicThreshold, setDynamicThreshold] = React.useState(300);
   const [cardHeight, setCardHeight] = React.useState(450); // Default fallback
+  const [fakeLoading, setFakeLoading] = useState(false);
 
   // Calculate initial rows based on viewport height (before hook initialization)
   const getInitialRows = () => {
@@ -78,10 +80,6 @@ const Index = () => {
 
       setDynamicThreshold(threshold);
       setCardHeight(measuredHeight);
-
-      console.log("Dynamic threshold calculated:", threshold, "px");
-      console.log("Card height measured:", measuredHeight, "px");
-      console.log("Initial rows set to:", initialRows);
     }
   }, [visibleItems.length, productsGap, initialRows]); // Recalculate when items change
 
@@ -106,6 +104,14 @@ const Index = () => {
       prevFilteredLengthRef.current = filteredProducts.length;
     }
   }, [isLoading, filteredProducts.length, filterValues]);
+
+  useEffect(() => {
+    const timer = async () => {
+      await timeout(400);
+      setFakeLoading(false);
+    };
+    timer();
+  }, [filterValues]);
 
   const filterProps = {
     categoryOptions,
@@ -133,7 +139,7 @@ const Index = () => {
             className="w-full product-card-wrapper grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-fit p-3"
             aria-label="Product catalog"
           >
-            {isLoading || isCartSyncing || isWishlistSyncing ? (
+            {isLoading || isCartSyncing || isWishlistSyncing || fakeLoading ? (
               Array.from({ length: 10 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))

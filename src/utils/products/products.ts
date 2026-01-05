@@ -107,27 +107,40 @@ const TAG_STYLES: Record<
 };
 
 /**
- * Resolves final tag config for a product
+ * Resolves applicable tags for a product
+ * @param item - Product object
+ * @param isInCart - Whether product is in cart
+ * @param theme - Theme mode ("light" or "dark")
+ * @param limit - Max number of tags to return (default: Infinity for all tags)
+ * @returns Array of tag configs limited by the specified number
+ *
+ * Priority order:
+ * 1. Cart state - "Added To Cart" if isInCart
+ * 2. Item status - "Not in Stock" if unavailable
+ * 3. Product tags - All custom tags from item.tags array
  */
-export const getProductTag = (
+export const getProductTags = (
   item: Product,
   isInCart: boolean,
-  theme: "light" | "dark" = "light"
-): ProductTagConfig | null => {
+  theme: "light" | "dark" = "light",
+  limit: number = Infinity
+): ProductTagConfig[] => {
   const palette = TAG_STYLES[theme];
 
-  // 1. Cart state (highest priority)
-  if (isInCart) return palette["added-to-cart"];
+  // Map all product tags to their configs
+  let tags = (item.tags || [])
+    .map((tag) => palette[tag as ProductTag])
+    .filter(Boolean) as ProductTagConfig[];
 
-  // 2. Check item status (second priority)
-  if (item.status === "unavailable") return palette["unavailable"];
-
-  // 3. Check product tags (lowest priority)
-  if (item.tags?.length) {
-    const tag = item.tags[0] as ProductTag;
-    return palette[tag] || null;
+  // Add unavailable tag at the start if applicable
+  if (item.status === "unavailable") {
+    tags = [palette["unavailable"], ...tags];
   }
 
-  // 4. No tag to display
-  return null;
+  // Add cart tag at the start if applicable (highest priority)
+  if (isInCart) {
+    tags = [palette["added-to-cart"], ...tags];
+  }
+
+  return tags.slice(0, limit);
 };

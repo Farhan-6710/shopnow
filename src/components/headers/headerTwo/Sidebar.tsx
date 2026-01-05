@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     <div>
       {/* sidebar content */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-background text-primaryDarkTwo text-foreground transform transition-transform duration-300 ease-in-out border-r ${
+        className={`fixed top-0 left-0 h-full w-[80%] bg-background text-primaryDarkTwo text-foreground transform transition-transform duration-300 ease-in-out border-r ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } sidebar z-50 overflow-y-auto`}
       >
@@ -143,23 +143,25 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </a>
         </div>
         <div className="p-4 px-6 mb-4 flex flex-col gap-3">
-          <CartButton cartCount={cartCount} />
+          <CartButton cartCount={cartCount} onClose={onClose} />
         </div>
       </div>
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-40"
-          onClick={() => onClose()}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-              onClose();
-            }
-          }}
-          aria-label="Close sidebar"
-        ></div>
-      )}
+      <div
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-all duration-300 z-40 ${
+          isOpen
+            ? "opacity-100 visible pointer-events-auto"
+            : "opacity-0 invisible pointer-events-none"
+        }`}
+        onClick={() => onClose()}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+            onClose();
+          }
+        }}
+        aria-label="Close sidebar"
+      ></div>
     </div>
   );
 };

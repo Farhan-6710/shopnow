@@ -75,7 +75,6 @@ export const useFilterProducts = () => {
   // Wrap handlers in useCallback to prevent unnecessary re-creations
   const onToggleCategory = useCallback(async (category: string) => {
     setIsFilterLoading(true);
-    await timeout(700);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedCategories: prevFilters.selectedCategories.includes(category)
@@ -87,7 +86,6 @@ export const useFilterProducts = () => {
 
   const onTogglePriceRange = useCallback(async (priceRange: string) => {
     setIsFilterLoading(true);
-    await timeout(700);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedPriceRange: prevFilters.selectedPriceRange.includes(priceRange)
@@ -99,7 +97,6 @@ export const useFilterProducts = () => {
 
   const onToggleColor = useCallback(async (color: string) => {
     setIsFilterLoading(true);
-    await timeout(700);
     setFilterValues((prevFilters) => ({
       ...prevFilters,
       selectedColors: prevFilters.selectedColors.includes(color)
@@ -111,7 +108,6 @@ export const useFilterProducts = () => {
 
   const onSortByPrice = useCallback(async (order: "asc" | "desc") => {
     setIsFilterLoading(true);
-    await timeout(700);
     setFilterValues((prev) => ({
       ...prev,
       selectedSort: prev.selectedSort === order ? "" : order,
@@ -121,7 +117,6 @@ export const useFilterProducts = () => {
 
   const onResetFilters = useCallback(async () => {
     setIsFilterLoading(true);
-    await timeout(700);
     setFilterValues({
       selectedCategories: [],
       selectedPriceRange: [],

@@ -9,16 +9,14 @@ import Link from "next/link";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import { motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
-import { getProductTag } from "@/utils/products/products";
+import { getProductTags } from "@/utils/products/products";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleWishlistRequest,
   selectIsInWishlist,
 } from "@/redux/wishlist/wishlistSlice";
 import { showToast } from "@/config/ToastConfig";
+import WishlistToggle from "./WishlistToggle";
 
 /* ✅ Memoized child components */
 const MemoProductImage = memo(ProductImage);
@@ -54,21 +52,6 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
     // This ensures each new row's animation starts from 0, not accumulating delay
     const relativeIndex = index % itemsPerRow;
 
-    const handleToggleWishlist = (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      showToast({
-        type: isWishlisted ? "info" : "success",
-        title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
-        description: isWishlisted
-          ? `${item.name} has been removed from your wishlist`
-          : `${item.name} has been added to your wishlist`,
-      });
-
-      dispatch(toggleWishlistRequest(item));
-    };
-
     const {
       isInCart,
       quantity,
@@ -90,7 +73,13 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
     }, [item.prices, currency]);
 
     const tag = useMemo(() => {
-      return getProductTag(item, isInCart, theme === "dark" ? "dark" : "light");
+      const tags = getProductTags(
+        item,
+        isInCart,
+        theme === "dark" ? "dark" : "light",
+        1
+      );
+      return tags[0] || null;
     }, [item, isInCart, theme]);
 
     return (
@@ -108,24 +97,10 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
       >
         <div className="product-card relative border bg-card text-center h-full pt-0 pb-6 rounded-lg transition-all duration-300">
           {/* Wishlist */}
-          <motion.button
-            className="absolute left-2 top-2 z-10 h-10 w-10 rounded-lg bg-card shadow-md flex items-center justify-center border cursor-pointer"
-            whileTap={{ scale: 0.9 }}
-            onClick={handleToggleWishlist}
-            aria-label={
-              isWishlisted ? "Remove from wishlist" : "Add to wishlist"
-            }
-          >
-            <FontAwesomeIcon
-              icon={isWishlisted ? faHeartSolid : faHeartRegular}
-              className={`text-lg ${
-                isWishlisted ? "text-destructive" : "text-gray-400"
-              }`}
-            />
-          </motion.button>
+          <WishlistToggle item={item} />
 
           {/* Tag */}
-          {item.tags && item.tags?.length > 0 && (
+          {tag && (
             <div
               className="absolute -right-2 -top-2 z-1 text-[10px] px-2 py-1 rounded-bl-lg rounded-tr-lg"
               style={tag?.style}

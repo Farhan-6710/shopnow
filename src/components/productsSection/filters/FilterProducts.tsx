@@ -22,8 +22,6 @@ interface FilterProductsProps {
   onResetFilters: () => void;
 }
 
-console.log("filters rendered");
-
 const FilterProducts: React.FC<FilterProductsProps> = ({
   productsFromApiRes,
   ...props

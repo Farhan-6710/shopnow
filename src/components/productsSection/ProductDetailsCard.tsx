@@ -1,6 +1,6 @@
 "use client"; // Ensures this component is rendered on the client side
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ProductImage from "./ProductImage";
 import ProductActions from "./ProductActions";
 import Rating from "./Rating";
@@ -10,6 +10,9 @@ import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import ConfirmationModal from "../atoms/ConfirmationModal";
 import { Trash2 } from "lucide-react";
+import WishlistToggle from "./WishlistToggle";
+import { getProductTags } from "@/utils/products/products";
+import { useTheme } from "next-themes";
 
 interface ProductDetailsCardProps {
   item: Product;
@@ -22,6 +25,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
   fetchImageWithTimeout,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { theme } = useTheme();
 
   const {
     isInCart,
@@ -36,6 +40,11 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
     handleDecrementQuantity,
   } = useCartManagement(item);
 
+  // Get all applicable tags with memoization
+  const tags = useMemo(() => {
+    return getProductTags(item, isInCart, theme === "dark" ? "dark" : "light");
+  }, [item, isInCart, theme]);
+
   // Display price based on selected currency
   const displayPrice = (currency: "USD" | "INR") => {
     const price = item.prices[currency];
@@ -45,9 +54,12 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
     return price.toFixed(2); // Return price formatted to two decimal places
   };
 
+  console.log(item);
+
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
-      <div className="product-card transition-all duration-200 bg-card border w-full">
+      <div className="relative product-card transition-all duration-200 bg-card border w-full">
+        <WishlistToggle item={item} className="left-3 top-3" />
         <div className="flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 dark:border-slate-700 border-gray-200">
           {/* Product Image on the Left */}
           <div className="w-full md:w-1/3 md:mb-4 flex justify-center">
@@ -60,9 +72,23 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
 
           {/* Item Info and Actions on the Right */}
           <div className="w-full md:w-2/3 flex flex-col justify-between items-start p-4 pt-0 md:pt-4 md:pr-10">
-            <h2 className="text-lg 2xl:text-lg font-bold dark:text-white text-primaryDarkTwo">
-              {item.name}
-            </h2>
+            <div className="flex justify-between items-center w-full">
+              <h2 className="text-xl 2xl:text-2xl font-bold dark:text-white text-primaryDarkTwo">
+                {item.name}
+              </h2>
+              {tags?.map((tag, idx) => {
+                return (
+                  <div key={idx}>
+                    <p
+                      className="text-foreground rounded-full py-1 px-2.5 text-xs"
+                      style={tag.style}
+                    >
+                      {tag.label}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
             <p className="text-sm text-start text-gray-600 dark:text-gray-300 mt-4">
               {item.description}
             </p>

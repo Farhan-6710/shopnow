@@ -1,5 +1,5 @@
 // src/redux/wishlist/wishlistSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
 
 export interface WishlistState {
@@ -168,27 +168,39 @@ export const {
 } = wishlistSlice.actions;
 
 // Selectors
-export const selectWishlistItems = (state: { wishlist: WishlistState }) =>
-  Object.values(state.wishlist.items);
+const selectWishlistState = (state: { wishlist: WishlistState }) =>
+  state.wishlist;
 
-export const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
+const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
   state.wishlist.items;
 
-export const selectWishlistCount = (state: { wishlist: WishlistState }) =>
-  Object.keys(state.wishlist.items).length;
+export const selectWishlistItems = createSelector(
+  [selectWishlistItemsDict],
+  (items) => Object.values(items)
+);
 
-export const selectIsInWishlist =
-  (productId: number) => (state: { wishlist: WishlistState }) =>
-    !!state.wishlist.items[productId];
+export const selectWishlistCount = createSelector(
+  [selectWishlistItemsDict],
+  (items) => Object.keys(items).length
+);
 
-export const selectWishlistLoading = (state: { wishlist: WishlistState }) =>
-  state.wishlist.loading;
+export const selectIsInWishlist = (productId: number) =>
+  createSelector([selectWishlistItemsDict], (items) => !!items[productId]);
 
-export const selectWishlistSyncing = (state: { wishlist: WishlistState }) =>
-  state.wishlist.isWishlistSyncing;
+export const selectWishlistLoading = createSelector(
+  [selectWishlistState],
+  (state) => state.loading
+);
 
-export const selectWishlistError = (state: { wishlist: WishlistState }) =>
-  state.wishlist.error;
+export const selectWishlistSyncing = createSelector(
+  [selectWishlistState],
+  (state) => state.isWishlistSyncing
+);
+
+export const selectWishlistError = createSelector(
+  [selectWishlistState],
+  (state) => state.error
+);
 
 // Export reducer
 export default wishlistSlice.reducer;

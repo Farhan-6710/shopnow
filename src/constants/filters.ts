@@ -20,4 +20,4 @@ export const SORT_OPTIONS: { value: string; label: string }[] = [
 
 // Shared checkbox styles for consistency
 export const CHECKBOX_CLASSES =
-  "rounded-md text-[14px] bg-white focus:ring-0 focus:ring-offset-0 w-5 h-5 appearance-none border border-muted-foreground/50 bg-background dark:bg-background text-foreground checked:bg-foreground checked:dark:bg-foreground checked:text-background checked:border-foreground";
+  "rounded-md text-[14px] bg-white focus:ring-0 focus:ring-offset-0 w-5 h-5 appearance-none border border-muted-foreground/50 bg-background dark:bg-background text-foreground checked:bg-foreground checked:dark:bg-foreground checked:text-background checked:border-foreground cursor-pointer transition-all duration-200! flex-shrink-0 flex-grow-0 before:content-[''] before:block before:bg-background before:dark:bg-background  before:transition-transform before:duration-200!";

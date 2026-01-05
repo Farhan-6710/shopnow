@@ -1,5 +1,5 @@
 // src/redux/cart/cartSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { CartItem } from "@/types/cartItems";
 import { Product } from "@/types/product";
 
@@ -197,33 +197,45 @@ export const {
 } = cartSlice.actions;
 
 // Selectors
-export const selectCartItems = (state: { cart: CartState }) =>
-  Object.values(state.cart.cartItems);
+const selectCartState = (state: { cart: CartState }) => state.cart;
 
-export const selectCartItemsDict = (state: { cart: CartState }) =>
+const selectCartItemsDict = (state: { cart: CartState }) =>
   state.cart.cartItems;
 
-export const selectCartCount = (state: { cart: CartState }) =>
-  Object.keys(state.cart.cartItems).length;
+export const selectCartItems = createSelector([selectCartItemsDict], (items) =>
+  Object.values(items)
+);
 
-export const selectIsInCart =
-  (productId: number) => (state: { cart: CartState }) =>
-    !!state.cart.cartItems[productId];
+export const selectCartCount = createSelector(
+  [selectCartItemsDict],
+  (items) => Object.keys(items).length
+);
 
-export const selectCartItem =
-  (productId: number) => (state: { cart: CartState }) =>
-    state.cart.cartItems[productId];
+export const selectIsInCart = (productId: number) =>
+  createSelector([selectCartItemsDict], (items) => !!items[productId]);
 
-export const selectCurrency = (state: { cart: CartState }) =>
-  state.cart.currency;
+export const selectCartItem = (productId: number) =>
+  createSelector([selectCartItemsDict], (items) => items[productId]);
 
-export const selectCartLoading = (state: { cart: CartState }) =>
-  state.cart.loading;
+export const selectCurrency = createSelector(
+  [selectCartState],
+  (state) => state.currency
+);
 
-export const selectCartSyncing = (state: { cart: CartState }) =>
-  state.cart.isSyncing;
+export const selectCartLoading = createSelector(
+  [selectCartState],
+  (state) => state.loading
+);
 
-export const selectCartError = (state: { cart: CartState }) => state.cart.error;
+export const selectCartSyncing = createSelector(
+  [selectCartState],
+  (state) => state.isSyncing
+);
+
+export const selectCartError = createSelector(
+  [selectCartState],
+  (state) => state.error
+);
 
 // Export reducer
 export default cartSlice.reducer;

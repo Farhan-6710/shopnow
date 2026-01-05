@@ -3,14 +3,19 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ShoppingCart, Trash2, X } from "lucide-react";
 import { Product } from "@/types/product";
-import { removeFromWishlistRequest } from "@/redux/wishlist/wishlistSlice";
+import {
+  removeFromWishlistRequest,
+  selectIsInWishlist,
+} from "@/redux/wishlist/wishlistSlice";
 import ConfirmationModal from "@/components/atoms/ConfirmationModal";
 import Rating from "@/components/productsSection/Rating";
 import ProductActions from "../productsSection/ProductActions";
 import { useCartManagement } from "@/hooks/useCartManagement";
+import WishlistToggle from "../productsSection/WishlistToggle";
+import { showToast } from "@/config/ToastConfig";
 
 interface WishlistItemProps {
   item: Product;
@@ -38,6 +43,11 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
     // Dispatch optimistic update with item metadata for potential rollback
     dispatch(removeFromWishlistRequest(item.id, { removedItem: item }));
     setShowDeleteModal(false);
+    showToast({
+      type: "success",
+      title: "Removed from Wishlist",
+      description: `${item.name} has been removed from your wishlist`,
+    });
   };
 
   const displayPrice =

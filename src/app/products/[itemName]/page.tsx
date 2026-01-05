@@ -5,6 +5,7 @@ import ProductPageClient from "./ProductPageClient";
 import { PRODUCTS_DATA } from "@/constants/products"; // Import the products data
 import { notFound } from "next/navigation";
 import ProductDetailsCardSkeleton from "@/components/productsSection/ProductDetailsCardSkeleton";
+import { useFilterProducts } from "@/hooks/useFilterProducts";
 
 interface ProductPageProps {
   params: Promise<{ itemName: string }>;
@@ -12,6 +13,8 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const [itemName, setItemName] = useState<string | null>(null);
+
+  const { productsFromApiRes } = useFilterProducts();
 
   useEffect(() => {
     const fetchParams = async () => {
@@ -43,7 +46,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const decodedItemName = decodeURIComponent(itemName);
 
   // Find the product based on the decoded name
-  const item = PRODUCTS_DATA.find(
+  const item = productsFromApiRes.find(
     (p) => p.name.toLowerCase() === decodedItemName.toLowerCase()
   );
 
@@ -55,7 +58,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
     <main className="dark:bg-primaryDarkTwo">
       <div className="container mx-auto py-4">
         <section
-          className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4"
+          className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4 md:px-20 2xl:px-32"
           aria-labelledby="product-name"
         >
           <ProductPageClient item={item} />

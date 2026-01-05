@@ -244,8 +244,6 @@ function* syncWishlistToBackendSaga() {
     // Prepare product IDs for bulk sync
     const productIds = localWishlistItems.map((item) => item.id);
 
-    console.log(`Syncing ${productIds.length} wishlist items to backend...`);
-
     // Send local wishlist to backend
     yield call(wishlistApi.addBulkItems, productIds);
 

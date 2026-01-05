@@ -16,7 +16,7 @@ const ProductDetailsCardSkeleton: React.FC = () => {
           {/* Product Info and Actions Skeleton on the Right */}
           <div className="w-full md:w-2/3 flex flex-col justify-between items-start p-0 py-4 md:p-4 md:pr-10">
             {/* Product Name Skeleton */}
-            <Skeleton className="w-3/4 h-12 bg-accent mb-4" />
+            <Skeleton className="w-2/4 h-12 bg-accent mb-4" />
 
             {/* Product Description Skeleton */}
             <Skeleton className="w-full h-64 md:h-24 bg-accent mb-4" />
