@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Product } from "@/types/product";
-import { usePageVirtualizedProducts } from "@/hooks/usePageVirtualizedProducts";
+import { useVirtualizedProducts } from "@/hooks/useVirtualizedProducts";
 import { useSelector } from "react-redux";
 import { selectCartSyncing } from "@/redux/cart";
 import { selectWishlistSyncing } from "@/redux/wishlist";
@@ -25,25 +25,35 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
   const [isFakeLoading, setIsFakeLoading] = useState(false);
 
   const productsGap = 8;
+  const isBusy =
+    isLoading || isCartSyncing || isWishlistSyncing || isFakeLoading;
+
+  const {
+    visibleItems,
+    topSpacerHeight,
+    bottomSpacerHeight,
+    itemsPerRow,
+    renderedItemCount,
+  } = useVirtualizedProducts({
+    items: products,
+    rowHeight: cardHeight,
+  });
 
   // Measure card height safely
   useEffect(() => {
-    if (!productCardRef.current) return;
+    if (isBusy || !productCardRef.current || visibleItems.length === 0) return;
 
-    const observer = new ResizeObserver(([entry]) => {
-      const height = entry.contentRect.height;
+    // Wait for layout to complete
+    const timeoutId = setTimeout(() => {
+      if (!productCardRef.current) return;
+      const height = productCardRef.current.offsetHeight;
+      if (height && height > 50) {
+        setCardHeight(height);
+      }
+    }, 0);
 
-      // 🚨 Guard: ignore invalid or zero heights
-      if (!height || height < 50) return;
-
-      setCardHeight((prev) => (Math.abs(prev - height) > 2 ? height : prev));
-
-      setCardHeight((prev) => (Math.abs(prev - height) > 2 ? height : prev));
-    });
-
-    observer.observe(productCardRef.current);
-    return () => observer.disconnect();
-  }, []);
+    return () => clearTimeout(timeoutId);
+  }, [isBusy, visibleItems.length]);
 
   // Fake loading on product change (UNCHANGED)
   useEffect(() => {
@@ -57,20 +67,6 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
 
     run();
   }, [products]);
-
-  const isBusy =
-    isLoading || isCartSyncing || isWishlistSyncing || isFakeLoading;
-
-  const {
-    visibleItems,
-    topSpacerHeight,
-    bottomSpacerHeight,
-    itemsPerRow,
-    renderedItemCount,
-  } = usePageVirtualizedProducts({
-    items: products,
-    rowHeight: cardHeight,
-  });
 
   console.log(cardHeight);
 

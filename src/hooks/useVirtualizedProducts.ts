@@ -26,10 +26,10 @@ const getItemsPerRow = () => {
   return 1;
 };
 
-export function usePageVirtualizedProducts<T>({
+export function useVirtualizedProducts<T>({
   items,
   rowHeight,
-  overscanRows = 2,
+  overscanRows = 0,
 }: Options<T>): Result<T> {
   const [itemsPerRow, setItemsPerRow] = useState(getItemsPerRow);
   const [scrollTop, setScrollTop] = useState(0);
