@@ -60,6 +60,7 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     topSpacerHeight,
     bottomSpacerHeight,
     itemsPerRow,
+    renderedItemCount,
   } = usePageVirtualizedProducts<Product>({
     items: products,
     rowHeight: cardHeight,
@@ -106,6 +107,7 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
           topSpacerHeight={topSpacerHeight}
           bottomSpacerHeight={bottomSpacerHeight}
           itemsPerRow={itemsPerRow}
+          renderedItemCount={renderedItemCount}
           productCardRef={productCardRef}
           productsGap={productsGap}
           totalCount={products.length}

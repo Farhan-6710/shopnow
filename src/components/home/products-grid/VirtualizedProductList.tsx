@@ -9,6 +9,7 @@ interface Props {
   topSpacerHeight: number;
   bottomSpacerHeight: number;
   itemsPerRow: number;
+  renderedItemCount: number;
   productCardRef: React.RefObject<HTMLElement | null>;
   productsGap: number;
   totalCount: number;
@@ -19,6 +20,7 @@ const VirtualizedProductList = ({
   topSpacerHeight,
   bottomSpacerHeight,
   itemsPerRow,
+  renderedItemCount,
   productCardRef,
   productsGap,
   totalCount,
@@ -45,7 +47,7 @@ const VirtualizedProductList = ({
       <div style={{ height: bottomSpacerHeight }} />
 
       <div className="col-span-full text-center py-6 text-sm text-muted-foreground">
-        Showing {visibleItems.length} of {totalCount}
+        Showing {renderedItemCount} of {totalCount}
       </div>
     </>
   );

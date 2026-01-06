@@ -71,10 +71,13 @@ export function usePageVirtualizedProducts<T>({
     [items, startIndex, endIndex]
   );
 
+  const renderedItemCount = Math.min(endIndex, items.length);
+
   return {
     visibleItems,
     topSpacerHeight: startRow * rowHeight,
     bottomSpacerHeight: (totalRows - endRow) * rowHeight,
     itemsPerRow,
+    renderedItemCount,
   };
 }
