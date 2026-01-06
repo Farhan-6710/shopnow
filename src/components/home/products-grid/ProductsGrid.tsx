@@ -32,6 +32,12 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
 
     const observer = new ResizeObserver(([entry]) => {
       const height = entry.contentRect.height;
+
+      // 🚨 Guard: ignore invalid or zero heights
+      if (!height || height < 50) return;
+
+      setCardHeight((prev) => (Math.abs(prev - height) > 2 ? height : prev));
+
       setCardHeight((prev) => (Math.abs(prev - height) > 2 ? height : prev));
     });
 
@@ -66,7 +72,7 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     rowHeight: cardHeight,
   });
 
-  console.log(visibleItems);
+  console.log(cardHeight);
 
   return (
     <section
