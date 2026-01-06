@@ -61,12 +61,12 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     bottomSpacerHeight,
     itemsPerRow,
     renderedItemCount,
-  } = usePageVirtualizedProducts<Product>({
+  } = usePageVirtualizedProducts({
     items: products,
     rowHeight: cardHeight,
   });
 
-  console.log(visibleItems)
+  console.log(visibleItems);
 
   return (
     <section

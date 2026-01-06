@@ -13,6 +13,7 @@ interface Result<T> {
   topSpacerHeight: number;
   bottomSpacerHeight: number;
   itemsPerRow: number;
+  renderedItemCount: number;
 }
 
 const getItemsPerRow = () => {
