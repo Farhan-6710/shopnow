@@ -26,34 +26,7 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
 
   const productsGap = 8;
 
-  const getInitialRows = () =>
-    typeof window === "undefined"
-      ? 3
-      : window.innerHeight / cardHeight > 2
-      ? 4
-      : 3;
-
-  const [initialRows] = useState(getInitialRows);
-
-  // 🔑 threshold based on viewport, not card height
-  const threshold =
-    typeof window === "undefined" ? 400 : window.innerHeight * 0.75;
-
-  const {
-    visibleItems,
-    skeletonCount,
-    isLoadingMore,
-    hasLoadedAll,
-    itemsPerRow,
-  } = usePageVirtualizedProducts<Product>({
-    items: products,
-    initialRows,
-    threshold,
-    rowHeight: cardHeight,
-    loadingDelay: 500,
-  });
-
-  // ✅ Measure card height safely using ResizeObserver
+  // Measure card height safely
   useEffect(() => {
     if (!productCardRef.current) return;
 
@@ -66,7 +39,7 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     return () => observer.disconnect();
   }, []);
 
-  // Fake loading on product change
+  // Fake loading on product change (UNCHANGED)
   useEffect(() => {
     if (!products.length) return;
 
@@ -81,6 +54,18 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
 
   const isBusy =
     isLoading || isCartSyncing || isWishlistSyncing || isFakeLoading;
+
+  const {
+    visibleItems,
+    topSpacerHeight,
+    bottomSpacerHeight,
+    itemsPerRow,
+  } = usePageVirtualizedProducts<Product>({
+    items: products,
+    rowHeight: cardHeight,
+  });
+
+  console.log(visibleItems)
 
   return (
     <section
@@ -118,9 +103,8 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
       {!isBusy && !error && products.length > 0 && (
         <VirtualizedProductList
           visibleItems={visibleItems}
-          skeletonCount={skeletonCount}
-          isLoadingMore={isLoadingMore}
-          hasLoadedAll={hasLoadedAll}
+          topSpacerHeight={topSpacerHeight}
+          bottomSpacerHeight={bottomSpacerHeight}
           itemsPerRow={itemsPerRow}
           productCardRef={productCardRef}
           productsGap={productsGap}

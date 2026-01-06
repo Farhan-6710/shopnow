@@ -2,14 +2,12 @@
 
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import ProductCard from "./ProductCard";
-import ProductCardSkeleton from "./ProductCardSkeleton";
 import { Product } from "@/types/product";
 
 interface Props {
   visibleItems: Product[];
-  skeletonCount: number;
-  isLoadingMore: boolean;
-  hasLoadedAll: boolean;
+  topSpacerHeight: number;
+  bottomSpacerHeight: number;
   itemsPerRow: number;
   productCardRef: React.RefObject<HTMLElement | null>;
   productsGap: number;
@@ -18,9 +16,8 @@ interface Props {
 
 const VirtualizedProductList = ({
   visibleItems,
-  skeletonCount,
-  isLoadingMore,
-  hasLoadedAll,
+  topSpacerHeight,
+  bottomSpacerHeight,
   itemsPerRow,
   productCardRef,
   productsGap,
@@ -28,6 +25,9 @@ const VirtualizedProductList = ({
 }: Props) => {
   return (
     <>
+      {/* Top spacer preserves scroll position */}
+      <div className="col-span-full" style={{ height: topSpacerHeight }} />
+
       {visibleItems.map((item, index) => (
         <ProductCard
           key={item.id}
@@ -41,16 +41,12 @@ const VirtualizedProductList = ({
         />
       ))}
 
-      {skeletonCount > 0 &&
-        Array.from({ length: skeletonCount }).map((_, i) => (
-          <ProductCardSkeleton key={`sk-${i}`} />
-        ))}
+      {/* Bottom spacer */}
+      <div style={{ height: bottomSpacerHeight }} />
 
-      {!hasLoadedAll && !isLoadingMore && (
-        <div className="col-span-full text-center py-6 text-sm text-muted-foreground">
-          Showing {visibleItems.length} of {totalCount}
-        </div>
-      )}
+      <div className="col-span-full text-center py-6 text-sm text-muted-foreground">
+        Showing {visibleItems.length} of {totalCount}
+      </div>
     </>
   );
 };
