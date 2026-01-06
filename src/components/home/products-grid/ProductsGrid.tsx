@@ -25,7 +25,6 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
   const [isFakeLoading, setIsFakeLoading] = useState(false);
 
   const productsGap = 8;
-  const threshold = cardHeight + productsGap / 2;
 
   const getInitialRows = () =>
     typeof window === "undefined"
@@ -35,6 +34,10 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
       : 3;
 
   const [initialRows] = useState(getInitialRows);
+
+  // 🔑 threshold based on viewport, not card height
+  const threshold =
+    typeof window === "undefined" ? 400 : window.innerHeight * 0.75;
 
   const {
     visibleItems,
@@ -50,11 +53,17 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     loadingDelay: 500,
   });
 
-  // Measure card height ONCE
+  // ✅ Measure card height safely using ResizeObserver
   useEffect(() => {
     if (!productCardRef.current) return;
-    const height = productCardRef.current.offsetHeight;
-    setCardHeight((prev) => (prev === height ? prev : height));
+
+    const observer = new ResizeObserver(([entry]) => {
+      const height = entry.contentRect.height;
+      setCardHeight((prev) => (Math.abs(prev - height) > 2 ? height : prev));
+    });
+
+    observer.observe(productCardRef.current);
+    return () => observer.disconnect();
   }, []);
 
   // Fake loading on product change
@@ -70,6 +79,9 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     run();
   }, [products]);
 
+  const isBusy =
+    isLoading || isCartSyncing || isWishlistSyncing || isFakeLoading;
+
   return (
     <section
       className="
@@ -83,53 +95,38 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
         h-fit
         p-3
       "
-      aria-label="Product catalog"
     >
-      {(isLoading || isCartSyncing || isWishlistSyncing || isFakeLoading) &&
-        Array.from({ length: 10 }).map((_, i) => (
+      {isBusy &&
+        Array.from({ length: 12 }).map((_, i) => (
           <ProductCardSkeleton key={i} />
         ))}
 
-      {!isLoading &&
-        !isCartSyncing &&
-        !isWishlistSyncing &&
-        !isFakeLoading &&
-        error && (
-          <div className="col-span-full text-center py-12">
-            <p className="text-lg font-semibold text-destructive">
-              Error loading products
-            </p>
-          </div>
-        )}
+      {!isBusy && error && (
+        <div className="col-span-full text-center py-12">
+          <p className="text-lg font-semibold text-destructive">
+            Error loading products
+          </p>
+        </div>
+      )}
 
-      {!isLoading &&
-        !isCartSyncing &&
-        !isWishlistSyncing &&
-        !isFakeLoading &&
-        !error &&
-        products.length === 0 && (
-          <div className="col-span-full text-center py-12">
-            <p className="text-lg font-semibold">No products found</p>
-          </div>
-        )}
+      {!isBusy && !error && products.length === 0 && (
+        <div className="col-span-full text-center py-12">
+          <p className="text-lg font-semibold">No products found</p>
+        </div>
+      )}
 
-      {!isLoading &&
-        !isCartSyncing &&
-        !isWishlistSyncing &&
-        !isFakeLoading &&
-        !error &&
-        products.length > 0 && (
-          <VirtualizedProductList
-            visibleItems={visibleItems}
-            skeletonCount={skeletonCount}
-            isLoadingMore={isLoadingMore}
-            hasLoadedAll={hasLoadedAll}
-            itemsPerRow={itemsPerRow}
-            productCardRef={productCardRef}
-            productsGap={productsGap}
-            totalCount={products.length}
-          />
-        )}
+      {!isBusy && !error && products.length > 0 && (
+        <VirtualizedProductList
+          visibleItems={visibleItems}
+          skeletonCount={skeletonCount}
+          isLoadingMore={isLoadingMore}
+          hasLoadedAll={hasLoadedAll}
+          itemsPerRow={itemsPerRow}
+          productCardRef={productCardRef}
+          productsGap={productsGap}
+          totalCount={products.length}
+        />
+      )}
     </section>
   );
 };

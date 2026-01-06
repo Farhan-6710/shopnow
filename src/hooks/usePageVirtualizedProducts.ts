@@ -3,61 +3,53 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { timeout } from "@/utils/timeout";
 
-// Constants
-const ROWS_TO_UNLOAD = 2; // Number of rows to remove when unloading
-const LOAD_DELAY_AFTER = 50; // Delay after loading to prevent chain loading (ms) - reduced for fast scrolling
-const UNLOAD_DELAY_AFTER = 50; // Delay after unloading to prevent rapid unloading (ms) - reduced for fast scrolling
-const LOADING_BUFFER_OFFSET = -80; // Extra pixels to trigger loading early (ms)
-const UNLOAD_THRESHOLD_MULTIPLIER = 1.5; // Rows distance needed to trigger unload
-const SCROLL_THROTTLE = 16; // Throttle scroll events (ms) - ~60fps
+// Tuned constants (safe defaults)
+const ROWS_TO_UNLOAD = 2;
+const LOAD_DELAY_AFTER = 60;
+const UNLOAD_DELAY_AFTER = 60;
+const SCROLL_THROTTLE = 16; // ~60fps
 
 interface UsePageVirtualizedProductsOptions<T> {
-  /** All products to virtualize */
   items: T[];
-  /** Number of rows to render initially */
   initialRows?: number;
-  /** Loading delay in milliseconds */
   loadingDelay?: number;
-  /** Distance from bottom (in px) to trigger loading */
-  threshold?: number;
-  /** Measured row height from product card ref */
+  threshold?: number; // px from bottom
   rowHeight?: number;
 }
 
 interface UsePageVirtualizedProductsReturn<T> {
-  /** Currently visible items */
   visibleItems: T[];
-  /** Number of skeleton loaders to show */
   skeletonCount: number;
-  /** Whether currently loading more items */
   isLoadingMore: boolean;
-  /** Whether all items have been loaded */
   hasLoadedAll: boolean;
-  /** Current items per row based on screen size */
   itemsPerRow: number;
-  /** Starting row index (for windowing) */
   startRow: number;
 }
 
-// Calculate items per row based on Tailwind breakpoints matching the grid
+/* -------------------------------------------------- */
+/* Helpers                                            */
+/* -------------------------------------------------- */
+
 const getItemsPerRow = (): number => {
   if (typeof window === "undefined") return 2;
 
   const width = window.innerWidth;
-
-  // Match the grid classes: sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5
-  if (width >= 1450) return 5; // 2xl breakpoint
-  if (width >= 1280) return 4; // xl breakpoint
-  if (width >= 1024) return 3; // lg breakpoint
-  if (width >= 640) return 2; // sm breakpoint
-  return 1; // mobile (no prefix)
+  if (width >= 1450) return 5; // 2xl
+  if (width >= 1280) return 4; // xl
+  if (width >= 1024) return 3; // lg
+  if (width >= 640) return 2;  // sm
+  return 1;
 };
+
+/* -------------------------------------------------- */
+/* Hook                                               */
+/* -------------------------------------------------- */
 
 export function usePageVirtualizedProducts<T>({
   items,
-  initialRows = 2,
+  initialRows = 3,
   loadingDelay = 500,
-  threshold = 300,
+  threshold = typeof window === "undefined" ? 400 : window.innerHeight * 0.75,
   rowHeight = 450,
 }: UsePageVirtualizedProductsOptions<T>): UsePageVirtualizedProductsReturn<T> {
   const [itemsPerRow, setItemsPerRow] = useState(getItemsPerRow);
@@ -69,168 +61,125 @@ export function usePageVirtualizedProducts<T>({
   const isLoadingRef = useRef(false);
   const isUnloadingRef = useRef(false);
   const prevItemsLengthRef = useRef(items.length);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTimeRef = useRef(0);
 
-  // Update items per row on resize
-  useEffect(() => {
-    const handleResize = () => {
-      setItemsPerRow(getItemsPerRow());
-    };
+  /* ---------------- Resize ---------------- */
 
+  useEffect(() => {
+    const handleResize = () => setItemsPerRow(getItemsPerRow());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Reset when items change (e.g., filters applied)
+  /* ---------------- Reset on data change ---------------- */
+
   useEffect(() => {
     if (prevItemsLengthRef.current !== items.length) {
       prevItemsLengthRef.current = items.length;
-      // Schedule reset after render
-      const timeoutId = setTimeout(() => {
-        setStartRow(0);
-        setRenderedRows(initialRows);
-        setIsLoadingMore(false);
-        setSkeletonCount(0);
-        isLoadingRef.current = false;
-        isUnloadingRef.current = false;
-      }, 0);
 
-      return () => clearTimeout(timeoutId);
+      setStartRow(0);
+      setRenderedRows(initialRows);
+      setSkeletonCount(0);
+      setIsLoadingMore(false);
+      isLoadingRef.current = false;
+      isUnloadingRef.current = false;
     }
   }, [items.length, initialRows]);
 
-  // Calculate visible items (windowed from startRow)
+  /* ---------------- Visible window ---------------- */
+
   const startIndex = startRow * itemsPerRow;
   const endIndex = (startRow + renderedRows) * itemsPerRow;
   const visibleItems = items.slice(startIndex, endIndex);
   const hasLoadedAll = endIndex >= items.length;
 
-  // Load more items (adds rows based on initial viewport capacity)
+  /* ---------------- Load more ---------------- */
+
   const loadMore = useCallback(async () => {
     if (isLoadingRef.current || hasLoadedAll) return;
 
     isLoadingRef.current = true;
     setIsLoadingMore(true);
 
-    // Load same number of rows as initially visible (viewport-based)
     const rowsToLoad = initialRows;
     const remainingItems = items.length - endIndex;
-    const itemsInNextRows = Math.min(itemsPerRow * rowsToLoad, remainingItems);
+    const nextItemCount = Math.min(
+      rowsToLoad * itemsPerRow,
+      remainingItems
+    );
 
-    // Show skeletons
-    setSkeletonCount(itemsInNextRows);
+    setSkeletonCount(nextItemCount);
 
-    // Wait for loading delay
     await timeout(loadingDelay);
 
-    // Add rows and clear skeletons
     setRenderedRows((prev) => prev + rowsToLoad);
     setSkeletonCount(0);
     setIsLoadingMore(false);
 
-    // Prevent immediate chain loading
     await timeout(LOAD_DELAY_AFTER);
     isLoadingRef.current = false;
   }, [
     items.length,
     endIndex,
     itemsPerRow,
-    loadingDelay,
     hasLoadedAll,
     initialRows,
+    loadingDelay,
   ]);
 
-  // Unload items when scrolling up (calculates and removes all out-of-view rows)
+  /* ---------------- Unload rows ---------------- */
+
   const unloadMore = useCallback(
-    async (rowsToUnload: number) => {
+    async (rows: number) => {
       if (isUnloadingRef.current || renderedRows <= initialRows) return;
 
       isUnloadingRef.current = true;
 
-      // Remove the calculated number of rows instantly (no skeletons for unloading)
-      setRenderedRows((prev) => Math.max(prev - rowsToUnload, initialRows));
+      setRenderedRows((prev) =>
+        Math.max(prev - rows, initialRows)
+      );
 
-      // Prevent aggressive consecutive unloading
       await timeout(UNLOAD_DELAY_AFTER);
       isUnloadingRef.current = false;
     },
     [renderedRows, initialRows]
   );
 
-  // Handle scroll event - manages loading and unloading
+  /* ---------------- Scroll handling ---------------- */
+
   useEffect(() => {
     const handleScroll = () => {
-      // Throttle scroll events for performance
       const now = Date.now();
-      if (now - lastScrollTimeRef.current < SCROLL_THROTTLE) {
-        return;
-      }
+      if (now - lastScrollTimeRef.current < SCROLL_THROTTLE) return;
       lastScrollTimeRef.current = now;
 
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const clientHeight = window.innerHeight;
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      const viewportBottom = scrollTop + window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
 
-      // Downward scroll: Load more rows when near bottom
-      const distanceFromBottom =
-        scrollHeight - scrollTop - clientHeight + LOADING_BUFFER_OFFSET;
+      // LOAD
       if (
         !hasLoadedAll &&
-        distanceFromBottom <= threshold &&
+        docHeight - viewportBottom <= threshold &&
         !isLoadingRef.current
       ) {
         loadMore();
       }
 
-      // Upward scroll: Calculate how many rows are far out of view and unload them all
-      const viewportBottom = scrollTop + clientHeight;
-      const lastRowBottom = renderedRows * rowHeight;
-      const distanceToLastRow = lastRowBottom - viewportBottom;
-      const unloadThreshold = rowHeight * UNLOAD_THRESHOLD_MULTIPLIER;
-
+      // UNLOAD (only when far above viewport)
+      const renderedBottom = renderedRows * rowHeight;
       if (
         renderedRows > initialRows &&
-        distanceToLastRow > unloadThreshold &&
+        viewportBottom + rowHeight * 2 < renderedBottom &&
         !isUnloadingRef.current
       ) {
-        // Calculate how many rows are beyond the threshold (handles fast scrolling)
-        const rowsBeyondThreshold = Math.floor(
-          (distanceToLastRow - unloadThreshold) / rowHeight
-        );
-        const rowsToUnload = Math.min(
-          rowsBeyondThreshold + ROWS_TO_UNLOAD,
-          renderedRows - initialRows
-        );
-
-        if (rowsToUnload > 0) {
-          unloadMore(rowsToUnload);
-        }
+        unloadMore(ROWS_TO_UNLOAD);
       }
-    };
-
-    // Add scroll end detection to handle final position after fast scrolling
-    const handleScrollEnd = () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
-      scrollTimeoutRef.current = setTimeout(() => {
-        // Re-check position after scroll momentum stops
-        handleScroll();
-      }, 150);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("scroll", handleScrollEnd, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("scroll", handleScrollEnd);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [
     threshold,
     hasLoadedAll,
