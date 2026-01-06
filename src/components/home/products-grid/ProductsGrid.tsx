@@ -37,6 +37,7 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
   } = useVirtualizedProducts({
     items: products,
     rowHeight: cardHeight,
+    overscanRows: 0,
   });
 
   // Measure card height safely

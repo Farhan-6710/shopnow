@@ -29,7 +29,7 @@ const getItemsPerRow = () => {
 export function useVirtualizedProducts<T>({
   items,
   rowHeight,
-  overscanRows = 0,
+  overscanRows = 2,
 }: Options<T>): Result<T> {
   const [itemsPerRow, setItemsPerRow] = useState(getItemsPerRow);
   const [scrollTop, setScrollTop] = useState(0);
