@@ -8,9 +8,7 @@ import { useSelector } from "react-redux";
 import { selectCurrency } from "@/redux/cart/cartSlice";
 import { Product } from "@/types/product";
 
-export const useFilterProducts = (
-  productsFromApiRes: Product[] | undefined
-) => {
+export const useFilterProducts = (products: Product[] | undefined) => {
   const currency = useSelector(selectCurrency);
   const [filterValues, setFilterValues] = useState<ProductFilterValues>({
     selectedCategories: [],
@@ -21,9 +19,9 @@ export const useFilterProducts = (
 
   // Calculate filtered & sorted products with useMemo
   const filteredProducts = useMemo(() => {
-    if (!productsFromApiRes) return [];
+    if (!products) return [];
 
-    const filtered = productsFromApiRes.filter((product: Product) => {
+    const filtered = products.filter((product: Product) => {
       const categoryMatch =
         !filterValues.selectedCategories.length ||
         filterValues.selectedCategories.includes(product.category || "");
@@ -50,7 +48,7 @@ export const useFilterProducts = (
         : priceB - priceA;
     });
   }, [
-    productsFromApiRes,
+    products,
     filterValues.selectedCategories,
     filterValues.selectedPriceRange,
     filterValues.selectedColors,

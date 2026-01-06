@@ -37,7 +37,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
   const handleRouteClick = (route: { PATHNAME: string; LABEL: string }) => {
     if (pathname === route.PATHNAME) {
       showToast({
-        title: `Already in ${route.LABEL} screen`,
+        title: `Already in ${route.LABEL} Screen`,
         description: "Please click a different route to navigate",
       });
       return;

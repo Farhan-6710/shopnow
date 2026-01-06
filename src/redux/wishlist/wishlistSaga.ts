@@ -234,9 +234,8 @@ function* syncWishlistToBackendSaga() {
     const localWishlistItems: Product[] = yield select(selectWishlistItems);
 
     if (localWishlistItems.length === 0) {
-      console.log("No local wishlist items to sync");
       // Still fetch backend wishlist in case user has items there
-      yield put(fetchWishlistRequest());
+      yield call(fetchWishlistSaga);
       yield put(wishlistSyncSuccess());
       return;
     }
@@ -246,11 +245,10 @@ function* syncWishlistToBackendSaga() {
 
     // Send local wishlist to backend
     yield call(wishlistApi.addBulkItems, productIds);
+    // Fetch merged wishlist from backend and wait for completion
+    yield call(fetchWishlistSaga);
 
-    // Fetch merged wishlist from backend
-    yield put(fetchWishlistRequest());
-
-    // Mark sync as completed
+    // Mark sync as completed only after fetch completes
     yield put(wishlistSyncSuccess());
   } catch (error) {
     console.error("Wishlist sync error:", error);
@@ -260,7 +258,7 @@ function* syncWishlistToBackendSaga() {
     yield put(wishlistSyncFailure(message));
 
     // Still try to fetch backend wishlist
-    yield put(fetchWishlistRequest());
+    yield call(fetchWishlistSaga);
 
     showToast({
       type: "error",

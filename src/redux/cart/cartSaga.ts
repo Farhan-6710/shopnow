@@ -247,9 +247,8 @@ function* syncCartToBackendSaga() {
     const localCartItems: CartItem[] = yield select(selectCartItems);
 
     if (localCartItems.length === 0) {
-      console.log("No local cart items to sync");
       // Still fetch backend cart in case user has items there
-      yield put(fetchCartRequest());
+      yield call(fetchCartSaga);
       yield put(syncCartSuccess());
       return;
     }
@@ -263,10 +262,10 @@ function* syncCartToBackendSaga() {
     // Send local cart to backend
     yield call(cartApi.addBulkItems, bulkItems);
 
-    // Fetch merged cart from backend
-    yield put(fetchCartRequest());
+    // Fetch merged cart from backend and wait for completion
+    yield call(fetchCartSaga);
 
-    // Mark sync as completed
+    // Mark sync as completed only after fetch completes
     yield put(syncCartSuccess());
   } catch (error) {
     console.error("Cart sync error:", error);
@@ -276,7 +275,7 @@ function* syncCartToBackendSaga() {
     yield put(syncCartFailure(message));
 
     // Still try to fetch backend cart
-    yield put(fetchCartRequest());
+    yield call(fetchCartSaga);
 
     showToast({
       type: "error",
