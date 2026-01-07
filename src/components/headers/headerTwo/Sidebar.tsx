@@ -118,28 +118,40 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <hr className="border mb-1" />
         <div className="flex justify-center space-x-4 p-4">
           <a
-            href="#"
+            href="https://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primaryDarkTwo dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+            aria-label="Visit our Facebook page"
           >
-            <FaFacebookF size={24} />
+            <FaFacebookF size={24} aria-hidden="true" />
           </a>
           <a
-            href="#"
+            href="https://www.twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primaryDarkTwo dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+            aria-label="Visit our Twitter page"
           >
-            <FaTwitter size={24} />
+            <FaTwitter size={24} aria-hidden="true" />
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primaryDarkTwo dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+            aria-label="Visit our Instagram page"
           >
-            <FaInstagram size={24} />
+            <FaInstagram size={24} aria-hidden="true" />
           </a>
           <a
-            href="#"
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primaryDarkTwo dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+            aria-label="Visit our LinkedIn page"
           >
-            <Linkedin size={24} />
+            <Linkedin size={24} aria-hidden="true" />
           </a>
         </div>
         <div className="p-4 px-6 mb-4 flex flex-col gap-3">
