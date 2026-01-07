@@ -19,7 +19,6 @@ const MemoProductDetails = memo(ProductDetails);
 interface ProductCardProps {
   index?: number;
   item: Product;
-  fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
   itemsPerRow?: number;
   style?: React.CSSProperties;
   priority?: boolean;
@@ -30,7 +29,6 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
     {
       index = 0,
       item,
-      fetchImageWithTimeout,
       itemsPerRow = 5,
       style,
       priority = false,
@@ -109,7 +107,6 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
             <MemoProductImage
               imgSource={item.imgSource}
               alt={item.name}
-              fetchImageWithTimeout={fetchImageWithTimeout}
               priority={priority}
             />
 

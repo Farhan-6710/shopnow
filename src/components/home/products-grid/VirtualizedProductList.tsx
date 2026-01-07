@@ -1,6 +1,5 @@
 "use client";
 
-import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import ProductCard from "./ProductCard";
 import { Product } from "@/types/product";
 
@@ -36,7 +35,6 @@ const VirtualizedProductList = ({
           ref={index === 0 ? productCardRef : undefined}
           item={item}
           index={index}
-          fetchImageWithTimeout={fetchImageWithTimeout}
           itemsPerRow={itemsPerRow}
           style={{ padding: productsGap }}
           priority={index < itemsPerRow}
