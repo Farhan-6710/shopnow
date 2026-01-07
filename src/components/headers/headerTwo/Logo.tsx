@@ -34,16 +34,16 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
         <Image
           src="/images/logo-light.png"
           alt="ShopNow"
-          width={160}
-          height={24}
+          width={187}
+          height={40}
           priority
           className="block dark:hidden h-10 w-auto"
         />
         <Image
           src="/images/logo-dark.png"
           alt="ShopNow"
-          width={160}
-          height={24}
+          width={187}
+          height={40}
           priority
           className="hidden dark:block h-10 w-auto"
         />

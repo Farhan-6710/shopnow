@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
               src="/images/logo-light.png"
               alt="SHOPNOW Logo"
               width={256}
-              height={64}
+              height={55}
               className="logo-image block dark:hidden"
               priority
             />
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
               src="/images/logo-dark.png"
               alt="SHOPNOW Logo"
               width={256}
-              height={64}
+              height={55}
               className="logo-image hidden dark:block"
               priority
             />

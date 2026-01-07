@@ -3,18 +3,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ShoppingCart, Trash2, X } from "lucide-react";
 import { Product } from "@/types/product";
-import {
-  removeFromWishlistRequest,
-  selectIsInWishlist,
-} from "@/redux/wishlist/wishlistSlice";
+import { removeFromWishlistRequest } from "@/redux/wishlist/wishlistSlice";
 import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import Rating from "@/components/home/products-grid/Rating";
 import ProductActions from "../shared/ProductActions";
 import { useCartManagement } from "@/hooks/useCartManagement";
-import WishlistToggle from "../shared/WishlistToggle";
+
 import { showToast } from "@/config/ToastConfig";
 
 interface WishlistItemProps {
@@ -97,9 +94,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
             href={`/products/${encodeURIComponent(item.name)}`}
             aria-label={`View details for ${item.name}`}
           >
-            <h3 className="font-medium text-foreground line-clamp-1 hover:text-primary transition-colors">
+            <h2 className="font-medium text-foreground line-clamp-1 hover:text-primary transition-colors">
               {item.name}
-            </h3>
+            </h2>
           </Link>
           {item.brand && (
             <p className="text-xs text-muted-foreground mt-0.5">{item.brand}</p>

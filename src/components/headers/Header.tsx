@@ -1,7 +1,11 @@
 import React from "react";
 import HeaderOne from "./headerOne/HeaderOne";
 import HeaderTwo from "./headerTwo/HeaderTwo";
-import Sidebar from "./headerTwo/Sidebar";
+import dynamic from "next/dynamic";
+
+const Sidebar = dynamic(() => import("./headerTwo/Sidebar"), {
+  ssr: false,
+});
 import { motion } from "framer-motion";
 
 interface HeaderProps {

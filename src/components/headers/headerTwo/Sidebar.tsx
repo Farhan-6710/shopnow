@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             src="/images/logo-light.png"
             alt="Logo"
             width={220}
-            height={100}
+            height={47}
             style={{ width: "auto", height: "auto" }}
             priority
             className="block dark:hidden"
@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             src="/images/logo-dark.png"
             alt="Logo"
             width={220}
-            height={100}
+            height={47}
             style={{ width: "auto", height: "auto" }}
             priority
             className="hidden dark:block"
