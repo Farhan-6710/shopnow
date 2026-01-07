@@ -18,9 +18,9 @@ const CartEmpty: React.FC = () => {
         Explore our products and add items to your cart to get started with your
         shopping journey.
       </p>
-      <Link href="/">
-        <Button>Continue Shopping</Button>
-      </Link>
+      <Button asChild>
+        <Link href="/">Continue Shopping</Link>
+      </Button>
     </div>
   );
 };

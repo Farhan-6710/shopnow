@@ -15,12 +15,12 @@ const WishlistEmpty: React.FC = () => {
         Your wishlist is empty
       </h2>
       <p className="text-muted-foreground text-center max-w-md mb-6">
-        Save items you love by clicking the heart icon on any product. They&apos;ll
-        appear here for easy access later.
+        Save items you love by clicking the heart icon on any product.
+        They&apos;ll appear here for easy access later.
       </p>
-      <Link href="/">
-        <Button>Browse Products</Button>
-      </Link>
+      <Button asChild>
+        <Link href="/">Browse Products</Link>
+      </Button>
     </div>
   );
 };
