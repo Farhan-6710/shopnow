@@ -4,17 +4,27 @@ import React, { useState } from "react";
 import { ShoppingCart, Heart, BotIcon, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Sheet from "@/components/shared/Sheet";
-import AiAssistant from "@/components/ai-assistant/AiAssistant";
 import { useProductsQuery } from "@/hooks/useProductsQuery";
 import { useTheme } from "next-themes";
 import { showToast } from "@/config/ToastConfig";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  CART_ROUTE,
-  HOME_ROUTE,
   ROUTES,
-  WISHLIST_ROUTE,
 } from "@/constants/routes";
+import dynamic from "next/dynamic";
+
+const AiAssistant = dynamic(
+  () => import("@/components/ai-assistant/AiAssistant"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+        Loading AI Assistant…
+      </div>
+    ),
+  }
+);
+
 
 interface HeaderActionsProps {
   cartCount: number;

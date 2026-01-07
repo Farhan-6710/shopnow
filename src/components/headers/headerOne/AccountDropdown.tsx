@@ -9,25 +9,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/modals/Modal";
-import LoginForm from "@/components/auth/LoginForm";
-import SignUpForm from "@/components/auth/SignUpForm";
+
 import UserAvatar from "./UserAvatar";
 import { useAuth } from "@/providers/authContext";
+import dynamic from "next/dynamic";
+
+const LoginForm = dynamic(() => import("@/components/auth/LoginForm"), {
+  ssr: false,
+});
+
+const SignUpForm = dynamic(() => import("@/components/auth/SignUpForm"), {
+  ssr: false,
+});
 
 const AccountDropdown = () => {
   const { user, loading } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
-
-  const handleSwitchToSignup = () => {
-    setShowLoginModal(false);
-    setShowSignupModal(true);
-  };
-
-  const handleSwitchToLogin = () => {
-    setShowSignupModal(false);
-    setShowLoginModal(true);
-  };
 
   // Show loading state
   if (loading) {
