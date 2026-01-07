@@ -74,18 +74,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
     }, [item, isInCart, theme]);
 
     return (
-      <motion.article
-        ref={ref}
-        initial={{ opacity: 0, y: -20, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{
-          duration: 0.3,
-          delay: relativeIndex * 0.075,
-          ease: "easeOut",
-        }}
-        className="w-full flex flex-col h-full"
-        style={style}
-      >
+      <article ref={ref} className="w-full flex flex-col h-full" style={style}>
         <div className="product-card relative border bg-card text-center h-full pt-0 pb-6 rounded-lg transition-all duration-300">
           {/* Wishlist */}
           <WishlistToggle item={item} />
@@ -138,7 +127,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
             />
           </div>
         </div>
-      </motion.article>
+      </article>
     );
   }
 );
