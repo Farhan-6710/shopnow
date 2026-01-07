@@ -19,8 +19,8 @@ const ProductImage: React.FC<ProductImageProps> = ({
     <div className="relative w-2/3 aspect-square mb-0 overflow-hidden">
       {/* Spinner overlay */}
       {!isLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-muted/40 z-10">
-          <Spinner className="size-6" />
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <Spinner className="size-12" />
         </div>
       )}
 
@@ -35,7 +35,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
         priority={priority}
         fetchPriority={priority ? "high" : "auto"}
         sizes="(max-width: 768px) 100vw, 25vw"
-        onLoadingComplete={() => setIsLoaded(true)}
+        onLoadingComplete={() => setIsLoaded(false)}
       />
     </div>
   );
