@@ -13,7 +13,8 @@ interface ProductDetailsPageProps {
 const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
   const [itemName, setItemName] = useState<string | null>(null);
 
-  const { products: productsFromApiRes } = useProductsQuery();
+  const { products: productsFromApiRes, isLoading: isProductsLoading } =
+    useProductsQuery();
 
   useEffect(() => {
     const fetchParams = async () => {
@@ -25,8 +26,8 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
     fetchParams();
   }, [params]);
 
-  // Skeleton loading state (if itemName is not yet set)
-  if (!itemName) {
+  // Skeleton loading state (if itemName is not yet set or products are loading)
+  if (!itemName || isProductsLoading) {
     return (
       <main
         className="dark:bg-primaryDarkTwo"
