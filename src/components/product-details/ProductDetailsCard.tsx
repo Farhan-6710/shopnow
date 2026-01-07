@@ -66,7 +66,6 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
             <ProductImage
               imgSource={item.imgSource}
               alt={item.name}
-              fetchImageWithTimeout={fetchImageWithTimeout}
             />
           </div>
 
