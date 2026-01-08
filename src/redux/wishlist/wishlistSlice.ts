@@ -4,6 +4,7 @@ import { Product } from "@/types/product";
 
 export interface WishlistState {
   items: { [key: number]: Product };
+  removedItems: { [key: number]: boolean }; // Track items removed while offline
   loading: boolean;
   isWishlistSyncing: boolean;
   error: string | null;
@@ -11,6 +12,7 @@ export interface WishlistState {
 
 const initialState: WishlistState = {
   items: {},
+  removedItems: {},
   loading: false,
   isWishlistSyncing: false,
   error: null,
@@ -117,6 +119,7 @@ const wishlistSlice = createSlice({
     },
     wishlistSyncSuccess(state) {
       state.isWishlistSyncing = false;
+      state.removedItems = {}; // Clear removed items after successful sync
     },
     wishlistSyncFailure(state, action: PayloadAction<string>) {
       state.isWishlistSyncing = false;
@@ -136,10 +139,19 @@ const wishlistSlice = createSlice({
     clearWishlistSuccess(state) {
       state.loading = false;
       state.items = {};
+      state.removedItems = {}; // Clear removed items tracking
     },
     clearWishlistFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+    },
+
+    // ========== Track Removed Items (for offline sync) ==========
+    trackRemovedWishlistItem(
+      state,
+      action: PayloadAction<{ [key: number]: boolean }>
+    ) {
+      state.removedItems = action.payload;
     },
   },
 });
@@ -165,6 +177,7 @@ export const {
   clearWishlistRequest,
   clearWishlistSuccess,
   clearWishlistFailure,
+  trackRemovedWishlistItem,
 } = wishlistSlice.actions;
 
 // Selectors
@@ -200,6 +213,11 @@ export const selectWishlistSyncing = createSelector(
 export const selectWishlistError = createSelector(
   [selectWishlistState],
   (state) => state.error
+);
+
+export const selectRemovedWishlistItems = createSelector(
+  [selectWishlistState],
+  (state) => state.removedItems
 );
 
 // Export reducer

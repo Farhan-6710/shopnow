@@ -25,6 +25,8 @@ import {
   clearWishlistRequest,
   clearWishlistSuccess,
   clearWishlistFailure,
+  selectRemovedWishlistItems,
+  trackRemovedWishlistItem,
 } from "./wishlistSlice";
 
 // Helper to check authentication
@@ -86,6 +88,16 @@ const wishlistApi = {
     if (!data.success)
       throw new Error(data.error || "Failed to clear wishlist");
   },
+  removeBulkItems: async (productIds: number[]): Promise<void> => {
+    const response = await fetch("/api/wishlist", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productIds }),
+    });
+    const data = await response.json();
+    if (!data.success)
+      throw new Error(data.error || "Failed to bulk remove items");
+  },
 };
 
 // Worker Sagas
@@ -144,9 +156,19 @@ function* removeFromWishlistSaga(
   // Check if user is authenticated
   const isAuthenticated: boolean = yield call(isUserAuthenticated);
 
-  // If not authenticated, allow local wishlist operation (no API call)
+  // If not authenticated, track removal for later sync
   if (!isAuthenticated) {
     yield put(removeFromWishlistSuccess({ productId }));
+    // Track this removal in removedItems state
+    const removedItems: { [key: number]: boolean } = yield select(
+      selectRemovedWishlistItems
+    );
+    yield put(
+      trackRemovedWishlistItem({
+        ...removedItems,
+        [productId]: true,
+      })
+    );
     return; // Skip API call, keep optimistic update
   }
 
@@ -184,6 +206,20 @@ function* toggleWishlistSaga(action: PayloadAction<Product>) {
   // If not authenticated, allow local wishlist operation (no API call)
   if (!isAuthenticated) {
     const actionType = wasInWishlist ? "removed" : "added";
+
+    // Track removal for later sync if item was removed
+    if (wasInWishlist) {
+      const removedItems: { [key: number]: boolean } = yield select(
+        selectRemovedWishlistItems
+      );
+      yield put(
+        trackRemovedWishlistItem({
+          ...removedItems,
+          [product.id]: true,
+        })
+      );
+    }
+
     yield put(
       toggleWishlistSuccess({ productId: product.id, action: actionType })
     );
@@ -230,9 +266,28 @@ function* syncWishlistToBackendSaga() {
       return;
     }
 
-    // Get all local wishlist items
+    // Get all local wishlist items and removed items
     const localWishlistItems: Product[] = yield select(selectWishlistItems);
+    const removedItems: { [key: number]: boolean } = yield select(
+      selectRemovedWishlistItems
+    );
 
+    // Handle bulk removals first (items removed while offline)
+    const currentWishlistIds = new Set(
+      localWishlistItems.map((item) => item.id)
+    );
+    const itemsToRemove = removedItems
+      ? Object.keys(removedItems)
+          .map(Number)
+          .filter((id) => !currentWishlistIds.has(id)) // Only remove if NOT re-added
+      : [];
+
+    if (itemsToRemove.length > 0) {
+      console.log("Removing items from backend wishlist:", itemsToRemove);
+      yield call(wishlistApi.removeBulkItems, itemsToRemove);
+    }
+
+    // Handle additions
     if (localWishlistItems.length === 0) {
       // Still fetch backend wishlist in case user has items there
       yield call(fetchWishlistSaga);

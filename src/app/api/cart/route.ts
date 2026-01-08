@@ -181,8 +181,10 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE /api/cart - Remove single item or clear all cart items
-// If no productId is provided, clears all cart items
+// DELETE /api/cart - Remove single item, bulk items, or clear all cart items
+// - Single item: { productId: number }
+// - Bulk delete: { productIds: number[] }
+// - Clear all: no body
 export async function DELETE(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -202,16 +204,32 @@ export async function DELETE(request: NextRequest) {
 
     // Try to parse the request body
     let productId: number | undefined;
+    let productIds: number[] | undefined;
     try {
       const body = await request.json();
       productId = body.productId;
+      productIds = body.productIds;
     } catch {
       // No body or invalid JSON - treat as clear all request
       productId = undefined;
+      productIds = undefined;
     }
 
+    // Bulk delete (array of product IDs)
+    if (productIds && Array.isArray(productIds) && productIds.length > 0) {
+      const { error } = await supabase
+        .from("cart_items")
+        .delete()
+        .eq("user_id", user.id)
+        .in("product_id", productIds);
+
+      if (error) throw error;
+
+      return NextResponse.json({ success: true });
+    }
+
+    // Clear all cart items (no productId or productIds provided)
     if (!productId) {
-      // Clear all cart items for the user
       const { error } = await supabase
         .from("cart_items")
         .delete()

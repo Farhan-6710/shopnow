@@ -8,6 +8,7 @@ type Currency = "USD" | "INR";
 
 export interface CartState {
   cartItems: { [key: number]: CartItem };
+  removedItems: { [key: number]: boolean }; // Track items removed while offline
   currency: Currency;
   loading: boolean;
   isSyncing: boolean;
@@ -17,6 +18,7 @@ export interface CartState {
 // Initial state
 const initialState: CartState = {
   cartItems: {},
+  removedItems: {},
   currency: "USD",
   loading: false,
   isSyncing: false,
@@ -140,6 +142,7 @@ const cartSlice = createSlice({
     },
     syncCartSuccess(state) {
       state.isSyncing = false;
+      state.removedItems = {}; // Clear removed items after successful sync
     },
     syncCartFailure(state, action: PayloadAction<string>) {
       state.isSyncing = false;
@@ -164,10 +167,16 @@ const cartSlice = createSlice({
     clearCartSuccess(state) {
       state.loading = false;
       state.cartItems = {};
+      state.removedItems = {}; // Clear removed items tracking
     },
     clearCartFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+    },
+
+    // ========== Track Removed Items (for offline sync) ==========
+    trackRemovedItem(state, action: PayloadAction<{ [key: number]: boolean }>) {
+      state.removedItems = action.payload;
     },
   },
 });
@@ -194,6 +203,7 @@ export const {
   clearCartRequest,
   clearCartSuccess,
   clearCartFailure,
+  trackRemovedItem,
 } = cartSlice.actions;
 
 // Selectors
@@ -235,6 +245,11 @@ export const selectCartSyncing = createSelector(
 export const selectCartError = createSelector(
   [selectCartState],
   (state) => state.error
+);
+
+export const selectRemovedItems = createSelector(
+  [selectCartState],
+  (state) => state.removedItems
 );
 
 // Export reducer

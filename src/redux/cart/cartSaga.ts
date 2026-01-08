@@ -26,6 +26,8 @@ import {
   clearCartRequest,
   clearCartSuccess,
   clearCartFailure,
+  selectRemovedItems,
+  trackRemovedItem,
 } from "./cartSlice";
 
 // Helper to check authentication
@@ -96,6 +98,16 @@ const cartApi = {
     const data = await response.json();
     if (!data.success) throw new Error(data.error || "Failed to clear cart");
   },
+  removeBulkItems: async (productIds: number[]): Promise<void> => {
+    const response = await fetch("/api/cart", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productIds }),
+    });
+    const data = await response.json();
+    if (!data.success)
+      throw new Error(data.error || "Failed to bulk remove items");
+  },
 };
 
 // Worker Sagas
@@ -160,9 +172,19 @@ function* removeFromCartSaga(
   // Check if user is authenticated
   const isAuthenticated: boolean = yield call(isUserAuthenticated);
 
-  // If not authenticated, allow local cart operation (no API call)
+  // If not authenticated, track removal for later sync
   if (!isAuthenticated) {
     yield put(removeFromCartSuccess({ productId }));
+    // Track this removal in removedItems state
+    const removedItems: { [key: number]: boolean } = yield select(
+      selectRemovedItems
+    );
+    yield put(
+      trackRemovedItem({
+        ...removedItems,
+        [productId]: true,
+      })
+    );
     return; // Skip API call, keep optimistic update
   }
 
@@ -243,9 +265,26 @@ function* syncCartToBackendSaga() {
       return;
     }
 
-    // Get all local cart items
+    // Get all local cart items and removed items
     const localCartItems: CartItem[] = yield select(selectCartItems);
+    const removedItems: { [key: number]: boolean } = yield select(
+      selectRemovedItems
+    );
 
+    // Handle bulk removals first (items removed while offline)
+    const currentCartIds = new Set(localCartItems.map((item) => item.id));
+    const itemsToRemove = removedItems
+      ? Object.keys(removedItems)
+          .map(Number)
+          .filter((id) => !currentCartIds.has(id)) // Only remove if NOT re-added
+      : [];
+
+    if (itemsToRemove.length > 0) {
+      console.log("Removing items from backend:", itemsToRemove);
+      yield call(cartApi.removeBulkItems, itemsToRemove);
+    }
+
+    // Handle additions and updates
     if (localCartItems.length === 0) {
       // Still fetch backend cart in case user has items there
       yield call(fetchCartSaga);
