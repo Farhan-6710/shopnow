@@ -21,7 +21,7 @@ const WishlistItemList: React.FC<WishlistItemListProps> = ({ items }) => {
           transition={{ duration: 0.2, delay: index * 0.1, ease: "easeOut" }}
           className="h-full"
         >
-          <WishlistItem item={item} />
+          <WishlistItem item={item} priority={index < 8} />
         </motion.div>
       ))}
     </div>

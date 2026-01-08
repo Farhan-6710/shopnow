@@ -1,36 +1,23 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React from "react";
 import { Product } from "@/types/product";
 import { fetchImageWithTimeout } from "@/utils/fetchUtils";
 import ProductDetailsCard from "@/components/product-details/ProductDetailsCard";
-import ProductDetailsCardSkeleton from "@/components/product-details/ProductDetailsCardSkeleton";
 
 interface ProductDetailsPageClientProps {
-  item: Product;
+  initialItem: Product;
 }
 
-const ProductDetailsPageClient: React.FC<ProductDetailsPageClientProps> = ({ item }) => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 700);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+const ProductDetailsPageClient: React.FC<ProductDetailsPageClientProps> = ({
+  initialItem,
+}) => {
   return (
-    <>
-      {isLoading ? (
-        <ProductDetailsCardSkeleton />
-      ) : (
-        <ProductDetailsCard
-          key={item.id}
-          item={item}
-          fetchImageWithTimeout={fetchImageWithTimeout}
-        />
-      )}
-    </>
+    <ProductDetailsCard
+      key={initialItem.id}
+      item={initialItem}
+      fetchImageWithTimeout={fetchImageWithTimeout}
+    />
   );
 };
 

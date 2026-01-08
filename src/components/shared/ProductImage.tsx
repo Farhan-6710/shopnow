@@ -35,7 +35,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
         priority={priority}
         fetchPriority={priority ? "high" : "auto"}
         sizes="(max-width: 768px) 100vw, 25vw"
-        onLoadingComplete={() => setIsLoaded(true)}
+        onLoad={() => setIsLoaded(true)}
       />
     </div>
   );

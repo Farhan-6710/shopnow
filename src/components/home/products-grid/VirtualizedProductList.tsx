@@ -37,7 +37,7 @@ const VirtualizedProductList = ({
           index={index}
           itemsPerRow={itemsPerRow}
           style={{ padding: productsGap }}
-          priority={index < itemsPerRow}
+          priority={index < 10}
         />
       ))}
 

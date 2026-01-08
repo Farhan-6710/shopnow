@@ -1,56 +1,28 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductDetailsPageClient from "./ProductDetailsPageClient";
 import { notFound } from "next/navigation";
-import ProductDetailsCardSkeleton from "@/components/product-details/ProductDetailsCardSkeleton";
-import { useProductsQuery } from "@/hooks/useProductsQuery";
+import { getProduct, getAllProductNames } from "@/lib/products";
+
+// ISR: Revalidate every 5 minutes
+export const revalidate = 300;
+
+// SSG: Generate static params at build time
+export async function generateStaticParams() {
+  const products = await getAllProductNames();
+  return products.map((p) => ({ itemName: p.name }));
+}
 
 interface ProductDetailsPageProps {
   params: Promise<{ itemName: string }>;
 }
 
-const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
-  const [itemName, setItemName] = useState<string | null>(null);
+const ProductDetailsPage: React.FC<ProductDetailsPageProps> = async ({
+  params,
+}) => {
+  const { itemName } = await params;
+  const product = await getProduct(itemName);
 
-  const { products: productsFromApiRes, isLoading: isProductsLoading } =
-    useProductsQuery();
-
-  useEffect(() => {
-    const fetchParams = async () => {
-      // Unwrap the params Promise to get the itemName
-      const unwrappedParams = await params;
-      setItemName(unwrappedParams.itemName);
-    };
-
-    fetchParams();
-  }, [params]);
-
-  // Skeleton loading state (if itemName is not yet set or products are loading)
-  if (!itemName || isProductsLoading) {
-    return (
-      <main
-        className="dark:bg-primaryDarkTwo"
-        aria-label="Product details loading"
-      >
-        <div className="container mx-auto py-4">
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4">
-            <ProductDetailsCardSkeleton />
-          </div>
-        </div>
-      </main>
-    ); // Render skeleton while data is being fetched
-  }
-
-  // Decode the product name from the URL
-  const decodedItemName = decodeURIComponent(itemName);
-
-  // Find the product based on the decoded name
-  const item = productsFromApiRes.find(
-    (p) => p.name.toLowerCase() === decodedItemName.toLowerCase()
-  );
-
-  if (!item) {
+  if (!product) {
     return notFound();
   }
 
@@ -61,7 +33,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
           className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 px-4 lg:px-20 2xl:px-32"
           aria-labelledby="product-name"
         >
-          <ProductDetailsPageClient item={item} />
+          <ProductDetailsPageClient initialItem={product} />
         </section>
       </div>
     </main>

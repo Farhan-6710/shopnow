@@ -20,10 +20,7 @@ interface ProductDetailsCardProps {
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
-const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
-  item,
-  fetchImageWithTimeout,
-}) => {
+const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { theme } = useTheme();
 
@@ -66,6 +63,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({
             <ProductImage
               imgSource={item.imgSource}
               alt={item.name}
+              priority={true}
             />
           </div>
 

@@ -16,9 +16,13 @@ import { showToast } from "@/config/ToastConfig";
 
 interface WishlistItemProps {
   item: Product;
+  priority?: boolean;
 }
 
-const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
+const WishlistItem: React.FC<WishlistItemProps> = ({
+  item,
+  priority = false,
+}) => {
   const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -76,9 +80,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ item }) => {
                 src={item.imgSource}
                 alt={item.name}
                 fill
-                className="object-contain transition-transform duration-200 group-hover:scale-105"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 onError={() => setImageError(true)}
+                priority={priority}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground">
