@@ -45,7 +45,6 @@ const CartHeader: React.FC<CartHeaderProps> = ({
           <Button
             variant="outline"
             size="md"
-            className="text-destructive dark:text-red-400 hover:text-destructive hover:bg-destructive/10"
             onClick={() => setShowClearModal(true)}
             aria-label="Clear all items from cart"
           >

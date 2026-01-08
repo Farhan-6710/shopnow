@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/authContext";
 import { useEffect, useRef, useState } from "react";
-import { CheckCheck, CircleX, Eye, EyeOff } from "lucide-react";
-import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 import { showToast } from "@/config/ToastConfig";
+import { motion } from "framer-motion";
 
 interface SignUpFormProps {
   setShowLoginModal: (show: boolean) => void;
@@ -89,9 +89,29 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
   return (
     <div className="w-full">
-      <form onSubmit={handleSubmit} aria-label="Sign up form">
+      <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+      <motion.form
+        onSubmit={handleSubmit}
+        aria-label="Sign up form"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1,
+            },
+          },
+        }}
+      >
         <div className="space-y-4 mb-4">
-          <div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+            }}
+          >
             <label htmlFor="signup-username" className="sr-only">
               Username
             </label>
@@ -103,10 +123,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
               placeholder="Username"
               required
               autoComplete="username"
-              className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary bg-card! text-foreground autofill:bg-background! autofill:text-foreground"
+              className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-primary bg-card! text-foreground autofill:bg-background! autofill:text-foreground"
             />
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+            }}
+          >
             <label htmlFor="signup-email" className="sr-only">
               Email
             </label>
@@ -119,8 +144,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
               autoComplete="email"
               className="w-full px-4 py-2 border rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary bg-card! text-foreground autofill:bg-background! autofill:text-foreground"
             />
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+            }}
+          >
             <label htmlFor="signup-password" className="sr-only">
               Password
             </label>
@@ -143,8 +173,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+            }}
+          >
             <label htmlFor="confirm-password" className="sr-only">
               Confirm Password
             </label>
@@ -167,33 +202,59 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <Button type="submit" disabled={loading} className="w-full mb-4 h-10">
-          {loading ? "Creating account..." : "Sign Up"}
-        </Button>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, x: -20 },
+            visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+          }}
+        >
+          <Button type="submit" disabled={loading} className="w-full mb-4 h-10">
+            {loading ? "Creating account..." : "Sign Up"}
+          </Button>
+        </motion.div>
 
-        <div className="flex items-center gap-4 mb-4">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, x: -20 },
+            visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+          }}
+          className="flex items-center gap-4 mb-4"
+        >
           <div className="flex-1 h-px bg-border" />
           <span className="text-sm font-semibold text-muted-foreground">
             OR
           </span>
           <div className="flex-1 h-px bg-border" />
-        </div>
+        </motion.div>
 
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-          className="w-full flex items-center justify-center gap-2 mb-4"
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, x: -20 },
+            visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+          }}
         >
-          <i className="fab fa-google" aria-hidden="true" />
-          <span>Continue with Google</span>
-        </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 mb-4"
+          >
+            <i className="fab fa-google" aria-hidden="true" />
+            <span>Continue with Google</span>
+          </Button>
+        </motion.div>
 
-        <p className="text-center text-sm text-muted-foreground mb-4">
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, x: -20 },
+            visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+          }}
+          className="text-center text-sm text-muted-foreground mb-4"
+        >
           Already have an account?{" "}
           <button
             type="button"
@@ -205,14 +266,26 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           >
             Login
           </button>
-        </p>
+        </motion.p>
 
-        <hr className="my-4" />
+        <motion.hr
+          variants={{
+            hidden: { opacity: 0, x: -20 },
+            visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+          }}
+          className="my-4"
+        />
 
-        <p className="text-xs text-muted-foreground text-center">
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, x: -20 },
+            visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+          }}
+          className="text-xs text-muted-foreground text-center"
+        >
           By signing up, you agree to our Terms and Policy.
-        </p>
-      </form>
+        </motion.p>
+      </motion.form>
     </div>
   );
 };

@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 
-const MyCartSectionSkeleton = () => {
+const CartSectionSkeleton = () => {
   const { theme } = useTheme();
 
   return (
@@ -109,4 +109,4 @@ const MyCartSectionSkeleton = () => {
   );
 };
 
-export default MyCartSectionSkeleton;
+export default CartSectionSkeleton;

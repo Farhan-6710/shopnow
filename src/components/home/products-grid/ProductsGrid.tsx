@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { selectCartSyncing } from "@/redux/cart";
 import { selectWishlistSyncing } from "@/redux/wishlist";
 import { timeout } from "@/utils/timeout";
-import ProductCardSkeleton from "./ProductCardSkeleton";
+import ProductCardSkeleton from "../../skeletons/ProductCardSkeleton";
 import VirtualizedProductList from "./VirtualizedProductList";
 
 interface Props {

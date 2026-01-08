@@ -14,12 +14,17 @@ import UserAvatar from "./UserAvatar";
 import { useAuth } from "@/providers/authContext";
 import dynamic from "next/dynamic";
 
+import LoginFormSkeleton from "@/components/skeletons/LoginFormSkeleton";
+import SignUpFormSkeleton from "@/components/skeletons/SignUpFormSkeleton";
+
 const LoginForm = dynamic(() => import("@/components/auth/LoginForm"), {
   ssr: false,
+  loading: () => <LoginFormSkeleton />,
 });
 
 const SignUpForm = dynamic(() => import("@/components/auth/SignUpForm"), {
   ssr: false,
+  loading: () => <SignUpFormSkeleton />,
 });
 
 const AccountDropdown = () => {

@@ -8,23 +8,17 @@ import { useProductsQuery } from "@/hooks/useProductsQuery";
 import { useTheme } from "next-themes";
 import { showToast } from "@/config/ToastConfig";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  ROUTES,
-} from "@/constants/routes";
+import { ROUTES } from "@/constants/routes";
 import dynamic from "next/dynamic";
+import AiAssistantSkeleton from "@/components/skeletons/AiAssistantSkeleton";
 
 const AiAssistant = dynamic(
   () => import("@/components/ai-assistant/AiAssistant"),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
-        Loading AI Assistant…
-      </div>
-    ),
+    loading: () => <AiAssistantSkeleton />,
   }
 );
-
 
 interface HeaderActionsProps {
   cartCount: number;

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { ProductFilterValues } from "@/types/filterProduct";
 import { FilterIcon } from "lucide-react";
-import FiltersSidebarContent from "../home/filters-panel/FiltersSidebarContent";
+import FiltersSidebarContent from "./FiltersSidebarContent";
 
 interface FilterSheetProps {
   filterValues: ProductFilterValues;

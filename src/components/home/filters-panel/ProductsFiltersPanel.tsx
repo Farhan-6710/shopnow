@@ -2,7 +2,7 @@
 
 import { ProductFilterValues } from "@/types/filterProduct";
 import React from "react";
-import { FilterSheet } from "../../extras/FilterSheet";
+import { FilterSheet } from "./FilterSheet";
 import FiltersSidebarContent from "./FiltersSidebarContent";
 import SearchBar from "@/components/headers/headerTwo/SearchBar";
 import { motion } from "framer-motion";

@@ -13,9 +13,9 @@ import CartHeader from "./CartHeader";
 import CartEmpty from "./CartEmpty";
 import CartItemList from "./CartItemList";
 import OrderSummary from "./OrderSummary";
-import MyCartSectionSkeleton from "./MyCartSectionSkeleton";
+import CartSectionSkeleton from "../skeletons/CartSectionSkeleton";
 
-const MyCartSection: React.FC = () => {
+const CartSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
   const currency = useSelector(selectCurrency);
@@ -26,7 +26,7 @@ const MyCartSection: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);
@@ -63,7 +63,7 @@ const MyCartSection: React.FC = () => {
 
   // Show skeleton during loading
   if (isLoading) {
-    return <MyCartSectionSkeleton />;
+    return <CartSectionSkeleton />;
   }
 
   return (
@@ -106,4 +106,4 @@ const MyCartSection: React.FC = () => {
   );
 };
 
-export default MyCartSection;
+export default CartSection;

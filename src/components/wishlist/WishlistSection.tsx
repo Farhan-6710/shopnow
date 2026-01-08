@@ -9,9 +9,9 @@ import {
 import WishlistEmpty from "./WishlistEmpty";
 import WishlistItemList from "./WishlistItemList";
 import WishlistHeader from "./WishlistHeader";
-import WishlistSkeleton from "./WishlistSkeleton";
+import WishlistSkeleton from "../skeletons/WishlistSkeleton";
 
-const Wishlist: React.FC = () => {
+const WishlistSection: React.FC = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector(selectWishlistItems);
   const isEmpty = wishlistItems.length === 0;
@@ -21,7 +21,7 @@ const Wishlist: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);
@@ -57,4 +57,4 @@ const Wishlist: React.FC = () => {
   );
 };
 
-export default Wishlist;
+export default WishlistSection;

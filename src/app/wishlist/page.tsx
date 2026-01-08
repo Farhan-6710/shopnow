@@ -1,12 +1,12 @@
 // app/wishlist/page.tsx
 
 import React from "react";
-import Wishlist from "@/components/wishlist/Wishlist";
+import WishlistSection from "@/components/wishlist/WishlistSection";
 
 const WishlistPage: React.FC = () => {
   return (
     <main aria-label="Wishlist">
-      <Wishlist />
+      <WishlistSection />
     </main>
   );
 };
