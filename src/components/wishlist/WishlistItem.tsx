@@ -80,6 +80,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
                 src={item.imgSource}
                 alt={item.name}
                 fill
+                className="object-contain transition-transform duration-200 group-hover:scale-105"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 onError={() => setImageError(true)}
                 priority={priority}
