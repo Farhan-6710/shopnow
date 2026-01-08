@@ -36,7 +36,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
 }) => {
   return (
     <motion.div
-      className="feedback-form space-y-6 py-4"
+      className="feedback-form space-y-6 pt-2"
       initial="hidden"
       animate="visible"
       variants={{

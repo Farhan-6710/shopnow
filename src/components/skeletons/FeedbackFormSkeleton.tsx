@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function FeedbackFormSkeleton() {
   return (
-    <div className="w-full space-y-6 py-4">
+    <div className="w-full space-y-6 pt-2">
       {/* Heading Skeleton */}
       <Skeleton className="h-7 w-48 mb-6 mx-auto" />
 
