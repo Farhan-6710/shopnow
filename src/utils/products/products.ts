@@ -1,4 +1,5 @@
 import { Product } from "@/types/product";
+import { createClient } from "@/utils/supabase/client";
 
 export type ProductTag =
   | "bestseller"
@@ -144,3 +145,33 @@ export const getProductTags = (
 
   return tags.slice(0, limit);
 };
+
+/**
+ * Fetch a single product by name (case-insensitive)
+ * Used for SSG/ISR in product detail pages
+ * @param itemName - URL-encoded product name
+ * @returns Product data or null
+ */
+export async function getProduct(itemName: string): Promise<Product | null> {
+  const supabase = createClient();
+  const decodedName = decodeURIComponent(itemName);
+
+  const { data } = await supabase
+    .from("products")
+    .select("*")
+    .ilike("name", decodedName)
+    .single();
+
+  return data;
+}
+
+/**
+ * Fetch all product names for static path generation
+ * Used in generateStaticParams for SSG
+ * @returns Array of product names
+ */
+export async function getAllProductNames(): Promise<{ name: string }[]> {
+  const supabase = createClient();
+  const { data } = await supabase.from("products").select("name");
+  return data || [];
+}

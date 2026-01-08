@@ -1,7 +1,7 @@
 import React from "react";
 import ProductDetailsPageClient from "./ProductDetailsPageClient";
 import { notFound } from "next/navigation";
-import { getProduct, getAllProductNames } from "@/lib/products";
+import { getProduct, getAllProductNames } from "@/utils/products/products";
 
 // ISR: Revalidate every 5 minutes
 export const revalidate = 300;
