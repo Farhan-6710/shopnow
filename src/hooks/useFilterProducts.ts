@@ -5,7 +5,7 @@ import { showToast } from "@/config/ToastConfig";
 
 import { ProductFilterValues } from "@/types/filterProduct";
 import { useSelector } from "react-redux";
-import { selectCurrency } from "@/redux/cart/cartSlice";
+import { selectCurrency } from "@/redux/slices/cartSlice";
 import { Product } from "@/types/product";
 
 export const useFilterProducts = (products: Product[] | undefined) => {

@@ -192,23 +192,32 @@ export const {
 } = cartSlice.actions;
 
 // ========== Selectors ==========
-const selectCartState = (state: { cart: CartState }) => state.cart;
-const selectCartItemsDict = (state: { cart: CartState }) => state.cart.items;
+const selectCartState = (state: { cart: CartState }) =>
+  state?.cart || {
+    items: {},
+    removedItems: {},
+    currency: "USD" as const,
+    loading: false,
+    syncing: false,
+    error: null,
+  };
+const selectCartItemsDict = (state: { cart: CartState }) =>
+  state?.cart?.items || {};
 
 export const selectCartItems = createSelector([selectCartItemsDict], (items) =>
-  Object.values(items)
+  Object.values(items || {})
 );
 
 export const selectCartCount = createSelector(
   [selectCartItemsDict],
-  (items) => Object.keys(items).length
+  (items) => Object.keys(items || {}).length
 );
 
 export const selectIsInCart = (productId: number) =>
-  createSelector([selectCartItemsDict], (items) => !!items[productId]);
+  createSelector([selectCartItemsDict], (items) => !!(items || {})[productId]);
 
 export const selectCartItem = (productId: number) =>
-  createSelector([selectCartItemsDict], (items) => items[productId]);
+  createSelector([selectCartItemsDict], (items) => (items || {})[productId]);
 
 export const selectCurrency = createSelector(
   [selectCartState],

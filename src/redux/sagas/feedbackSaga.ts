@@ -5,7 +5,7 @@ import {
   submitFeedbackSuccess,
   submitFeedbackFailure,
   SubmitFeedbackPayload,
-} from "./feedbackSlice";
+} from "@/redux/slices/feedbackSlice";
 import { showToast } from "@/config/ToastConfig";
 import { timeout } from "@/utils/timeout";
 

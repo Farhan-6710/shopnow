@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { selectCartCount } from "@/redux/cart/cartSlice";
+import { selectCartCount } from "@/redux/slices/cartSlice";
 import { MapPin, Mail, Phone, Linkedin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import CartButton from "./CartButton";

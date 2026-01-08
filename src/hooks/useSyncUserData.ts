@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useAuth } from "@/providers/authContext";
-import { syncCartRequest } from "@/redux/cart/cartSlice";
-import { wishlistSyncRequest } from "@/redux/wishlist/wishlistSlice";
+import { syncCartRequest } from "@/redux/slices/cartSlice";
+import { wishlistSyncRequest } from "@/redux/slices/wishlistSlice";
 
 /**
  * Hook to handle all initial data syncing.

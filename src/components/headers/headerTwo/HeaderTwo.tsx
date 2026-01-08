@@ -2,8 +2,8 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectCartCount } from "@/redux/cart/cartSlice";
-import { selectWishlistCount } from "@/redux/wishlist/wishlistSlice";
+import { selectCartCount } from "@/redux/slices/cartSlice";
+import { selectWishlistCount } from "@/redux/slices/wishlistSlice";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import HeaderActions from "./HeaderActions";

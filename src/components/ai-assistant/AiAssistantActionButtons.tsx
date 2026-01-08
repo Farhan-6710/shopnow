@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import ConfirmationModal from "../modals/ConfirmationModal";
 import AiAssistantFeedback from "./AiAssistantFeedback";
 import { useDispatch } from "react-redux";
-import { clearChat } from "@/redux/chat/chatSlice";
+import { clearChat } from "@/redux/slices/chatSlice";
 import { AppDispatch } from "@/redux/store";
 
 const AiAssistantActionButtons: React.FC = () => {

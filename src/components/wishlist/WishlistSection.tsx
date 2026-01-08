@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   clearWishlistRequest,
   selectWishlistItems,
-} from "@/redux/wishlist/wishlistSlice";
+} from "@/redux/slices/wishlistSlice";
 import WishlistEmpty from "./WishlistEmpty";
 import WishlistItemList from "./WishlistItemList";
 import WishlistHeader from "./WishlistHeader";

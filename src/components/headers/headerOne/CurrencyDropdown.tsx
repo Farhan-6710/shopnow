@@ -7,8 +7,7 @@ import {
   IndianRupee,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { setCurrency, selectCurrency } from "@/redux/cart/cartSlice";
+import { setCurrency, selectCurrency } from "@/redux/slices/cartSlice";
 import {
   DropdownMenu,
   DropdownMenuContent,

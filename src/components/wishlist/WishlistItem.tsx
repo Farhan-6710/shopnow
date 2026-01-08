@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { ShoppingCart, Trash2, X } from "lucide-react";
 import { Product } from "@/types/product";
-import { removeFromWishlistRequest } from "@/redux/wishlist/wishlistSlice";
+import { removeFromWishlistRequest } from "@/redux/slices/wishlistSlice";
 import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import Rating from "@/components/home/products-grid/Rating";
 import ProductActions from "../shared/ProductActions";

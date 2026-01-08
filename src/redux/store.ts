@@ -1,14 +1,16 @@
-// src/store.ts
+// src/redux/store.ts
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from "redux-saga";
-import cartReducer from "@/redux/cart/cartSlice";
-import chatReducer from "@/redux/chat/chatSlice";
-import wishlistReducer from "@/redux/wishlist/wishlistSlice";
-import feedbackReducer from "@/redux/feedback/feedbackSlice";
-import rootSaga from "@/redux/rootSaga";
+import {
+  cartReducer,
+  chatReducer,
+  wishlistReducer,
+  feedbackReducer,
+} from "./slices";
+import rootSaga from "./rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 

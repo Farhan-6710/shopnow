@@ -2,10 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setMessages,
-  selectChatMessages,
-} from "@/redux/chat/chatSlice";
+import { setMessages, selectChatMessages } from "@/redux/slices/chatSlice";
 import { AppDispatch } from "@/redux/store";
 
 interface Message {

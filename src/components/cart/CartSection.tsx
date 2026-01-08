@@ -7,7 +7,7 @@ import {
   selectCurrency,
   clearCartRequest,
   selectCartItems,
-} from "@/redux/cart/cartSlice";
+} from "@/redux/slices/cartSlice";
 import { useCartCoupon } from "@/hooks/useCartCoupon";
 import CartHeader from "./CartHeader";
 import CartEmpty from "./CartEmpty";

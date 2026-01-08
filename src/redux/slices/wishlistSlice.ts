@@ -170,22 +170,31 @@ export const {
 
 // ========== Selectors ==========
 const selectWishlistState = (state: { wishlist: WishlistState }) =>
-  state.wishlist;
+  state?.wishlist || {
+    items: {},
+    removedItems: {},
+    loading: false,
+    syncing: false,
+    error: null,
+  };
 const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
-  state.wishlist.items;
+  state?.wishlist?.items || {};
 
 export const selectWishlistItems = createSelector(
   [selectWishlistItemsDict],
-  (items) => Object.values(items)
+  (items) => Object.values(items || {})
 );
 
 export const selectWishlistCount = createSelector(
   [selectWishlistItemsDict],
-  (items) => Object.keys(items).length
+  (items) => Object.keys(items || {}).length
 );
 
 export const selectIsInWishlist = (productId: number) =>
-  createSelector([selectWishlistItemsDict], (items) => !!items[productId]);
+  createSelector(
+    [selectWishlistItemsDict],
+    (items) => !!(items || {})[productId]
+  );
 
 export const selectWishlistLoading = createSelector(
   [selectWishlistState],

@@ -5,7 +5,7 @@ import {
   submitFeedbackRequest,
   selectFeedbackLoading,
   selectFeedbackError,
-} from "@/redux/feedback/feedbackSlice";
+} from "@/redux/slices/feedbackSlice";
 import { useEffect, useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";

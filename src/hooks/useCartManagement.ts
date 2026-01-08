@@ -8,7 +8,7 @@ import {
   selectCartItem,
   selectCurrency,
   updateQuantityRequest,
-} from "@/redux/cart/cartSlice";
+} from "@/redux/slices/cartSlice";
 import { showToast } from "@/config/ToastConfig";
 import { Product } from "@/types/product";
 

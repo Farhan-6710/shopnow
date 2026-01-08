@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { showToast } from "@/config/ToastConfig";
-import { selectIsInWishlist, toggleWishlistRequest } from "@/redux/wishlist";
+import {
+  selectIsInWishlist,
+  toggleWishlistRequest,
+} from "@/redux/slices/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Product } from "@/types/product";
 
