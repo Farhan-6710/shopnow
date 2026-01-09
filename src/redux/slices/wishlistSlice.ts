@@ -30,6 +30,7 @@ const wishlistSlice = createSlice({
     },
     fetchWishlistSuccess(state, action: PayloadAction<Product[]>) {
       state.loading = false;
+      state.syncing = false;
       state.items = {};
       action.payload.forEach((item) => {
         state.items[item.id] = item;
@@ -37,6 +38,7 @@ const wishlistSlice = createSlice({
     },
     fetchWishlistFailure(state, action: PayloadAction<string>) {
       state.loading = false;
+      state.syncing = false;
       state.error = action.payload;
     },
 
@@ -116,7 +118,7 @@ const wishlistSlice = createSlice({
       state.error = null;
     },
     wishlistSyncSuccess(state) {
-      state.syncing = false;
+      // syncing flag is cleared by fetchWishlistSuccess after data is fetched
       state.removedItems = {};
     },
     wishlistSyncFailure(state, action: PayloadAction<string>) {

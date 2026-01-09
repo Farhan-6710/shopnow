@@ -11,6 +11,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import dynamic from "next/dynamic";
 import AiAssistantSkeleton from "@/components/skeletons/AiAssistantSkeleton";
+import { useSelector } from "react-redux";
+import { selectCartSyncing } from "@/redux";
+import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
+import { Spinner } from "@/components/ui/spinner";
 
 const AiAssistant = dynamic(
   () => import("@/components/ai-assistant/AiAssistant"),
@@ -30,6 +34,9 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
   wishlistCount,
 }) => {
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
+
+  const isCartSyncing = useSelector(selectCartSyncing);
+  const isWishlistSyncing = useSelector(selectWishlistSyncing);
 
   const { products: productsFromApiRes } = useProductsQuery();
   const { setTheme, theme } = useTheme();
@@ -84,8 +91,12 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
         className="relative rounded-lg"
         aria-label={`Wishlist with ${wishlistCount} items`}
       >
-        <Heart className="size-4" />
-        {wishlistCount > 0 && (
+        {isCartSyncing ? (
+          <Spinner className="size-4" />
+        ) : (
+          <Heart className="size-4" />
+        )}
+        {wishlistCount > 0 && !isCartSyncing && (
           <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-destructive text-white text-[12px] font-bold rounded-full">
             {wishlistCount > 99 ? "99+" : wishlistCount}
           </span>
@@ -100,8 +111,12 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
         className="relative rounded-lg"
         aria-label={`Cart with ${cartCount} items`}
       >
-        <ShoppingCart className="size-4" />
-        {cartCount > 0 && (
+        {isWishlistSyncing ? (
+          <Spinner className="size-4" />
+        ) : (
+          <ShoppingCart className="size-4" />
+        )}
+        {cartCount > 0 && !isWishlistSyncing && (
           <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-primary text-primary-foreground text-[12px] font-bold rounded-full">
             {cartCount > 99 ? "99+" : cartCount}
           </span>

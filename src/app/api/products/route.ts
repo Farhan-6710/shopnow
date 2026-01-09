@@ -11,7 +11,10 @@ export async function GET() {
 
     if (error) throw error;
 
-    return NextResponse.json({ success: true, data: products });
+    return NextResponse.json({
+      success: true,
+      data: products,
+    });
   } catch (error) {
     return NextResponse.json(
       { success: false, error: "Failed to fetch products" },

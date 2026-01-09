@@ -35,6 +35,7 @@ const cartSlice = createSlice({
     },
     fetchCartSuccess(state, action: PayloadAction<CartItem[]>) {
       state.loading = false;
+      state.syncing = false;
       state.items = {};
       action.payload.forEach((item) => {
         state.items[item.id] = item;
@@ -42,6 +43,7 @@ const cartSlice = createSlice({
     },
     fetchCartFailure(state, action: PayloadAction<string>) {
       state.loading = false;
+      state.syncing = false;
       state.error = action.payload;
     },
 
@@ -133,7 +135,7 @@ const cartSlice = createSlice({
       state.error = null;
     },
     syncCartSuccess(state) {
-      state.syncing = false;
+      // syncing flag is cleared by fetchCartSuccess after data is fetched
       state.removedItems = {};
     },
     syncCartFailure(state, action: PayloadAction<string>) {
