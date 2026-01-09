@@ -58,7 +58,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 flex-wrap">
       {/* Home Button */}
       <Button
         onClick={() => handleRouteClick(ROUTES.HOME)}
@@ -142,7 +142,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
           <Button
             variant="outline"
             size="default"
-            className="w-full md:w-auto rounded-md px-3 py-2 gap-2 ml-3"
+            className="basis-full sm:basis-auto rounded-md px-3 py-4.5! gap-2"
             aria-label="Open AI Assistant"
           >
             <BotIcon className="size-4 text-primary" />

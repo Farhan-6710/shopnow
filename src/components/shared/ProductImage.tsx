@@ -29,7 +29,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
         src={imgSource}
         alt={alt}
         fill
-        className={`rounded-t-lg object-contain transition-opacity duration-300 ${
+        className={`rounded-t-lg object-contain transition-all! duration-300 group-hover:scale-110 p-4 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
         priority={priority}

@@ -70,7 +70,7 @@ const UserAvatar = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="flex items-center gap-2 bg-card hover:bg-accent rounded-full transition-all duration-200"
+            className="flex items-center gap-2 bg-card hover:bg-accent rounded-full transition-all duration-200 pl-1.5!"
             aria-label="User account menu"
           >
             <Avatar className="h-7 w-7">

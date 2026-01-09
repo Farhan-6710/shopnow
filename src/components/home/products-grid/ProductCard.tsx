@@ -84,7 +84,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
         className="w-full flex flex-col h-full"
         style={style}
       >
-        <div className="product-card relative border bg-card text-center h-full pt-0 pb-6 rounded-lg transition-all duration-300">
+        <div className="product-card group relative border bg-card text-center h-full pt-0 pb-6 rounded-lg transition-all duration-300">
           {/* Wishlist */}
           <WishlistToggle item={item} />
 

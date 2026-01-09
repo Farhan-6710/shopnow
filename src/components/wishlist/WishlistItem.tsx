@@ -62,7 +62,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
         {/* Remove Button */}
         <button
           onClick={() => setShowDeleteModal(true)}
-          className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-background/80 backdrop-blur-sm border opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground hover:border-destructive"
+          className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-background/80 backdrop-blur-sm border opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-destructive hover:text-destructive-foreground hover:border-destructive cursor-pointer"
           aria-label={`Remove ${item.name} from wishlist`}
         >
           <X className="size-4" />

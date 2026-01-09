@@ -69,8 +69,6 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
     run();
   }, [products]);
 
-  console.log(cardHeight);
-
   return (
     <section
       className="

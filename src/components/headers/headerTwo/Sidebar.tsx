@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { selectCartCount } from "@/redux/slices/cartSlice";
 import { MapPin, Mail, Phone, Linkedin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
-import CartButton from "./CartButton";
+import HeaderActions from "./HeaderActions";
+import { useSelector } from "react-redux";
+import { selectCartCount } from "@/redux/slices/cartSlice";
+import { selectWishlistCount } from "@/redux/slices/wishlistSlice";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -45,6 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   }, [isOpen, onClose]);
 
   const cartCount = useSelector(selectCartCount);
+  const wishlistCount = useSelector(selectWishlistCount);
 
   return (
     <div>
@@ -116,6 +118,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </ul>
         </div>
         <hr className="border mb-1" />
+        <div className="p-4 px-6">
+          <HeaderActions cartCount={cartCount} wishlistCount={wishlistCount} />
+        </div>
+        <hr className="border mt-1" />
         <div className="flex justify-center space-x-4 p-4">
           <a
             href="https://www.facebook.com"
@@ -153,9 +159,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           >
             <Linkedin size={24} aria-hidden="true" />
           </a>
-        </div>
-        <div className="p-4 px-6 mb-4 flex flex-col gap-3">
-          <CartButton cartCount={cartCount} onClose={onClose} />
         </div>
       </div>
       <div

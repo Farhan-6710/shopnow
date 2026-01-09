@@ -312,21 +312,6 @@ body.sidebar-open {
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Smooth transition for button scaling */
 }
 
-/* Define transition effect for scaling */
-.product-card {
-  transition: transform 0.3s ease-in-out; /* Smooth transition for scaling effect */
-}
-
-.product-card img {
-  transition: transform 0.3s ease-in-out; /* Smooth transition for scaling effect */
-}
-
-.product-card:hover img {
-  transform: scale(1.075); /* Scale up the image slightly on hover */
-}
-
-/* globals.css */
-
 /* Card styling */
 .card {
   transition: box-shadow 0.3s ease-in-out; /* Smooth transition for box-shadow */

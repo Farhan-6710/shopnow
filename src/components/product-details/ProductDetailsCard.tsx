@@ -55,7 +55,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
 
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
-      <div className="relative product-card transition-all duration-200 bg-card border w-full">
+      <div className="relative product-card group transition-all duration-200 bg-card border w-full">
         <WishlistToggle item={item} className="left-3 top-3" />
         <div className="flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 dark:border-slate-700 border-gray-200">
           {/* Product Image on the Left */}

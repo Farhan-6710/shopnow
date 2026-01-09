@@ -36,7 +36,6 @@ const HomePage = () => {
       });
     }
   }, [filterValues, filteredProducts.length]);
-  console.log("home page rendered");
 
   return (
     <ProductsLayout>
