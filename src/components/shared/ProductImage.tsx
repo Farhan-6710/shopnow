@@ -4,12 +4,14 @@ import { Spinner } from "@/components/ui/spinner";
 
 interface ProductImageProps {
   imgSource: string;
+  available: boolean;
   alt: string;
   priority?: boolean;
 }
 
 const ProductImage: React.FC<ProductImageProps> = ({
   imgSource,
+  available,
   alt,
   priority = false,
 }) => {
@@ -31,7 +33,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
         fill
         className={`rounded-t-lg object-contain transition-all! duration-300 group-hover:scale-110 p-4 ${
           isLoaded ? "opacity-100" : "opacity-0"
-        }`}
+        } ${available ? "" : "grayscale contrast-75"}`}
         priority={priority}
         fetchPriority={priority ? "high" : "auto"}
         sizes="(max-width: 768px) 100vw, 25vw"

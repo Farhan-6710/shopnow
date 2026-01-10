@@ -186,7 +186,16 @@ function* syncWishlistSaga() {
 }
 
 // ========== Clear Wishlist ==========
-function* clearWishlistSaga() {
+function* clearWishlistSaga(
+  action: PayloadAction<
+    void,
+    string,
+    { previousItems: Record<number, Product> }
+  >
+) {
+  // Get previousItems from action meta (passed before optimistic update)
+  const previousItems = action.meta.previousItems;
+
   try {
     const isAuth: boolean = yield call(isAuthenticated);
 
@@ -202,7 +211,7 @@ function* clearWishlistSaga() {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to clear wishlist";
-    yield put(clearWishlistFailure(message));
+    yield put(clearWishlistFailure({ error: message, previousItems }));
     showErrorToast("Clear Wishlist Failed", "Unable to clear your wishlist.");
   }
 }

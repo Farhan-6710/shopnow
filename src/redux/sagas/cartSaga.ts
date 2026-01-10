@@ -174,7 +174,16 @@ function* syncCartSaga() {
 }
 
 // ========== Clear Cart ==========
-function* clearCartSaga() {
+function* clearCartSaga(
+  action: PayloadAction<
+    void,
+    string,
+    { previousItems: Record<number, CartItem> }
+  >
+) {
+  // Get previousItems from action meta (passed before optimistic update)
+  const previousItems = action.meta.previousItems;
+
   try {
     const isAuth: boolean = yield call(isAuthenticated);
 
@@ -187,7 +196,7 @@ function* clearCartSaga() {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to clear cart";
-    yield put(clearCartFailure(message));
+    yield put(clearCartFailure({ error: message, previousItems }));
     showErrorToast("Clear Cart Failed", "Unable to clear your cart.");
   }
 }

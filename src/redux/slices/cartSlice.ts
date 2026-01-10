@@ -148,19 +148,39 @@ const cartSlice = createSlice({
       state.removedItems[action.payload] = true;
     },
 
-    // ========== Clear Cart ==========
-    clearCartRequest(state) {
-      state.loading = true;
-      state.error = null;
+    // ========== Clear Cart (Optimistic) ==========
+    clearCartRequest: {
+      reducer(
+        state,
+        _action: PayloadAction<
+          void,
+          string,
+          { previousItems?: Record<number, CartItem> }
+        >
+      ) {
+        // Optimistically clear items immediately
+        state.items = {};
+        state.removedItems = {};
+        state.error = null;
+      },
+      prepare(previousItems: Record<number, CartItem>) {
+        return { payload: undefined, meta: { previousItems } };
+      },
     },
-    clearCartSuccess(state) {
-      state.loading = false;
-      state.items = {};
-      state.removedItems = {};
+    clearCartSuccess(_state, _action: PayloadAction<void>) {
+      // No-op: Optimistic update already applied in request
     },
-    clearCartFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+    clearCartFailure(
+      state,
+      action: PayloadAction<{
+        error: string;
+        previousItems: Record<number, CartItem>;
+      }>
+    ) {
+      console.log("clearCartFailure action:", action);
+      // Rollback: restore previous items on failure
+      state.items = action.payload.previousItems;
+      state.error = action.payload.error;
     },
 
     // ========== Currency ==========
@@ -203,7 +223,7 @@ const selectCartState = (state: { cart: CartState }) =>
     syncing: false,
     error: null,
   };
-const selectCartItemsDict = (state: { cart: CartState }) =>
+export const selectCartItemsDict = (state: { cart: CartState }) =>
   state?.cart?.items || {};
 
 export const selectCartItems = createSelector([selectCartItemsDict], (items) =>

@@ -106,6 +106,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
             {/* ✅ Will NOT re-render on quantity change */}
             <MemoProductImage
               imgSource={item.imgSource}
+              available={item.status === "available"}
               alt={item.name}
               priority={priority}
             />
@@ -122,6 +123,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
           <div className="mt-4">
             <ProductActions
               itemName={item.name}
+              available={item.status === "available"}
               quantity={quantity}
               isInCart={isInCart}
               isAdding={isAdding}

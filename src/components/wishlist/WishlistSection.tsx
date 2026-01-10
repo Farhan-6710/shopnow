@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   clearWishlistRequest,
   selectWishlistItems,
+  selectWishlistItemsDict,
 } from "@/redux/slices/wishlistSlice";
 import WishlistEmpty from "./WishlistEmpty";
 import WishlistItemList from "./WishlistItemList";
@@ -14,6 +15,7 @@ import WishlistSkeleton from "../skeletons/WishlistSkeleton";
 const WishlistSection: React.FC = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector(selectWishlistItems);
+  const wishlistItemsDict = useSelector(selectWishlistItemsDict);
   const isEmpty = wishlistItems.length === 0;
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,7 +29,7 @@ const WishlistSection: React.FC = () => {
   }, []);
 
   const handleClearAll = () => {
-    dispatch(clearWishlistRequest());
+    dispatch(clearWishlistRequest(wishlistItemsDict));
   };
 
   // Show skeleton during loading

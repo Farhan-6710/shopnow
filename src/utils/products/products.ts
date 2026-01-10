@@ -56,7 +56,7 @@ const TAG_STYLES: Record<
     },
 
     unavailable: {
-      label: "Not in Stock",
+      label: "Out of Stock",
       style: {
         backgroundColor: "#374151", // gray-700 with richer tone
         color: "#f3f4f6", // bright gray text
@@ -98,7 +98,7 @@ const TAG_STYLES: Record<
     },
 
     unavailable: {
-      label: "Not in Stock",
+      label: "Out of Stock",
       style: {
         backgroundColor: "#2a3038", // deeper gray with richer tone
         color: "#d1d5db", // bright gray text for good contrast

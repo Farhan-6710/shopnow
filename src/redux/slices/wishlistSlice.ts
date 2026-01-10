@@ -131,19 +131,38 @@ const wishlistSlice = createSlice({
       state.removedItems[action.payload] = true;
     },
 
-    // ========== Clear Wishlist ==========
-    clearWishlistRequest(state) {
-      state.loading = true;
-      state.error = null;
+    // ========== Clear Wishlist (Optimistic) ==========
+    clearWishlistRequest: {
+      reducer(
+        state,
+        _action: PayloadAction<
+          void,
+          string,
+          { previousItems?: Record<number, Product> }
+        >
+      ) {
+        // Optimistically clear items immediately
+        state.items = {};
+        state.removedItems = {};
+        state.error = null;
+      },
+      prepare(previousItems: Record<number, Product>) {
+        return { payload: undefined, meta: { previousItems } };
+      },
     },
-    clearWishlistSuccess(state) {
-      state.loading = false;
-      state.items = {};
-      state.removedItems = {};
+    clearWishlistSuccess(_state, _action: PayloadAction<void>) {
+      // No-op: Optimistic update already applied in request
     },
-    clearWishlistFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+    clearWishlistFailure(
+      state,
+      action: PayloadAction<{
+        error: string;
+        previousItems: Record<number, Product>;
+      }>
+    ) {
+      // Rollback: restore previous items on failure
+      state.items = action.payload.previousItems;
+      state.error = action.payload.error;
     },
   },
 });
@@ -179,7 +198,7 @@ const selectWishlistState = (state: { wishlist: WishlistState }) =>
     syncing: false,
     error: null,
   };
-const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
+export const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
   state?.wishlist?.items || {};
 
 export const selectWishlistItems = createSelector(

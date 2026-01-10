@@ -26,6 +26,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
   const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const available = item.status === "available";
 
   const {
     isInCart,
@@ -80,7 +81,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
                 src={item.imgSource}
                 alt={item.name}
                 fill
-                className="object-contain transition-transform duration-200 group-hover:scale-105"
+                className={`object-contain transition-transform duration-200 group-hover:scale-105 ${available ? "" : "grayscale contrast-75"}`}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 onError={() => setImageError(true)}
                 priority={priority}
@@ -118,6 +119,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
           <div className="mt-4 w-fit ml-auto">
             <ProductActions
               itemName={item.name}
+              available={item.status === "available"}
               quantity={quantity}
               isInCart={isInCart}
               isAdding={isAdding}

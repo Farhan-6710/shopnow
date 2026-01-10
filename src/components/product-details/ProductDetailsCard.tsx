@@ -62,6 +62,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
           <div className="w-full md:w-1/3 md:mb-4 flex justify-center">
             <ProductImage
               imgSource={item.imgSource}
+              available={item.status === "available"}
               alt={item.name}
               priority={true}
             />
@@ -101,6 +102,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
             <div className="flex flex-row justify-center items-center mt-4 gap-2 w-full">
               <ProductActions
                 itemName={item.name}
+                available={item.status === "available"}
                 quantity={quantity}
                 isInCart={isInCart}
                 isAdding={isAdding}

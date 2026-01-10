@@ -438,6 +438,7 @@ input[type="password"] {
   display: inline-block;
   width: 54px;
   height: 29px;
+  border-radius: 50%;
 }
 
 .switch input {
@@ -539,7 +540,7 @@ input[type="password"] {
 }
 
 .input:checked + .slider:before {
-  background-color: var(--secondary);
+  background-color: var(--secondary-foreground);
   transform: translateX(25px);
 }
 

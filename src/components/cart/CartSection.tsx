@@ -7,6 +7,7 @@ import {
   selectCurrency,
   clearCartRequest,
   selectCartItems,
+  selectCartItemsDict,
 } from "@/redux/slices/cartSlice";
 import { useCartCoupon } from "@/hooks/useCartCoupon";
 import CartHeader from "./CartHeader";
@@ -18,6 +19,7 @@ import CartSectionSkeleton from "../skeletons/CartSectionSkeleton";
 const CartSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
+  const cartItemsDict = useSelector(selectCartItemsDict);
   const currency = useSelector(selectCurrency);
   const isEmpty = cartItems.length === 0;
   const [isLoading, setIsLoading] = useState(true);
@@ -58,7 +60,7 @@ const CartSection: React.FC = () => {
   const total = subtotal - discount + deliveryCharge;
 
   const handleClearCart = () => {
-    dispatch(clearCartRequest());
+    dispatch(clearCartRequest(cartItemsDict));
   };
 
   // Show skeleton during loading

@@ -7,6 +7,7 @@ import ConfirmationModal from "@/components/modals/ConfirmationModal";
 
 interface ProductActionsProps {
   itemName: string;
+  available: boolean;
   quantity: number;
   isInCart: boolean;
   isAdding: boolean;
@@ -21,6 +22,7 @@ interface ProductActionsProps {
 
 const ProductActions = ({
   itemName,
+  available,
   quantity,
   isInCart,
   isAdding,
@@ -47,17 +49,25 @@ const ProductActions = ({
     setShowDeleteModal(false);
   };
 
+  console.log("status", status);
+
   return (
     <>
       <div className="flex items-center justify-center gap-2">
         {!isInCart || isAdding ? (
           <Button
             onClick={onAddToCart}
-            disabled={isAdding || isRemoving || isUpdating}
+            disabled={isAdding || isRemoving || isUpdating || !available}
             className="min-w-30 rounded-lg text-[14px] bg-primary text-primary-foreground transition-all duration-200"
             aria-label={`Add ${itemName} to cart`}
           >
-            {isAdding ? <Spinner className="size-4" /> : "Add to Cart"}
+            {!available ? (
+              "Out of Stock"
+            ) : isAdding ? (
+              <Spinner className="size-4" />
+            ) : (
+              "Add to Cart"
+            )}
           </Button>
         ) : (
           <>
