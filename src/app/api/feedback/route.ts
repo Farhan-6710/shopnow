@@ -27,16 +27,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { error } = await supabase.from("feedbacks").insert({
+    // Convert rating string to integer
+    const ratingMap: Record<string, number> = {
+      excellent: 5,
+      good: 4,
+      average: 3,
+      poor: 2,
+      "very-poor": 1,
+    };
+
+    const numericRating = ratingMap[rating] || 3; // Default to 3 if invalid
+
+    const { data, error } = await supabase.from("feedbacks").insert({
       user_id: user.id,
       topic,
-      rating,
+      rating: numericRating,
       message,
     });
 
     if (error) {
       console.error("Error inserting feedback:", error);
-      throw error;
+      return NextResponse.json(
+        { success: false, error: error.message || "Database error" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ success: true });

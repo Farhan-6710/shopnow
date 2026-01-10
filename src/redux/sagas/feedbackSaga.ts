@@ -7,7 +7,7 @@ import {
   SubmitFeedbackPayload,
 } from "@/redux/slices/feedbackSlice";
 import { showToast } from "@/config/ToastConfig";
-import { timeout } from "@/utils/timeout";
+import { isAuthenticated } from "@/utils/auth";
 
 // API function
 const submitFeedbackApi = async (payload: SubmitFeedbackPayload) => {
@@ -28,8 +28,18 @@ const submitFeedbackApi = async (payload: SubmitFeedbackPayload) => {
 // Worker Saga
 function* submitFeedbackSaga(action: PayloadAction<SubmitFeedbackPayload>) {
   try {
-    // Wait for 400ms using the utility
-    yield call(timeout, 400);
+    // Check if user is authenticated
+    const isAuth: boolean = yield call(isAuthenticated);
+
+    if (!isAuth) {
+      yield put(submitFeedbackFailure("Authentication required"));
+      showToast({
+        type: "error",
+        title: "Login Required",
+        description: "Please login to submit feedback.",
+      });
+      return;
+    }
 
     yield call(submitFeedbackApi, action.payload);
     yield put(submitFeedbackSuccess());
