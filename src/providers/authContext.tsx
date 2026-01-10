@@ -3,8 +3,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { User, Session, AuthChangeEvent } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
-import { clearCartSuccess } from "@/redux/slices/cartSlice";
-import { clearWishlistSuccess } from "@/redux/slices/wishlistSlice";
+import { clearCartLocal } from "@/redux/slices/cartSlice";
+import { clearWishlistLocal } from "@/redux/slices/wishlistSlice";
 import { useDispatch } from "react-redux";
 
 interface AuthContextType {
@@ -97,12 +97,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
 
-    // Clear cart and wishlist to prevent data leakage between accounts
-    // This clears BOTH localStorage AND Redux store in memory
+    // Clear cart and wishlist locally (no API call) to prevent data leakage between accounts
     if (typeof window !== "undefined") {
-      // Clear Redux store in memory
-      dispatch(clearCartSuccess());
-      dispatch(clearWishlistSuccess());
+      // Clear Redux store in memory (local only - no API call)
+      dispatch(clearCartLocal());
+      dispatch(clearWishlistLocal());
 
       // Clear persisted data from localStorage
       localStorage.removeItem("persist:root");

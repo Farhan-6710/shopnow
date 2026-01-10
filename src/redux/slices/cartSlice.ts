@@ -183,6 +183,14 @@ const cartSlice = createSlice({
       state.error = action.payload.error;
     },
 
+    // ========== Clear Cart Local (Logout) ==========
+    clearCartLocal(state) {
+      // Local-only clear for logout - doesn't trigger saga/API call
+      state.items = {};
+      state.removedItems = {};
+      state.error = null;
+    },
+
     // ========== Currency ==========
     setCurrency(state, action: PayloadAction<Currency>) {
       state.currency = action.payload;
@@ -210,6 +218,7 @@ export const {
   clearCartRequest,
   clearCartSuccess,
   clearCartFailure,
+  clearCartLocal,
   setCurrency,
 } = cartSlice.actions;
 

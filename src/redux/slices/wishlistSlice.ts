@@ -164,6 +164,14 @@ const wishlistSlice = createSlice({
       state.items = action.payload.previousItems;
       state.error = action.payload.error;
     },
+
+    // ========== Clear Wishlist Local (Logout) ==========
+    clearWishlistLocal(state) {
+      // Local-only clear for logout - doesn't trigger saga/API call
+      state.items = {};
+      state.removedItems = {};
+      state.error = null;
+    },
   },
 });
 
@@ -187,6 +195,7 @@ export const {
   clearWishlistRequest,
   clearWishlistSuccess,
   clearWishlistFailure,
+  clearWishlistLocal,
 } = wishlistSlice.actions;
 
 // ========== Selectors ==========
