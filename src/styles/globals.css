@@ -431,17 +431,13 @@ input[type="password"] {
   color: var(--bg-color-dark) !important;
 }
 
+/* Theme Toggle Switch */
 .switch {
   font-size: 17px;
+  position: relative;
   display: inline-block;
-  width: 64px;
-  height: 34px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  position: relative; /* Ensure that the switch elements position correctly within the label */
+  width: 54px;
+  height: 29px;
 }
 
 .switch input {
@@ -457,44 +453,43 @@ input[type="password"] {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--background);
-  transition: 0.4s;
+  background-color: var(--primary);
+  transition: background-color 0.4s ease;
   border-radius: 30px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  border-radius: 20px;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
   left: 4px;
   bottom: 4px;
   z-index: 2;
   background-color: var(--background);
-  border: 1px solid var(--border);
-  transition-duration: 0.4s;
-  transition: background-color 250ms, border-color 250ms,
-    transform 500ms cubic-bezier(0.26, 2, 0.46, 0.71);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 500ms cubic-bezier(0.26, 2, 0.46, 0.71) !important;
 }
 
 .sun svg {
   position: absolute;
-  top: 6px;
-  left: 36px;
+  top: 3px;
+  left: 29px;
   z-index: 1;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  fill: var(--secondary-foreground);
 }
 
 .moon svg {
-  fill: #73c0fc;
+  fill: var(--primary);
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 4px;
+  left: 4px;
   z-index: 1;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 /* .switch:hover */
@@ -536,15 +531,16 @@ input[type="password"] {
 }
 
 .input:checked + .slider {
-  background-color: var(--card);
+  background-color: var(--muted);
 }
 
-.input + .slider {
-  box-shadow: 0 0 15px rgba(53, 53, 53, 0.322);
+.input:focus + .slider {
+  box-shadow: 0 0 1px var(--ring);
 }
 
 .input:checked + .slider:before {
-  transform: translateX(30px);
+  background-color: var(--secondary);
+  transform: translateX(25px);
 }
 
 /* globals.css */
