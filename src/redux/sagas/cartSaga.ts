@@ -72,7 +72,10 @@ function* addToCartSaga(action: PayloadAction<Product>) {
     yield put(addToCartSuccess({ productId: product.id }));
   } catch {
     yield put(addToCartFailure({ product, previousQuantity }));
-    showErrorToast("Add to Cart Failed", "Unable to add item to cart.");
+    showErrorToast(
+      "Failed to Add Item",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -98,7 +101,10 @@ function* removeFromCartSaga(
     if (removedItem) {
       yield put(removeFromCartFailure(removedItem));
     }
-    showErrorToast("Remove Item Failed", "Unable to remove item from cart.");
+    showErrorToast(
+      "Failed to Remove Item",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -126,7 +132,10 @@ function* updateQuantitySaga(
     if (previousQuantity !== undefined) {
       yield put(updateQuantityFailure({ productId, previousQuantity }));
     }
-    showErrorToast("Update Failed", "Unable to update item quantity.");
+    showErrorToast(
+      "Failed to Update Quantity",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -169,7 +178,10 @@ function* syncCartSaga() {
       error instanceof Error ? error.message : "Failed to sync cart";
     yield put(syncCartFailure(message));
     yield call(fetchCartSaga);
-    showErrorToast("Cart Sync Failed", "Unable to sync your cart.");
+    showErrorToast(
+      "Failed to Sync Cart",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -192,12 +204,18 @@ function* clearCartSaga(
     }
 
     yield put(clearCartSuccess());
-    showSuccessToast("Cart Cleared", "All items removed from your cart.");
+    showSuccessToast(
+      "Cart Cleared",
+      "All items have been removed from your cart."
+    );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to clear cart";
     yield put(clearCartFailure({ error: message, previousItems }));
-    showErrorToast("Clear Cart Failed", "Unable to clear your cart.");
+    showErrorToast(
+      "Failed to Clear Cart",
+      "Please check your network connection and retry."
+    );
   }
 }
 

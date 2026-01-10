@@ -67,7 +67,10 @@ function* addToWishlistSaga(action: PayloadAction<Product>) {
     yield put(addToWishlistSuccess({ productId: product.id }));
   } catch {
     yield put(addToWishlistFailure(product));
-    showErrorToast("Add to Wishlist Failed", "Unable to add item to wishlist.");
+    showErrorToast(
+      "Failed to Add to Wishlist",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -94,8 +97,8 @@ function* removeFromWishlistSaga(
       yield put(removeFromWishlistFailure(removedItem));
     }
     showErrorToast(
-      "Remove Item Failed",
-      "Unable to remove item from wishlist."
+      "Failed to Remove Item",
+      "Please check your network connection and retry."
     );
   }
 }
@@ -139,7 +142,10 @@ function* toggleWishlistSaga(action: PayloadAction<Product>) {
     }
   } catch {
     yield put(toggleWishlistFailure({ product, wasInWishlist }));
-    showErrorToast("Update Wishlist Failed", "Unable to update your wishlist.");
+    showErrorToast(
+      "Failed to Update Wishlist",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -181,7 +187,10 @@ function* syncWishlistSaga() {
       error instanceof Error ? error.message : "Failed to sync wishlist";
     yield put(wishlistSyncFailure(message));
     yield call(fetchWishlistSaga);
-    showErrorToast("Wishlist Sync Failed", "Unable to sync your wishlist.");
+    showErrorToast(
+      "Failed to Sync Wishlist",
+      "Please check your network connection and retry."
+    );
   }
 }
 
@@ -206,13 +215,16 @@ function* clearWishlistSaga(
     yield put(clearWishlistSuccess());
     showSuccessToast(
       "Wishlist Cleared",
-      "All items removed from your wishlist."
+      "All items have been removed from your wishlist."
     );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to clear wishlist";
     yield put(clearWishlistFailure({ error: message, previousItems }));
-    showErrorToast("Clear Wishlist Failed", "Unable to clear your wishlist.");
+    showErrorToast(
+      "Failed to Clear Wishlist",
+      "Please check your network connection and retry."
+    );
   }
 }
 
