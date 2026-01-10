@@ -63,6 +63,7 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
       <div className="flex flex-col xs:flex-row items-center xs:space-x-4 xs:w-auto mt-4 xs:mt-0">
         <ProductActions
           itemName={item.name}
+          available={item.status === "available"}
           quantity={quantity}
           isInCart={isInCart}
           isAdding={isAdding}
