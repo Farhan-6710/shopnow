@@ -24,7 +24,7 @@ const CartSection: React.FC = () => {
   const isEmpty = cartItems.length === 0;
   const [isLoading, setIsLoading] = useState(true);
 
-  // Show skeleton for 500ms on mount
+  // Show skeleton for 300ms on mount
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
