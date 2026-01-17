@@ -10,6 +10,7 @@ interface AiAssistantFooterProps {
   inputValue: string;
   isLoading: boolean;
   messages: Message[];
+  setLocalMessages: (messages: Message[]) => void;
   placeholder: string;
   inputRef: React.RefObject<HTMLInputElement | null> | null;
   onInputChange: (value: string) => void;
@@ -20,6 +21,7 @@ const AiAssistantFooter: React.FC<AiAssistantFooterProps> = ({
   inputValue,
   isLoading,
   messages,
+  setLocalMessages,
   placeholder,
   inputRef,
   onInputChange,
@@ -48,7 +50,7 @@ const AiAssistantFooter: React.FC<AiAssistantFooterProps> = ({
       </form>
 
       {/* Action Buttons - Only show when there are messages */}
-      {messages.length > 0 && <AiAssistantActionButtons />}
+      {messages.length > 0 && <AiAssistantActionButtons setLocalMessages={setLocalMessages} />}
     </div>
   );
 };

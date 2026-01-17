@@ -7,6 +7,7 @@ import { ThemeProvider } from "./ThemeProvider";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { AuthProvider } from "@/providers/authContext";
 import { DataSyncProvider } from "./DataSyncProvider";
+import { WindowOpener } from "@/components/home/WindowOpener";
 
 export default function ReduxProvider({
   children,
@@ -23,7 +24,9 @@ export default function ReduxProvider({
             disableTransitionOnChange
           >
             <AuthProvider>
-              <DataSyncProvider>{children}</DataSyncProvider>
+              <DataSyncProvider>
+                <WindowOpener>{children}</WindowOpener>
+              </DataSyncProvider>
             </AuthProvider>
           </ThemeProvider>
         </ReactQueryProvider>

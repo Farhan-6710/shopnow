@@ -8,12 +8,18 @@ import AiAssistantFeedback from "./AiAssistantFeedback";
 import { useDispatch } from "react-redux";
 import { clearChat } from "@/redux/slices/chatSlice";
 import { AppDispatch } from "@/redux/store";
+import { Message } from "@/hooks/useAiAssistant";
 
-const AiAssistantActionButtons: React.FC = () => {
+interface AiAssistantActionButtonsProps {
+  setLocalMessages: (messages: Message[]) => void;
+}
+
+const AiAssistantActionButtons: React.FC<AiAssistantActionButtonsProps> = ({setLocalMessages}) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
 
   const handleClearChat = () => {
+    setLocalMessages([]);
     dispatch(clearChat());
     setIsClearModalOpen(false);
   };

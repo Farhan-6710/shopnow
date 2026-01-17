@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const FooterTwo: React.FC = () => {
   return (
-    <footer className="text-foreground py-6 border-t transition-colors duration-200">
+    <footer className="bg-background text-foreground py-6 border-t transition-colors duration-200">
       <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 space-y-4 sm:space-y-0">
         {/* Left Column: Copyright Text */}
         <div className="text-sm">

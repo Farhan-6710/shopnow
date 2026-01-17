@@ -137,7 +137,7 @@ export const useAiAssistant = ({
               "X-Title": "Shop Now AI Assistant",
             },
             body: JSON.stringify({
-              model: "deepseek/deepseek-chat",
+              model: "xiaomi/mimo-v2-flash:free",
               messages: [
                 ...(context
                   ? [
@@ -208,6 +208,7 @@ export const useAiAssistant = ({
 
   return {
     messages,
+    setLocalMessages,
     inputValue,
     setInputValue,
     isLoading,

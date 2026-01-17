@@ -2,6 +2,7 @@
 
 import React from "react";
 import { BotIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AiAssistantHeaderProps {
   title: string;
@@ -19,11 +20,14 @@ const AiAssistantHeader: React.FC<AiAssistantHeaderProps> = ({
       </div>
       <div>
         <h2 className="text-base font-semibold text-foreground">{title}</h2>
-        <p className="text-xs text-muted-foreground">
-          {isLoading ? "Typing..." : "Active"}
-          {!isLoading && (
-            <span className="ml-1 text-green-500 animate-pulse">●</span>
+        <p
+          className={cn(
+            "text-xs",
+            isLoading ? "text-green-400" : "text-muted-foreground"
           )}
+        >
+          {isLoading ? "Typing" : "Active"}
+          <span className="ml-1 text-green-500 animate-pulse">●</span>
         </p>
       </div>
     </div>

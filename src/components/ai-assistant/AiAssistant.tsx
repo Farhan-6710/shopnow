@@ -29,6 +29,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({
 }) => {
   const {
     messages,
+    setLocalMessages,
     inputValue,
     setInputValue,
     isLoading,
@@ -65,6 +66,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({
         inputValue={inputValue}
         isLoading={isLoading}
         messages={messages}
+        setLocalMessages={setLocalMessages}
         placeholder={placeholder}
         inputRef={inputRef as React.RefObject<HTMLInputElement | null>}
         onInputChange={setInputValue}
