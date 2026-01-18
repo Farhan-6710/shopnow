@@ -40,6 +40,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col pointer-events-none">
+      {/* Upper Shutter - Slides down from top */}
       <motion.div
         initial={{ y: "-100%" }}
         animate={{ y: openShutters ? "-100%" : "0%" }}
@@ -57,6 +58,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
         />
       </motion.div>
 
+      {/* Lower Shutter - Slides up from bottom */}
       <motion.div
         initial={{ y: "100%" }}
         animate={{ y: openShutters ? "100%" : "0%" }}
@@ -67,8 +69,10 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
         className="relative flex-1 bg-background w-full border-t border-border"
       />
 
+      {/* Logo and Line - Show immediately when shutters close and delay complete, animate out after navigation */}
       {!isFinished && !isNavigating && (
         <div className="absolute inset-0 flex items-center justify-center z-50">
+          {/* Horizontal Line - Expands left and right */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: "100vw", opacity: 0 }}
@@ -83,6 +87,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
             className="absolute h-[2px] bg-foreground"
           />
 
+          {/* Logo - Scales and rotates in, then scales out */}
           <motion.div
             initial={{ scale: 0, opacity: 0, rotate: -25 }}
             animate={{ scale: 1, opacity: 1, rotate: 0 }}

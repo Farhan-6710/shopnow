@@ -27,7 +27,7 @@ export const NAVIGATION_WINDOW_ANIMATION = {
   CLEANUP_DELAY_MS: 2000,
 
   // Navigation trigger
-  ROUTER_PUSH_DELAY_MS: 280, // Matches shutter duration + buffer (Was 550)
+  ROUTER_PUSH_DELAY_MS: 300, // Matches shutter duration + buffer (Was 550)
 
   SHUTTER: {
     DURATION: 0.4,
