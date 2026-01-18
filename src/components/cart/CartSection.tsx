@@ -8,6 +8,7 @@ import {
   clearCartRequest,
   selectCartItems,
   selectCartItemsDict,
+  selectCartSyncing,
 } from "@/redux/slices/cartSlice";
 import { useCartCoupon } from "@/hooks/useCartCoupon";
 import CartHeader from "./CartHeader";
@@ -22,6 +23,7 @@ const CartSection: React.FC = () => {
   const cartItemsDict = useSelector(selectCartItemsDict);
   const currency = useSelector(selectCurrency);
   const isEmpty = cartItems.length === 0;
+  const isCartSyncing = useSelector(selectCartSyncing);
   const [isLoading, setIsLoading] = useState(true);
 
   // Show skeleton for 300ms on mount
@@ -64,7 +66,7 @@ const CartSection: React.FC = () => {
   };
 
   // Show skeleton during loading
-  if (isLoading) {
+  if (isLoading || isCartSyncing) {
     return <CartSectionSkeleton />;
   }
 

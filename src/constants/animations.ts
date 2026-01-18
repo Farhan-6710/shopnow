@@ -5,7 +5,7 @@ export const WINDOW_OPENER_ANIMATION = {
   SHUTTER: {
     DURATION: 0.8,
     DELAY: 1.0,
-    EASE: [0.76, 0, 0.24, 1],
+    EASE: [0.76, 0, 0.24, 1] as const,
   },
 
   LINE: {
@@ -31,7 +31,7 @@ export const NAVIGATION_WINDOW_ANIMATION = {
 
   SHUTTER: {
     DURATION: 0.4,
-    EASE: [0.76, 0, 0.24, 1],
+    EASE: [0.76, 0, 0.24, 1] as const,
   },
 
   LINE: {

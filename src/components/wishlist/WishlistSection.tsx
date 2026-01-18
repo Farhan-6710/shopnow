@@ -11,12 +11,14 @@ import WishlistEmpty from "./WishlistEmpty";
 import WishlistItemList from "./WishlistItemList";
 import WishlistHeader from "./WishlistHeader";
 import WishlistSkeleton from "../skeletons/WishlistSkeleton";
+import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
 
 const WishlistSection: React.FC = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector(selectWishlistItems);
   const wishlistItemsDict = useSelector(selectWishlistItemsDict);
   const isEmpty = wishlistItems.length === 0;
+  const isWishlistSyncing = useSelector(selectWishlistSyncing);
   const [isLoading, setIsLoading] = useState(true);
 
   // Show skeleton for 300ms on mount
@@ -33,7 +35,7 @@ const WishlistSection: React.FC = () => {
   };
 
   // Show skeleton during loading
-  if (isLoading) {
+  if (isLoading || isWishlistSyncing) {
     return <WishlistSkeleton />;
   }
 
