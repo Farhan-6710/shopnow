@@ -46,10 +46,7 @@ const ProductActions = ({
 
   const handleConfirmRemove = () => {
     onRemove();
-    setShowDeleteModal(false);
   };
-
-  console.log("status", status);
 
   return (
     <>

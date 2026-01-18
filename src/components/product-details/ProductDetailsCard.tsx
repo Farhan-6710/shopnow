@@ -1,6 +1,6 @@
 "use client"; // Ensures this component is rendered on the client side
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import ProductImage from "../shared/ProductImage";
 import ProductActions from "../shared/ProductActions";
 import Rating from "../home/products-grid/Rating";
@@ -8,8 +8,6 @@ import { Button } from "../ui/button";
 import { TransitionLink } from "@/components/shared/TransitionLink";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
-import ConfirmationModal from "../modals/ConfirmationModal";
-import { Trash2 } from "lucide-react";
 import WishlistToggle from "../shared/WishlistToggle";
 import { getProductTags } from "@/utils/products/products";
 import { useTheme } from "next-themes";
@@ -21,7 +19,6 @@ interface ProductDetailsCardProps {
 }
 
 const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const {
@@ -50,8 +47,6 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
     }
     return price.toFixed(2); // Return price formatted to two decimal places
   };
-
-  console.log(item);
 
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
@@ -109,7 +104,7 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
                 isRemoving={isRemoving}
                 isUpdating={isUpdating}
                 onAddToCart={handleAddToCart}
-                onRemove={() => setIsModalVisible(true)}
+                onRemove={handleRemoveFromCart}
                 onIncrement={handleIncrementQuantity}
                 onDecrement={handleDecrementQuantity}
               />
@@ -120,17 +115,6 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
           </div>
         </div>
       </div>
-      <ConfirmationModal
-        open={isModalVisible}
-        onOpenChange={setIsModalVisible}
-        title="Remove Item"
-        description={`Are you sure you want to remove "${item.name}" from your cart?`}
-        icon={Trash2}
-        confirmLabel="Remove"
-        cancelLabel="Cancel"
-        onConfirm={handleRemoveFromCart}
-        onCancel={() => setIsModalVisible(false)}
-      />
     </div>
   );
 };

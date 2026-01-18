@@ -44,7 +44,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
   const handleRemove = () => {
     // Dispatch optimistic update with item metadata for potential rollback
     dispatch(removeFromWishlistRequest(item.id, { removedItem: item }));
-    setShowDeleteModal(false);
     showToast({
       type: "success",
       title: "Removed from Wishlist",
