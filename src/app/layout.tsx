@@ -17,11 +17,11 @@ const convergence = Convergence({
 
 export const metadata: Metadata = {
   title: {
-    default: "ShopNow",
+    default: "ShopNow | Premium Branded Shoes",
     template: "%s | SHOPNOW",
   },
   description:
-    "Discover an extensive selection of branded clothing, bags, shoes, accessories, and more. Shop the latest fashion trends with exceptional customer service at SHOPNOW.",
+    "Discover an extensive selection of branded shoes. Shop the latest fashion trends with exceptional customer service at ShopNow.",
   keywords: [
     "branded clothing",
     "fashion",
@@ -31,18 +31,18 @@ export const metadata: Metadata = {
     "accessories",
     "t-shirts",
   ],
-  authors: [{ name: "SHOPNOW" }],
+  authors: [{ name: "ShopNow" }],
   icons: {
     icon: "/images/favicon.ico",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://shopping-cart-frontend-next-js-13.vercel.app/",
-    siteName: "SHOPNOW",
-    title: "SHOPNOW - Premium Branded Fashion Online",
+    url: "https://shopnow-lilac.vercel.app/",
+    siteName: "ShopNow",
+    title: "ShopNow | Premium Branded Shoes",
     description:
-      "Discover an extensive selection of branded clothing, bags, shoes, accessories, and more.",
+      "Discover an extensive selection of branded shoes. Shop the latest fashion trends with exceptional customer service at ShopNow.",
   },
 };
 
