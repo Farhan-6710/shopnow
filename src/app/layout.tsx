@@ -17,7 +17,7 @@ const convergence = Convergence({
 
 export const metadata: Metadata = {
   title: {
-    default: "SHOPNOW - Premium Branded Fashion Online",
+    default: "ShopNow",
     template: "%s | SHOPNOW",
   },
   description:
