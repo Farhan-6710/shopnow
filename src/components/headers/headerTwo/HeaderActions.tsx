@@ -7,7 +7,7 @@ import Sheet from "@/components/shared/Sheet";
 import { useProductsQuery } from "@/hooks/useProductsQuery";
 import { useTheme } from "next-themes";
 import { showToast } from "@/config/ToastConfig";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import dynamic from "next/dynamic";
 import AiAssistantSkeleton from "@/components/skeletons/AiAssistantSkeleton";
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { selectCartSyncing } from "@/redux";
 import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
 import { Spinner } from "@/components/ui/spinner";
+import { useNavigation } from "@/providers/NavigationProvider";
 
 const AiAssistant = dynamic(
   () => import("@/components/ai-assistant/AiAssistant"),
@@ -42,7 +43,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
   const { setTheme, theme } = useTheme();
 
   const pathname = usePathname();
-  const router = useRouter();
+  const { transitionTo } = useNavigation();
 
   /* ---------------- Generic route handler ---------------- */
   const handleRouteClick = (route: { PATHNAME: string; LABEL: string }) => {
@@ -54,7 +55,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
       return;
     }
 
-    router.push(route.PATHNAME);
+    transitionTo(route.PATHNAME);
   };
 
   return (

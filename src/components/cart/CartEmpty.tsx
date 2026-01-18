@@ -3,7 +3,7 @@
 import React from "react";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 
 const CartEmpty: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const CartEmpty: React.FC = () => {
         shopping journey.
       </p>
       <Button asChild>
-        <Link href="/">Continue Shopping</Link>
+        <TransitionLink href="/">Continue Shopping</TransitionLink>
       </Button>
     </div>
   );

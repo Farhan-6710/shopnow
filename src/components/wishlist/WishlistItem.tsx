@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 import { useDispatch } from "react-redux";
 import { ShoppingCart, Trash2, X } from "lucide-react";
 import { Product } from "@/types/product";
@@ -70,7 +70,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
         </button>
 
         {/* Product Image */}
-        <Link
+        <TransitionLink
           href={`/products/${encodeURIComponent(item.name)}`}
           className="flex items-center justify-center py-4 bg-background border-b"
           aria-label={`View details for ${item.name}`}
@@ -81,7 +81,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
                 src={item.imgSource}
                 alt={item.name}
                 fill
-                className={`object-contain transition-transform duration-200 group-hover:scale-105 ${available ? "" : "grayscale contrast-75"}`}
+                className={`object-contain transition-transform duration-200 group-hover:scale-105 ${
+                  available ? "" : "grayscale contrast-75"
+                }`}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 onError={() => setImageError(true)}
                 priority={priority}
@@ -92,18 +94,18 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
               </div>
             )}
           </div>
-        </Link>
+        </TransitionLink>
 
         {/* Product Details */}
         <div className="p-4">
-          <Link
+          <TransitionLink
             href={`/products/${encodeURIComponent(item.name)}`}
             aria-label={`View details for ${item.name}`}
           >
             <h2 className="font-medium text-foreground line-clamp-1 hover:text-primary transition-colors">
               {item.name}
             </h2>
-          </Link>
+          </TransitionLink>
           {item.brand && (
             <p className="text-xs text-muted-foreground mt-0.5">{item.brand}</p>
           )}

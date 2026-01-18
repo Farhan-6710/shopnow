@@ -3,7 +3,7 @@
 import React from "react";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 
 const WishlistEmpty: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const WishlistEmpty: React.FC = () => {
         They&apos;ll appear here for easy access later.
       </p>
       <Button asChild>
-        <Link href="/">Browse Products</Link>
+        <TransitionLink href="/">Browse Products</TransitionLink>
       </Button>
     </div>
   );

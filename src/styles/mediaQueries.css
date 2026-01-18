@@ -5,7 +5,7 @@
    =================================== */
 .header-placeholder {
   height: 112px; /* Mobile header height */
-  background-color: ;
+  background-color: var(--color-background);
 }
 
 .logo-image {

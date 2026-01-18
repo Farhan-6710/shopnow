@@ -1,13 +1,16 @@
 import React from "react";
 import { Heart } from "lucide-react";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 
 interface WishlistIconProps {
   wishlistCount: number;
 }
 
 const WishlistIcon: React.FC<WishlistIconProps> = ({ wishlistCount }) => (
-  <Link href="/wishlist" aria-label={`Wishlist with ${wishlistCount} items`}>
+  <TransitionLink
+    href="/wishlist"
+    aria-label={`Wishlist with ${wishlistCount} items`}
+  >
     <Heart
       className="text-primary dark:text-gray-200 transition-all duration-200"
       size={20}
@@ -22,7 +25,7 @@ const WishlistIcon: React.FC<WishlistIconProps> = ({ wishlistCount }) => (
         {wishlistCount}
       </span>
     )}
-  </Link>
+  </TransitionLink>
 );
 
 export default WishlistIcon;

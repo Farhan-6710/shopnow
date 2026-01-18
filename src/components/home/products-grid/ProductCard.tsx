@@ -4,7 +4,7 @@ import React, { memo, useMemo } from "react";
 import ProductDetails from "../../product-details/ProductDetails";
 import ProductActions from "../../shared/ProductActions";
 import { useTheme } from "next-themes";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import { motion } from "framer-motion";
@@ -25,16 +25,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
-  (
-    {
-      index = 0,
-      item,
-      itemsPerRow = 5,
-      style,
-      priority = false,
-    },
-    ref
-  ) => {
+  ({ index = 0, item, itemsPerRow = 5, style, priority = false }, ref) => {
     const { theme } = useTheme();
 
     // Calculate relative position within the current row for stagger animation
@@ -98,7 +89,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
             </div>
           )}
 
-          <Link
+          <TransitionLink
             href={`/products/${encodeURIComponent(item.name)}`}
             className="group flex flex-col items-center"
             aria-label={`View details for ${item.name}`}
@@ -117,7 +108,7 @@ const ProductCard = React.forwardRef<HTMLElement, ProductCardProps>(
               displayPrice={displayPrice}
               rating={item.rating ?? 0}
             />
-          </Link>
+          </TransitionLink>
 
           {/* ✅ This WILL re-render (expected) */}
           <div className="mt-4">

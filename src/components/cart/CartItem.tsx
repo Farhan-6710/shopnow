@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { CartItem as CartItemType } from "@/types/cartItems";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import ProductActions from "../shared/ProductActions";
 
@@ -30,7 +30,7 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
         length > 1 && index === 0 ? "border-t border-x" : "border"
       }`}
     >
-      <Link
+      <TransitionLink
         href={`/products/${encodeURIComponent(item.name)}`}
         className="relative flex justify-center items-center w-28 xs:w-24 h-24"
         aria-label={`View details for ${item.name}`}
@@ -45,8 +45,8 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
           className="rounded"
           priority
         />
-      </Link>
-      <Link
+      </TransitionLink>
+      <TransitionLink
         href={`/products/${encodeURIComponent(item.name)}`}
         className="group flex flex-col justify-center items-center xs:items-start w-full xs:w-8/12 xs:pl-4 mt-4 xs:mt-0"
         aria-label={`View ${item.name} details`}
@@ -59,7 +59,7 @@ const CartItem = ({ item, index, length, currency }: CartItemProps) => {
             ? `$${(item.prices.USD * item.quantity).toFixed(2)}`
             : `₹${(item.prices.INR * item.quantity).toFixed(2)}`}
         </p>
-      </Link>
+      </TransitionLink>
       <div className="flex flex-col xs:flex-row items-center xs:space-x-4 xs:w-auto mt-4 xs:mt-0">
         <ProductActions
           itemName={item.name}

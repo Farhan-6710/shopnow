@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Product } from "@/types/product";
+import { useNavigation } from "@/providers/NavigationProvider";
 
 export const useSearchProduct = (products: Product[]) => {
-  const router = useRouter();
+  const { transitionTo } = useNavigation();
   const pathname = usePathname();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +29,7 @@ export const useSearchProduct = (products: Product[]) => {
 
   // Navigate to product page
   const selectProduct = (name: string) => {
-    router.push(`/products/${encodeURIComponent(name)}`);
+    transitionTo(`/products/${encodeURIComponent(name)}`);
     setSearchTerm("");
     setOpen(false);
   };

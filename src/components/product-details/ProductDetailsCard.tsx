@@ -5,7 +5,7 @@ import ProductImage from "../shared/ProductImage";
 import ProductActions from "../shared/ProductActions";
 import Rating from "../home/products-grid/Rating";
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { TransitionLink } from "@/components/shared/TransitionLink";
 import { Product } from "@/types/product";
 import { useCartManagement } from "@/hooks/useCartManagement";
 import ConfirmationModal from "../modals/ConfirmationModal";
@@ -113,9 +113,9 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
                 onIncrement={handleIncrementQuantity}
                 onDecrement={handleDecrementQuantity}
               />
-              <Link href="/" className="ml-auto">
+              <TransitionLink href="/" className="ml-auto">
                 <Button variant="outline">Back To Home</Button>
-              </Link>
+              </TransitionLink>
             </div>
           </div>
         </div>

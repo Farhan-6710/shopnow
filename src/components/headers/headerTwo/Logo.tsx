@@ -3,14 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import { Menu } from "lucide-react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useNavigation } from "@/providers/NavigationProvider";
 
 interface LogoProps {
   onMenuClick: () => void;
 }
 
 const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
-  const router = useRouter();
+  const { transitionTo } = useNavigation();
   const pathname = usePathname();
 
   const handleClick = () => {
@@ -19,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       // Otherwise, navigate to the home page
-      router.push("/");
+      transitionTo("/");
     }
   };
 

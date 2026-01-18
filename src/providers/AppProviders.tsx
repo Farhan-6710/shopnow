@@ -8,6 +8,7 @@ import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { AuthProvider } from "@/providers/authContext";
 import { DataSyncProvider } from "./DataSyncProvider";
 import { WindowOpener } from "@/components/home/WindowOpener";
+import NavigationProvider from "./NavigationProvider";
 
 export default function ReduxProvider({
   children,
@@ -25,7 +26,9 @@ export default function ReduxProvider({
           >
             <AuthProvider>
               <DataSyncProvider>
-                <WindowOpener>{children}</WindowOpener>
+                <NavigationProvider>
+                  <WindowOpener>{children}</WindowOpener>
+                </NavigationProvider>
               </DataSyncProvider>
             </AuthProvider>
           </ThemeProvider>
