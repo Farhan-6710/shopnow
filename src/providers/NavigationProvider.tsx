@@ -35,7 +35,6 @@ export default function NavigationProvider({
   children: React.ReactNode;
 }) {
   const [isNavigating, setIsNavigating] = useState(false);
-  const [targetPath, setTargetPath] = useState<string | null>(null);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -45,7 +44,6 @@ export default function NavigationProvider({
       if (url === pathname) return;
 
       setIsNavigating(true);
-      setTargetPath(url);
 
       setTimeout(() => {
         router.push(url);
@@ -55,10 +53,7 @@ export default function NavigationProvider({
   );
 
   useEffect(() => {
-    if (isNavigating) {
-      setIsNavigating(false);
-      setTargetPath(null);
-    }
+    setIsNavigating(false);
   }, [pathname]);
 
   return (
