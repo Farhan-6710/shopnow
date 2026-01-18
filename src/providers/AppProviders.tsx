@@ -27,7 +27,7 @@ export default function ReduxProvider({
             <AuthProvider>
               <DataSyncProvider>
                 <NavigationProvider>
-                  <WindowOpener>{children}</WindowOpener>
+                  {children}
                 </NavigationProvider>
               </DataSyncProvider>
             </AuthProvider>
