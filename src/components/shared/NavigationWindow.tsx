@@ -47,13 +47,13 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
           duration: ANIM.SHUTTER.DURATION,
           ease: ANIM.SHUTTER.EASE,
         }}
-        className="relative flex-1 bg-zinc-950 w-full border-b border-zinc-800"
+        className="relative flex-1 bg-background w-full border-b border-border"
       >
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: openShutters ? 0 : 1 }}
           transition={{ duration: 0.2 }}
-          className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/20"
+          className="absolute bottom-0 left-0 right-0 h-[1px] bg-background/20"
         />
       </motion.div>
 
@@ -64,7 +64,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
           duration: ANIM.SHUTTER.DURATION,
           ease: ANIM.SHUTTER.EASE,
         }}
-        className="relative flex-1 bg-zinc-950 w-full border-t border-zinc-800"
+        className="relative flex-1 bg-background w-full border-t border-border"
       />
 
       {!isFinished && !isNavigating && (
@@ -80,7 +80,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
               },
               opacity: { delay: ANIM.LINE.OPACITY_DELAY, duration: 0.2 },
             }}
-            className="absolute h-[2px] bg-white"
+            className="absolute h-[2px] bg-foreground"
           />
 
           <motion.div
@@ -99,7 +99,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
                 delay: ANIM.LOGO.EXIT_DELAY,
                 duration: ANIM.LOGO.EXIT_DURATION,
               }}
-              className="w-60 h-60 bg-black rounded-full flex items-center justify-center border-4 border-zinc-800 shadow-[0_0_60px_rgba(255,255,255,0.3)]"
+              className="w-60 h-60 bg-background rounded-full flex items-center justify-center border-4 border-border shadow-[0_0_60px_rgba(255,255,255,0.3)]"
             >
               <Image
                 width={1024}
