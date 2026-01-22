@@ -1,3 +1,5 @@
+![ShopNow Banner](./public/images/shopnow-screenshot.png)
+
 # 👟 ShopNow – Full-Stack Shoe Hunt Platform
 
 ShopNow is a **high-performance, frontend-focused full-stack shoe discovery and listing application** designed for real-world shopping flows. Built with a strong emphasis on usability, accessibility, and speed, it leverages **Next.js** for the frontend and API routes, with **Supabase** handling authentication and database management.
@@ -30,7 +32,7 @@ The application is engineered to handle large product datasets efficiently using
   Implemented using a **shadcn Sheet (drawer)**, allowing users to ask product-related questions and receive insights without leaving the current page.
 
 - **Optimistic UI Updates**  
-  Actions like *Add to Cart* and *Add to Wishlist* update the UI instantly using **Redux Toolkit**, while **Redux Saga** handles API calls and side effects in the background.
+  Actions like _Add to Cart_ and _Add to Wishlist_ update the UI instantly using **Redux Toolkit**, while **Redux Saga** handles API calls and side effects in the background.
 
 - **User Feedback System**  
   Non-intrusive **toast notifications** provide clear success and failure feedback for user actions.
@@ -66,6 +68,7 @@ The application is engineered to handle large product datasets efficiently using
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
@@ -73,10 +76,12 @@ The application is engineered to handle large product datasets efficiently using
 - **Icons:** Lucide React
 
 ### State Management & Async Logic
+
 - **Global State:** Redux Toolkit
 - **Side Effects:** Redux Saga (optimistic updates, async flows, error handling)
 
 ### Backend & Database
+
 - **API Layer:** Next.js API Routes
 - **Database:** Supabase (PostgreSQL)
 - **Authentication:** Supabase Auth
@@ -87,7 +92,7 @@ The application is engineered to handle large product datasets efficiently using
 
 ### Optimistic UI with Redux Saga
 
-1. User triggers an action (e.g., *Add to Cart*).
+1. User triggers an action (e.g., _Add to Cart_).
 2. Redux updates the UI immediately.
 3. A Redux Saga handles the API request in the background.
 4. On success, the state is confirmed; on failure, changes are rolled back and an error toast is shown.
@@ -122,22 +127,27 @@ Authentication is handled via modals instead of full-page redirects, allowing us
 ## 🧭 Navigation Structure
 
 ### Header
+
 - Global search bar accessible from all pages
 
 ### Sidebar
+
 - Product filtering controls
 
 ### Routes
+
 - `/products` – Shoe listings
 - `/products/[id]` – Product detail pages
 - `/cart` – Cart
 - `/wishlist` – Wishlist
 
 ### Modals
+
 - Login & Signup
 - User feedback interactions
 
 ### Drawer (Sheet)
+
 - Context-aware AI assistant
 
 ---
@@ -154,5 +164,3 @@ Authentication is handled via modals instead of full-page redirects, allowing us
 ## 🎯 Project Focus
 
 ShopNow is intentionally designed as a **frontend-specialized full-stack application**, prioritizing UI/UX quality, performance optimization, and scalable frontend architecture while keeping backend complexity clean and manageable. The project demonstrates strong proficiency in modern React patterns, real-world state management, and production-ready frontend engineering practices.
-
-
