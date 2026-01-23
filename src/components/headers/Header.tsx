@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, FC, useLayoutEffect } from "react";
 import HeaderOne from "./headerOne/HeaderOne";
 import HeaderTwo from "./headerTwo/HeaderTwo";
 import dynamic from "next/dynamic";
@@ -12,10 +12,27 @@ interface HeaderProps {
   isSidebarOpen: boolean;
   setSidebarOpen: (isOpen: boolean) => void;
 }
-const Header: React.FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
+const Header: FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
+  const headerRef = useRef<HTMLElement | null>(null);
+  const headerPlaceholderRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (!headerRef.current || !headerPlaceholderRef.current) return;
+
+    const headerHeight = headerRef.current.offsetHeight;
+    headerPlaceholderRef.current.style.height = `${headerHeight}px`;
+
+    // Set CSS variable for use in other components
+    document.documentElement.style.setProperty(
+      "--header-height",
+      `${headerHeight}px`,
+    );
+  }, []);
+
   return (
     <>
       <motion.header
+        ref={headerRef}
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
@@ -27,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
         <HeaderOne />
         <HeaderTwo onMenuClick={() => setSidebarOpen(true)} />
       </motion.header>
-      <div className="header-placeholder"></div>
+      <div ref={headerPlaceholderRef}></div>
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
     </>
   );

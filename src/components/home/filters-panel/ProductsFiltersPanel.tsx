@@ -32,7 +32,8 @@ const ProductsFiltersPanel: React.FC<ProductsFiltersPanelProps> = ({
           duration: 0.2,
           ease: "easeOut",
         }}
-        className="w-70 bg-card hidden md:flex md:flex-col sticky-filter-sidebar border-r border-border p-6 pb-6 pt-4 xl:pt-6 h-[calc(100vh-133px)]"
+        style={{ position: "sticky", top: "var(--header-height, 0px)" }}
+        className="w-70 bg-card hidden md:flex md:flex-col border-r border-border p-6 pb-6 pt-4 xl:pt-6 h-[calc(100vh-var(--header-height,0px))]"
         aria-label="Product filters"
       >
         <FiltersSidebarContent {...props} />

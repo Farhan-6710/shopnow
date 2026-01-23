@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Product } from "@/types/product";
 import { useVirtualizedProducts } from "@/hooks/useVirtualizedProducts";
 import { useSelector } from "react-redux";
@@ -41,19 +41,13 @@ const ProductsGrid = ({ products, isLoading, error }: Props) => {
   });
 
   // Measure card height safely
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isBusy || !productCardRef.current || visibleItems.length === 0) return;
 
-    // Wait for layout to complete
-    const timeoutId = setTimeout(() => {
-      if (!productCardRef.current) return;
-      const height = productCardRef.current.offsetHeight;
-      if (height && height > 50) {
-        setCardHeight(height);
-      }
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
+    const height = productCardRef.current.offsetHeight;
+    if (height && height > 50) {
+      setCardHeight(height);
+    }
   }, [isBusy, visibleItems.length]);
 
   // Fake loading on product change (UNCHANGED)

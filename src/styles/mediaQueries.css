@@ -3,11 +3,6 @@
 /* ===================================
    BASE / MOBILE (default, no media query needed)
    =================================== */
-.header-placeholder {
-  height: 112px; /* Mobile header height */
-  background-color: var(--color-background);
-}
-
 .logo-image {
   width: 200px;
   height: auto;
@@ -44,9 +39,6 @@
    TABLET (min-width: 768px)
    =================================== */
 @media (min-width: 768px) {
-  .header-placeholder {
-    height: 112px; /* Tablet/Laptop header height */
-  }
 
   .fixed-container {
     top: 220px;
@@ -63,12 +55,9 @@
    DESKTOP (min-width: 1024px)
    =================================== */
 @media (min-width: 1024px) {
-  .header-placeholder {
-    height: 117px; /* Desktop header height */
-  }
 
   .sticky-filter-sidebar {
-    top: 117px; /* Match desktop header height */
+    top: 118px; /* Match desktop header height */
   }
 
   @keyframes marquee {
