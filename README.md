@@ -192,6 +192,67 @@ Authentication is handled via modals instead of full-page redirects, allowing us
 
 ---
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ or Bun
+- npm/yarn/pnpm/bun
+- Supabase account (for authentication and database)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/shop-now.git
+cd shop-now
+
+# Install dependencies
+npm install
+# or
+bun install
+
+# Set up environment variables
+# Create a .env.local file with:
+# NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Run database migrations (optional)
+bun run seed
+
+# Start development server
+npm run dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Build & Deploy
+
+```bash
+# Production build
+npm run build
+
+# Start production server
+npm run start
+
+# Lint codebase
+npm run lint
+```
+
+---
+
 ## 🎯 Project Focus
 
 ShopNow is intentionally designed as a **frontend-specialized full-stack application**, prioritizing UI/UX quality, performance optimization, and scalable frontend architecture while keeping backend complexity clean and manageable. The project demonstrates strong proficiency in modern React patterns, real-world state management, and production-ready frontend engineering practices.
+
+---
+
+## 📄 License
+
+MIT License – See LICENSE file for details
+
+---
+
+Built with ❤️ using Next.js, React, Redux, and Supabase
