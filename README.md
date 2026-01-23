@@ -106,20 +106,51 @@ Authentication is handled via modals instead of full-page redirects, allowing us
 ## 📂 Project Structure
 
 ```
-├── app/               # Next.js App Router
-│   ├── api/           # Backend API Routes
-│   ├── products/[id]/ # Dynamic Product Details Page
-│   ├── cart/          # Cart Page
-│   ├── wishlist/      # Wishlist Page
-│   ├── layout.tsx     # Root Layout
-│   └── page.tsx       # Home Page
-├── components/        # Reusable UI components
-├── hooks/             # Custom hooks (filters, cart)
-├── redux/             # Redux Toolkit & Sagas
-│   ├── slices/
-│   └── sagas/
-├── lib/               # Utilities & Supabase client
-└── public/            # Static assets
+├── public/                    # Static assets
+│   └── images/                # Image assets & product images
+├── scripts/                   # Database scripts & seed data
+└── src/
+    ├── app/                   # Next.js App Router
+    │   ├── api/               # Backend API Routes
+    │   │   ├── cart/          # Cart API endpoints
+    │   │   ├── feedback/      # Feedback API endpoints
+    │   │   ├── products/      # Products API endpoints
+    │   │   └── wishlist/      # Wishlist API endpoints
+    │   ├── auth/              # Auth pages & callback handler
+    │   ├── cart/              # Cart page
+    │   ├── products/          # Product pages
+    │   │   └── [itemName]/    # Dynamic product detail pages
+    │   └── wishlist/          # Wishlist page
+    ├── components/            # Reusable UI components
+    │   ├── ai-assistant/      # AI assistant components
+    │   ├── auth/              # Authentication components
+    │   ├── cart/              # Cart components
+    │   ├── footers/           # Footer components
+    │   ├── headers/           # Header components
+    │   ├── home/              # Home page components
+    │   ├── modals/            # Modal components
+    │   ├── product-details/   # Product detail components
+    │   ├── shared/            # Shared components
+    │   ├── skeletons/         # Loading skeletons
+    │   ├── ui/                # shadcn UI components
+    │   └── wishlist/          # Wishlist components
+    ├── config/                # App configuration
+    ├── constants/             # App constants (animations, filters, routes)
+    ├── hooks/                 # Custom React hooks
+    ├── lib/                   # Utilities & helpers
+    ├── providers/             # React context providers
+    ├── redux/                 # Redux state management
+    │   ├── cart/              # Cart state
+    │   ├── wishlist/          # Wishlist state
+    │   ├── slices/            # Redux slices
+    │   └── sagas/             # Redux sagas
+    ├── services/              # API service layer
+    ├── styles/                # Global styles
+    ├── types/                 # TypeScript types
+    └── utils/                 # Utility functions
+        ├── products/          # Product utilities
+        ├── redux/             # Redux utilities
+        └── supabase/          # Supabase utilities
 ```
 
 ---
@@ -136,10 +167,10 @@ Authentication is handled via modals instead of full-page redirects, allowing us
 
 ### Routes
 
-- `/products` – Shoe listings
-- `/products/[id]` – Product detail pages
-- `/cart` – Cart
-- `/wishlist` – Wishlist
+- `/` – Home page with product listings
+- `/products/[itemName]` – Dynamic product detail pages
+- `/cart` – Cart management
+- `/wishlist` – Wishlist management
 
 ### Modals
 
