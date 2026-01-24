@@ -4,9 +4,6 @@ import Image from "next/image";
 import { MapPin, Mail, Phone, Linkedin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import HeaderActions from "./HeaderActions";
-import { useSelector } from "react-redux";
-import { selectCartCount } from "@/redux/slices/cartSlice";
-import { selectWishlistCount } from "@/redux/slices/wishlistSlice";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -44,9 +41,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       document.body.style.overflow = "";
     };
   }, [isOpen, onClose]);
-
-  const cartCount = useSelector(selectCartCount);
-  const wishlistCount = useSelector(selectWishlistCount);
 
   return (
     <div>
@@ -119,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </div>
         <hr className="border mb-1" />
         <div className="p-4 px-6">
-          <HeaderActions cartCount={cartCount} wishlistCount={wishlistCount} />
+          <HeaderActions />
         </div>
         <hr className="border mt-1" />
         <div className="flex justify-center space-x-4 p-4">
