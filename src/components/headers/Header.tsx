@@ -1,4 +1,6 @@
-import { useRef, FC, useLayoutEffect } from "react";
+"use client";
+
+import { useRef, useLayoutEffect, useState } from "react";
 import HeaderOne from "./headerOne/HeaderOne";
 import HeaderTwo from "./headerTwo/HeaderTwo";
 import dynamic from "next/dynamic";
@@ -8,11 +10,8 @@ const Sidebar = dynamic(() => import("./headerTwo/Sidebar"), {
 });
 import { motion } from "framer-motion";
 
-interface HeaderProps {
-  isSidebarOpen: boolean;
-  setSidebarOpen: (isOpen: boolean) => void;
-}
-const Header: FC<HeaderProps> = ({ isSidebarOpen, setSidebarOpen }) => {
+const Header = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const headerPlaceholderRef = useRef<HTMLDivElement | null>(null);
 

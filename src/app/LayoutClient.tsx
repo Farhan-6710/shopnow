@@ -14,11 +14,10 @@ export default function LayoutClient({
 }: {
   children: React.ReactNode;
 }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <AppProviders>
-      <Header isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Header />
       <ModeToggle />
       {children}
       <Footer />
