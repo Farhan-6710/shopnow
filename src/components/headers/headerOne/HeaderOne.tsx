@@ -1,19 +1,12 @@
 "use client";
 
-import React from "react";
 import AddressSection from "./AddressSection";
 import Marquee from "./Marquee";
 import Dropdowns from "./Dropdowns";
 import CartIcon from "./CartIcon";
 import WishlistIcon from "./WishlistIcon";
-import { useSelector } from "react-redux";
-import { selectCartCount } from "@/redux/slices/cartSlice";
-import { selectWishlistCount } from "@/redux/slices/wishlistSlice";
 
-const HeaderOne: React.FC = () => {
-  // Get cart count and currency from Redux store
-  const cartCount = useSelector(selectCartCount);
-  const wishlistCount = useSelector(selectWishlistCount);
+const HeaderOne = () => {
   return (
     <header className="bg-card transition-colors duration-200" role="banner">
       <div
@@ -25,10 +18,10 @@ const HeaderOne: React.FC = () => {
         <Dropdowns /> {/* Dropdowns already uses currency from Redux */}
         <div className="flex md:hidden items-center gap-3 mt-1 pl-4">
           <div className="relative">
-            <WishlistIcon wishlistCount={wishlistCount} />
+            <WishlistIcon />
           </div>
           <div className="relative">
-            <CartIcon cartCount={cartCount} />
+            <CartIcon />
           </div>
         </div>
       </div>

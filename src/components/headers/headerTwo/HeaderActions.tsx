@@ -13,27 +13,25 @@ import dynamic from "next/dynamic";
 import AiAssistantSkeleton from "@/components/skeletons/AiAssistantSkeleton";
 import { useSelector } from "react-redux";
 import { selectCartSyncing } from "@/redux";
-import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
+import {
+  selectWishlistCount,
+  selectWishlistSyncing,
+} from "@/redux/wishlist/wishlistSlice";
 import { Spinner } from "@/components/ui/spinner";
 import { useNavigation } from "@/providers/NavigationProvider";
+import { selectCartCount } from "@/redux/cart/cartSlice";
 
 const AiAssistant = dynamic(
   () => import("@/components/ai-assistant/AiAssistant"),
   {
     ssr: false,
     loading: () => <AiAssistantSkeleton />,
-  }
+  },
 );
 
-interface HeaderActionsProps {
-  cartCount: number;
-  wishlistCount: number;
-}
-
-const HeaderActions: React.FC<HeaderActionsProps> = ({
-  cartCount,
-  wishlistCount,
-}) => {
+const HeaderActions = () => {
+  const cartCount = useSelector(selectCartCount);
+  const wishlistCount = useSelector(selectWishlistCount);
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
 
   const isCartSyncing = useSelector(selectCartSyncing);

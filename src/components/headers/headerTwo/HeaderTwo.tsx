@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectCartCount } from "@/redux/slices/cartSlice";
-import { selectWishlistCount } from "@/redux/slices/wishlistSlice";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import HeaderActions from "./HeaderActions";
@@ -15,8 +12,6 @@ interface HeaderTwoProps {
 
 const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
   const { products } = useProductsQuery();
-  const cartCount = useSelector(selectCartCount);
-  const wishlistCount = useSelector(selectWishlistCount);
 
   return (
     <header
@@ -42,8 +37,6 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
           {/* Cart, Wishlist & AI - Right - Hidden on Mobile/Tablet */}
           <div className="hidden md:flex shrink-0">
             <HeaderActions
-              cartCount={cartCount}
-              wishlistCount={wishlistCount}
             />
           </div>
         </div>
