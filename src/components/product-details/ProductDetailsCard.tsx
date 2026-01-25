@@ -1,7 +1,6 @@
 "use client"; // Ensures this component is rendered on the client side
 
 import React, { useMemo } from "react";
-import ProductImage from "../shared/ProductImage";
 import ProductActions from "../shared/ProductActions";
 import Rating from "../home/products-grid/Rating";
 import { Button } from "../ui/button";
@@ -11,6 +10,7 @@ import { useCartManagement } from "@/hooks/useCartManagement";
 import WishlistToggle from "../shared/WishlistToggle";
 import { getProductTags } from "@/utils/products/products";
 import { useTheme } from "next-themes";
+import ProductDetailsCarousel from "./ProductDetailsCarousel";
 
 interface ProductDetailsCardProps {
   item: Product;
@@ -49,52 +49,54 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
   };
 
   return (
-    <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
-      <div className="relative product-card group transition-all duration-200 bg-card border w-full">
-        <WishlistToggle item={item} className="left-3 top-3" />
-        <div className="flex flex-col md:flex-row justify-center items-center text-center md:text-left h-full pt-4 pb-8 overflow-hidden transition-all duration-300 dark:border-slate-700 border-gray-200">
-          {/* Product Image on the Left */}
-          <div className="w-full md:w-1/3 md:mb-4 flex justify-center">
-            <ProductImage
-              imgSource={item.imgSource}
-              available={item.status === "available"}
-              alt={item.name}
-              priority={true}
-            />
+    <div className="p-4 w-full">
+      <div className="relative bg-card border rounded-lg">
+        <WishlistToggle item={item} className="left-3 top-3 z-10" />
+
+        <div className="flex flex-col lg:flex-row p-6 gap-6">
+          {/* Product Carousel */}
+          <div className="w-full lg:w-5/12">
+            <ProductDetailsCarousel imgSrc={item.imgSource} alt={item.name} />
           </div>
 
-          {/* Item Info and Actions on the Right */}
-          <div className="w-full md:w-2/3 flex flex-col justify-between items-start p-4 pt-0 md:pt-4 md:pr-10">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-2">
-              <h2 className="text-xl 2xl:text-2xl font-bold dark:text-white text-primaryDarkTwo">
+          {/* Product Info */}
+          <div className="w-full lg:w-7/12 flex flex-col justify-center gap-4">
+            {/* Title and Tags */}
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+              <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
                 {item.name}
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {tags?.map((tag, idx) => {
-                  return (
-                    <div key={idx}>
-                      <p
-                        className="text-foreground rounded-full py-1 px-2.5 text-xs whitespace-nowrap"
-                        style={tag.style}
-                      >
-                        {tag.label}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
+              </h1>
+              {tags && tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="text-foreground rounded-full py-1 px-2.5 text-xs whitespace-nowrap"
+                      style={tag.style}
+                    >
+                      {tag.label}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-            <p className="text-sm text-start text-gray-600 dark:text-gray-300 mt-4">
+
+            {/* Description */}
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {item.description}
             </p>
-            <div className="flex flex-col justify-center items-start mt-4">
-              <p className="text-3xl font-bold dark:text-gray-300 text-gray-700 mb-2">
+
+            {/* Price and Rating */}
+            <div className="flex flex-col gap-2">
+              <p className="text-3xl lg:text-4xl font-bold text-foreground">
                 {currency === "INR" ? "₹" : "$"}
                 {displayPrice(currency)}
               </p>
               <Rating rating={item.rating ?? 0} totalStars={5} />
             </div>
-            <div className="flex flex-row justify-center items-center mt-4 gap-2 w-full">
+
+            {/* Actions */}
+            <div className="flex flex-wrap gap-3 pt-4">
               <ProductActions
                 itemName={item.name}
                 available={item.status === "available"}
@@ -108,8 +110,10 @@ const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
                 onIncrement={handleIncrementQuantity}
                 onDecrement={handleDecrementQuantity}
               />
-              <TransitionLink href="/" className="ml-auto">
-                <Button variant="outline">Back To Home</Button>
+              <TransitionLink href="/">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  Back To Home
+                </Button>
               </TransitionLink>
             </div>
           </div>
