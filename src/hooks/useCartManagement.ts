@@ -12,8 +12,6 @@ import {
 import { showToast } from "@/config/ToastConfig";
 import { Product } from "@/types/product";
 
-import { timeout } from "@/utils/timeout";
-
 export const useCartManagement = (item: Product) => {
   const dispatch = useDispatch();
   const currency = useSelector(selectCurrency);
