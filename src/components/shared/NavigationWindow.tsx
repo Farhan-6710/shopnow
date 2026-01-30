@@ -21,11 +21,11 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
       if (!isFinished) {
         const shutterTimer = setTimeout(
           () => setOpenShutters(true),
-          ANIM.SHUTTER_OPEN_DELAY_MS
+          ANIM.SHUTTER_OPEN_DELAY_MS,
         );
         const cleanupTimer = setTimeout(
           () => setIsFinished(true),
-          ANIM.CLEANUP_DELAY_MS
+          ANIM.CLEANUP_DELAY_MS,
         );
 
         return () => {
@@ -112,6 +112,9 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
                 alt="logo"
                 src="/images/shopnow-favicon.png"
                 className="w-60 h-60 object-contain"
+                priority
+                loading="eager"
+                fetchPriority="high"
               />
             </motion.div>
           </motion.div>
