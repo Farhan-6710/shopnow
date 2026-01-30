@@ -55,7 +55,7 @@ const ProductActions = ({
           <Button
             onClick={onAddToCart}
             disabled={isAdding || isRemoving || isUpdating || !available}
-            className="min-w-30 rounded-lg text-[14px] bg-primary text-primary-foreground transition-all duration-200"
+            className="min-w-30 rounded-lg text-sm bg-primary text-primary-foreground transition-all duration-200"
             aria-label={`Add ${itemName} to cart`}
           >
             {!available ? (
@@ -79,7 +79,6 @@ const ProductActions = ({
             <Button
               type="button"
               variant="destructive"
-              size="icon-sm"
               onClick={handleRemoveClick}
               disabled={isRemoving || isUpdating}
               className="rounded-lg"
