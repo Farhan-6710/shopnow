@@ -97,6 +97,9 @@ export const WindowOpener = ({ children }: { children: React.ReactNode }) => {
                   alt="logo"
                   src="/images/shopnow-favicon.png"
                   className="w-60 h-60 object-contain"
+                  priority
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </motion.div>
             </motion.div>
