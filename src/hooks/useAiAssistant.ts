@@ -137,7 +137,7 @@ export const useAiAssistant = ({
               "X-Title": "Shop Now AI Assistant",
             },
             body: JSON.stringify({
-              model: "xiaomi/mimo-v2-flash:free",
+              model: "tngtech/deepseek-r1t2-chimera:free",
               messages: [
                 ...(context
                   ? [

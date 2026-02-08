@@ -16,7 +16,7 @@ interface AuthContextType {
   signUpWithEmail: (
     email: string,
     password: string,
-    fullName: string
+    fullName: string,
   ) => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
-      }
+      },
     );
 
     return () => subscription.unsubscribe();
@@ -63,6 +63,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       provider: "google",
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          prompt: "select_account", // force account picker every time
+        },
       },
     });
     if (error) throw error;
@@ -79,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUpWithEmail = async (
     email: string,
     password: string,
-    fullName: string
+    fullName: string,
   ) => {
     const { error } = await supabase.auth.signUp({
       email,
@@ -94,10 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-
-    // Clear cart and wishlist locally (no API call) to prevent data leakage between accounts
+    // Clear cart and wishlist locally BEFORE signing out to prevent API calls with invalid tokens
     if (typeof window !== "undefined") {
       // Clear Redux store in memory (local only - no API call)
       dispatch(clearCartLocal());
@@ -106,6 +106,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Clear persisted data from localStorage
       localStorage.removeItem("persist:root");
     }
+
+    // Sign out from Supabase - don't throw error if it fails (session might already be invalid)
+    // Always succeed locally regardless of server-side result
+    await supabase.auth.signOut();
   };
 
   const value = {
