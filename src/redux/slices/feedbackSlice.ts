@@ -20,7 +20,8 @@ const feedbackSlice = createSlice({
   name: "feedback",
   initialState,
   reducers: {
-    submitFeedbackRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    submitFeedbackRequest: (state, _action: PayloadAction<SubmitFeedbackPayload>) => {
       state.isLoading = true;
       state.error = null;
     },
