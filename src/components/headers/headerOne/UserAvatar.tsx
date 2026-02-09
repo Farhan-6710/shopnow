@@ -161,7 +161,7 @@ const UserAvatar = () => {
       <ConfirmationModal
         open={showSignOutModal}
         onOpenChange={setShowSignOutModal}
-        title="Sign Outt"
+        title="Sign Out"
         description="Are you sure you want to sign out?"
         icon={LogOut}
         iconClassName="text-destructive"
