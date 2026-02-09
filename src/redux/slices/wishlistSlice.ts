@@ -52,7 +52,11 @@ const wishlistSlice = createSlice({
       delete state.removedItems[product.id];
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    addToWishlistSuccess(state, action: PayloadAction<{ productId: number }>) {
+    addToWishlistSuccess(
+      state,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _action: PayloadAction<{ productId: number }>,
+    ) {
       // No-op: Optimistic update already applied in request
     },
     addToWishlistFailure(state, action: PayloadAction<Product>) {
@@ -71,7 +75,12 @@ const wishlistSlice = createSlice({
         return { payload: productId, meta: meta || {} };
       },
     },
-    removeFromWishlistSuccess() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    removeFromWishlistSuccess(
+      state,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _action: PayloadAction<{ productId: number }>,
+    ) {
       // No-op: Optimistic update already applied in request
     },
     removeFromWishlistFailure(state, action: PayloadAction<Product>) {
@@ -89,7 +98,12 @@ const wishlistSlice = createSlice({
         delete state.removedItems[product.id];
       }
     },
-    toggleWishlistSuccess() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    toggleWishlistSuccess(
+      state,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _action: PayloadAction<{ productId: number; action: string }>,
+    ) {
       // No-op: Optimistic update already applied in request
     },
     toggleWishlistFailure(

@@ -95,7 +95,11 @@ const cartSlice = createSlice({
       },
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    removeFromCartSuccess(state, action: PayloadAction<{ productId: number }>) {
+    removeFromCartSuccess(
+      state,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _action: PayloadAction<{ productId: number }>,
+    ) {
       // No-op: Optimistic update already applied in request
     },
     removeFromCartFailure(state, action: PayloadAction<CartItem>) {
@@ -112,7 +116,12 @@ const cartSlice = createSlice({
         state.items[id].quantity = quantity;
       }
     },
-    updateQuantitySuccess() {
+    updateQuantitySuccess(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      state,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _action: PayloadAction<{ productId: number; quantity: number }>,
+    ) {
       // No-op: Optimistic update already applied in request
     },
     updateQuantityFailure(
