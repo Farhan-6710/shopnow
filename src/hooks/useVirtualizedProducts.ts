@@ -45,7 +45,7 @@ export function useVirtualizedProducts<T>({
   useEffect(() => {
     const onScroll = () =>
       setScrollTop(
-        document.documentElement.scrollTop || document.body.scrollTop
+        document.documentElement.scrollTop || document.body.scrollTop,
       );
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -56,12 +56,12 @@ export function useVirtualizedProducts<T>({
 
   const startRow = Math.max(
     0,
-    Math.floor(scrollTop / rowHeight) - overscanRows
+    Math.floor(scrollTop / rowHeight) - overscanRows,
   );
 
   const endRow = Math.min(
     totalRows,
-    Math.ceil((scrollTop + viewportHeight) / rowHeight) + overscanRows
+    Math.ceil((scrollTop + viewportHeight) / rowHeight) + overscanRows,
   );
 
   const startIndex = startRow * itemsPerRow;
@@ -69,7 +69,7 @@ export function useVirtualizedProducts<T>({
 
   const visibleItems = useMemo(
     () => items.slice(startIndex, endIndex),
-    [items, startIndex, endIndex]
+    [items, startIndex, endIndex],
   );
 
   const renderedItemCount = Math.min(endIndex, items.length);

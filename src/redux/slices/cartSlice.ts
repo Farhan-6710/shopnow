@@ -72,7 +72,7 @@ const cartSlice = createSlice({
       action: PayloadAction<{
         product: Product;
         previousQuantity: number | null;
-      }>
+      }>,
     ) {
       const { product, previousQuantity } = action.payload;
       if (previousQuantity === null) {
@@ -86,7 +86,7 @@ const cartSlice = createSlice({
     removeFromCartRequest: {
       reducer(
         state,
-        action: PayloadAction<number, string, { removedItem?: CartItem }>
+        action: PayloadAction<number, string, { removedItem?: CartItem }>,
       ) {
         delete state.items[action.payload];
       },
@@ -105,7 +105,7 @@ const cartSlice = createSlice({
     // ========== Update Quantity (Optimistic) ==========
     updateQuantityRequest(
       state,
-      action: PayloadAction<{ id: number; quantity: number }>
+      action: PayloadAction<{ id: number; quantity: number }>,
     ) {
       const { id, quantity } = action.payload;
       if (state.items[id] && quantity > 0) {
@@ -117,7 +117,7 @@ const cartSlice = createSlice({
     },
     updateQuantityFailure(
       state,
-      action: PayloadAction<{ productId: number; previousQuantity: number }>
+      action: PayloadAction<{ productId: number; previousQuantity: number }>,
     ) {
       const { productId, previousQuantity } = action.payload;
       if (state.items[productId]) {
@@ -164,7 +164,7 @@ const cartSlice = createSlice({
       action: PayloadAction<{
         error: string;
         previousItems: Record<number, CartItem>;
-      }>
+      }>,
     ) {
       console.log("clearCartFailure action:", action);
       // Rollback: restore previous items on failure
@@ -225,12 +225,12 @@ export const selectCartItemsDict = (state: { cart: CartState }) =>
   state?.cart?.items || {};
 
 export const selectCartItems = createSelector([selectCartItemsDict], (items) =>
-  Object.values(items || {})
+  Object.values(items || {}),
 );
 
 export const selectCartCount = createSelector(
   [selectCartItemsDict],
-  (items) => Object.keys(items || {}).length
+  (items) => Object.keys(items || {}).length,
 );
 
 export const selectIsInCart = (productId: number) =>
@@ -241,27 +241,27 @@ export const selectCartItem = (productId: number) =>
 
 export const selectCurrency = createSelector(
   [selectCartState],
-  (state) => state.currency
+  (state) => state.currency,
 );
 
 export const selectCartLoading = createSelector(
   [selectCartState],
-  (state) => state.loading
+  (state) => state.loading,
 );
 
 export const selectCartSyncing = createSelector(
   [selectCartState],
-  (state) => state.syncing
+  (state) => state.syncing,
 );
 
 export const selectCartError = createSelector(
   [selectCartState],
-  (state) => state.error
+  (state) => state.error,
 );
 
 export const selectRemovedItems = createSelector(
   [selectCartState],
-  (state) => state.removedItems
+  (state) => state.removedItems,
 );
 
 export default cartSlice.reducer;

@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     if (authError || !user) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     if (!topic || !rating || !message) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       console.error("Error inserting feedback:", error);
       return NextResponse.json(
         { success: false, error: error.message || "Database error" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     console.error("Error submitting feedback:", error);
     return NextResponse.json(
       { success: false, error: "Failed to submit feedback" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -61,7 +61,7 @@ const wishlistSlice = createSlice({
     removeFromWishlistRequest: {
       reducer(
         state,
-        action: PayloadAction<number, string, { removedItem?: Product }>
+        action: PayloadAction<number, string, { removedItem?: Product }>,
       ) {
         delete state.items[action.payload];
       },
@@ -92,7 +92,7 @@ const wishlistSlice = createSlice({
     },
     toggleWishlistFailure(
       state,
-      action: PayloadAction<{ product: Product; wasInWishlist: boolean }>
+      action: PayloadAction<{ product: Product; wasInWishlist: boolean }>,
     ) {
       const { product, wasInWishlist } = action.payload;
       if (wasInWishlist) {
@@ -168,12 +168,12 @@ const selectWishlistItemsDict = (state: { wishlist: WishlistState }) =>
 
 export const selectWishlistItems = createSelector(
   [selectWishlistItemsDict],
-  (items) => Object.values(items)
+  (items) => Object.values(items),
 );
 
 export const selectWishlistCount = createSelector(
   [selectWishlistItemsDict],
-  (items) => Object.keys(items).length
+  (items) => Object.keys(items).length,
 );
 
 export const selectIsInWishlist = (productId: number) =>
@@ -181,22 +181,22 @@ export const selectIsInWishlist = (productId: number) =>
 
 export const selectWishlistLoading = createSelector(
   [selectWishlistState],
-  (state) => state.loading
+  (state) => state.loading,
 );
 
 export const selectWishlistSyncing = createSelector(
   [selectWishlistState],
-  (state) => state.syncing
+  (state) => state.syncing,
 );
 
 export const selectWishlistError = createSelector(
   [selectWishlistState],
-  (state) => state.error
+  (state) => state.error,
 );
 
 export const selectRemovedWishlistItems = createSelector(
   [selectWishlistState],
-  (state) => state.removedItems
+  (state) => state.removedItems,
 );
 
 export default wishlistSlice.reducer;

@@ -14,7 +14,6 @@ export default function LayoutClient({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <AppProviders>
       <Header />

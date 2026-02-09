@@ -49,7 +49,7 @@ export default function NavigationProvider({
         router.push(url);
       }, ANIM.ROUTER_PUSH_DELAY_MS);
     },
-    [pathname, router]
+    [pathname, router],
   );
 
   useEffect(() => {
