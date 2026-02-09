@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
     const numericRating = ratingMap[rating] || 3; // Default to 3 if invalid
 
-    const { data, error } = await supabase.from("feedbacks").insert({
+    const { error } = await supabase.from("feedbacks").insert({
       user_id: user.id,
       topic,
       rating: numericRating,

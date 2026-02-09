@@ -13,7 +13,7 @@ export const loadState = () => {
   }
 };
 
-export const saveState = (state: any) => {
+export const saveState = (state: Record<string, unknown>) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("appState", serializedState);

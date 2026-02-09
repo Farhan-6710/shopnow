@@ -20,10 +20,7 @@ const feedbackSlice = createSlice({
   name: "feedback",
   initialState,
   reducers: {
-    submitFeedbackRequest: (
-      state,
-      action: PayloadAction<SubmitFeedbackPayload>
-    ) => {
+    submitFeedbackRequest: (state) => {
       state.isLoading = true;
       state.error = null;
     },

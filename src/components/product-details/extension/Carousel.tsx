@@ -62,6 +62,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     useEffect(() => {
       if (!emblaMainApi) return;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onSelect();
       emblaMainApi.on("select", onSelect).on("reInit", onSelect);
       return () => {

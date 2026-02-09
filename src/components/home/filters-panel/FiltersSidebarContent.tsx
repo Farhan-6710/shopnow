@@ -1,4 +1,4 @@
-import { ProductFilterValues, SelectOption } from "@/types/filterProduct";
+import { ProductFilterValues } from "@/types/filterProduct";
 import React, { useState } from "react";
 import FilterByCategory from "./FilterByCategory";
 import FilterBySort from "./FilterBySort";

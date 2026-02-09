@@ -112,11 +112,7 @@ const cartSlice = createSlice({
         state.items[id].quantity = quantity;
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    updateQuantitySuccess(
-      state,
-      action: PayloadAction<{ productId: number; quantity: number }>
-    ) {
+    updateQuantitySuccess() {
       // No-op: Optimistic update already applied in request
     },
     updateQuantityFailure(
@@ -150,14 +146,7 @@ const cartSlice = createSlice({
 
     // ========== Clear Cart (Optimistic) ==========
     clearCartRequest: {
-      reducer(
-        state,
-        _action: PayloadAction<
-          void,
-          string,
-          { previousItems?: Record<number, CartItem> }
-        >
-      ) {
+      reducer(state) {
         // Optimistically clear items immediately
         state.items = {};
         state.removedItems = {};
@@ -167,7 +156,7 @@ const cartSlice = createSlice({
         return { payload: undefined, meta: { previousItems } };
       },
     },
-    clearCartSuccess(_state, _action: PayloadAction<void>) {
+    clearCartSuccess() {
       // No-op: Optimistic update already applied in request
     },
     clearCartFailure(

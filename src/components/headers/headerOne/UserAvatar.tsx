@@ -15,7 +15,6 @@ import {
   HelpCircle,
   FileText,
   LogOut,
-  ChevronRight,
   ChevronDown,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

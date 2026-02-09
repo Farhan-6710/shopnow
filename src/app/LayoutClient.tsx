@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Header from "../components/headers/Header";
 import AppProviders from "../providers/AppProviders";
 import { Toaster } from "@/components/ui/sonner";

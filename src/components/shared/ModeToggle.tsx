@@ -7,6 +7,7 @@ const ModeToggle = () => {
 
   // Ensure the component only renders on the client side
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-type Testimonial = {
-  id: number;
-  imgPath: string;
-};
-
 const Carousel = () => {
-  const [slides, setSlides] = useState<Testimonial[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     slidesToScroll: 1,
@@ -18,8 +12,8 @@ const Carousel = () => {
   });
 
   // Navigation handlers
-  const scrollPrev = () => emblaApi?.scrollPrev();
-  const scrollNext = () => emblaApi?.scrollNext();
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   // Auto-scroll every 3000ms
   useEffect(() => {
@@ -29,7 +23,7 @@ const Carousel = () => {
 
     // Cleanup on unmount
     return () => clearInterval(interval);
-  }, [emblaApi]); // Run effect when emblaApi is set
+  }, [scrollNext]); // Run effect when scrollNext changes
 
   return (
     <div className="relative container mx-auto">

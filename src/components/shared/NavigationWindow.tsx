@@ -15,6 +15,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
 
   useEffect(() => {
     if (isNavigating) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsFinished(false);
       setOpenShutters(false);
     } else {
@@ -39,7 +40,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
   if (isFinished && !isNavigating) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col pointer-events-none">
+    <div className="fixed inset-0 z-100 flex flex-col pointer-events-none">
       {/* Upper Shutter - Slides down from top */}
       <motion.div
         initial={{ y: "-100%" }}
@@ -54,7 +55,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
           initial={{ opacity: 1 }}
           animate={{ opacity: openShutters ? 0 : 1 }}
           transition={{ duration: 0.2 }}
-          className="absolute bottom-0 left-0 right-0 h-[1px] bg-background/20"
+          className="absolute bottom-0 left-0 right-0 h-px bg-background/20"
         />
       </motion.div>
 
@@ -84,7 +85,7 @@ export const NavigationWindow = ({ isNavigating }: NavigationWindowProps) => {
               },
               opacity: { delay: ANIM.LINE.OPACITY_DELAY, duration: 0.2 },
             }}
-            className="absolute h-[2px] bg-foreground"
+            className="absolute h-0.5 bg-foreground"
           />
 
           {/* Logo - Scales and rotates in, then scales out */}
