@@ -23,10 +23,10 @@ export const useCartManagement = (item: Product) => {
   const isInCart = !!cartItem;
   const quantity = cartItem?.quantity || 0;
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = () => {
     setIsAdding(true);
 
-    // Dispatch optimistic update after 400ms - saga handles API call
+    // await timeout(400); // Simulate delay for optimistic update
     dispatch(addToCartRequest(item));
     setIsAdding(false);
     showToast({
@@ -36,10 +36,11 @@ export const useCartManagement = (item: Product) => {
     });
   };
 
-  const handleRemoveFromCart = async () => {
+  const handleRemoveFromCart = () => {
     console.log("Removing item from cart:", item);
     setIsRemoving(true);
 
+    // await timeout(400); // Simulate delay for optimistic update
     // Dispatch optimistic update with item metadata for potential rollback
     dispatch(removeFromCartRequest(item.id, { removedItem: cartItem }));
     setIsRemoving(false);
@@ -50,10 +51,10 @@ export const useCartManagement = (item: Product) => {
     });
   };
 
-  const handleIncrementQuantity = async () => {
+  const handleIncrementQuantity = () => {
     setIsUpdating(true);
 
-    // Dispatch optimistic update after 400ms - saga handles API call
+    // await timeout(400); // Simulate delay for optimistic update
     dispatch(updateQuantityRequest({ id: item.id, quantity: quantity + 1 }));
     setIsUpdating(false);
     showToast({
@@ -63,10 +64,11 @@ export const useCartManagement = (item: Product) => {
     });
   };
 
-  const handleDecrementQuantity = async () => {
+  const handleDecrementQuantity = () => {
     if (quantity > 1) {
       setIsUpdating(true);
 
+      // await timeout(400); // simulate delay for optimistic update
       // Dispatch optimistic update after 400ms - saga handles API call
       dispatch(updateQuantityRequest({ id: item.id, quantity: quantity - 1 }));
       setIsUpdating(false);

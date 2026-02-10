@@ -1,4 +1,3 @@
-import React from "react";
 import Rating from "../home/products-grid/Rating";
 
 interface ProductDetailsProps {

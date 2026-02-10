@@ -1,4 +1,3 @@
-import React from "react";
 import { Heart } from "lucide-react";
 import { TransitionLink } from "@/components/shared/TransitionLink";
 import { useSelector } from "react-redux";

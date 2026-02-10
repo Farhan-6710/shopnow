@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Modal from "./Modal";

@@ -1,5 +1,4 @@
 import { useTheme } from "next-themes";
-import React from "react";
 
 interface OrderSummaryHeaderProps {
   subtotal: number;

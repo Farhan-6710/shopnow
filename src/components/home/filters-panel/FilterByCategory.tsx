@@ -1,4 +1,3 @@
-import React from "react";
 import { CHECKBOX_CLASSES } from "@/constants/filters";
 
 interface FilterByCategoryProps {

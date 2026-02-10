@@ -1,4 +1,3 @@
-import React from "react";
 import CartItem from "./CartItem";
 import { CartItem as CartItemType } from "@/types/cartItems";
 

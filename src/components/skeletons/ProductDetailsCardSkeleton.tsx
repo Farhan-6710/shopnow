@@ -1,6 +1,5 @@
 "use client"; // Ensures this component is rendered on the client side
 
-import React from "react";
 import { Skeleton } from "@/components/ui/skeleton"; // Assuming you have ShadCN's Skeleton component available
 
 const ProductDetailsCardSkeleton = () => {
@@ -21,7 +20,7 @@ const ProductDetailsCardSkeleton = () => {
             {/* Product Description Skeleton */}
             <Skeleton className="w-full h-64 md:h-24 bg-accent mb-4" />
 
-            <div className="flex flex-col justify-center items-start flex-grow gap-2 w-full">
+            <div className="flex flex-col justify-center items-start grow gap-2 w-full">
               {/* Price and Rating Skeleton */}
               <Skeleton className="w-2/4 md:w-1/4 h-10 bg-accent" />
               {/* Action Buttons Skeleton */}
