@@ -7,11 +7,11 @@ interface FilterByColorProps {
   onToggleColor: (color: string) => void;
 }
 
-const FilterByColor: React.FC<FilterByColorProps> = ({
+const FilterByColor = ({
   colorOptions,
   selectedColors,
   onToggleColor,
-}) => {
+}: FilterByColorProps) => {
   return (
     <div className="filter-div mb-4">
       <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">

@@ -14,7 +14,9 @@ interface AiAssistantActionButtonsProps {
   setLocalMessages: (messages: Message[]) => void;
 }
 
-const AiAssistantActionButtons: React.FC<AiAssistantActionButtonsProps> = ({setLocalMessages}) => {
+const AiAssistantActionButtons = ({
+  setLocalMessages,
+}: AiAssistantActionButtonsProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
 

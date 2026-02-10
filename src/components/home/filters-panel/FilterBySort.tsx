@@ -7,11 +7,11 @@ interface FilterBySortProps {
   onSortByPrice: (sort: "asc" | "desc") => void;
 }
 
-const FilterBySort: React.FC<FilterBySortProps> = ({
+const FilterBySort = ({
   sortOptions,
   selectedSort,
   onSortByPrice,
-}) => {
+}: FilterBySortProps) => {
   return (
     <div className="filter-div mb-4">
       <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">

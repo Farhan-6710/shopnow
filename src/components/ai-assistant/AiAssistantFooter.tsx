@@ -17,7 +17,7 @@ interface AiAssistantFooterProps {
   onSubmit: (e: React.FormEvent) => void;
 }
 
-const AiAssistantFooter: React.FC<AiAssistantFooterProps> = ({
+const AiAssistantFooter = ({
   inputValue,
   isLoading,
   messages,
@@ -26,7 +26,7 @@ const AiAssistantFooter: React.FC<AiAssistantFooterProps> = ({
   inputRef,
   onInputChange,
   onSubmit,
-}) => {
+}: AiAssistantFooterProps) => {
   return (
     <div className="p-4 border-t border-border bg-card space-y-3">
       <form onSubmit={onSubmit} className="flex gap-2">
@@ -50,7 +50,9 @@ const AiAssistantFooter: React.FC<AiAssistantFooterProps> = ({
       </form>
 
       {/* Action Buttons - Only show when there are messages */}
-      {messages.length > 0 && <AiAssistantActionButtons setLocalMessages={setLocalMessages} />}
+      {messages.length > 0 && (
+        <AiAssistantActionButtons setLocalMessages={setLocalMessages} />
+      )}
     </div>
   );
 };

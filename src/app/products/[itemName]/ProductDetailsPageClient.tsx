@@ -9,9 +9,9 @@ interface ProductDetailsPageClientProps {
   initialItem: Product;
 }
 
-const ProductDetailsPageClient: React.FC<ProductDetailsPageClientProps> = ({
+const ProductDetailsPageClient = ({
   initialItem,
-}) => {
+}: ProductDetailsPageClientProps) => {
   return (
     <ProductDetailsCard
       key={initialItem.id}

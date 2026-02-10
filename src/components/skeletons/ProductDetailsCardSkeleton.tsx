@@ -3,7 +3,7 @@
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton"; // Assuming you have ShadCN's Skeleton component available
 
-const ProductDetailsCardSkeleton: React.FC = () => {
+const ProductDetailsCardSkeleton = () => {
   return (
     <div className="px-4 md:px-2 p-2 w-full flex flex-col md:flex-row h-full">
       <div className="product-card transition-all duration-200 dark:bg-primaryDarkTwo w-full">

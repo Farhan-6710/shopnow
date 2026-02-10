@@ -10,7 +10,7 @@ interface HeaderTwoProps {
   onMenuClick: () => void;
 }
 
-const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
+const HeaderTwo = ({ onMenuClick }: HeaderTwoProps) => {
   const { products } = useProductsQuery();
 
   return (
@@ -36,8 +36,7 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ onMenuClick }) => {
 
           {/* Cart, Wishlist & AI - Right - Hidden on Mobile/Tablet */}
           <div className="hidden md:flex shrink-0">
-            <HeaderActions
-            />
+            <HeaderActions />
           </div>
         </div>
       </nav>

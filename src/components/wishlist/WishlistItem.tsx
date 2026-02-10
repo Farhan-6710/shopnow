@@ -19,10 +19,7 @@ interface WishlistItemProps {
   priority?: boolean;
 }
 
-const WishlistItem: React.FC<WishlistItemProps> = ({
-  item,
-  priority = false,
-}) => {
+const WishlistItem = ({ item, priority = false }: WishlistItemProps) => {
   const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [imageError, setImageError] = useState(false);

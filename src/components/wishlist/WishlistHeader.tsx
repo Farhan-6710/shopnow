@@ -12,11 +12,11 @@ interface WishlistHeaderProps {
   isEmpty: boolean;
 }
 
-const WishlistHeader: React.FC<WishlistHeaderProps> = ({
+const WishlistHeader = ({
   itemCount,
   onClearAll,
   isEmpty,
-}) => {
+}: WishlistHeaderProps) => {
   const [showClearModal, setShowClearModal] = useState(false);
 
   return (

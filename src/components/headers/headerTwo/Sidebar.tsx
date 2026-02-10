@@ -10,7 +10,7 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

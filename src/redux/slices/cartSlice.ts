@@ -94,8 +94,8 @@ const cartSlice = createSlice({
         return { payload: productId, meta: meta || {} };
       },
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     removeFromCartSuccess(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _action: PayloadAction<{ productId: number }>,

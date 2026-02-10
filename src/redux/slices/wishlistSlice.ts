@@ -51,8 +51,8 @@ const wishlistSlice = createSlice({
       // Clear from removedItems if re-adding
       delete state.removedItems[product.id];
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addToWishlistSuccess(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _action: PayloadAction<{ productId: number }>,
@@ -75,8 +75,8 @@ const wishlistSlice = createSlice({
         return { payload: productId, meta: meta || {} };
       },
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     removeFromWishlistSuccess(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _action: PayloadAction<{ productId: number }>,
@@ -98,8 +98,8 @@ const wishlistSlice = createSlice({
         delete state.removedItems[product.id];
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toggleWishlistSuccess(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _action: PayloadAction<{ productId: number; action: string }>,

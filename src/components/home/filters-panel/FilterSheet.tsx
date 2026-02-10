@@ -22,7 +22,7 @@ interface FilterSheetProps {
   onResetFilters: () => void;
 }
 
-export const FilterSheet: React.FC<FilterSheetProps> = (props) => {
+export const FilterSheet = (props: FilterSheetProps) => {
   const [open, setOpen] = React.useState(false);
 
   return (

@@ -7,7 +7,7 @@ interface RatingProps {
   totalStars: number; // Total number of stars, e.g., 5
 }
 
-const Rating: React.FC<RatingProps> = ({ rating, totalStars }) => {
+const Rating = ({ rating, totalStars }: RatingProps) => {
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 >= 0.5;
   const emptyStars = totalStars - fullStars - (halfStar ? 1 : 0);

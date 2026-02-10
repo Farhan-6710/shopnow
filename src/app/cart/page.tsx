@@ -3,7 +3,7 @@
 import React from "react";
 import CartSection from "@/components/cart/CartSection"; // Adjust the path if necessary
 
-const MyCartPage: React.FC = () => {
+const MyCartPage = () => {
   return (
     <main aria-label="Shopping cart">
       <CartSection />

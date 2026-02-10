@@ -21,7 +21,7 @@ interface OrderSummaryProps {
 
 import { motion } from "framer-motion";
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({
+const OrderSummary = ({
   isCouponApplied,
   showCouponPlaceholder,
   isInvalidCoupon,
@@ -34,7 +34,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   handleInputChange,
   handleInputClick,
   handleCouponApply,
-}) => {
+}: OrderSummaryProps) => {
   const { theme } = useTheme();
 
   const inputClass = theme === "dark" ? "placeholder-white" : "";

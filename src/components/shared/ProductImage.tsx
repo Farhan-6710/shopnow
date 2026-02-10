@@ -9,12 +9,12 @@ interface ProductImageProps {
   priority?: boolean;
 }
 
-const ProductImage: React.FC<ProductImageProps> = ({
+const ProductImage = ({
   imgSource,
   available,
   alt,
   priority = false,
-}) => {
+}: ProductImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (

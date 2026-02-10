@@ -23,7 +23,7 @@ interface FiltersSidebarContentProps {
   onResetFilters: () => void;
 }
 
-const FiltersSidebarContent: React.FC<FiltersSidebarContentProps> = (props) => {
+const FiltersSidebarContent = (props: FiltersSidebarContentProps) => {
   const {
     filterValues,
     onToggleCategory,

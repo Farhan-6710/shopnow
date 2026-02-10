@@ -13,7 +13,7 @@ import {
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
 

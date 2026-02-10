@@ -3,7 +3,7 @@
 import React from "react";
 import WishlistSection from "@/components/wishlist/WishlistSection";
 
-const WishlistPage: React.FC = () => {
+const WishlistPage = () => {
   return (
     <main aria-label="Wishlist">
       <WishlistSection />

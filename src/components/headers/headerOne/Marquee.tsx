@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-const Marquee: React.FC = () => {
+const Marquee = () => {
   const [isMarqueeVisible, setMarqueeVisible] = useState(false);
 
   useEffect(() => {

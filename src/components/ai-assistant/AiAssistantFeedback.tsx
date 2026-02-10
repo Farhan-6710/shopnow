@@ -18,10 +18,10 @@ const FeedbackForm = dynamic(
   {
     ssr: false,
     loading: () => <FeedbackFormSkeleton />,
-  }
+  },
 );
 
-const AiAssistantFeedback: React.FC = () => {
+const AiAssistantFeedback = () => {
   const dispatch = useDispatch();
   const isSubmitting = useSelector(selectFeedbackLoading);
   const error = useSelector(selectFeedbackError);
@@ -63,7 +63,7 @@ const AiAssistantFeedback: React.FC = () => {
         topic: selectedTopic,
         rating: selectedRating,
         message: feedbackMessage,
-      })
+      }),
     );
   };
 

@@ -9,7 +9,7 @@ interface CartItemListProps {
 
 import { motion } from "framer-motion";
 
-const CartItemList: React.FC<CartItemListProps> = ({ cartItems, currency }) => {
+const CartItemList = ({ cartItems, currency }: CartItemListProps) => {
   return (
     <>
       {cartItems.map((item, index) => (

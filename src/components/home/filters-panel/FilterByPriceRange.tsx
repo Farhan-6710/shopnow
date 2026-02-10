@@ -7,11 +7,11 @@ interface FilterByPriceRangeProps {
   onTogglePriceRange: (range: string) => void;
 }
 
-const FilterByPriceRange: React.FC<FilterByPriceRangeProps> = ({
+const FilterByPriceRange = ({
   priceRangeOptions,
   selectedPriceRanges,
   onTogglePriceRange,
-}) => {
+}: FilterByPriceRangeProps) => {
   return (
     <div className="filter-div mb-4">
       <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-2">

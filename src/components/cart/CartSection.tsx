@@ -17,7 +17,7 @@ import CartItemList from "./CartItemList";
 import OrderSummary from "./OrderSummary";
 import CartSectionSkeleton from "../skeletons/CartSectionSkeleton";
 
-const CartSection: React.FC = () => {
+const CartSection = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
   const cartItemsDict = useSelector(selectCartItemsDict);
@@ -54,7 +54,7 @@ const CartSection: React.FC = () => {
   // Calculate totals based on currency
   const subtotal = cartItems.reduce(
     (acc, item) => acc + (item.prices[currency] || 0) * item.quantity,
-    0
+    0,
   );
   const discount = getDiscount(subtotal);
   const deliveryCharge =

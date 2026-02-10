@@ -1,10 +1,7 @@
-"use client";
-
-import React from "react";
 import AccountDropdown from "./AccountDropdown";
 import CurrencyDropdown from "./CurrencyDropdown";
 
-const Dropdowns: React.FC = () => {
+const Dropdowns = () => {
   return (
     <div className="flex gap-2">
       <CurrencyDropdown />

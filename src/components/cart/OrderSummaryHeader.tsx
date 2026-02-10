@@ -9,32 +9,28 @@ interface OrderSummaryHeaderProps {
   currency: "USD" | "INR";
 }
 
-const OrderSummaryHeader: React.FC<OrderSummaryHeaderProps> = ({
+const OrderSummaryHeader = ({
   subtotal,
   deliveryCharge,
   isCouponApplied,
   discount,
   currency,
-}) => {
+}: OrderSummaryHeaderProps) => {
   const formatCurrency = (amount: number): string => {
     return currency === "USD"
       ? `$${amount.toFixed(2)}`
       : `₹${amount.toFixed(2)}`;
   };
 
-    const { theme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <>
-      <h2
-        className="text-lg font-bold mb-4 dark:text-gray-200 text-gray-800"
-      >
+      <h2 className="text-lg font-bold mb-4 dark:text-gray-200 text-gray-800">
         Order Summary
       </h2>
       <div className="flex justify-between mb-2">
-        <p
-          className="font-medium dark:text-gray-300 text-gray-700"
-        >
+        <p className="font-medium dark:text-gray-300 text-gray-700">
           Subtotal:
         </p>
         <p

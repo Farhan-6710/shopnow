@@ -13,7 +13,7 @@ import WishlistHeader from "./WishlistHeader";
 import WishlistSkeleton from "../skeletons/WishlistSkeleton";
 import { selectWishlistSyncing } from "@/redux/wishlist/wishlistSlice";
 
-const WishlistSection: React.FC = () => {
+const WishlistSection = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector(selectWishlistItems);
   const wishlistItemsDict = useSelector(selectWishlistItemsDict);

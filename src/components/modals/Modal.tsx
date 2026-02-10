@@ -20,7 +20,7 @@ interface ModalProps {
   srOnlyTitle?: string; // For accessibility when no visible title
 }
 
-const Modal: React.FC<ModalProps> = ({
+const Modal = ({
   open,
   onOpenChange,
   title,
@@ -28,7 +28,7 @@ const Modal: React.FC<ModalProps> = ({
   children,
   showCloseButton = true,
   className,
-}) => {
+}: ModalProps) => {
   const handleOpenChange = (isOpen: boolean) => {
     // Prevent any event propagation when modal state changes
     onOpenChange(isOpen);

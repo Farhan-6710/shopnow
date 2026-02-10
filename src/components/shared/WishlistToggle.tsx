@@ -15,7 +15,7 @@ interface WishlistToggleProps {
   className?: string;
 }
 
-const WishlistToggle: React.FC<WishlistToggleProps> = ({ item, className }) => {
+const WishlistToggle = ({ item, className }: WishlistToggleProps) => {
   const dispatch = useDispatch();
   const isWishlisted = useSelector(selectIsInWishlist(item.id));
 

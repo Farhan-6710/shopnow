@@ -9,10 +9,7 @@ interface AiAssistantHeaderProps {
   isLoading: boolean;
 }
 
-const AiAssistantHeader: React.FC<AiAssistantHeaderProps> = ({
-  title,
-  isLoading,
-}) => {
+const AiAssistantHeader = ({ title, isLoading }: AiAssistantHeaderProps) => {
   return (
     <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-card">
       <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10">
@@ -23,7 +20,7 @@ const AiAssistantHeader: React.FC<AiAssistantHeaderProps> = ({
         <p
           className={cn(
             "text-xs",
-            isLoading ? "text-green-400" : "text-muted-foreground"
+            isLoading ? "text-green-400" : "text-muted-foreground",
           )}
         >
           {isLoading ? "Typing" : "Active"}

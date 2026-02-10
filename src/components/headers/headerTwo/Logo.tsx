@@ -10,7 +10,7 @@ interface LogoProps {
   onMenuClick: () => void;
 }
 
-const Logo: React.FC<LogoProps> = ({ onMenuClick }) => {
+const Logo = ({ onMenuClick }: LogoProps) => {
   const { transitionTo } = useNavigation();
   const pathname = usePathname();
 

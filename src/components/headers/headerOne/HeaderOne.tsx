@@ -1,5 +1,3 @@
-"use client";
-
 import AddressSection from "./AddressSection";
 import Marquee from "./Marquee";
 import Dropdowns from "./Dropdowns";

@@ -13,13 +13,13 @@ interface AiAssistantChatAreaProps {
   children?: React.ReactNode;
 }
 
-const AiAssistantChatArea: React.FC<AiAssistantChatAreaProps> = ({
+const AiAssistantChatArea = ({
   messages,
   isLoading,
   chatContainerRef,
   formatTime,
   children,
-}) => {
+}: AiAssistantChatAreaProps) => {
   return (
     <div
       ref={chatContainerRef}
@@ -34,7 +34,7 @@ const AiAssistantChatArea: React.FC<AiAssistantChatAreaProps> = ({
             "flex gap-3",
             index === messages.length - 1 &&
               "animate-in fade-in slide-in-from-bottom-2 duration-300",
-            message.role === "user" ? "flex-row-reverse" : "flex-row"
+            message.role === "user" ? "flex-row-reverse" : "flex-row",
           )}
         >
           {/* Avatar */}
@@ -44,8 +44,8 @@ const AiAssistantChatArea: React.FC<AiAssistantChatAreaProps> = ({
               message.role === "user"
                 ? "bg-primary text-primary-foreground"
                 : message.role === "system"
-                ? "bg-destructive/10 text-destructive"
-                : "bg-muted text-muted-foreground"
+                  ? "bg-destructive/10 text-destructive"
+                  : "bg-muted text-muted-foreground",
             )}
           >
             {message.role === "user" ? (
@@ -59,7 +59,7 @@ const AiAssistantChatArea: React.FC<AiAssistantChatAreaProps> = ({
           <div
             className={cn(
               "flex flex-col gap-1 max-w-[80%]",
-              message.role === "user" ? "items-end" : "items-start"
+              message.role === "user" ? "items-end" : "items-start",
             )}
           >
             <div
@@ -68,8 +68,8 @@ const AiAssistantChatArea: React.FC<AiAssistantChatAreaProps> = ({
                 message.role === "user"
                   ? "bg-primary text-primary-foreground rounded-br-sm"
                   : message.role === "system"
-                  ? "bg-destructive/10 text-destructive border border-destructive/20 rounded-bl-sm"
-                  : "bg-card text-card-foreground border border-border rounded-bl-sm"
+                    ? "bg-destructive/10 text-destructive border border-destructive/20 rounded-bl-sm"
+                    : "bg-card text-card-foreground border border-border rounded-bl-sm",
               )}
             >
               <p className="text-sm leading-relaxed whitespace-pre-wrap wrap-break-word">

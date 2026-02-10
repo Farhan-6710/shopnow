@@ -12,11 +12,7 @@ interface CartHeaderProps {
   isEmpty: boolean;
 }
 
-const CartHeader: React.FC<CartHeaderProps> = ({
-  itemCount,
-  onClearCart,
-  isEmpty,
-}) => {
+const CartHeader = ({ itemCount, onClearCart, isEmpty }: CartHeaderProps) => {
   const [showClearModal, setShowClearModal] = useState(false);
 
   return (

@@ -18,10 +18,10 @@ interface ProductsFiltersPanelProps {
   onResetFilters: () => void;
 }
 
-const ProductsFiltersPanel: React.FC<ProductsFiltersPanelProps> = ({
+const ProductsFiltersPanel = ({
   products,
   ...props
-}) => {
+}: ProductsFiltersPanelProps) => {
   return (
     <>
       {/* Desktop Sidebar */}

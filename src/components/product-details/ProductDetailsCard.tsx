@@ -18,7 +18,7 @@ interface ProductDetailsCardProps {
   fetchImageWithTimeout: (url: string) => Promise<Blob | null>;
 }
 
-const ProductDetailsCard: React.FC<ProductDetailsCardProps> = ({ item }) => {
+const ProductDetailsCard = ({ item }: ProductDetailsCardProps) => {
   const { theme } = useTheme();
 
   const {

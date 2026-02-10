@@ -16,7 +16,7 @@ interface CouponProps {
   formatCurrency: (amount: number) => string; // Add formatCurrency function prop
 }
 
-const Coupon: React.FC<CouponProps> = ({
+const Coupon = ({
   isCouponApplied,
   showCouponPlaceholder,
   isInvalidCoupon,
@@ -27,7 +27,7 @@ const Coupon: React.FC<CouponProps> = ({
   inputClass,
   total,
   formatCurrency,
-}) => {
+}: CouponProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
@@ -56,8 +56,8 @@ const Coupon: React.FC<CouponProps> = ({
               showCouponPlaceholder
                 ? "Enter Coupon Code"
                 : isInvalidCoupon
-                ? "Coupon Not Found"
-                : "Enter Coupon Code"
+                  ? "Coupon Not Found"
+                  : "Enter Coupon Code"
             }
             value={couponCode}
             onChange={handleInputChange}

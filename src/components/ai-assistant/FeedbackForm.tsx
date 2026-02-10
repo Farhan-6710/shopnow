@@ -23,7 +23,7 @@ interface FeedbackFormProps {
   onCancel: () => void;
 }
 
-const FeedbackForm: React.FC<FeedbackFormProps> = ({
+const FeedbackForm = ({
   selectedTopic,
   setSelectedTopic,
   selectedRating,
@@ -33,7 +33,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
   isSubmitting,
   onSubmit,
   onCancel,
-}) => {
+}: FeedbackFormProps) => {
   return (
     <motion.div
       className="feedback-form space-y-6 pt-2"

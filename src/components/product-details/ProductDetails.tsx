@@ -8,12 +8,12 @@ interface ProductDetailsProps {
   rating: number;
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({
+const ProductDetails = ({
   name,
   currency,
   displayPrice,
   rating,
-}) => (
+}: ProductDetailsProps) => (
   <div className="flex flex-col gap-1 justify-center items-center">
     <h2 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors under">
       {name}

@@ -1,12 +1,12 @@
 // app/error.tsx
-"use client"
+"use client";
 
 import React from "react";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const ErrorPage: React.FC = () => {
+const ErrorPage = () => {
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
       <h1 style={{ fontSize: "2rem", fontFamily: inter.style.fontFamily }}>

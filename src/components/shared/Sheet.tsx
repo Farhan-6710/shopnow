@@ -31,7 +31,7 @@ interface SheetProps {
   headerClassName?: string;
 }
 
-const Sheet: React.FC<SheetProps> = ({
+const Sheet = ({
   open,
   onOpenChange,
   trigger,
@@ -41,15 +41,13 @@ const Sheet: React.FC<SheetProps> = ({
   side = "right",
   className,
   headerClassName,
-}) => {
+}: SheetProps) => {
   return (
     <SheetRoot open={open} onOpenChange={onOpenChange}>
       {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
       <SheetContent side={side} className={className}>
         <SheetHeader className={`${headerClassName} sr-only`}>
-          <SheetTitle>
-            {title || "Navigation Menu"}
-          </SheetTitle>
+          <SheetTitle>{title || "Navigation Menu"}</SheetTitle>
           <SheetDescription>
             {description || "Access navigation links and tools."}
           </SheetDescription>

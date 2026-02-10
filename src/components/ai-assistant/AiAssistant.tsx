@@ -18,7 +18,7 @@ interface AiAssistantProps {
   context?: unknown;
 }
 
-const AiAssistant: React.FC<AiAssistantProps> = ({
+const AiAssistant = ({
   className,
   placeholder = "Ask me anything...",
   title = "AI Assistant",
@@ -26,7 +26,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({
   onSendMessage,
   onGetResponse,
   context,
-}) => {
+}: AiAssistantProps) => {
   const {
     messages,
     setLocalMessages,
@@ -48,7 +48,7 @@ const AiAssistant: React.FC<AiAssistantProps> = ({
     <div
       className={cn(
         "flex flex-col h-full bg-background border border-border rounded-lg shadow-sm",
-        className
+        className,
       )}
     >
       <AiAssistantHeader title={title} isLoading={isLoading} />

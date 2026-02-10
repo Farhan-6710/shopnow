@@ -12,10 +12,10 @@ interface SignUpFormProps {
   setShowSignupModal: (show: boolean) => void;
 }
 
-const SignUpForm: React.FC<SignUpFormProps> = ({
+const SignUpForm = ({
   setShowLoginModal,
   setShowSignupModal,
-}) => {
+}: SignUpFormProps) => {
   const { signInWithGoogle, signUpWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);

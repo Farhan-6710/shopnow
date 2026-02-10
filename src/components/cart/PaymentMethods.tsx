@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { useAuth } from "@/providers/authContext";
 import { showToast } from "@/config/ToastConfig";
 
-const PaymentMethods: React.FC = () => {
+const PaymentMethods = () => {
   const { session } = useAuth();
   const handlePaymentClick = () => {
     if (session) {

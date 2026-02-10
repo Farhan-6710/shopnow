@@ -5,7 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TransitionLink } from "@/components/shared/TransitionLink";
 
-const CartEmpty: React.FC = () => {
+const CartEmpty = () => {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 border bg-card">
       <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-6">

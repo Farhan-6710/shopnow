@@ -13,7 +13,7 @@ interface CartButtonProps {
   onClose: () => void;
 }
 
-const CartButton: React.FC<CartButtonProps> = ({ cartCount, onClose }) => {
+const CartButton = ({ cartCount, onClose }: CartButtonProps) => {
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
   const { products: productsFromApiRes } = useProductsQuery();
 

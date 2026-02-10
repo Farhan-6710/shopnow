@@ -20,7 +20,7 @@ interface ConfirmationModalProps {
   variant?: "default" | "destructive";
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+const ConfirmationModal = ({
   open,
   onOpenChange,
   title,
@@ -32,7 +32,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   onCancel,
   variant = "destructive",
-}) => {
+}: ConfirmationModalProps) => {
   const handleCancel = () => {
     onCancel?.();
     onOpenChange(false);
