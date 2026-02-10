@@ -109,11 +109,15 @@ const cartSlice = createSlice({
     // ========== Update Quantity (Optimistic) ==========
     updateQuantityRequest(
       state,
-      action: PayloadAction<{ id: number; quantity: number }>,
+      action: PayloadAction<{ id: number; updateMode: 'increment' | 'decrement' }>,
     ) {
-      const { id, quantity } = action.payload;
-      if (state.items[id] && quantity > 0) {
-        state.items[id].quantity = quantity;
+      const { id, updateMode } = action.payload;
+      if (state.items[id]) {
+        if (updateMode === 'increment') {
+          state.items[id].quantity += 1;
+        } else if (updateMode === 'decrement' && state.items[id].quantity > 1) {
+          state.items[id].quantity -= 1;
+        }
       }
     },
     updateQuantitySuccess(

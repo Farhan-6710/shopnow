@@ -47,7 +47,7 @@ function* fetchCartSaga() {
     yield put(fetchCartFailure(message));
     showErrorToast(
       "Failed to Load Cart",
-      "Unable to load your cart. Please check your connection."
+      "Unable to load your cart. Please check your connection.",
     );
   }
 }
@@ -56,7 +56,7 @@ function* fetchCartSaga() {
 function* addToCartSaga(action: PayloadAction<Product>) {
   const product = action.payload;
   const currentItem: CartItem | undefined = yield select(
-    selectCartItem(product.id)
+    selectCartItem(product.id),
   );
   const previousQuantity = currentItem ? currentItem.quantity - 1 : null;
 
@@ -74,14 +74,14 @@ function* addToCartSaga(action: PayloadAction<Product>) {
     yield put(addToCartFailure({ product, previousQuantity }));
     showErrorToast(
       "Failed to Add Item",
-      "Please check your network connection and retry."
+      "Please check your network connection and retry.",
     );
   }
 }
 
 // ========== Remove from Cart ==========
 function* removeFromCartSaga(
-  action: PayloadAction<number, string, { removedItem?: CartItem }>
+  action: PayloadAction<number, string, { removedItem?: CartItem }>,
 ) {
   const productId = action.payload;
   const removedItem = action.meta?.removedItem;
@@ -103,38 +103,46 @@ function* removeFromCartSaga(
     }
     showErrorToast(
       "Failed to Remove Item",
-      "Please check your network connection and retry."
+      "Please check your network connection and retry.",
     );
   }
 }
 
 // ========== Update Quantity ==========
 function* updateQuantitySaga(
-  action: PayloadAction<{ id: number; quantity: number }>
+  action: PayloadAction<{ id: number; updateMode: "increment" | "decrement" }>,
 ) {
-  const { id: productId, quantity } = action.payload;
+  const { id: productId, updateMode } = action.payload;
+
+  // Reducer already updated quantity optimistically, read new value from state
   const currentItem: CartItem | undefined = yield select(
-    selectCartItem(productId)
+    selectCartItem(productId),
   );
-  const previousQuantity = currentItem?.quantity;
+
+  if (!currentItem) return;
+
+  const newQuantity = currentItem.quantity;
+  // Calculate previous quantity for potential rollback
+  const previousQuantity =
+    updateMode === "increment" ? newQuantity - 1 : newQuantity + 1;
 
   const isAuth: boolean = yield call(isAuthenticated);
 
   if (!isAuth) {
-    yield put(updateQuantitySuccess({ productId, quantity }));
+    yield put(updateQuantitySuccess({ productId, quantity: newQuantity }));
     return;
   }
 
   try {
-    yield call(cartApi.updateQuantity, productId, quantity);
-    yield put(updateQuantitySuccess({ productId, quantity }));
+    // Send absolute quantity to backend
+    yield call(cartApi.updateQuantity, productId, newQuantity);
+    yield put(updateQuantitySuccess({ productId, quantity: newQuantity }));
   } catch {
-    if (previousQuantity !== undefined) {
-      yield put(updateQuantityFailure({ productId, previousQuantity }));
-    }
+    // Rollback to previous quantity on failure
+    yield put(updateQuantityFailure({ productId, previousQuantity }));
     showErrorToast(
       "Failed to Update Quantity",
-      "Please check your network connection and retry."
+      "Please check your network connection and retry.",
     );
   }
 }
@@ -180,7 +188,7 @@ function* syncCartSaga() {
     yield call(fetchCartSaga);
     showErrorToast(
       "Failed to Sync Cart",
-      "Please check your network connection and retry."
+      "Please check your network connection and retry.",
     );
   }
 }
@@ -191,7 +199,7 @@ function* clearCartSaga(
     void,
     string,
     { previousItems: Record<number, CartItem> }
-  >
+  >,
 ) {
   // Get previousItems from action meta (passed before optimistic update)
   const previousItems = action.meta.previousItems;
@@ -206,7 +214,7 @@ function* clearCartSaga(
     yield put(clearCartSuccess());
     showSuccessToast(
       "Cart Cleared",
-      "All items have been removed from your cart."
+      "All items have been removed from your cart.",
     );
   } catch (error) {
     const message =
@@ -214,7 +222,7 @@ function* clearCartSaga(
     yield put(clearCartFailure({ error: message, previousItems }));
     showErrorToast(
       "Failed to Clear Cart",
-      "Please check your network connection and retry."
+      "Please check your network connection and retry.",
     );
   }
 }

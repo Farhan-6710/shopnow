@@ -54,13 +54,13 @@ export const useCartManagement = (item: Product) => {
   const handleIncrementQuantity = () => {
     setIsUpdating(true);
 
-    // await timeout(400); // Simulate delay for optimistic update
-    dispatch(updateQuantityRequest({ id: item.id, quantity: quantity + 1 }));
+    // Reducer calculates quantity from current state (no stale closure)
+    dispatch(updateQuantityRequest({ id: item.id, updateMode: "increment" }));
     setIsUpdating(false);
     showToast({
       type: "success",
       title: "Quantity Updated",
-      description: `${item.name} quantity increased to ${quantity + 1}`,
+      description: `${item.name} quantity increased`,
     });
   };
 
@@ -68,14 +68,13 @@ export const useCartManagement = (item: Product) => {
     if (quantity > 1) {
       setIsUpdating(true);
 
-      // await timeout(400); // simulate delay for optimistic update
-      // Dispatch optimistic update after 400ms - saga handles API call
-      dispatch(updateQuantityRequest({ id: item.id, quantity: quantity - 1 }));
+      // Reducer calculates quantity from current state (no stale closure)
+      dispatch(updateQuantityRequest({ id: item.id, updateMode: "decrement" }));
       setIsUpdating(false);
       showToast({
         type: "success",
         title: "Quantity Updated",
-        description: `${item.name} quantity decreased to ${quantity - 1}`,
+        description: `${item.name} quantity decreased`,
       });
     }
   };
