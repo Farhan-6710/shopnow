@@ -1,5 +1,5 @@
 // src/redux/cart/cartSaga.ts
-import { call, put, select, takeEvery } from "redux-saga/effects";
+import { call, put, select, takeEvery, debounce } from "redux-saga/effects";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
 import { CartItem } from "@/types/cartItems";
@@ -232,7 +232,8 @@ export function* watchCart() {
   yield takeEvery(fetchCartRequest.type, fetchCartSaga);
   yield takeEvery(addToCartRequest.type, addToCartSaga);
   yield takeEvery(removeFromCartRequest.type, removeFromCartSaga);
-  yield takeEvery(updateQuantityRequest.type, updateQuantitySaga);
+  // Debounce quantity updates - optimistic UI is instant, API calls are batched
+  yield debounce(500, updateQuantityRequest.type, updateQuantitySaga);
   yield takeEvery(syncCartRequest.type, syncCartSaga);
   yield takeEvery(clearCartRequest.type, clearCartSaga);
 }
