@@ -43,7 +43,7 @@ const SearchBar = ({ products }: SearchBarProps) => {
   return (
     <div className="flex justify-center relative w-full">
       <Command
-        className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible max-w-3xl"
+        className="relative w-full rounded-md border border-muted-foreground/20 overflow-visible max-w-3xl bg-card/60"
         shouldFilter={false}
       >
         <div className="relative flex items-center w-full">
@@ -55,7 +55,7 @@ const SearchBar = ({ products }: SearchBarProps) => {
             type="text"
             id="search-products"
             placeholder={open ? "Type to search..." : "Search products"}
-            className="relative z-10 px-4 w-full h-9 text-sm font-semibold text-foreground bg-card placeholder-muted-foreground focus:outline-primary rounded-l-md"
+            className="relative z-10 px-4 w-full h-9 text-sm font-semibold text-foreground placeholder-muted-foreground focus:outline-primary rounded-l-md"
             value={searchTerm}
             onChange={(e) => handleSearchChange(e.target.value)}
             onFocus={handleFocus}

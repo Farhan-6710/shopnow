@@ -6,7 +6,7 @@ import WishlistIcon from "./WishlistIcon";
 
 const HeaderOne = () => {
   return (
-    <header className="bg-card transition-colors duration-200" role="banner">
+    <header className="transition-colors duration-200" role="banner">
       <div
         className="container mx-auto flex justify-center md:justify-between lg:justify-between items-center gap-0 md:gap-6 p-2 lg:px-16"
         aria-label="Main navigation"

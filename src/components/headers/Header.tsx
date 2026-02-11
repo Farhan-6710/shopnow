@@ -38,7 +38,7 @@ const Header = () => {
           duration: 0.2,
           ease: "easeOut",
         }}
-        className="fixed z-30 w-screen"
+        className="fixed z-30 w-screen backdrop-blur-lg bg-card/80 border-b border-border"
       >
         <HeaderOne />
         <HeaderTwo onMenuClick={() => setSidebarOpen(true)} />

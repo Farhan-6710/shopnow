@@ -14,7 +14,7 @@ const HeaderTwo = ({ onMenuClick }: HeaderTwoProps) => {
 
   return (
     <header
-      className="bg-card text-gray-600 dark:text-gray-300 body-font border-y border-border transition-colors duration-200"
+      className="text-gray-600 dark:text-gray-300 body-font border-y border-border transition-colors duration-200"
       role="banner"
     >
       <nav
